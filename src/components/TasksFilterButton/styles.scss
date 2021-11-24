@@ -1,0 +1,33 @@
+@import "../../assets/styles/vars";
+
+.tasks-filter-button {
+  padding: 5px 15px;
+  background-color: $blue;
+  font-family: $main-font;
+  font-size: 16px;
+  border-radius: 20px;
+  color: $white;
+  min-width: 150px;
+  background-color: lighten($grey, 20);
+  transition: 0.3s;
+
+  &.current {
+    color: $sky-blue;
+  }
+
+  @media (max-width: 1300px) {
+    margin-left: 7.5px;
+    margin-right: 7.5px;
+  }
+
+  @media (max-width: 640px) {
+    min-width: 80px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 12px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

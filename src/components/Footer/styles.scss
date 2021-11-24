@@ -1,0 +1,72 @@
+@import "../../assets/styles/vars";
+
+.footer {
+  margin-top: auto;
+  background-color: $grey;
+
+  .footer-container {
+  }
+
+  .nav-menu {
+    width: 100%;
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      @media (max-width: 640px) {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+
+      li {
+        width: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        a {
+          color: $white;
+          padding: 10px 20px;
+          text-decoration: none;
+          font-size: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transition: all 0.3s;
+
+          @media (max-width: 1024px) {
+            font-size: 18px;
+          }
+
+          @media (max-width: 640px) {
+            font-size: 16px;
+            flex-direction: column;
+            padding: 5px 10px;
+          }
+
+          @media (max-width: 375px) {
+            font-size: 14px;
+            padding: 3px 6px;
+          }
+
+          &.active {
+            color: $sky-blue;
+          }
+
+          svg {
+            margin-right: 10px;
+
+            @media (max-width: 640px) {
+              margin-bottom: 3px;
+              margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
