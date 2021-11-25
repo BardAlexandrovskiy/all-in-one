@@ -4,7 +4,6 @@ import { deleteTask, editTask, toggleTask } from "../../actions/toDo";
 import { connect } from "react-redux";
 import "./styles.scss";
 import React from "react";
-import TextareaAutosize from "react-textarea-autosize";
 
 const Hightlight = ({ otherValue, hightlightValue }) => {
   return (
@@ -62,7 +61,8 @@ class TasksItem extends React.Component {
 
   addNewValue = () => {
     const { editTask, id } = this.props;
-    const { editorValue } = this.state;
+    const { editorValue } = this.state; 
+
     if (editorValue.trim()) {
       editTask({ id: id, value: editorValue });
       this.setState({ isShowEditValue: false });
@@ -77,7 +77,7 @@ class TasksItem extends React.Component {
     }
   };
 
-  handleBlurEditor = (event) => {
+  handleBlurEditor = () => {
     this.addNewValue();
   };
 
@@ -100,15 +100,16 @@ class TasksItem extends React.Component {
         </div>
         <div className="value">
           {isShowEditValue ? (
-            <TextareaAutosize
+            <input
               placeholder={"Введите отредактированную задачу"}
               onFocus={this.handleFocusEditor}
-              autoFocus
+              autoFocus 
               onChange={this.handleChangeEditor}
               onKeyPress={this.handlePressEditor}
-              value={editorValue}
               className="inner editor"
               onBlur={this.handleBlurEditor}
+              value={editorValue} 
+              type='text'
             />
           ) : (
             <div className="inner" onClick={() => this.handleClickValue()}>
