@@ -17,7 +17,12 @@
       padding-top: 10px;
       padding-bottom: 10px;
 
-      @media (max-width: 640px) {
+      @media (max-width: 375px) {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      @media (max-width: 320px) {
         padding-top: 5px;
         padding-bottom: 5px;
       }

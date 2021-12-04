@@ -61,7 +61,7 @@ class TasksItem extends React.Component {
 
   addNewValue = () => {
     const { editTask, id } = this.props;
-    const { editorValue } = this.state; 
+    const { editorValue } = this.state;
 
     if (editorValue.trim()) {
       editTask({ id: id, value: editorValue });
@@ -101,15 +101,14 @@ class TasksItem extends React.Component {
         <div className="value">
           {isShowEditValue ? (
             <input
-              placeholder={"Введите отредактированную задачу"}
               onFocus={this.handleFocusEditor}
-              autoFocus 
+              autoFocus
               onChange={this.handleChangeEditor}
               onKeyPress={this.handlePressEditor}
               className="inner editor"
               onBlur={this.handleBlurEditor}
-              value={editorValue} 
-              type='text'
+              value={editorValue}
+              type="text"
             />
           ) : (
             <div className="inner" onClick={() => this.handleClickValue()}>
