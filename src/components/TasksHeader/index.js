@@ -1,14 +1,9 @@
 import { faBackspace, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
-import {
-  filterActive,
-  filterCompleted,
-  filterAll,
-} from "../../constants/tasks";
+
 import React from "react";
 import "./styles.scss";
-import TasksFilterButton from "../TasksFilterButton";
 import {
   changeSearchTasksInputValue,
   checkAllTasks,
@@ -46,7 +41,7 @@ class TasksHeader extends React.Component {
     return (
       <header className={`tasks-header${tasksList.length ? " show" : ""}`}>
         <div className="search">
-          <div className="container">
+          <div className="container search-container">
             <div className="input-wrapper">
               <div
                 onClick={this.handleClickClearButton}
@@ -64,7 +59,7 @@ class TasksHeader extends React.Component {
           </div>
         </div>
         <div className="bottom-side">
-          <div className="container">
+          <div className="container bottom-container">
             <div className="column left-column">
               <div
                 onClick={checkAllTasks}
@@ -75,22 +70,6 @@ class TasksHeader extends React.Component {
                 <FontAwesomeIcon icon={faChevronDown} />
               </div>
               <div className="counter">Активные: {counter}</div>
-            </div>
-            <div className="column center-column">
-              <div className="filters-wrapper">
-                <TasksFilterButton
-                  name={filterAll.name}
-                  title={filterAll.title}
-                />
-                <TasksFilterButton
-                  name={filterActive.name}
-                  title={filterActive.title}
-                />
-                <TasksFilterButton
-                  name={filterCompleted.name}
-                  title={filterCompleted.title}
-                />
-              </div>
             </div>
             <div className="column right-column">
               {check && (

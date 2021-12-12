@@ -4,6 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
 import { addNewTask, changeAddTaskInputValue } from "../../actions/toDo";
 import React from "react";
+import {
+  filterActive,
+  filterCompleted,
+  filterAll,
+} from "../../constants/tasks";
+import TasksFilterButton from "../TasksFilterButton";
 
 class TasksFooter extends React.Component {
   handleChangeInput = (e) => {
@@ -31,23 +37,38 @@ class TasksFooter extends React.Component {
   };
 
   render() {
-    const { addTaskInputValue } = this.props;
+    const { addTaskInputValue, tasksList } = this.props;
     return (
       <footer className="tasks-footer">
-        <div className="container">
-          <div className="input-wrapper">
-            <input
-              onKeyPress={this.handlePressInput}
-              onChange={this.handleChangeInput}
-              value={addTaskInputValue}
-              type="text"
-              placeholder="Добавить задачу"
+        <div className={`filters${tasksList.length ? " show" : ""}`}>
+          <div className="filters-container container">
+            <TasksFilterButton name={filterAll.name} title={filterAll.title} />
+            <TasksFilterButton
+              name={filterActive.name}
+              title={filterActive.title}
             />
-            {addTaskInputValue && (
-              <button onClick={this.handleClickButton} className="button">
-                <FontAwesomeIcon icon={faPlus} />
-              </button>
-            )}
+            <TasksFilterButton
+              name={filterCompleted.name}
+              title={filterCompleted.title}
+            />
+          </div>
+        </div>
+        <div className="add-task-input">
+          <div className="container input-container">
+            <div className="input-wrapper">
+              <input
+                onKeyPress={this.handlePressInput}
+                onChange={this.handleChangeInput}
+                value={addTaskInputValue}
+                type="text"
+                placeholder="Добавить задачу"
+              />
+              {addTaskInputValue && (
+                <button onClick={this.handleClickButton} className="button">
+                  <FontAwesomeIcon icon={faPlus} />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </footer>
@@ -55,9 +76,15 @@ class TasksFooter extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (store) => {
+  const {
+    toDo: { list, searchTasksInputValue, addTaskInputValue },
+  } = store;
+
   return {
-    addTaskInputValue: state.toDo.addTaskInputValue,
+    tasksList: list,
+    searchTasksInputValue: searchTasksInputValue,
+    addTaskInputValue: addTaskInputValue,
   };
 };
 

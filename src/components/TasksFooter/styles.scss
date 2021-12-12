@@ -2,55 +2,97 @@
 
 .tasks-footer {
   margin-top: auto;
-  background-color: $grey;
 
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 10px;
-  }
+  .filters {
+    background-color: lighten($grey, 10);
+    transition: all 0.3s;
+    opacity: 0;
+    transform: translateX(-100%);
 
-  .input-wrapper {
-    position: relative;
-    width: 100%;
-  }
+    &.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
 
-  input {
-    width: 100%;
-    padding: 10px 54px 10px 20px;
-    line-height: 1;
-    font-size: 20px;
-    border-radius: 50px;
-    font-family: $main-font;
+    .filters-container {
+      width: 100%;
+      justify-content: center;
+      display: flex;
+    }
 
-    @media (max-width: 1024px) {
-      padding: 8px 45px 8px 20px;
+    @media (max-width: 640px) {
+    }
+
+    .button {
+      margin-right: 20px;
+      margin-left: 20px;
+
+      @media (max-width: 500px) {
+        margin-left: 15px;
+        margin-right: 15px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
     }
   }
 
-  .button {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: lighten($grey, 20);
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    right: 2px;
-    transform: translateY(-50%);
+  .add-task-input {
+    background-color: $grey;
 
-    @media (max-width: 1024px) {
-      width: 38px;
-      height: 38px;
+    .input-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
     }
 
-    svg {
-      font-size: 30px;
-      color: white;
+    .input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 54px 10px 20px;
+      line-height: 1;
+      font-size: 20px;
+      border-radius: 50px;
+      font-family: $main-font;
+
+      @media (max-width: 1024px) {
+        padding: 8px 45px 8px 20px;
+      }
+    }
+
+    .button {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      background-color: lighten($grey, 20);
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      right: 2px;
+      transform: translateY(-50%);
+
+      @media (max-width: 1024px) {
+        width: 38px;
+        height: 38px;
+      }
+
+      svg {
+        font-size: 30px;
+        color: white;
+      }
     }
   }
 }
