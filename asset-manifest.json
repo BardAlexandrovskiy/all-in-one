@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/all-in-one/static/css/main.d2f3f5e0.chunk.css",
+    "main.css": "/all-in-one/static/css/main.78155724.chunk.css",
     "main.js": "/all-in-one/static/js/main.6ea2a1ec.chunk.js",
     "main.js.map": "/all-in-one/static/js/main.6ea2a1ec.chunk.js.map",
     "runtime-main.js": "/all-in-one/static/js/runtime-main.25d427dd.js",
@@ -10,13 +10,13 @@
     "index.html": "/all-in-one/index.html",
     "service-worker.js": "/all-in-one/service-worker.js",
     "service-worker.js.map": "/all-in-one/service-worker.js.map",
-    "static/css/main.d2f3f5e0.chunk.css.map": "/all-in-one/static/css/main.d2f3f5e0.chunk.css.map",
+    "static/css/main.78155724.chunk.css.map": "/all-in-one/static/css/main.78155724.chunk.css.map",
     "static/js/2.7b1bf712.chunk.js.LICENSE.txt": "/all-in-one/static/js/2.7b1bf712.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.25d427dd.js",
     "static/js/2.7b1bf712.chunk.js",
-    "static/css/main.d2f3f5e0.chunk.css",
+    "static/css/main.78155724.chunk.css",
     "static/js/main.6ea2a1ec.chunk.js"
   ]
 }
