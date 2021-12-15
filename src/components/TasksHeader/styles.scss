@@ -2,33 +2,14 @@
 
 .tasks-header {
   overflow: hidden;
-  background-color: transparent;
-  transition: 0.3s;
-  overflow: hidden;
-
-  &.show {
-    background-color: $grey;
-    height: auto;
-
-    .search {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .bottom-side {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
+  background-color: $grey;
 
   .search {
     padding-top: 10px;
-    transition: all 0.3s;
-    opacity: 0;
-    transform: translateX(-100%);
 
     .input-wrapper {
       position: relative;
+      overflow: hidden;
 
       .clear-input {
         right: 0;
@@ -39,12 +20,8 @@
         position: absolute;
         justify-content: flex-start;
         align-items: center;
-        display: none;
+        display: flex;
         cursor: pointer;
-
-        &.show {
-          display: flex;
-        }
 
         svg {
           font-size: 20px;
@@ -67,9 +44,6 @@
   }
 
   .bottom-side {
-    transition: all 0.3s;
-    opacity: 0;
-    transform: translateX(100%);
     position: relative;
 
     .bottom-container {

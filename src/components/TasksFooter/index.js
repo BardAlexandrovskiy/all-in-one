@@ -40,19 +40,24 @@ class TasksFooter extends React.Component {
     const { addTaskInputValue, tasksList } = this.props;
     return (
       <footer className="tasks-footer">
-        <div className={`filters${tasksList.length ? " show" : ""}`}>
-          <div className="filters-container container">
-            <TasksFilterButton name={filterAll.name} title={filterAll.title} />
-            <TasksFilterButton
-              name={filterActive.name}
-              title={filterActive.title}
-            />
-            <TasksFilterButton
-              name={filterCompleted.name}
-              title={filterCompleted.title}
-            />
+        {!!tasksList.length && (
+          <div className="filters">
+            <div className="filters-container container">
+              <TasksFilterButton
+                name={filterAll.name}
+                title={filterAll.title}
+              />
+              <TasksFilterButton
+                name={filterActive.name}
+                title={filterActive.title}
+              />
+              <TasksFilterButton
+                name={filterCompleted.name}
+                title={filterCompleted.title}
+              />
+            </div>
           </div>
-        </div>
+        )}
         <div className="add-task-input">
           <div className="container input-container">
             <div className="input-wrapper">

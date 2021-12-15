@@ -40,10 +40,14 @@ body {
   }
 
   @media (max-width: 640px) {
-    height: calc(100% - 58px);
+    height: calc(100% - 68px);
   }
 
   @media (max-width: 375px) {
+    height: calc(100% - 60px);
+  }
+
+  @media (max-width: 320px) {
     height: calc(100% - 50px);
   }
 }

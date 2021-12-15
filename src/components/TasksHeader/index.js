@@ -39,51 +39,55 @@ class TasksHeader extends React.Component {
     });
 
     return (
-      <header className={`tasks-header${tasksList.length ? " show" : ""}`}>
-        <div className="search">
-          <div className="container search-container">
-            <div className="input-wrapper">
-              <div
-                onClick={this.handleClickClearButton}
-                className={`clear-input${searchTasksInputValue ? " show" : ""}`}
-              >
-                <FontAwesomeIcon icon={faBackspace} />
+      !!tasksList.length && (
+        <header className="tasks-header">
+          <div className="search">
+            <div className="container search-container">
+              <div className="input-wrapper">
+                {!!searchTasksInputValue && (
+                  <div
+                    onClick={this.handleClickClearButton}
+                    className="clear-input"
+                  >
+                    <FontAwesomeIcon icon={faBackspace} />
+                  </div>
+                )}
+                <input
+                  onChange={this.handleChangeInput}
+                  type="text"
+                  placeholder="Поиск"
+                  value={searchTasksInputValue}
+                />
               </div>
-              <input
-                onChange={this.handleChangeInput}
-                type="text"
-                placeholder="Поиск"
-                value={searchTasksInputValue}
-              />
             </div>
           </div>
-        </div>
-        <div className="bottom-side">
-          <div className="container bottom-container">
-            <div className="column left-column">
-              <div
-                onClick={checkAllTasks}
-                className={`button check-all-button${
-                  tasksList.length && !counter ? " green" : ""
-                }`}
-              >
-                <FontAwesomeIcon icon={faChevronDown} />
-              </div>
-              <div className="counter">Активные: {counter}</div>
-            </div>
-            <div className="column right-column">
-              {check && (
+          <div className="bottom-side">
+            <div className="container bottom-container">
+              <div className="column left-column">
                 <div
-                  onClick={deleteCompletedTasks}
-                  className="button delete-completed-button"
+                  onClick={checkAllTasks}
+                  className={`button check-all-button${
+                    tasksList.length && !counter ? " green" : ""
+                  }`}
                 >
-                  Удалить выполненные
+                  <FontAwesomeIcon icon={faChevronDown} />
                 </div>
-              )}
+                <div className="counter">Активные: {counter}</div>
+              </div>
+              <div className="column right-column">
+                {!!check && (
+                  <div
+                    onClick={deleteCompletedTasks}
+                    className="button delete-completed-button"
+                  >
+                    Удалить выполненные
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
+      )
     );
   }
 }
