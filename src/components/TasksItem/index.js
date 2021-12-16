@@ -4,6 +4,7 @@ import { deleteTask, editTask, toggleTask } from "../../actions/toDo";
 import { connect } from "react-redux";
 import "./styles.scss";
 import React from "react";
+import { CSSTransition } from "react-transition-group";
 
 const Hightlight = ({ otherValue, hightlightValue }) => {
   return (
@@ -96,7 +97,9 @@ class TasksItem extends React.Component {
     return (
       <li className={`tasks-item${check ? " checked" : ""}`} id={id}>
         <div className="check-button" onClick={() => toggleTask(id)}>
-          <FontAwesomeIcon icon={faCheck} />
+          <CSSTransition in={check} timeout={300} classNames={"icon"}>
+            <FontAwesomeIcon icon={faCheck} />;
+          </CSSTransition>
         </div>
         <div className="value">
           {isShowEditValue ? (

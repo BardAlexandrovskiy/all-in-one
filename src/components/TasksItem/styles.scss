@@ -11,17 +11,12 @@
   &.checked {
     .check-button {
       border: 1px solid rgb(93, 194, 175);
-
-      svg {
-        opacity: 1;
-        transform: translate(0, 0);
-      }
     }
 
     .value {
       .inner {
         text-decoration: line-through;
-        opacity: 0.6;
+        opacity: 0.8;
       }
 
       .editor {
@@ -45,9 +40,23 @@
     svg {
       font-size: 20px;
       color: rgb(93, 194, 175);
-      opacity: 0;
-      transition: 0.2s;
-      transform: translate(100%, -100%);
+      transition: 1s;
+
+      &.icon-enter {
+        opacity: 1;
+      }
+
+      &.icon-enter-active {
+        opacity: 1;
+      }
+
+      &.icon-exit {
+        opacity: 0;
+      }
+
+      &.exited-exit-active {
+        opacity: 0;
+      }
     }
   }
 
@@ -55,7 +64,6 @@
     font-size: 20px;
     font-family: $main-font;
     color: $white;
-    transition: 0.3s;
     word-wrap: break-word;
     width: calc(100% - 61.19px);
     padding: 5px 7.5px;
@@ -74,12 +82,14 @@
       box-shadow: 0px 0px 5px 1px $sky-blue;
       -webkit-box-shadow: 0px 0px 5px 1px $sky-blue;
       -moz-box-shadow: 0px 0px 5px 1px $sky-blue;
+      transition: 0.3s;
     }
 
     .inner {
       padding: 5px 7.5px;
       line-height: 1.2;
       max-width: 100%;
+      transition: 0.3s;
     }
 
     .hightlight {
