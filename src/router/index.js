@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 class Router extends React.Component {
   componentDidUpdate = () => {
     const { store } = this.props;
-    console.log(store);
     localStorage.setItem("all-in-one", JSON.stringify(store));
   };
 

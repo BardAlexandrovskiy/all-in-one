@@ -97,8 +97,8 @@ class TasksItem extends React.Component {
     return (
       <li className={`tasks-item${check ? " checked" : ""}`} id={id}>
         <div className="check-button" onClick={() => toggleTask(id)}>
-          <CSSTransition in={check} timeout={300} classNames={"icon"}>
-            <FontAwesomeIcon icon={faCheck} />;
+          <CSSTransition in={check} timeout={300} unmountOnExit mountOnEnter>
+            <FontAwesomeIcon icon={faCheck} />
           </CSSTransition>
         </div>
         <div className="value">

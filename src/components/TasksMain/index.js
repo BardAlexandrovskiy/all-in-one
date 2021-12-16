@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { filterActive, filterCompleted } from "../../constants/tasks";
 import TasksItem from "../TasksItem";
 import "./styles.scss";
@@ -13,33 +14,37 @@ class TasksMain extends React.Component {
         <div className="tasks-list">
           <div className="container">
             <ul>
-              {tasksList
-                .filter((task) => {
-                  switch (filter) {
-                    case filterActive.name:
-                      return !task.check;
-                    case filterCompleted.name:
-                      return task.check;
-                    default:
+              <TransitionGroup component={null}>
+                {tasksList
+                  .filter((task) => {
+                    switch (filter) {
+                      case filterActive.name:
+                        return !task.check;
+                      case filterCompleted.name:
+                        return task.check;
+                      default:
+                        return task;
+                    }
+                  })
+                  .filter((task) => {
+                    if (searchInputValue) {
+                      const matchValue = searchInputValue.toLowerCase();
+                      if (task.value.toLowerCase().includes(matchValue))
+                        return true;
+                      return false;
+                    } else {
                       return task;
-                  }
-                })
-                .filter((task) => {
-                  if (searchInputValue) {
-                    const matchValue = searchInputValue.toLowerCase();
-                    if (task.value.toLowerCase().includes(matchValue))
-                      return true;
-                    return false;
-                  } else {
-                    return task;
-                  }
-                })
-                .map((task) => {
-                  const { check, value, id } = task;
-                  return (
-                    <TasksItem key={id} check={check} value={value} id={id} />
-                  );
-                })}
+                    }
+                  })
+                  .map((task) => {
+                    const { check, value, id } = task;
+                    return (
+                      <CSSTransition key={id} timeout={300}>
+                        <TasksItem check={check} value={value} id={id} />
+                      </CSSTransition>
+                    );
+                  })}
+              </TransitionGroup>
             </ul>
           </div>
         </div>

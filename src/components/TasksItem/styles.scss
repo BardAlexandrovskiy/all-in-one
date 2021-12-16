@@ -7,6 +7,25 @@
   min-height: 60px;
   max-width: 100%;
   width: 100%;
+  transition: 0.3s;
+  overflow: hidden;
+
+  &.enter {
+    opacity: 0;
+  }
+
+  &.enter-active {
+    opacity: 1;
+  }
+
+  &.exit {
+    opacity: 1;
+  }
+
+  &.exit-active {
+    opacity: 0;
+    transform: scale(0, 1) translateX(100%);
+  }
 
   &.checked {
     .check-button {
@@ -40,22 +59,26 @@
     svg {
       font-size: 20px;
       color: rgb(93, 194, 175);
-      transition: 1s;
+      transition: 0.3s;
 
-      &.icon-enter {
-        opacity: 1;
-      }
-
-      &.icon-enter-active {
-        opacity: 1;
-      }
-
-      &.icon-exit {
+      &.enter {
         opacity: 0;
+        transform: translate(100%, -100%);
       }
 
-      &.exited-exit-active {
+      &.enter-active {
+        opacity: 1;
+        transform: translate(0);
+      }
+
+      &.exit {
         opacity: 0;
+        transform: translate(100%, -100%);
+      }
+
+      &.exit-active {
+        opacity: 0;
+        transform: translate(100%, -100%);
       }
     }
   }
@@ -79,9 +102,9 @@
       width: 100%;
       background-color: $grey;
       border-radius: 10px;
-      box-shadow: 0px 0px 5px 1px $sky-blue;
-      -webkit-box-shadow: 0px 0px 5px 1px $sky-blue;
-      -moz-box-shadow: 0px 0px 5px 1px $sky-blue;
+      box-shadow: 0px 0px 6px -1px $sky-blue;
+      -webkit-box-shadow: 0px 0px 6px -1px $sky-blue;
+      -moz-box-shadow: 0px 0px 6px -1px $sky-blue;
       transition: 0.3s;
     }
 
