@@ -10,8 +10,10 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-html, body, #root {
-  height: 100%; 
+html,
+body,
+#root {
+  height: 100%;
 }
 
 #root {
@@ -26,14 +28,19 @@ body {
 
 .container {
   max-width: 1230px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin: 0 auto;
+
+  @media (max-width: 1024px) {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }
 
 .screen {
   flex: 1;
-  height: calc(100% - 64px);
+  height: calc(100% - 64.55px);
 
   @media (max-width: 1024px) {
     height: calc(100% - 62px);
