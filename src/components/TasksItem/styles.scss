@@ -20,11 +20,14 @@
 
   &.exit {
     opacity: 1;
+    height: 60px;
   }
 
   &.exit-active {
     opacity: 0;
     transform: scale(0, 1) translateX(100%);
+    transform-origin: right;
+    height: 0;
   }
 
   &.checked {

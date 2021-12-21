@@ -3,7 +3,5 @@
 .tasks-main {
   flex: 1;
   overflow-y: auto;
-
-  .to-do-list {
-  }
+  overflow: hidden;
 }

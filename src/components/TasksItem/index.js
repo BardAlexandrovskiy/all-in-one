@@ -36,9 +36,9 @@ const ChangedValue = ({ searchValue, string }) => {
         return otherValue;
       });
     }
-  } else {
     return string;
   }
+  return string;
 };
 
 class TasksItem extends React.Component {
@@ -115,7 +115,7 @@ class TasksItem extends React.Component {
             />
           ) : (
             <div className="inner" onClick={() => this.handleClickValue()}>
-              <ChangedValue searchValue={searchInputValue} string={value} />
+              {<ChangedValue searchValue={searchInputValue} string={value} />}
             </div>
           )}
         </div>
