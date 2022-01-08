@@ -36,6 +36,7 @@ class TasksMain extends React.Component {
                       return task;
                     }
                   })
+                  .reverse()
                   .map((task) => {
                     const { check, value, id } = task;
                     return (
