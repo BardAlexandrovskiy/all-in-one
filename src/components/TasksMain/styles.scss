@@ -2,7 +2,31 @@
 
 .tasks-main {
   flex: 1;
-  overflow: hidden;
+  overflow: overlay;
+
+  &.enter {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  &.enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transform-origin: right;
+    transition: 0.3s;
+  }
+
+  &.exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &.exit-active {
+    opacity: 0;
+    transform: translateX(100%);
+    transform-origin: right;
+    transition: 0.3s;
+  }
 
   &::-webkit-scrollbar {
     width: 10px;
@@ -22,113 +46,5 @@
 
   .tasks-list {
     overflow: hidden;
-
-    &.enter {
-      opacity: 0;
-      transform: translateX(100%);
-    }
-
-    &.enter-active {
-      opacity: 1;
-      transform: translateX(0);
-      transform-origin: right;
-      transition: 0.15s;
-    }
-
-    &.exit {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    &.exit-active {
-      opacity: 0;
-      transform: translateX(100%);
-      transform-origin: right;
-      transition: 0.15s;
-    }
-  }
-
-  .welcome-banner {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-
-    &.enter {
-      opacity: 0;
-      transform: translateX(100%);
-    }
-
-    &.enter-active {
-      opacity: 1;
-      transform: translateX(0);
-      transform-origin: right;
-      transition: 0.15s;
-    }
-
-    &.exit {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    &.exit-active {
-      opacity: 0;
-      transform: translateX(100%);
-      transform-origin: right;
-      transition: 0.15s;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .text {
-      color: white;
-      font-size: 24px;
-      background-color: lighten($grey, 15);
-      padding: 30px 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      text-align: center;
-      width: 100%;
-
-      @media (max-width: 1024px) {
-        font-size: 20px;
-      }
-    }
-
-    svg {
-      transition-property: -webkit-transform;
-      transition-duration: 1s;
-      -moz-transition-property: -moz-transform;
-      -moz-transition-duration: 1s;
-      animation-name: pulse;
-      animation-duration: 1.5s;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-      color: white;
-      font-size: 70px;
-    }
-
-    @keyframes pulse {
-      0% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-      }
-
-      50% {
-        -webkit-transform: scale(1.2);
-        transform: scale(1.2);
-      }
-
-      100% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-      }
-    }
   }
 }

@@ -52,7 +52,7 @@ class TasksHeader extends React.Component {
               <div className="input-wrapper">
                 <CSSTransition
                   in={!!searchTasksInputValue}
-                  timeout={600}
+                  timeout={300}
                   unmountOnExit
                   mountOnEnter
                 >
