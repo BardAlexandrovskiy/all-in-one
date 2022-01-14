@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
 import { addNewTask, changeAddTaskInputValue } from "../../actions/toDo";
 import React from "react";
+import { CSSTransition } from "react-transition-group";
 import {
   filterActive,
   filterCompleted,
@@ -12,35 +13,55 @@ import {
 import TasksFilterButton from "../TasksFilterButton";
 
 class TasksFooter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      redInputBorder: false,
+    };
+  }
+
   handleChangeInput = (e) => {
     const { changeAddTaskInputValue } = this.props;
-    changeAddTaskInputValue(e.target.value);
+    const value = e.target.value;
+
+    if (value.length <= 140) {
+      changeAddTaskInputValue(value);
+    }
   };
 
   handlePressInput = (e) => {
-    const { addTaskInputValue, changeAddTaskInputValue } = this.props;
-
-    if (e.key === "Enter" && addTaskInputValue.trim()) {
-      const { addNewTask } = this.props;
-      addNewTask(addTaskInputValue);
-      changeAddTaskInputValue("");
+    if (e.key === "Enter") {
+      this.handleClickButton();
     }
   };
 
   handleClickButton = () => {
     const { changeAddTaskInputValue, addTaskInputValue } = this.props;
-    if (addTaskInputValue.trim()) {
+    if (addTaskInputValue.length && addTaskInputValue.trim()) {
       const { addNewTask } = this.props;
       addNewTask(addTaskInputValue);
       changeAddTaskInputValue("");
+      this.setState({ redInputBorder: false });
+    } else {
+      this.setState({ redInputBorder: true });
     }
+  };
+
+  handleBlurInput = () => {
+    this.setState({ redInputBorder: false });
   };
 
   render() {
     const { addTaskInputValue, tasksList } = this.props;
+    const { redInputBorder } = this.state;
     return (
       <footer className="tasks-footer">
-        {!!tasksList.length && (
+        <CSSTransition
+          in={!!tasksList.length}
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+        >
           <div className="filters">
             <div className="filters-container container">
               <TasksFilterButton
@@ -57,22 +78,29 @@ class TasksFooter extends React.Component {
               />
             </div>
           </div>
-        )}
+        </CSSTransition>
         <div className="add-task-input">
           <div className="container input-container">
             <div className="input-wrapper">
               <input
+                className={redInputBorder ? "red" : ""}
                 onKeyPress={this.handlePressInput}
+                onBlur={this.handleBlurInput}
                 onChange={this.handleChangeInput}
                 value={addTaskInputValue}
                 type="text"
                 placeholder="Добавить задачу"
               />
-              {addTaskInputValue && (
+              <CSSTransition
+                in={!!addTaskInputValue}
+                timeout={300}
+                unmountOnExit
+                mountOnEnter
+              >
                 <button onClick={this.handleClickButton} className="button">
                   <FontAwesomeIcon icon={faPlus} />
                 </button>
-              )}
+              </CSSTransition>
             </div>
           </div>
         </div>

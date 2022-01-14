@@ -1,6 +1,7 @@
 import { faBackspace, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
+import { CSSTransition } from "react-transition-group";
 
 import React from "react";
 import "./styles.scss";
@@ -39,19 +40,29 @@ class TasksHeader extends React.Component {
     });
 
     return (
-      !!tasksList.length && (
+      <CSSTransition
+        in={!!tasksList.length}
+        timeout={300}
+        unmountOnExit
+        mountOnEnter
+      >
         <header className="tasks-header">
           <div className="search">
             <div className="container search-container">
               <div className="input-wrapper">
-                {!!searchTasksInputValue && (
+                <CSSTransition
+                  in={!!searchTasksInputValue}
+                  timeout={600}
+                  unmountOnExit
+                  mountOnEnter
+                >
                   <div
                     onClick={this.handleClickClearButton}
                     className="clear-input"
                   >
                     <FontAwesomeIcon icon={faBackspace} />
                   </div>
-                )}
+                </CSSTransition>
                 <input
                   onChange={this.handleChangeInput}
                   type="text"
@@ -75,19 +86,24 @@ class TasksHeader extends React.Component {
                 <div className="counter">Активные: {counter}</div>
               </div>
               <div className="column right-column">
-                {!!check && (
+                <CSSTransition
+                  in={!!check}
+                  timeout={300}
+                  unmountOnExit
+                  mountOnEnter
+                >
                   <div
                     onClick={deleteCompletedTasks}
                     className="button delete-completed-button"
                   >
                     Удалить выполненные
                   </div>
-                )}
+                </CSSTransition>
               </div>
             </div>
           </div>
         </header>
-      )
+      </CSSTransition>
     );
   }
 }

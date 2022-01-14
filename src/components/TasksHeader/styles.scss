@@ -4,6 +4,68 @@
   overflow: hidden;
   background-color: $grey;
 
+  &.enter {
+    background-color: transparent;
+
+    .search {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+
+    .bottom-side {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+
+  &.enter-active {
+    background-color: $grey;
+    transition: 0.3s;
+
+    .search {
+      opacity: 1;
+      transform: translateX(0);
+      transition: 0.3s;
+    }
+
+    .bottom-side {
+      opacity: 1;
+      transform: translateX(0);
+      transition: 0.3s;
+    }
+  }
+
+  &.exit {
+    background-color: $grey;
+
+    .search {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .bottom-side {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  &.exit-active {
+    background-color: transparent;
+    transition: 0.3s;
+
+    .search {
+      opacity: 0;
+      transform: translateX(-100%);
+      transition: 0.3s;
+    }
+
+    .bottom-side {
+      opacity: 0;
+      transform: translateX(100%);
+      transition: 0.3s;
+    }
+  }
+
   .search {
     padding-top: 10px;
 
@@ -22,6 +84,27 @@
         align-items: center;
         display: flex;
         cursor: pointer;
+        transition: 0.3s;
+
+        &.enter {
+          opacity: 0;
+          transform: translateX(50%);
+        }
+
+        &.enter-active {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        &.exit {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        &.exit-active {
+          opacity: 0;
+          transform: translateX(50%);
+        }
 
         svg {
           font-size: 20px;
@@ -89,13 +172,13 @@
       &.green {
         svg {
           color: rgb(93, 194, 175);
-          transition: 0.3s;
         }
       }
 
       svg {
         color: rgb(230, 230, 230);
         font-size: 36.56px;
+        transition: 0.3s;
       }
     }
 
@@ -117,6 +200,24 @@
       cursor: pointer;
       margin-left: auto;
       color: $lilac;
+
+      &.enter {
+        opacity: 0;
+      }
+
+      &.enter-active {
+        opacity: 1;
+        transition: 0.3s;
+      }
+
+      &.exit {
+        opacity: 1;
+      }
+
+      &.exit-active {
+        opacity: 0;
+        transition: 0.3s;
+      }
 
       @media (max-width: 640px) {
         font-size: 14px;

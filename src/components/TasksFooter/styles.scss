@@ -2,9 +2,33 @@
 
 .tasks-footer {
   margin-top: auto;
+  position: relative;
+  overflow: hidden;
 
   .filters {
     background-color: lighten($grey, 10);
+
+    &.enter {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transition: 0.3s;
+      transform: translateX(0);
+    }
+
+    &.exit {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    &.exit-active {
+      opacity: 0;
+      transition: 0.3s;
+      transform: translateX(100%);
+    }
 
     .filters-container {
       width: 100%;
@@ -53,6 +77,12 @@
       font-size: 20px;
       border-radius: 50px;
       font-family: $main-font;
+      transition: 0.3s;
+      outline: 1px solid transparent;
+
+      &.red {
+        outline: 1px solid #e43c3c;
+      }
 
       @media (max-width: 1024px) {
         padding: 8px 45px 8px 20px;
@@ -71,7 +101,28 @@
       position: absolute;
       top: 50%;
       right: 2px;
-      transform: translateY(-50%);
+      transition: 0.3s;
+      transform: translate(0, -50%);
+
+      &.enter {
+        opacity: 0;
+        transform: translate(50%, -50%);
+      }
+
+      &.enter-active {
+        opacity: 1;
+        transform: translate(0, -50%);
+      }
+
+      &.exit {
+        opacity: 1;
+        transform: translate(0, -50%);
+      }
+
+      &.exit-active {
+        opacity: 0;
+        transform: translate(50%, -50%);
+      }
 
       @media (max-width: 1024px) {
         width: 38px;
