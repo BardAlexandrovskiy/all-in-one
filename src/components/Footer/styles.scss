@@ -43,6 +43,10 @@
           align-items: center;
           transition: all 0.3s;
 
+          &.active {
+            pointer-events: none;
+          }
+
           @media (max-width: 1024px) {
             font-size: 18px;
           }

@@ -3,6 +3,7 @@
 .tasks-header {
   overflow: hidden;
   background-color: $grey;
+  padding-top: 10px;
 
   &.enter {
     background-color: transparent;
@@ -67,8 +68,6 @@
   }
 
   .search {
-    padding-top: 10px;
-
     .input-wrapper {
       position: relative;
       overflow: hidden;
