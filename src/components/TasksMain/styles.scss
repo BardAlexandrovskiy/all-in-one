@@ -3,6 +3,7 @@
 .tasks-main {
   flex: 1;
   overflow: overlay;
+  background-color: $black;
 
   &.enter {
     opacity: 0;
