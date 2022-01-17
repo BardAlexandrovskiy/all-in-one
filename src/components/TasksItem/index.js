@@ -4,7 +4,7 @@ import { deleteTask, editTask, toggleTask } from "../../actions/toDo";
 import { connect } from "react-redux";
 import "./styles.scss";
 import React from "react";
-import { CSSTransition, SwitchTransition } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 
 const Hightlight = ({ otherValue, hightlightValue }) => {
   return (
@@ -102,31 +102,22 @@ class TasksItem extends React.Component {
           </CSSTransition>
         </div>
         <div className="value">
-          <SwitchTransition>
-            <CSSTransition timeout={100} key={isShowEditValue}>
-              {isShowEditValue ? (
-                <input
-                  onFocus={this.handleFocusEditor}
-                  autoFocus
-                  onChange={this.handleChangeEditor}
-                  onKeyPress={this.handlePressEditor}
-                  className="inner editor"
-                  onBlur={this.handleBlurEditor}
-                  value={editorValue}
-                  type="text"
-                />
-              ) : (
-                <div className="inner" onClick={() => this.handleClickValue()}>
-                  {
-                    <ChangedValue
-                      searchValue={searchInputValue}
-                      string={value}
-                    />
-                  }
-                </div>
-              )}
-            </CSSTransition>
-          </SwitchTransition>
+          {isShowEditValue ? (
+            <input
+              onFocus={this.handleFocusEditor}
+              autoFocus
+              onChange={this.handleChangeEditor}
+              onKeyPress={this.handlePressEditor}
+              className="inner editor"
+              onBlur={this.handleBlurEditor}
+              value={editorValue}
+              type="text"
+            />
+          ) : (
+            <div className="inner" onClick={() => this.handleClickValue()}>
+              {<ChangedValue searchValue={searchInputValue} string={value} />}
+            </div>
+          )}
         </div>
         <div className="delete-button" onClick={() => deleteTask(id)}>
           <FontAwesomeIcon icon={faTimes} />

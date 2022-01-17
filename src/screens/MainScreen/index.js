@@ -1,7 +1,10 @@
+import React from "react";
 import "./styles.scss";
 
-const MainScreen = () => {
-  return <div className="main-screen screen">MainScreen</div>;
-};
+class MainScreen extends React.Component {
+  render() {
+    return <div className="main-screen screen">MainScreen</div>;
+  }
+}
 
 export default MainScreen;

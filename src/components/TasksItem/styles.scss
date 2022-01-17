@@ -109,28 +109,6 @@
       box-shadow: 0px 0px 6px -1px $sky-blue;
       -webkit-box-shadow: 0px 0px 6px -1px $sky-blue;
       -moz-box-shadow: 0px 0px 6px -1px $sky-blue;
-
-      &.enter {
-        background-color: transparent;
-        box-shadow: 0px 0px 6px -1px transparent;
-      }
-
-      &.enter-active {
-        transition: 0.1s;
-        background-color: $grey;
-        box-shadow: 0px 0px 6px -1px $sky-blue;
-      }
-
-      &.exit {
-        background-color: $grey;
-        box-shadow: 0px 0px 6px -1px $sky-blue;
-      }
-
-      &.exit-active {
-        transition: 0.1s;
-        background-color: transparent;
-        box-shadow: 0px 0px 6px -1px transparent;
-      }
     }
 
     .inner {
