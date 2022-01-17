@@ -41,11 +41,14 @@ body {
 
 .screen {
   flex: 1;
-  height: calc(100% - 64px);
+  padding-bottom: 64px;
+  height: 100%;
+  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  z-index: 1;
+  background-color: $grey;
 
   &.enter {
     opacity: 0;
@@ -66,19 +69,19 @@ body {
   }
 
   @media (max-width: 1024px) {
-    height: calc(100% - 62px);
+    padding-bottom: 62px;
   }
 
   @media (max-width: 640px) {
-    height: calc(100% - 68px);
+    padding-bottom: 68px;
   }
 
   @media (max-width: 375px) {
-    height: calc(100% - 60px);
+    padding-bottom: 60px;
   }
 
   @media (max-width: 320px) {
-    height: calc(100% - 50px);
+    padding-bottom: 50px;
   }
 }
 

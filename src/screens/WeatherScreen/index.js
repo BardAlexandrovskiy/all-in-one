@@ -1,5 +1,5 @@
 const WeatherScreen = () => {
-  return <div className="weather-screen">WeatherScreen</div>;
+  return <div className="weather-screen screen"></div>;
 };
 
 export default WeatherScreen;
