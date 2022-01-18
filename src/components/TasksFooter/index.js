@@ -18,6 +18,7 @@ class TasksFooter extends React.Component {
     this.state = {
       redInputBorder: false,
     };
+    this.inputRef = React.createRef();
   }
 
   handleChangeInput = (e) => {
@@ -45,6 +46,8 @@ class TasksFooter extends React.Component {
     } else {
       this.setState({ redInputBorder: true });
     }
+
+    this.inputRef.current.focus();
   };
 
   handleBlurInput = () => {
@@ -83,6 +86,7 @@ class TasksFooter extends React.Component {
           <div className="container input-container">
             <div className="input-wrapper">
               <input
+                ref={this.inputRef}
                 className={redInputBorder ? "red" : ""}
                 onKeyPress={this.handlePressInput}
                 onBlur={this.handleBlurInput}

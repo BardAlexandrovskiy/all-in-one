@@ -8,7 +8,7 @@ import "./styles.scss";
 class TasksMain extends React.Component {
   constructor(props) {
     super(props);
-    this.tasksMain = React.createRef();
+    this.tasksMainRef = React.createRef();
   }
 
   componentDidUpdate = (prevProps) => {
@@ -28,14 +28,14 @@ class TasksMain extends React.Component {
       prevFilter !== currentFilter ||
       prevSearchValue !== currentSearchValue
     ) {
-      this.tasksMain.current.scrollTo(0, 0);
+      this.tasksMainRef.current.scrollTo(0, 0);
     }
   };
 
   render() {
     const { tasksList, filter, searchInputValue } = this.props;
     return (
-      <main className="tasks-main" ref={this.tasksMain}>
+      <main className="tasks-main" ref={this.tasksMainRef}>
         <div className="tasks-list">
           <div className="container">
             <ul>
