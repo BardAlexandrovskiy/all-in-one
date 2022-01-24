@@ -25,6 +25,7 @@ body,
 body {
   min-width: 320px;
   font-family: $main-font;
+  // font-size: 20px;
 }
 
 .container {
@@ -48,7 +49,6 @@ body {
   top: 0;
   left: 0;
   z-index: 1;
-  background-color: $grey;
 
   &.enter {
     opacity: 0;

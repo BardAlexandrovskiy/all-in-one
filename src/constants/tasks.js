@@ -1,13 +1,13 @@
 // Filters
 export const filterAll = {
-  title: "Все",
+  title: "All",
   name: "all",
 };
 export const filterActive = {
-  title: "Активные",
+  title: "Active",
   name: "active",
 };
 export const filterCompleted = {
-  title: "Выполненные",
+  title: "Completed",
   name: "completed",
 };

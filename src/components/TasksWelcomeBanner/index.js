@@ -7,8 +7,8 @@ const TasksWelcomeBanner = () => {
     <div className="tasks-welcome-banner">
       <div className="container">
         <div className="text">
-          Здесь будут ваши задачи. Добавить свою первую задачу вы можете в поле
-          ввода внизу экрана.
+          This is where your tasks will be. You can add your first task in the
+          field below.
         </div>
         <FontAwesomeIcon icon={faAngleDown} />
       </div>

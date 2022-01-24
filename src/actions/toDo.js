@@ -71,26 +71,3 @@ export const editTask = (data) => {
     payload: data,
   };
 };
-
-export const getLocationByIp = () => {
-  return () => {
-    fetch("https://api.ipify.org?format=json")
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        throw new Error(response.status);
-      })
-      .then((objectIp) => objectIp.ip)
-      .then((id) => {
-        fetch(`https://api.sypexgeo.net/json/${id}`)
-          .then((response) => {
-            if (response.status === 200) {
-              return response.json();
-            }
-            throw new Error(response.status);
-          })
-          .then((location) => console.log(location.city));
-      });
-  };
-};

@@ -93,7 +93,7 @@ class TasksFooter extends React.Component {
                 onChange={this.handleChangeInput}
                 value={addTaskInputValue}
                 type="text"
-                placeholder="Добавить задачу"
+                placeholder="Add Task"
               />
               <CSSTransition
                 in={!!addTaskInputValue}

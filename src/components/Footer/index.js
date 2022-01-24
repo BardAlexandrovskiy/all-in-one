@@ -18,25 +18,25 @@ const Footer = () => {
             <li>
               <NavLink to="/">
                 <FontAwesomeIcon icon={faHome} />
-                Главная
+                Main
               </NavLink>
             </li>
             <li>
               <NavLink to="/news">
                 <FontAwesomeIcon icon={faNewspaper} />
-                Новости
+                News
               </NavLink>
             </li>
             <li>
               <NavLink to="/weather">
                 <FontAwesomeIcon icon={faCloud} />
-                Погода
+                Weather
               </NavLink>
             </li>
             <li>
               <NavLink to="/tasks">
                 <FontAwesomeIcon icon={faListUl} />
-                Задачи
+                Tasks
               </NavLink>
             </li>
           </ul>

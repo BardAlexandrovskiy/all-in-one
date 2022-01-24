@@ -66,7 +66,7 @@ class TasksHeader extends React.Component {
                 <input
                   onChange={this.handleChangeInput}
                   type="text"
-                  placeholder="Поиск"
+                  placeholder="Search"
                   value={searchTasksInputValue}
                 />
               </div>
@@ -83,7 +83,7 @@ class TasksHeader extends React.Component {
                 >
                   <FontAwesomeIcon icon={faChevronDown} />
                 </div>
-                <div className="counter">Активные: {counter}</div>
+                <div className="counter">Active: {counter}</div>
               </div>
               <div className="column right-column">
                 <CSSTransition
@@ -96,7 +96,7 @@ class TasksHeader extends React.Component {
                     onClick={deleteCompletedTasks}
                     className="button delete-completed-button"
                   >
-                    Удалить выполненные
+                    Delete completed
                   </div>
                 </CSSTransition>
               </div>

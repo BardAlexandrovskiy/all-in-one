@@ -1,0 +1,26 @@
+.weather-header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .current-city {
+    color: white;
+    font-size: 24px;
+
+    @media (max-width: 1024px) {
+      font-size: 20px;
+    }
+
+    svg {
+      margin-left: 10px;
+
+      @media (max-width: 1024px) {
+        margin-left: 6px;
+      }
+    }
+  }
+}
