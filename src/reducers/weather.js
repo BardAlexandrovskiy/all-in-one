@@ -1,4 +1,4 @@
-import { SET_LOCATION_BY_IP } from "../actions/weather";
+import { SET_CURRENT_LOCATION } from "../actions/weather";
 
 let localInitialState = JSON.parse(localStorage.getItem("all-in-one"));
 
@@ -7,16 +7,19 @@ if (localInitialState) {
 } else localInitialState = null;
 
 const initialState = localInitialState || {
-  locationByIp: { city: "" },
+  currentLocation: { city: "" },
 };
 
 export function weatherReducer(state = initialState, action) {
   const { type, payload } = action;
-  const { locationByIp } = state;
+  const { currentLocation } = state;
 
   switch (type) {
-    case SET_LOCATION_BY_IP:
-      return { ...state, locationByIp: Object.assign(locationByIp, payload) };
+    case SET_CURRENT_LOCATION:
+      return {
+        ...state,
+        currentLocation: Object.assign(currentLocation, payload),
+      };
     default:
       return state;
   }

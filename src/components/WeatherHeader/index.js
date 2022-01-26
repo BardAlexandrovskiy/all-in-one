@@ -6,13 +6,13 @@ import "./styles.scss";
 
 class WeatherHeader extends React.Component {
   render() {
-    const { cityByIp } = this.props;
+    const { currentCity } = this.props;
 
     return (
       <header className="weather-header">
         <div className="header-container container">
           <div className="current-city">
-            {cityByIp ? cityByIp : "Locating..."}
+            {currentCity ? currentCity : "Locating..."}
             <FontAwesomeIcon icon={faMapMarkerAlt} />
           </div>
         </div>
@@ -24,12 +24,12 @@ class WeatherHeader extends React.Component {
 const mapStateToProps = (store) => {
   const {
     weather: {
-      locationByIp: { city: cityByIp },
+      currentLocation: { city: currentCity },
     },
   } = store;
 
   return {
-    cityByIp: cityByIp,
+    currentCity: currentCity,
   };
 };
 

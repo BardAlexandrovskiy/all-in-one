@@ -1,17 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getWeatherByCity } from "../../actions/weather";
+import WeatherInfoItem from "../WeatherInfoItem";
+import "./styles.scss";
 
 class WeatherMain extends React.Component {
-  componentDidUpdate() {}
-
   render() {
-    return <div className="weather-main"></div>;
+    const { currentCity } = this.props;
+
+    return (
+      <div className="weather-main">
+        <div className="weather-info-list">
+          {!!currentCity && <WeatherInfoItem currentCity={currentCity} />}
+        </div>
+      </div>
+    );
   }
 }
 
-const mapDispatchToProps = {
-  getWeatherByCity: (cityName) => getWeatherByCity(cityName),
+const mapStateToProps = (state) => {
+  const {
+    weather: {
+      currentLocation: { city: currentCity },
+    },
+  } = state;
+
+  return {
+    currentCity: currentCity,
+  };
 };
 
-export default connect(null, mapDispatchToProps)(WeatherMain);
+export default connect(mapStateToProps)(WeatherMain);

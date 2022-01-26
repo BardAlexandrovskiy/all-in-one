@@ -1,6 +1,6 @@
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { deleteTask, editTask, toggleTask } from "../../actions/toDo";
+import { deleteTask, editTask, toggleTask } from "../../actions/tasks";
 import { connect } from "react-redux";
 import "./styles.scss";
 import React from "react";
@@ -129,7 +129,7 @@ class TasksItem extends React.Component {
 
 const mapStateToProps = (store) => {
   return {
-    searchInputValue: store.toDo.searchTasksInputValue,
+    searchInputValue: store.tasks.searchTasksInputValue,
   };
 };
 

@@ -1,10 +1,11 @@
 // Types
-export const SET_LOCATION_BY_IP = "SET_LOCATION_BY_IP";
+export const SET_CURRENT_LOCATION = "SET_LOCATION_BY_IP";
+export const SET_CURRENT_WEATHER = "SET_CURRENT_WEATHER";
 
 // Actions
-export const setLocationByIp = (city) => {
+export const setCurrentLocation = (city) => {
   return {
-    type: SET_LOCATION_BY_IP,
+    type: SET_CURRENT_LOCATION,
     payload: { city },
   };
 };
@@ -28,34 +29,8 @@ export const getLocationByIp = () => {
             throw new Error(response.status);
           })
           .then((location) => {
-            dispatch(setLocationByIp(location.city.name_en));
+            dispatch(setCurrentLocation(location.city.name_en));
           });
       });
-  };
-};
-
-export const getWeatherByCity = (cityName) => {
-  return (dispatch) => {
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=12c7488f70bcd015f75b9a10d559d91f&units=metric`
-    )
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        throw new Error(response.status);
-      })
-      .then((weatherObject) => {
-        const {
-          main: { temp },
-          clouds: { all },
-        } = weatherObject;
-
-        return {
-          temp: Math.round(temp),
-          cloudiness: all,
-        };
-      })
-      .then((object) => console.log(object));
   };
 };

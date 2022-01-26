@@ -9,7 +9,7 @@ import {
   changeSearchTasksInputValue,
   checkAllTasks,
   deleteCompletedTasks,
-} from "../../actions/toDo";
+} from "../../actions/tasks";
 
 class TasksHeader extends React.Component {
   handleChangeInput = (e) => {
@@ -110,7 +110,7 @@ class TasksHeader extends React.Component {
 
 const mapStateToProps = (store) => {
   const {
-    toDo: { list, searchTasksInputValue },
+    tasks: { list, searchTasksInputValue },
   } = store;
 
   return {

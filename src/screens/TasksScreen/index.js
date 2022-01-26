@@ -10,7 +10,7 @@ import {
   changeAddTaskInputValue,
   changeSearchTasksInputValue,
   changeTaskFilter,
-} from "../../actions/toDo";
+} from "../../actions/tasks";
 import { filterAll } from "../../constants/tasks";
 
 class TasksScreen extends React.Component {
@@ -55,7 +55,7 @@ class TasksScreen extends React.Component {
 
 const mapStateToProps = (store) => {
   const {
-    toDo: { list },
+    tasks: { list },
   } = store;
 
   return {

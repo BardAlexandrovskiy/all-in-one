@@ -2,7 +2,7 @@ import "./styles.scss";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
-import { addNewTask, changeAddTaskInputValue } from "../../actions/toDo";
+import { addNewTask, changeAddTaskInputValue } from "../../actions/tasks";
 import React from "react";
 import { CSSTransition } from "react-transition-group";
 import {
@@ -115,7 +115,7 @@ class TasksFooter extends React.Component {
 
 const mapStateToProps = (store) => {
   const {
-    toDo: { list, searchTasksInputValue, addTaskInputValue },
+    tasks: { list, searchTasksInputValue, addTaskInputValue },
   } = store;
 
   return {

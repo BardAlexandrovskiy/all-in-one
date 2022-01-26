@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { changeTaskFilter } from "../../actions/toDo";
+import { changeTaskFilter } from "../../actions/tasks";
 import "./styles.scss";
 
 const TasksFilterButton = ({ name, title, changeTaskFilter, filter }) => {
@@ -16,7 +16,7 @@ const TasksFilterButton = ({ name, title, changeTaskFilter, filter }) => {
 
 const mapStateToProps = (store) => {
   return {
-    filter: store.toDo.filter,
+    filter: store.tasks.filter,
   };
 };
 

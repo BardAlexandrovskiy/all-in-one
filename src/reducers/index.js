@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import { toDoReducer } from "./toDo";
+import { tasksReducer } from "./tasks";
 import { weatherReducer } from "./weather";
 
 export const rootReducer = combineReducers({
-  toDo: toDoReducer,
+  tasks: tasksReducer,
   weather: weatherReducer,
 });

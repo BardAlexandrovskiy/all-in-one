@@ -8,13 +8,13 @@ import {
   CHECK_ALL_TASKS,
   DELETE_COMPLETED_TASKS,
   EDIT_TASK,
-} from "../actions/toDo";
+} from "../actions/tasks";
 import { filterAll } from "../constants/tasks";
 
 let localInitialState = JSON.parse(localStorage.getItem("all-in-one"));
 
 if (localInitialState) {
-  localInitialState = localInitialState.toDo;
+  localInitialState = localInitialState.tasks;
 } else localInitialState = null;
 
 const initialState = localInitialState || {
@@ -24,7 +24,7 @@ const initialState = localInitialState || {
   addTaskInputValue: "",
 };
 
-export function toDoReducer(state = initialState, action) {
+export function tasksReducer(state = initialState, action) {
   const { type, payload } = action;
   const { list } = state;
 

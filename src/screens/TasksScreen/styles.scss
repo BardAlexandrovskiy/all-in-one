@@ -1,8 +1,8 @@
 @import "../../assets/styles/vars";
 
 .tasks-screen {
-  background-color: $black;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background-color: $grey;
 }

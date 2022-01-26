@@ -1,14 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getLocationByIp, getWeatherByCity } from "../../actions/weather";
+import { getLocationByIp } from "../../actions/weather";
 import WeatherHeader from "../../components/WeatherHeader";
 import WeatherMain from "../../components/WeatherMain";
 import "./styles.scss";
 
 class WeatherScreen extends React.Component {
   componentDidMount() {
-    const { getLocationByIp } = this.props;
-    getLocationByIp();
+    const { getCurrentLocation, currentCity } = this.props;
+
+    if (!currentCity) {
+      getCurrentLocation();
+    }
   }
 
   render() {
@@ -21,9 +24,20 @@ class WeatherScreen extends React.Component {
   }
 }
 
-const mapDispatchToProps = {
-  getLocationByIp: () => getLocationByIp(),
-  getWeatherByCity: (cityName) => getWeatherByCity(cityName),
+const mapStateToProps = (state) => {
+  const {
+    weather: {
+      currentLocation: { city: currentCity },
+    },
+  } = state;
+
+  return {
+    currentCity: currentCity,
+  };
 };
 
-export default connect(null, mapDispatchToProps)(WeatherScreen);
+const mapDispatchToProps = {
+  getCurrentLocation: () => getLocationByIp(),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeatherScreen);

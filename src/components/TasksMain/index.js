@@ -81,7 +81,7 @@ class TasksMain extends React.Component {
 
 const mapStateToProps = (store) => {
   const {
-    toDo: { list, filter, searchTasksInputValue },
+    tasks: { list, filter, searchTasksInputValue },
   } = store;
 
   return {
