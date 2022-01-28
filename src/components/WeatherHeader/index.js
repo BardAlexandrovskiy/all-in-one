@@ -6,13 +6,23 @@ import "./styles.scss";
 
 class WeatherHeader extends React.Component {
   render() {
-    const { currentCity } = this.props;
+    const { currentCity, isCurrentCitySearchError } = this.props;
+
+    let currentCityOutput = "";
+
+    if (currentCity) {
+      currentCityOutput = currentCity;
+    } else if (!currentCity && isCurrentCitySearchError) {
+      currentCityOutput = "City not found";
+    } else {
+      currentCityOutput = "Locating...";
+    }
 
     return (
       <header className="weather-header">
         <div className="header-container container">
           <div className="current-city">
-            {currentCity ? currentCity : "Locating..."}
+            {currentCityOutput}
             <FontAwesomeIcon icon={faMapMarkerAlt} />
           </div>
         </div>
@@ -24,12 +34,16 @@ class WeatherHeader extends React.Component {
 const mapStateToProps = (store) => {
   const {
     weather: {
-      currentLocation: { city: currentCity },
+      currentLocation: {
+        city: currentCity,
+        isSearchError: isCurrentCitySearchError,
+      },
     },
   } = store;
 
   return {
-    currentCity: currentCity,
+    currentCity,
+    isCurrentCitySearchError,
   };
 };
 

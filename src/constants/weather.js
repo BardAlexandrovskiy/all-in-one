@@ -11,13 +11,38 @@ export const getWeatherFunction = (cityName) => {
     })
     .then((weatherObject) => {
       const {
-        main: { temp },
-        clouds: { all },
+        weather: [
+          {
+            main: weatherMain,
+            description: weatherDescription,
+            icon: weatherIcon,
+          },
+        ],
+        main: {
+          temp,
+          feels_like: tempFeelsLike,
+          temp_min: tempMin,
+          temp_max: tempMax,
+          humidity,
+        },
+        wind: { speed: windSpeed, deg: windDeg },
+        clouds: { all: cloudiness },
+        name: cityName,
       } = weatherObject;
 
       return {
-        temp: Math.round(temp),
-        cloudiness: all,
+        weatherMain,
+        weatherDescription,
+        weatherIcon,
+        temp,
+        tempFeelsLike,
+        tempMin,
+        tempMax,
+        humidity,
+        windSpeed,
+        windDeg,
+        cloudiness,
+        cityName,
       };
     });
 };

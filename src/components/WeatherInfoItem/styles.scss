@@ -1,6 +1,15 @@
 @import "../../assets/styles/vars";
 
 .weather-info-item {
-  min-height: 100%;
-  min-width: 100%;
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  .preloader {
+    background-color: $dark-blue;
+  }
+
+  .request-error-banner {
+    background-color: $dark-blue;
+  }
 }

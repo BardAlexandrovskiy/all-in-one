@@ -7,7 +7,7 @@ if (localInitialState) {
 } else localInitialState = null;
 
 const initialState = localInitialState || {
-  currentLocation: { city: "" },
+  currentLocation: { city: "", isSearchError: false },
 };
 
 export function weatherReducer(state = initialState, action) {

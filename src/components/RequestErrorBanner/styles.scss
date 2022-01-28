@@ -1,0 +1,49 @@
+@import "../../assets/styles/vars";
+
+.request-error-banner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  &.enter {
+    opacity: 0;
+  }
+
+  &.enter-active {
+    opacity: 1;
+    transition: 0.15s;
+  }
+
+  &.exit {
+    opacity: 1;
+  }
+
+  &.exit-active {
+    opacity: 0;
+    transition: 0.15s;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .text {
+    color: white;
+    font-size: 24px;
+    background-color: lighten($grey, 15);
+    padding: 30px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+
+    @media (max-width: 1024px) {
+      font-size: 20px;
+    }
+  }
+}
