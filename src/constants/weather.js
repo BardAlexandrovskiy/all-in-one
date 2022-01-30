@@ -11,13 +11,7 @@ export const getWeatherFunction = (cityName) => {
     })
     .then((weatherObject) => {
       const {
-        weather: [
-          {
-            main: weatherMain,
-            description: weatherDescription,
-            icon: weatherIcon,
-          },
-        ],
+        weather: [{ description: weatherDescription, icon: weatherIcon }],
         main: {
           temp,
           feels_like: tempFeelsLike,
@@ -31,18 +25,22 @@ export const getWeatherFunction = (cityName) => {
       } = weatherObject;
 
       return {
-        weatherMain,
-        weatherDescription,
-        weatherIcon,
-        temp,
-        tempFeelsLike,
-        tempMin,
-        tempMax,
-        humidity,
-        windSpeed,
-        windDeg,
-        cloudiness,
-        cityName,
+        weatherDescription: weatherDescription
+          ? weatherDescription.charAt(0).toUpperCase() +
+            weatherDescription.slice(1)
+          : "",
+        weatherIcon: weatherIcon
+          ? `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`
+          : "",
+        temp: temp ? `${Math.round(temp)}°C` : "",
+        tempFeelsLike: tempFeelsLike ? `${Math.round(tempFeelsLike)}°C` : "",
+        tempMin: tempMin ? `${Math.round(tempMin)}°C` : "",
+        tempMax: tempMax ? `${Math.round(tempMax)}°C` : "",
+        humidity: humidity ? `${humidity}%` : "",
+        windSpeed: windSpeed ? `${windSpeed} m/s` : "",
+        windDeg: windDeg ? `${windDeg} deg` : "",
+        cloudiness: cloudiness ? `${cloudiness}%` : "",
+        cityName: cityName ? cityName : "",
       };
     });
 };

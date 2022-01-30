@@ -1,8 +1,13 @@
 @import "../../assets/styles/vars";
 
 .weather-header {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  @media (max-width: 1024px) {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 
   .header-container {
     display: flex;

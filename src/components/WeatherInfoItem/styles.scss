@@ -11,5 +11,9 @@
 
   .request-error-banner {
     background-color: $dark-blue;
+
+    .text {
+      background-color: rgba($color: white, $alpha: 0.2);
+    }
   }
 }

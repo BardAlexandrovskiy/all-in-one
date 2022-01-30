@@ -42,7 +42,7 @@
   .text {
     color: white;
     font-size: 24px;
-    background-color: lighten($grey, 15);
+    background-color: $grey;
     padding: 30px 20px;
     border-radius: 10px;
     margin-bottom: 20px;

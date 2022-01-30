@@ -10,7 +10,19 @@ class WeatherInfoItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      weather: null,
+      weather: {
+        weatherDescription: "",
+        weatherIcon: "",
+        temp: "",
+        tempFeelsLike: "",
+        tempMin: "",
+        tempMax: "",
+        humidity: "",
+        windSpeed: "",
+        windDeg: "",
+        cloudiness: "",
+        cityName: "",
+      },
       isPreloader: false,
       isError: false,
       errorText: "",
@@ -22,7 +34,7 @@ class WeatherInfoItem extends React.Component {
 
     if (currentCity) {
       this.setState({ isPreloader: true });
-      getWeatherFunction(null)
+      getWeatherFunction(currentCity)
         .then((result) => this.setState({ weather: result }))
         .catch((error) =>
           this.setState({
@@ -35,9 +47,22 @@ class WeatherInfoItem extends React.Component {
   }
 
   render() {
-    const { isPreloader, errorText, isError } = this.state;
+    const { isPreloader, errorText, isError, weather } = this.state;
 
-    console.log(this.state);
+    const {
+      weatherDescription,
+      weatherIcon,
+      temp,
+      tempFeelsLike,
+      tempMin,
+      tempMax,
+      humidity,
+      windSpeed,
+      windDeg,
+      cloudiness,
+      cityName,
+    } = this.state.weather;
+
     return (
       <div className="weather-info-item">
         <CSSTransition
@@ -52,6 +77,25 @@ class WeatherInfoItem extends React.Component {
           <RequestErrorBanner
             text={`Oops, something went wrong. ${errorText}`}
           />
+        </CSSTransition>
+        <CSSTransition in={!!weather} timeout={300} mountOnEnter unmountOnExit>
+          <div className="info">
+            <div className="container info-container">
+              <div className="main">
+                {!!temp && <span className="temp">{temp}</span>}
+                {!!weatherIcon && (
+                  <img alt="" src={weatherIcon} className="icon" />
+                )}
+                {!!weatherDescription && (
+                  <div className="description">{weatherDescription}</div>
+                )}
+                {!!tempFeelsLike && (
+                  <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
+                )}
+                {/* <div className="temp-range"></div> */}
+              </div>
+            </div>
+          </div>
         </CSSTransition>
       </div>
     );
