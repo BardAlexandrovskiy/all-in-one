@@ -86,19 +86,23 @@ class WeatherInfoItem extends React.Component {
           <div className="info">
             <div className="container info-container">
               <div className="main">
-                {!!temp && <span className="temp">{temp}</span>}
-                {!!weatherIcon && (
-                  <img alt="" src={weatherIcon} className="icon" />
-                )}
-                {!!weatherDescription && (
-                  <div className="description">{weatherDescription}</div>
-                )}
-                {!!tempFeelsLike && (
-                  <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
-                )}
-                {!!tempMin && !!tempMax && (
-                  <div className="temp-range">{`${tempMax}/${tempMin}`}</div>
-                )}
+                <div className="top-side">
+                  {!!temp && <span className="temp">{temp}</span>}
+                  {!!weatherIcon && (
+                    <img alt="" src={weatherIcon} className="icon" />
+                  )}
+                  {!!weatherDescription && (
+                    <div className="description">{weatherDescription}</div>
+                  )}
+                </div>
+                <div className="bottom-side">
+                  {!!tempFeelsLike && (
+                    <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
+                  )}
+                  {!!tempMin && !!tempMax && (
+                    <div className="temp-range">{`${tempMax}/${tempMin}`}</div>
+                  )}
+                </div>
               </div>
               <div className="other-info">
                 {!!humidity && (
