@@ -22,6 +22,7 @@ export const getWeatherFunction = (cityName) => {
         wind: { speed: windSpeed, deg: windDeg },
         clouds: { all: cloudiness },
         name: cityName,
+        sys: { sunrise, sunset },
       } = weatherObject;
 
       return {
@@ -41,6 +42,15 @@ export const getWeatherFunction = (cityName) => {
         windDeg: windDeg ? `${windDeg} deg` : "",
         cloudiness: cloudiness ? `${cloudiness}%` : "",
         cityName: cityName ? cityName : "",
+        sunrise: sunrise ? ConvertUnixDateToTime(sunrise) : "",
+        sunset: sunset ? ConvertUnixDateToTime(sunset) : "",
       };
     });
 };
+
+// Convert unix date to time function
+function ConvertUnixDateToTime(date) {
+  const dateObject = new Date(date * 1000);
+  const time = `${dateObject.getHours()}:${dateObject.getMinutes()}:${dateObject.getSeconds()}`;
+  return time;
+}

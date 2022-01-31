@@ -1,8 +1,6 @@
 @import "../../assets/styles/vars";
 
 .weather-main {
-  flex: 1;
-
   &::-webkit-scrollbar {
     width: 10px;
 
@@ -20,8 +18,5 @@
   }
 
   .weather-info-list {
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
   }
 }

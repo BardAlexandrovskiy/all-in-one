@@ -5,6 +5,8 @@ import { getWeatherFunction } from "../../constants/weather";
 import Preloader from "../Preloader/imdex";
 import RequestErrorBanner from "../RequestErrorBanner";
 import "./styles.scss";
+import { ReactComponent as SunriseIcon } from "../../assets/images/weather/sunrise-icon.svg";
+import { ReactComponent as SunsetIcon } from "../../assets/images/weather/sunset-icon.svg";
 
 class WeatherInfoItem extends React.Component {
   constructor(props) {
@@ -21,7 +23,8 @@ class WeatherInfoItem extends React.Component {
         windSpeed: "",
         windDeg: "",
         cloudiness: "",
-        cityName: "",
+        sunrise: "",
+        sunset: "",
       },
       isPreloader: false,
       isError: false,
@@ -60,7 +63,8 @@ class WeatherInfoItem extends React.Component {
       windSpeed,
       windDeg,
       cloudiness,
-      cityName,
+      sunrise,
+      sunset,
     } = this.state.weather;
 
     return (
@@ -92,7 +96,35 @@ class WeatherInfoItem extends React.Component {
                 {!!tempFeelsLike && (
                   <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
                 )}
-                {/* <div className="temp-range"></div> */}
+                {!!tempMin && !!tempMax && (
+                  <div className="temp-range">{`${tempMax}/${tempMin}`}</div>
+                )}
+              </div>
+              <div className="other-info">
+                {!!humidity && (
+                  <div className="info-item">{`humidity: ${humidity}`}</div>
+                )}
+                {!!cloudiness && (
+                  <div className="info-item">{`cloudiness: ${cloudiness}`}</div>
+                )}
+                {!!windSpeed && (
+                  <div className="info-item">{`wind speed: ${windSpeed}`}</div>
+                )}
+                {!!windDeg && (
+                  <div className="info-item">{`win deg: ${windDeg}`}</div>
+                )}
+                {!!sunrise && (
+                  <div className="info-item sun-info">
+                    <SunriseIcon />
+                    <span>{`Sunrise: ${sunrise}`}</span>
+                  </div>
+                )}
+                {!!sunset && (
+                  <div className="info-item sun-info">
+                    <SunsetIcon />
+                    <span>{`Sunset: ${sunset}`}</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
