@@ -18,8 +18,6 @@ const initialState = localInitialState || {
       weatherIcon: null,
       temp: null,
       tempFeelsLike: null,
-      tempMin: null,
-      tempMax: null,
       humidity: null,
       windSpeed: null,
       windDeg: null,

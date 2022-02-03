@@ -10,9 +10,52 @@ export const setCurrentLocation = (location) => {
   };
 };
 
-export const getLocationByIp = () => {
+export const getCurrentLocationByGeo = () => {
   return (dispatch) => {
     dispatch(setCurrentLocation({ isSearchError: false }));
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          const lat = position.coords.latitude;
+          const long = position.coords.longitude;
+
+          return fetch(
+            `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=1&appid=12c7488f70bcd015f75b9a10d559d91f`
+          )
+            .then((response) => {
+              if (response.status === 200) {
+                return response.json();
+              }
+              throw new Error(response.status);
+            })
+            .then((location) => {
+              const [{ local_names }] = location;
+              if (local_names) {
+                dispatch(
+                  setCurrentLocation({
+                    city: local_names.en,
+                    isSearchError: false,
+                    id: Date.now(),
+                  })
+                );
+              } else throw new Error("City by geolocation not found");
+            })
+            .catch(() => {
+              dispatch(getCurrentLocationByIp());
+            });
+        },
+        function () {
+          dispatch(getCurrentLocationByIp());
+        }
+      );
+    } else {
+      dispatch(getCurrentLocationByIp());
+    }
+  };
+};
+
+export const getCurrentLocationByIp = () => {
+  return (dispatch) => {
     return fetch(`https://api.sypexgeo.net/json/`)
       .then((response) => {
         if (response.status === 200) {
@@ -30,7 +73,7 @@ export const getLocationByIp = () => {
               id: Date.now(),
             })
           );
-        } else throw new Error("Current location not found");
+        } else throw new Error("City by ip not found");
       })
       .catch(() => {
         dispatch(setCurrentLocation({ isSearchError: true }));

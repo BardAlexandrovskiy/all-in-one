@@ -12,13 +12,7 @@ export const getWeatherFunction = (cityName) => {
     .then((weatherObject) => {
       const {
         weather: [{ description: weatherDescription, icon: weatherIcon }],
-        main: {
-          temp,
-          feels_like: tempFeelsLike,
-          temp_min: tempMin,
-          temp_max: tempMax,
-          humidity,
-        },
+        main: { temp, feels_like: tempFeelsLike, humidity },
         wind: { speed: windSpeed, deg: windDeg },
         clouds: { all: cloudiness },
         name: cityName,
@@ -35,8 +29,6 @@ export const getWeatherFunction = (cityName) => {
           : "",
         temp: temp ? `${Math.round(temp)}°C` : null,
         tempFeelsLike: tempFeelsLike ? `${Math.round(tempFeelsLike)}°C` : null,
-        tempMin: tempMin ? `${Math.round(tempMin)}°C` : null,
-        tempMax: tempMax ? `${Math.round(tempMax)}°C` : null,
         humidity: humidity ? `${humidity}%` : null,
         windSpeed: windSpeed ? `${windSpeed} m/s` : null,
         windDeg: windDeg ? `${windDeg} deg` : null,

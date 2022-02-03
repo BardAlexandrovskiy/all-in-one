@@ -87,8 +87,6 @@ class WeatherInfoItem extends React.Component {
       weatherIcon,
       temp,
       tempFeelsLike,
-      tempMin,
-      tempMax,
       humidity,
       windSpeed,
       windDeg,
@@ -134,14 +132,9 @@ class WeatherInfoItem extends React.Component {
                     )}
                   </div>
                 )}
-                <div className="bottom-side">
-                  {!!tempFeelsLike && (
-                    <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
-                  )}
-                  {!!tempMin && !!tempMax && (
-                    <div className="temp-range">{`${tempMax}/${tempMin}`}</div>
-                  )}
-                </div>
+                {!!tempFeelsLike && (
+                  <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
+                )}
               </div>
               <div className="other-info">
                 {!!humidity && (
@@ -154,7 +147,7 @@ class WeatherInfoItem extends React.Component {
                   <div className="info-item">{`Wind speed: ${windSpeed}`}</div>
                 )}
                 {!!windDeg && (
-                  <div className="info-item">{`Win deg: ${windDeg}`}</div>
+                  <div className="info-item">{`Wind direction: ${windDeg}`}</div>
                 )}
                 {!!sunrise && (
                   <div className="info-item sun-info">
