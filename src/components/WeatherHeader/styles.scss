@@ -1,11 +1,18 @@
 @import "../../assets/styles/vars";
 
 .weather-header {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  position: fixed;
+  padding-top: 15px;
+  padding-bottom: 15px;
   z-index: 10;
   width: 100%;
+  background-color: transparent;
+  transition: 0.3s;
+  background-color: $dark-blue;
+
+  &.active {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 
   @media (max-width: 1024px) {
     padding-top: 10px;

@@ -7,50 +7,80 @@ import RequestErrorBanner from "../RequestErrorBanner";
 import "./styles.scss";
 import { ReactComponent as SunriseIcon } from "../../assets/images/weather/sunrise-icon.svg";
 import { ReactComponent as SunsetIcon } from "../../assets/images/weather/sunset-icon.svg";
+import { changeWeatherHeader, setCurrentLocation } from "../../actions/weather";
 
 class WeatherInfoItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      weather: {
-        weatherDescription: "",
-        weatherIcon: "",
-        temp: "",
-        tempFeelsLike: "",
-        tempMin: "",
-        tempMax: "",
-        humidity: "",
-        windSpeed: "",
-        windDeg: "",
-        cloudiness: "",
-        sunrise: "",
-        sunset: "",
-      },
       isPreloader: false,
       isError: false,
       errorText: "",
     };
+    this.infoBlockRef = React.createRef();
   }
 
   componentDidMount() {
-    const { currentCity } = this.props;
+    const {
+      city,
+      currentId,
+      id,
+      weatherInfo,
+      updateWeatherTime,
+      setCurrentLocation,
+    } = this.props;
 
-    if (currentCity) {
-      this.setState({ isPreloader: true });
-      getWeatherFunction(currentCity)
-        .then((result) => this.setState({ weather: result }))
-        .catch((error) =>
-          this.setState({
-            isError: true,
-            errorText: `Error: ${error.message}.`,
-          })
-        )
-        .finally(() => this.setState({ isPreloader: false }));
+    let isWeatherUpdate = false;
+
+    if (updateWeatherTime) {
+      const minutes = ((Date.now() - updateWeatherTime) / (1000 * 60)).toFixed(
+        1
+      );
+
+      if (minutes > 10) {
+        isWeatherUpdate = true;
+      }
+    } else {
+      isWeatherUpdate = true;
+    }
+
+    this.handleScrollInfoBlock();
+
+    if (id === currentId) {
+      if (!weatherInfo || isWeatherUpdate) {
+        this.setState({ isPreloader: true });
+        getWeatherFunction(city)
+          .then((result) =>
+            setCurrentLocation({
+              weatherInfo: result,
+              updateWeatherTime: Date.now(),
+            })
+          )
+          .catch((error) =>
+            this.setState({
+              isError: true,
+              errorText: `Error: ${error.message}.`,
+            })
+          )
+          .finally(() => this.setState({ isPreloader: false }));
+      }
     }
   }
 
+  handleScrollInfoBlock = () => {
+    const { changeWeatherHeader, isActiveHeader } = this.props;
+    const currentScrollPosition = this.infoBlockRef.current.scrollTop;
+
+    if (currentScrollPosition && !isActiveHeader) {
+      changeWeatherHeader(true);
+    } else if (!currentScrollPosition && isActiveHeader) {
+      changeWeatherHeader(false);
+    }
+  };
+
   render() {
-    const { isPreloader, errorText, isError, weather } = this.state;
+    const { isPreloader, errorText, isError } = this.state;
+    const { weatherInfo } = this.props;
 
     const {
       weatherDescription,
@@ -65,7 +95,7 @@ class WeatherInfoItem extends React.Component {
       cloudiness,
       sunrise,
       sunset,
-    } = this.state.weather;
+    } = weatherInfo;
 
     return (
       <div className="weather-info-item">
@@ -82,19 +112,28 @@ class WeatherInfoItem extends React.Component {
             text={`Oops, something went wrong. ${errorText}`}
           />
         </CSSTransition>
-        <CSSTransition in={!!weather} timeout={300} mountOnEnter unmountOnExit>
-          <div className="info">
+        <CSSTransition
+          in={!!weatherInfo}
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+        >
+          <div
+            className="info"
+            ref={this.infoBlockRef}
+            onScroll={this.handleScrollInfoBlock}
+          >
             <div className="container info-container">
               <div className="main">
-                <div className="top-side">
-                  {!!temp && <span className="temp">{temp}</span>}
-                  {!!weatherIcon && (
-                    <img alt="" src={weatherIcon} className="icon" />
-                  )}
-                  {!!weatherDescription && (
-                    <div className="description">{weatherDescription}</div>
-                  )}
-                </div>
+                {!!temp && <span className="current-temp">{temp}</span>}
+                {!!weatherDescription && (
+                  <div className="description">
+                    {weatherDescription}
+                    {!!weatherIcon && (
+                      <img alt="" src={weatherIcon} className="icon" />
+                    )}
+                  </div>
+                )}
                 <div className="bottom-side">
                   {!!tempFeelsLike && (
                     <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
@@ -106,16 +145,16 @@ class WeatherInfoItem extends React.Component {
               </div>
               <div className="other-info">
                 {!!humidity && (
-                  <div className="info-item">{`humidity: ${humidity}`}</div>
+                  <div className="info-item">{`Humidity: ${humidity}`}</div>
                 )}
                 {!!cloudiness && (
-                  <div className="info-item">{`cloudiness: ${cloudiness}`}</div>
+                  <div className="info-item">{`Cloudiness: ${cloudiness}`}</div>
                 )}
                 {!!windSpeed && (
-                  <div className="info-item">{`wind speed: ${windSpeed}`}</div>
+                  <div className="info-item">{`Wind speed: ${windSpeed}`}</div>
                 )}
                 {!!windDeg && (
-                  <div className="info-item">{`win deg: ${windDeg}`}</div>
+                  <div className="info-item">{`Win deg: ${windDeg}`}</div>
                 )}
                 {!!sunrise && (
                   <div className="info-item sun-info">
@@ -138,4 +177,24 @@ class WeatherInfoItem extends React.Component {
   }
 }
 
-export default connect(null)(WeatherInfoItem);
+const mapStateToProps = (state) => {
+  const {
+    weather: {
+      currentLocation: { id: currentId, weatherInfo },
+      isActiveHeader,
+    },
+  } = state;
+
+  return {
+    isActiveHeader,
+    currentId,
+    weatherInfo,
+  };
+};
+
+const mapDispatchToProps = {
+  changeWeatherHeader: (bool) => changeWeatherHeader(bool),
+  setCurrentLocation: (location) => setCurrentLocation(location),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeatherInfoItem);

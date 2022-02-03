@@ -83,7 +83,9 @@ class TasksHeader extends React.Component {
                 >
                   <FontAwesomeIcon icon={faChevronDown} />
                 </div>
-                <div className="counter">Active: {counter}</div>
+                <div className="counter">
+                  Active: {counter}/{tasksList.length}
+                </div>
               </div>
               <div className="column right-column">
                 <CSSTransition

@@ -33,17 +33,17 @@ export const getWeatherFunction = (cityName) => {
         weatherIcon: weatherIcon
           ? `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`
           : "",
-        temp: temp ? `${Math.round(temp)}°C` : "",
-        tempFeelsLike: tempFeelsLike ? `${Math.round(tempFeelsLike)}°C` : "",
-        tempMin: tempMin ? `${Math.round(tempMin)}°C` : "",
-        tempMax: tempMax ? `${Math.round(tempMax)}°C` : "",
-        humidity: humidity ? `${humidity}%` : "",
-        windSpeed: windSpeed ? `${windSpeed} m/s` : "",
-        windDeg: windDeg ? `${windDeg} deg` : "",
-        cloudiness: cloudiness ? `${cloudiness}%` : "",
-        cityName: cityName ? cityName : "",
-        sunrise: sunrise ? ConvertUnixDateToTime(sunrise) : "",
-        sunset: sunset ? ConvertUnixDateToTime(sunset) : "",
+        temp: temp ? `${Math.round(temp)}°C` : null,
+        tempFeelsLike: tempFeelsLike ? `${Math.round(tempFeelsLike)}°C` : null,
+        tempMin: tempMin ? `${Math.round(tempMin)}°C` : null,
+        tempMax: tempMax ? `${Math.round(tempMax)}°C` : null,
+        humidity: humidity ? `${humidity}%` : null,
+        windSpeed: windSpeed ? `${windSpeed} m/s` : null,
+        windDeg: windDeg ? `${windDeg} deg` : null,
+        cloudiness: cloudiness ? `${cloudiness}%` : null,
+        cityName: cityName ? cityName : null,
+        sunrise: sunrise ? ConvertUnixDateToTime(sunrise) : null,
+        sunset: sunset ? ConvertUnixDateToTime(sunset) : null,
       };
     });
 };

@@ -5,12 +5,24 @@ import "./styles.scss";
 
 class WeatherMain extends React.Component {
   render() {
-    const { currentCity } = this.props;
+    const {
+      currentCity,
+      currentId,
+      currentWeatherInfo,
+      currentUpdateWeatherTime,
+    } = this.props;
 
     return (
       <div className="weather-main">
         <div className="weather-info-list">
-          {!!currentCity && <WeatherInfoItem currentCity={currentCity} />}
+          {!!currentCity && (
+            <WeatherInfoItem
+              city={currentCity}
+              id={currentId}
+              weatherInfo={currentWeatherInfo}
+              updateWeatherTime={currentUpdateWeatherTime}
+            />
+          )}
         </div>
       </div>
     );
@@ -20,12 +32,20 @@ class WeatherMain extends React.Component {
 const mapStateToProps = (state) => {
   const {
     weather: {
-      currentLocation: { city: currentCity },
+      currentLocation: {
+        city: currentCity,
+        id: currentId,
+        weatherInfo: currentWeatherInfo,
+        updateWeatherTime: currentUpdateWeatherTime,
+      },
     },
   } = state;
 
   return {
-    currentCity: currentCity,
+    currentCity,
+    currentId,
+    currentWeatherInfo,
+    currentUpdateWeatherTime,
   };
 };
 

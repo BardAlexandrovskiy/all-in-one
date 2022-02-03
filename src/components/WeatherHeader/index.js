@@ -6,7 +6,8 @@ import "./styles.scss";
 
 class WeatherHeader extends React.Component {
   render() {
-    const { currentCity, isCurrentCitySearchError } = this.props;
+    const { currentCity, isCurrentCitySearchError, isActiveHeader } =
+      this.props;
 
     let currentCityOutput = "";
 
@@ -19,7 +20,7 @@ class WeatherHeader extends React.Component {
     }
 
     return (
-      <header className="weather-header">
+      <header className={`weather-header${isActiveHeader ? " active" : ""}`}>
         <div className="header-container container">
           <div className="current-city">
             {currentCityOutput}
@@ -38,12 +39,14 @@ const mapStateToProps = (store) => {
         city: currentCity,
         isSearchError: isCurrentCitySearchError,
       },
+      isActiveHeader,
     },
   } = store;
 
   return {
     currentCity,
     isCurrentCitySearchError,
+    isActiveHeader,
   };
 };
 

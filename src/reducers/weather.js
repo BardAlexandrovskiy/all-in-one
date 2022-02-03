@@ -1,4 +1,7 @@
-import { SET_CURRENT_LOCATION } from "../actions/weather";
+import {
+  CHANGE_WEATHER_HEADER,
+  SET_CURRENT_LOCATION,
+} from "../actions/weather";
 
 let localInitialState = JSON.parse(localStorage.getItem("all-in-one"));
 
@@ -7,7 +10,27 @@ if (localInitialState) {
 } else localInitialState = null;
 
 const initialState = localInitialState || {
-  currentLocation: { city: "", isSearchError: false },
+  currentLocation: {
+    city: "",
+    isSearchError: false,
+    weatherInfo: {
+      weatherDescription: null,
+      weatherIcon: null,
+      temp: null,
+      tempFeelsLike: null,
+      tempMin: null,
+      tempMax: null,
+      humidity: null,
+      windSpeed: null,
+      windDeg: null,
+      cloudiness: null,
+      sunrise: null,
+      sunset: null,
+    },
+    updateWeatherTime: null,
+    id: null,
+  },
+  isActiveHeader: false,
 };
 
 export function weatherReducer(state = initialState, action) {
@@ -20,6 +43,8 @@ export function weatherReducer(state = initialState, action) {
         ...state,
         currentLocation: Object.assign(currentLocation, payload),
       };
+    case CHANGE_WEATHER_HEADER:
+      return { ...state, isActiveHeader: payload.bool };
     default:
       return state;
   }
