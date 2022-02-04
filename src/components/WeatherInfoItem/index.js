@@ -8,6 +8,7 @@ import "./styles.scss";
 import { ReactComponent as SunriseIcon } from "../../assets/images/weather/sunrise-icon.svg";
 import { ReactComponent as SunsetIcon } from "../../assets/images/weather/sunset-icon.svg";
 import { changeWeatherHeader, setCurrentLocation } from "../../actions/weather";
+import { isEmptyObject } from "../../constants";
 
 class WeatherInfoItem extends React.Component {
   constructor(props) {
@@ -28,7 +29,10 @@ class WeatherInfoItem extends React.Component {
       weatherInfo,
       updateWeatherTime,
       setCurrentLocation,
+      changeWeatherHeader,
     } = this.props;
+
+    changeWeatherHeader(false);
 
     let isWeatherUpdate = false;
 
@@ -44,18 +48,18 @@ class WeatherInfoItem extends React.Component {
       isWeatherUpdate = true;
     }
 
-    this.handleScrollInfoBlock();
-
     if (id === currentId) {
-      if (!weatherInfo || isWeatherUpdate) {
+      if (isEmptyObject(weatherInfo) || isWeatherUpdate) {
         this.setState({ isPreloader: true });
         getWeatherFunction(city)
-          .then((result) =>
+          .then((result) => {
+            const { weatherInfo } = result;
+
             setCurrentLocation({
-              weatherInfo: result,
+              weatherInfo,
               updateWeatherTime: Date.now(),
-            })
-          )
+            });
+          })
           .catch((error) =>
             this.setState({
               isError: true,
@@ -80,7 +84,7 @@ class WeatherInfoItem extends React.Component {
 
   render() {
     const { isPreloader, errorText, isError } = this.state;
-    const { weatherInfo } = this.props;
+    let { weatherInfo } = this.props;
 
     const {
       weatherDescription,
@@ -102,6 +106,7 @@ class WeatherInfoItem extends React.Component {
           timeout={300}
           mountOnEnter
           unmountOnExit
+          appera
         >
           <Preloader />
         </CSSTransition>
@@ -111,7 +116,7 @@ class WeatherInfoItem extends React.Component {
           />
         </CSSTransition>
         <CSSTransition
-          in={!!weatherInfo}
+          in={!isEmptyObject(weatherInfo)}
           timeout={300}
           mountOnEnter
           unmountOnExit
@@ -173,7 +178,7 @@ class WeatherInfoItem extends React.Component {
 const mapStateToProps = (state) => {
   const {
     weather: {
-      currentLocation: { id: currentId, weatherInfo },
+      currentLocation: { id: currentId },
       isActiveHeader,
     },
   } = state;
@@ -181,7 +186,6 @@ const mapStateToProps = (state) => {
   return {
     isActiveHeader,
     currentId,
-    weatherInfo,
   };
 };
 

@@ -1,8 +1,13 @@
 // Weather request function
-export const getWeatherFunction = (cityName) => {
-  return fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=12c7488f70bcd015f75b9a10d559d91f&units=metric`
-  )
+export const getWeatherFunction = (cityName, lat, long) => {
+  let request;
+
+  if (cityName) {
+    request = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=12c7488f70bcd015f75b9a10d559d91f&units=metric`;
+  } else if (lat && long) {
+    request = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=12c7488f70bcd015f75b9a10d559d91f&units=metric`;
+  }
+  return fetch(request)
     .then((response) => {
       if (response.status === 200) {
         return response.json();
@@ -20,22 +25,26 @@ export const getWeatherFunction = (cityName) => {
       } = weatherObject;
 
       return {
-        weatherDescription: weatherDescription
-          ? weatherDescription.charAt(0).toUpperCase() +
-            weatherDescription.slice(1)
-          : "",
-        weatherIcon: weatherIcon
-          ? `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`
-          : "",
-        temp: temp ? `${Math.round(temp)}°C` : null,
-        tempFeelsLike: tempFeelsLike ? `${Math.round(tempFeelsLike)}°C` : null,
-        humidity: humidity ? `${humidity}%` : null,
-        windSpeed: windSpeed ? `${windSpeed} m/s` : null,
-        windDeg: windDeg ? `${windDeg} deg` : null,
-        cloudiness: cloudiness ? `${cloudiness}%` : null,
+        weatherInfo: {
+          weatherDescription: weatherDescription
+            ? weatherDescription.charAt(0).toUpperCase() +
+              weatherDescription.slice(1)
+            : null,
+          weatherIcon: weatherIcon
+            ? `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`
+            : null,
+          temp: temp ? `${Math.round(temp)}°C` : null,
+          tempFeelsLike: tempFeelsLike
+            ? `${Math.round(tempFeelsLike)}°C`
+            : null,
+          humidity: humidity ? `${humidity}%` : null,
+          windSpeed: windSpeed ? `${windSpeed} m/s` : null,
+          windDeg: windDeg ? `${windDeg} deg` : null,
+          cloudiness: cloudiness ? `${cloudiness}%` : null,
+          sunrise: sunrise ? ConvertUnixDateToTime(sunrise) : null,
+          sunset: sunset ? ConvertUnixDateToTime(sunset) : null,
+        },
         cityName: cityName ? cityName : null,
-        sunrise: sunrise ? ConvertUnixDateToTime(sunrise) : null,
-        sunset: sunset ? ConvertUnixDateToTime(sunset) : null,
       };
     });
 };

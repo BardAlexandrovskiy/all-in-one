@@ -1,3 +1,5 @@
+import { getWeatherFunction } from "../constants/weather";
+
 // Types
 export const SET_CURRENT_LOCATION = "SET_CURRENT_LOCATION";
 export const CHANGE_WEATHER_HEADER = "CHANGE_WEATHER_HEADER";
@@ -22,23 +24,18 @@ export const getCurrentLocationByGeo = () => {
       const lat = position.coords.latitude;
       const long = position.coords.longitude;
 
-      return fetch(
-        `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=1&appid=12c7488f70bcd015f75b9a10d559d91f`
-      )
-        .then((response) => {
-          if (response.status === 200) {
-            return response.json();
-          }
-          throw new Error(response.status);
-        })
+      getWeatherFunction(null, lat, long)
         .then((location) => {
-          const [{ local_names }] = location;
-          if (local_names) {
+          const { weatherInfo, cityName } = location;
+
+          if (cityName) {
             dispatch(
               setCurrentLocation({
-                city: local_names.en,
+                city: cityName,
+                weatherInfo,
                 isSearchError: false,
                 id: Date.now(),
+                updateWeatherTime: Date.now(),
               })
             );
           } else throw new Error("City by geolocation not found");
