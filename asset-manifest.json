@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/all-in-one/static/css/main.12fd90be.chunk.css",
-    "main.js": "/all-in-one/static/js/main.ffe1fbb7.chunk.js",
-    "main.js.map": "/all-in-one/static/js/main.ffe1fbb7.chunk.js.map",
+    "main.css": "/all-in-one/static/css/main.ef4a6f15.chunk.css",
+    "main.js": "/all-in-one/static/js/main.9d4be7bc.chunk.js",
+    "main.js.map": "/all-in-one/static/js/main.9d4be7bc.chunk.js.map",
     "runtime-main.js": "/all-in-one/static/js/runtime-main.25d427dd.js",
     "runtime-main.js.map": "/all-in-one/static/js/runtime-main.25d427dd.js.map",
     "static/js/2.0cbdd28a.chunk.js": "/all-in-one/static/js/2.0cbdd28a.chunk.js",
@@ -10,7 +10,7 @@
     "index.html": "/all-in-one/index.html",
     "service-worker.js": "/all-in-one/service-worker.js",
     "service-worker.js.map": "/all-in-one/service-worker.js.map",
-    "static/css/main.12fd90be.chunk.css.map": "/all-in-one/static/css/main.12fd90be.chunk.css.map",
+    "static/css/main.ef4a6f15.chunk.css.map": "/all-in-one/static/css/main.ef4a6f15.chunk.css.map",
     "static/js/2.0cbdd28a.chunk.js.LICENSE.txt": "/all-in-one/static/js/2.0cbdd28a.chunk.js.LICENSE.txt",
     "static/media/sunrise-icon.a789cf9e.svg": "/all-in-one/static/media/sunrise-icon.a789cf9e.svg",
     "static/media/sunset-icon.0538a655.svg": "/all-in-one/static/media/sunset-icon.0538a655.svg"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.25d427dd.js",
     "static/js/2.0cbdd28a.chunk.js",
-    "static/css/main.12fd90be.chunk.css",
-    "static/js/main.ffe1fbb7.chunk.js"
+    "static/css/main.ef4a6f15.chunk.css",
+    "static/js/main.9d4be7bc.chunk.js"
   ]
 }
