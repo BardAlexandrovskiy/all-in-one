@@ -7,8 +7,22 @@ import RequestErrorBanner from "../RequestErrorBanner";
 import "./styles.scss";
 import { ReactComponent as SunriseIcon } from "../../assets/images/weather/sunrise-icon.svg";
 import { ReactComponent as SunsetIcon } from "../../assets/images/weather/sunset-icon.svg";
+import { ReactComponent as HumidityIcon } from "../../assets/images/weather/humidity-icon.svg";
+import { ReactComponent as CloudinessIcon } from "../../assets/images/weather/cloudiness-icon.svg";
+import { ReactComponent as WindSpeedIcon } from "../../assets/images/weather/wind-speed-icon.svg";
+import { ReactComponent as WindDirectionIcon } from "../../assets/images/weather/wind-direction-icon.svg";
 import { changeWeatherHeader, setCurrentLocation } from "../../actions/weather";
 import { isEmptyObject } from "../../constants";
+import clearSkyImg from "../../assets/images/weather/clear-sky.jpg";
+import fewCloudsImg from "../../assets/images/weather/few-clouds.jpg";
+import scatteredCloudsImg from "../../assets/images/weather/scattered-clouds.jpg";
+import brokenCloudsImg from "../../assets/images/weather/broken-clouds.jpg";
+import showerRainImg from "../../assets/images/weather/shower-rain.jpg";
+import rainImg from "../../assets/images/weather/rain.jpg";
+import thunderstormImg from "../../assets/images/weather/thunderstorm.jpg";
+import snowImg from "../../assets/images/weather/snow.jpg";
+import mistImg from "../../assets/images/weather/mist.jpg";
+import Moment from "react-moment";
 
 class WeatherInfoItem extends React.Component {
   constructor(props) {
@@ -88,7 +102,6 @@ class WeatherInfoItem extends React.Component {
 
     const {
       weatherDescription,
-      weatherIcon,
       temp,
       tempFeelsLike,
       humidity,
@@ -98,6 +111,37 @@ class WeatherInfoItem extends React.Component {
       sunrise,
       sunset,
     } = weatherInfo;
+
+    let backgroundImageSrc = "";
+
+    switch (weatherDescription) {
+      case "few clouds":
+        backgroundImageSrc = fewCloudsImg;
+        break;
+      case "scattered clouds":
+        backgroundImageSrc = scatteredCloudsImg;
+        break;
+      case "broken clouds":
+        backgroundImageSrc = brokenCloudsImg;
+        break;
+      case "shower rain":
+        backgroundImageSrc = showerRainImg;
+        break;
+      case "rain":
+        backgroundImageSrc = rainImg;
+        break;
+      case "thunderstorm":
+        backgroundImageSrc = thunderstormImg;
+        break;
+      case "snow":
+        backgroundImageSrc = snowImg;
+        break;
+      case "mist":
+        backgroundImageSrc = mistImg;
+        break;
+      default:
+        backgroundImageSrc = clearSkyImg;
+    }
 
     return (
       <div className="weather-info-item">
@@ -126,33 +170,44 @@ class WeatherInfoItem extends React.Component {
             ref={this.infoBlockRef}
             onScroll={this.handleScrollInfoBlock}
           >
+            <img className="background-image" src={backgroundImageSrc} alt="" />
             <div className="container info-container">
               <div className="main">
                 {!!temp && <span className="current-temp">{temp}</span>}
                 {!!weatherDescription && (
-                  <div className="description">
-                    {weatherDescription}
-                    {!!weatherIcon && (
-                      <img alt="" src={weatherIcon} className="icon" />
-                    )}
-                  </div>
+                  <div className="description">{weatherDescription}</div>
                 )}
+                <div className="current-date">
+                  <Moment format="MMMM Do YYYY, h:mm a" interval={1000} />
+                </div>
                 {!!tempFeelsLike && (
                   <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
                 )}
               </div>
               <div className="other-info">
                 {!!humidity && (
-                  <div className="info-item">{`Humidity: ${humidity}`}</div>
+                  <div className="info-item">
+                    <HumidityIcon />
+                    {`Humidity: ${humidity}`}
+                  </div>
                 )}
                 {!!cloudiness && (
-                  <div className="info-item">{`Cloudiness: ${cloudiness}`}</div>
+                  <div className="info-item">
+                    <CloudinessIcon />
+                    {`Cloudiness: ${cloudiness}`}
+                  </div>
                 )}
                 {!!windSpeed && (
-                  <div className="info-item">{`Wind speed: ${windSpeed}`}</div>
+                  <div className="info-item">
+                    <WindSpeedIcon />
+                    {`Wind speed: ${windSpeed}`}
+                  </div>
                 )}
                 {!!windDeg && (
-                  <div className="info-item">{`Wind direction: ${windDeg}`}</div>
+                  <div className="info-item">
+                    <WindDirectionIcon />
+                    {`Wind direction: ${windDeg}`}
+                  </div>
                 )}
                 {!!sunrise && (
                   <div className="info-item sun-info">
