@@ -7,21 +7,18 @@
   width: 100%;
   background-color: transparent;
   transition: 0.3s;
-  background-color: $grey;
+  position: fixed;
 
   &.active {
     padding-top: 10px;
     padding-bottom: 10px;
-  }
-
-  @media (max-width: 1024px) {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    background-color: $grey;
   }
 
   .header-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .current-city {
@@ -37,6 +34,17 @@
 
       @media (max-width: 1024px) {
         margin-left: 6px;
+      }
+    }
+  }
+
+  .settings {
+    svg {
+      font-size: 30px;
+      color: white;
+
+      @media (max-width: 640px) {
+        font-size: 24px;
       }
     }
   }

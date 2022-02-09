@@ -18,7 +18,7 @@ export const getWeatherFunction = (cityName, lat, long) => {
     })
     .then((weatherObject) => {
       const {
-        weather: [{ description: weatherDescription }],
+        weather: [{ description: weatherDescription, id }],
         main: { temp, feels_like: tempFeelsLike, humidity },
         wind: { speed: windSpeed, deg: windDeg },
         clouds: { all: cloudiness },
@@ -42,6 +42,7 @@ export const getWeatherFunction = (cityName, lat, long) => {
           cloudiness: cloudiness ? `${cloudiness}%` : null,
           sunrise: sunrise ? moment(sunrise * 1000).format("hh:mm") : null,
           sunset: sunset ? moment(sunset * 1000).format("hh:mm") : null,
+          id: id ? id : null,
         },
         cityName: cityName ? cityName : null,
       };

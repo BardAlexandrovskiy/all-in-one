@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { getCurrentLocationByGeo } from "../../actions/weather";
 import WeatherHeader from "../../components/WeatherHeader";
 import WeatherMain from "../../components/WeatherMain";
+import WeatherSettings from "../../components/WeatherSettings";
 import "./styles.scss";
 
 class WeatherScreen extends React.Component {
@@ -16,10 +17,12 @@ class WeatherScreen extends React.Component {
 
   render() {
     return (
-      <div className="weather-screen screen">
-        <WeatherHeader />
-        <WeatherMain />
-      </div>
+      <>
+        <div className="weather-screen screen">
+          <WeatherHeader />
+          <WeatherMain />
+        </div>
+      </>
     );
   }
 }

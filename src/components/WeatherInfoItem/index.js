@@ -1,28 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
-import { CSSTransition } from "react-transition-group";
-import { getWeatherFunction } from "../../constants/weather";
-import Preloader from "../Preloader/imdex";
-import RequestErrorBanner from "../RequestErrorBanner";
-import "./styles.scss";
-import { ReactComponent as SunriseIcon } from "../../assets/images/weather/sunrise-icon.svg";
-import { ReactComponent as SunsetIcon } from "../../assets/images/weather/sunset-icon.svg";
-import { ReactComponent as HumidityIcon } from "../../assets/images/weather/humidity-icon.svg";
-import { ReactComponent as CloudinessIcon } from "../../assets/images/weather/cloudiness-icon.svg";
-import { ReactComponent as WindSpeedIcon } from "../../assets/images/weather/wind-speed-icon.svg";
-import { ReactComponent as WindDirectionIcon } from "../../assets/images/weather/wind-direction-icon.svg";
-import { changeWeatherHeader, setCurrentLocation } from "../../actions/weather";
 import { isEmptyObject } from "../../constants";
-import clearSkyImg from "../../assets/images/weather/clear-sky.jpg";
-import fewCloudsImg from "../../assets/images/weather/few-clouds.jpg";
-import scatteredCloudsImg from "../../assets/images/weather/scattered-clouds.jpg";
-import brokenCloudsImg from "../../assets/images/weather/broken-clouds.jpg";
-import showerRainImg from "../../assets/images/weather/shower-rain.jpg";
-import rainImg from "../../assets/images/weather/rain.jpg";
-import thunderstormImg from "../../assets/images/weather/thunderstorm.jpg";
-import snowImg from "../../assets/images/weather/snow.jpg";
-import mistImg from "../../assets/images/weather/mist.jpg";
+import { getWeatherFunction } from "../../constants/weather";
+import { CSSTransition } from "react-transition-group";
+import Preloader from "../Preloader";
+import RequestErrorBanner from "../RequestErrorBanner";
 import Moment from "react-moment";
+import "./styles.scss";
+import { changeWeatherHeader, setCurrentLocation } from "../../actions/weather";
+
+// Weather icons
+import { ReactComponent as SunriseIcon } from "../../assets/images/weather/icons/sunrise-icon.svg";
+import { ReactComponent as SunsetIcon } from "../../assets/images/weather/icons/sunset-icon.svg";
+import { ReactComponent as HumidityIcon } from "../../assets/images/weather/icons/humidity-icon.svg";
+import { ReactComponent as CloudinessIcon } from "../../assets/images/weather/icons/cloudiness-icon.svg";
+import { ReactComponent as WindSpeedIcon } from "../../assets/images/weather/icons/wind-speed-icon.svg";
+import { ReactComponent as WindDirectionIcon } from "../../assets/images/weather/icons/wind-direction-icon.svg";
+
+// Weather backgrounds
+import clearSkyImg from "../../assets/images/weather/backgrounds/clear-sky.jpg";
+import fewCloudsImg from "../../assets/images/weather/backgrounds/few-clouds.jpg";
+import scatteredCloudsImg from "../../assets/images/weather/backgrounds/scattered-clouds.jpg";
+import brokenCloudsImg from "../../assets/images/weather/backgrounds/broken-clouds.jpg";
+import rainImg from "../../assets/images/weather/backgrounds/rain.jpg";
+import thunderstormImg from "../../assets/images/weather/backgrounds/thunderstorm.jpg";
+import snowImg from "../../assets/images/weather/backgrounds/snow.jpg";
+import mistImg from "../../assets/images/weather/backgrounds/mist.jpg";
+import drizzleImg from "../../assets/images/weather/backgrounds/drizzle.jpg";
 
 class WeatherInfoItem extends React.Component {
   constructor(props) {
@@ -110,37 +114,40 @@ class WeatherInfoItem extends React.Component {
       cloudiness,
       sunrise,
       sunset,
+      id,
     } = weatherInfo;
 
+    // Set background by weather id
     let backgroundImageSrc = "";
 
-    switch (weatherDescription) {
-      case "few clouds":
-        backgroundImageSrc = fewCloudsImg;
-        break;
-      case "scattered clouds":
-        backgroundImageSrc = scatteredCloudsImg;
-        break;
-      case "broken clouds":
-        backgroundImageSrc = brokenCloudsImg;
-        break;
-      case "shower rain":
-        backgroundImageSrc = showerRainImg;
-        break;
-      case "rain":
-        backgroundImageSrc = rainImg;
-        break;
-      case "thunderstorm":
+    switch (true) {
+      case id >= 200 && id <= 232:
         backgroundImageSrc = thunderstormImg;
         break;
-      case "snow":
+      case id >= 300 && id <= 321:
+        backgroundImageSrc = drizzleImg;
+        break;
+      case id >= 500 && id <= 531:
+        backgroundImageSrc = rainImg;
+        break;
+      case id >= 600 && id <= 622:
         backgroundImageSrc = snowImg;
         break;
-      case "mist":
+      case id >= 700 && id <= 781:
         backgroundImageSrc = mistImg;
         break;
-      default:
+      case id === 800:
         backgroundImageSrc = clearSkyImg;
+        break;
+      case id === 801:
+        backgroundImageSrc = fewCloudsImg;
+        break;
+      case id === 802:
+        backgroundImageSrc = scatteredCloudsImg;
+        break;
+      default:
+        backgroundImageSrc = brokenCloudsImg;
+        break;
     }
 
     return (
@@ -185,16 +192,16 @@ class WeatherInfoItem extends React.Component {
                 )}
               </div>
               <div className="other-info">
-                {!!humidity && (
-                  <div className="info-item">
-                    <HumidityIcon />
-                    {`Humidity: ${humidity}`}
-                  </div>
-                )}
                 {!!cloudiness && (
                   <div className="info-item">
                     <CloudinessIcon />
                     {`Cloudiness: ${cloudiness}`}
+                  </div>
+                )}
+                {!!humidity && (
+                  <div className="info-item">
+                    <HumidityIcon />
+                    {`Humidity: ${humidity}`}
                   </div>
                 )}
                 {!!windSpeed && (

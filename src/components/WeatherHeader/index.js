@@ -1,13 +1,18 @@
-import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { faMapMarkerAlt, faSlidersH } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
+import { showWeatherSettings } from "../../actions/weather";
 import "./styles.scss";
 
 class WeatherHeader extends React.Component {
   render() {
-    const { currentCity, isCurrentCitySearchError, isActiveHeader } =
-      this.props;
+    const {
+      currentCity,
+      isCurrentCitySearchError,
+      isActiveHeader,
+      showWeatherSettings,
+    } = this.props;
 
     let currentCityOutput = "";
 
@@ -26,6 +31,9 @@ class WeatherHeader extends React.Component {
             {currentCityOutput}
             <FontAwesomeIcon icon={faMapMarkerAlt} />
           </div>
+          {/* <div className="settings" onClick={() => showWeatherSettings(true)}>
+            <FontAwesomeIcon icon={faSlidersH} />
+          </div> */}
         </div>
       </header>
     );
@@ -50,4 +58,8 @@ const mapStateToProps = (store) => {
   };
 };
 
-export default connect(mapStateToProps)(WeatherHeader);
+const mapDispatchToProps = {
+  showWeatherSettings: (bool) => showWeatherSettings(bool),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeatherHeader);

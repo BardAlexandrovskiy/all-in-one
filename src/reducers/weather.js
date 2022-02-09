@@ -1,6 +1,7 @@
 import {
   CHANGE_WEATHER_HEADER,
   SET_CURRENT_LOCATION,
+  SHOW_WEATHER_SETTINGS,
 } from "../actions/weather";
 
 let localInitialState = JSON.parse(localStorage.getItem("all-in-one"));
@@ -18,6 +19,7 @@ const initialState = localInitialState || {
     id: null,
   },
   isActiveHeader: false,
+  isShowSettings: false,
 };
 
 export function weatherReducer(state = initialState, action) {
@@ -32,6 +34,8 @@ export function weatherReducer(state = initialState, action) {
       };
     case CHANGE_WEATHER_HEADER:
       return { ...state, isActiveHeader: payload.bool };
+    case SHOW_WEATHER_SETTINGS:
+      return { ...state, isShowSettings: payload.bool };
     default:
       return state;
   }

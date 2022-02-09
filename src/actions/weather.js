@@ -3,8 +3,16 @@ import { getWeatherFunction } from "../constants/weather";
 // Types
 export const SET_CURRENT_LOCATION = "SET_CURRENT_LOCATION";
 export const CHANGE_WEATHER_HEADER = "CHANGE_WEATHER_HEADER";
+export const SHOW_WEATHER_SETTINGS = "SHOW_WEATHER_SETTINGS";
 
 // Actions
+export const showWeatherSettings = (bool) => {
+  return {
+    type: SHOW_WEATHER_SETTINGS,
+    payload: { bool },
+  };
+};
+
 export const setCurrentLocation = (location) => {
   return {
     type: SET_CURRENT_LOCATION,
