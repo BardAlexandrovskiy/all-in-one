@@ -31,9 +31,9 @@ class WeatherHeader extends React.Component {
             {currentCityOutput}
             <FontAwesomeIcon icon={faMapMarkerAlt} />
           </div>
-          {/* <div className="settings" onClick={() => showWeatherSettings(true)}>
+          <div className="settings" onClick={() => showWeatherSettings(true)}>
             <FontAwesomeIcon icon={faSlidersH} />
-          </div> */}
+          </div>
         </div>
       </header>
     );

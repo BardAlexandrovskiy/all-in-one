@@ -2,11 +2,11 @@
 
 .tasks-header {
   overflow: hidden;
-  background-color: $grey;
   padding-top: 10px;
+  background-color: $grey;
 
   &.enter {
-    background-color: transparent;
+    background-color: $black;
 
     .search {
       opacity: 0;
@@ -51,7 +51,7 @@
   }
 
   &.exit-active {
-    background-color: transparent;
+    background-color: $black;
     transition: 0.3s;
 
     .search {
