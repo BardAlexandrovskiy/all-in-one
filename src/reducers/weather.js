@@ -28,10 +28,22 @@ export function weatherReducer(state = initialState, action) {
 
   switch (type) {
     case SET_CURRENT_LOCATION:
-      return {
-        ...state,
-        currentLocation: Object.assign(currentLocation, payload),
-      };
+      if (payload) {
+        return {
+          ...state,
+          currentLocation: Object.assign(currentLocation, payload),
+        };
+      } else
+        return {
+          ...state,
+          currentLocation: {
+            city: "",
+            isSearchError: false,
+            weatherInfo: {},
+            updateWeatherTime: null,
+            id: null,
+          },
+        };
     case CHANGE_WEATHER_HEADER:
       return { ...state, isActiveHeader: payload.bool };
     case SHOW_WEATHER_SETTINGS:

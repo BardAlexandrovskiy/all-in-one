@@ -8,6 +8,7 @@
   height: 100%;
   z-index: 200;
   background-color: $black;
+  overflow: overlay;
 
   &.enter {
     opacity: 0;
@@ -33,17 +34,17 @@
   }
 
   .close-button {
-    align-self: flex-end;
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    align-self: flex-start;
     margin-top: 15px;
     cursor: pointer;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
 
     svg {
-      color: $lilac;
+      margin-right: 10px;
       font-size: 30px;
     }
   }

@@ -1,4 +1,4 @@
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
@@ -17,7 +17,7 @@ class WeatherSettings extends React.Component {
             className="close-button"
             onClick={() => showWeatherSettings(false)}
           >
-            <FontAwesomeIcon icon={faTimes} />
+            <FontAwesomeIcon icon={faArrowLeft} /> Back to the weather
           </div>
           <div className="locations-list">
             {!!currentCity && (
@@ -47,4 +47,4 @@ const mapDispatchToProps = {
   showWeatherSettings: (bool) => showWeatherSettings(bool),
 };
 
-export default connect(null, mapDispatchToProps)(WeatherSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(WeatherSettings);

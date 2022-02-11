@@ -1,0 +1,21 @@
+@import "../../assets/styles/vars";
+
+.weather-location-item {
+  background-color: $grey;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10px;
+  align-items: center;
+
+  .name {
+    color: white;
+    font-size: 24px;
+  }
+
+  .delete-button {
+    padding: 6px;
+    font-size: 25px;
+    color: $lilac;
+  }
+}
