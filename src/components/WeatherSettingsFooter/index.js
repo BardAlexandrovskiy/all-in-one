@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
 import { CSSTransition } from "react-transition-group";
+import { addNewLocation } from "../../actions/weather";
+import { getWeatherFunction } from "../../constants/weather";
 import "./styles.scss";
 
 class WeatherSettingsFooter extends React.Component {
@@ -11,6 +13,7 @@ class WeatherSettingsFooter extends React.Component {
     this.state = {
       inputValue: "",
       redInputBorder: false,
+      isPreloader: false,
     };
     this.inputRef = React.createRef();
   }
@@ -31,9 +34,26 @@ class WeatherSettingsFooter extends React.Component {
 
   handleClickButton = () => {
     const { inputValue } = this.state;
+    const { addNewLocation } = this.props;
+
+    const cityName = inputValue;
 
     if (inputValue.length && inputValue.trim()) {
-      this.setState({ redInputBorder: false });
+      this.setState({ redInputBorder: false, isPreloader: true });
+      getWeatherFunction(cityName)
+        .then((location) => {
+          const { weatherInfo, cityName } = location;
+          addNewLocation({
+            city: cityName,
+            weatherInfo,
+            id: Date.now(),
+            updateWeatherTime: Date.now(),
+          });
+        })
+        .catch((error) => {
+          this.setState({ redInputBorder: true });
+        })
+        .finally(() => this.setState({ inputValue: "", isPreloader: false }));
     } else {
       this.setState({ redInputBorder: true });
     }
@@ -79,4 +99,8 @@ class WeatherSettingsFooter extends React.Component {
   }
 }
 
-export default connect(null)(WeatherSettingsFooter);
+const mapDispatchToProps = {
+  addNewLocation: (location) => addNewLocation(location),
+};
+
+export default connect(null, mapDispatchToProps)(WeatherSettingsFooter);

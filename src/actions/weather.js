@@ -107,22 +107,3 @@ export const addNewLocation = (location) => {
     payload: { location },
   };
 };
-
-export const searchNewLocation = (cityName) => {
-  return (dispatch) => {
-    getWeatherFunction(cityName)
-      .then((location) => {
-        const { weatherInfo, cityName } = location;
-        dispatch(
-          addNewLocation({
-            city: cityName,
-            weatherInfo,
-            isSearchError: false,
-            id: Date.now(),
-            updateWeatherTime: Date.now(),
-          })
-        );
-      })
-      .catch();
-  };
-};

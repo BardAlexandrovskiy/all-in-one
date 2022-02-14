@@ -1,4 +1,5 @@
 import {
+  ADD_NEW_LOCATION,
   CHANGE_WEATHER_HEADER,
   SET_CURRENT_LOCATION,
   SHOW_WEATHER_SETTINGS,
@@ -18,13 +19,14 @@ const initialState = localInitialState || {
     updateWeatherTime: null,
     id: null,
   },
+  locations: [],
   isActiveHeader: false,
   isShowSettings: false,
 };
 
 export function weatherReducer(state = initialState, action) {
   const { type, payload } = action;
-  const { currentLocation } = state;
+  const { currentLocation, locations } = state;
 
   switch (type) {
     case SET_CURRENT_LOCATION:
@@ -48,6 +50,28 @@ export function weatherReducer(state = initialState, action) {
       return { ...state, isActiveHeader: payload.bool };
     case SHOW_WEATHER_SETTINGS:
       return { ...state, isShowSettings: payload.bool };
+    case ADD_NEW_LOCATION:
+      let isUnique = true;
+      const {
+        location: { city: newCity },
+      } = payload;
+
+      if (newCity === currentLocation.city) {
+        isUnique = false;
+      } else {
+        locations.forEach((el) => {
+          if (el.city === newCity) {
+            isUnique = false;
+          }
+        });
+      }
+
+      if (isUnique) {
+        return {
+          ...state,
+          locations: locations.concat(payload.location),
+        };
+      } else return state;
     default:
       return state;
   }

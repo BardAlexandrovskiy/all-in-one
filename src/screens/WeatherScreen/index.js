@@ -15,15 +15,19 @@ class WeatherScreen extends React.Component {
     const { showWeatherSettings } = this.props;
 
     showWeatherSettings(false);
+    this.checkLocations();
   }
 
   componentDidUpdate() {
-    const { getCurrentLocationByGeo, currentCity } = this.props;
+    this.checkLocations();
+  }
 
+  checkLocations = () => {
+    const { getCurrentLocationByGeo, currentCity } = this.props;
     if (!currentCity) {
       getCurrentLocationByGeo();
     }
-  }
+  };
 
   render() {
     const { isShowSettings } = this.props;
