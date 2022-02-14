@@ -8,7 +8,9 @@
   height: 100%;
   z-index: 200;
   background-color: $black;
-  overflow: overlay;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
   &.enter {
     opacity: 0;
@@ -28,24 +30,36 @@
     transition: 0.15s;
   }
 
-  .settings-container {
-    display: flex;
-    flex-direction: column;
+  .header {
+    flex-shrink: 0;
+
+    .header-container {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      display: flex;
+    }
+
+    .close-button {
+      align-self: flex-start;
+      cursor: pointer;
+      color: white;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+
+      svg {
+        margin-right: 10px;
+        font-size: 30px;
+      }
+    }
   }
 
-  .close-button {
-    align-self: flex-start;
-    margin-top: 15px;
-    cursor: pointer;
-    color: white;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    margin-bottom: 30px;
+  .weather-settings-main {
+    overflow: overlay;
+    flex: 1;
 
-    svg {
-      margin-right: 10px;
-      font-size: 30px;
+    .locations-list {
+      overflow: hidden;
     }
   }
 }

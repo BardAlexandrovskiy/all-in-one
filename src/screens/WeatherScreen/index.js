@@ -12,10 +12,13 @@ import "./styles.scss";
 
 class WeatherScreen extends React.Component {
   componentDidMount() {
-    const { getCurrentLocationByGeo, currentCity, showWeatherSettings } =
-      this.props;
+    const { showWeatherSettings } = this.props;
 
     showWeatherSettings(false);
+  }
+
+  componentDidUpdate() {
+    const { getCurrentLocationByGeo, currentCity } = this.props;
 
     if (!currentCity) {
       getCurrentLocationByGeo();
@@ -26,15 +29,15 @@ class WeatherScreen extends React.Component {
     const { isShowSettings } = this.props;
     return (
       <>
+        <CSSTransition
+          in={isShowSettings}
+          timeout={300}
+          unmountOnExit
+          mountOnEnter
+        >
+          <WeatherSettings />
+        </CSSTransition>
         <div className="weather-screen screen">
-          <CSSTransition
-            in={isShowSettings}
-            timeout={300}
-            unmountOnExit
-            mountOnEnter
-          >
-            <WeatherSettings />
-          </CSSTransition>
           <WeatherHeader />
           <WeatherMain />
         </div>

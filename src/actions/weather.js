@@ -4,6 +4,7 @@ import { getWeatherFunction } from "../constants/weather";
 export const SET_CURRENT_LOCATION = "SET_CURRENT_LOCATION";
 export const CHANGE_WEATHER_HEADER = "CHANGE_WEATHER_HEADER";
 export const SHOW_WEATHER_SETTINGS = "SHOW_WEATHER_SETTINGS";
+export const ADD_NEW_LOCATION = "ADD_NEW_LOCATION";
 
 // Actions
 export const showWeatherSettings = (bool) => {
@@ -97,5 +98,31 @@ export const changeWeatherHeader = (bool) => {
   return {
     type: CHANGE_WEATHER_HEADER,
     payload: { bool },
+  };
+};
+
+export const addNewLocation = (location) => {
+  return {
+    type: ADD_NEW_LOCATION,
+    payload: { location },
+  };
+};
+
+export const searchNewLocation = (cityName) => {
+  return (dispatch) => {
+    getWeatherFunction(cityName)
+      .then((location) => {
+        const { weatherInfo, cityName } = location;
+        dispatch(
+          addNewLocation({
+            city: cityName,
+            weatherInfo,
+            isSearchError: false,
+            id: Date.now(),
+            updateWeatherTime: Date.now(),
+          })
+        );
+      })
+      .catch();
   };
 };

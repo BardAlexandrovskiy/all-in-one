@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import { setCurrentLocation } from "../../actions/weather";
 import "./style.scss";
 
-export class WeatherLocationItem extends React.Component {
+class WeatherLocationItem extends React.Component {
   deleteCity = () => {
     const { currentId, id, setCurrentLocation } = this.props;
-    console.log(currentId, id);
+    console.log(this.props);
 
     if (currentId === id) {
       setCurrentLocation();
@@ -29,12 +29,12 @@ export class WeatherLocationItem extends React.Component {
   }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (state) => {
   const {
     weather: {
       currentLocation: { id: currentId },
     },
-  } = store;
+  } = state;
 
   return {
     currentId,
