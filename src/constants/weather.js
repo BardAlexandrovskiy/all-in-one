@@ -28,23 +28,20 @@ export const getWeatherFunction = (cityName, lat, long) => {
 
       return {
         weatherInfo: {
-          weatherDescription: weatherDescription
-            ? weatherDescription.charAt(0).toUpperCase() +
-              weatherDescription.slice(1)
-            : null,
-          temp: temp ? `${Math.round(temp)}°C` : null,
-          tempFeelsLike: tempFeelsLike
-            ? `${Math.round(tempFeelsLike)}°C`
-            : null,
-          humidity: humidity ? `${humidity}%` : null,
-          windSpeed: windSpeed ? `${windSpeed} m/s` : null,
-          windDeg: windDeg ? `${windDeg} deg` : null,
-          cloudiness: cloudiness ? `${cloudiness}%` : null,
-          sunrise: sunrise ? moment(sunrise * 1000).format("hh:mm") : null,
-          sunset: sunset ? moment(sunset * 1000).format("hh:mm") : null,
-          id: id ? id : null,
+          weatherDescription:
+            weatherDescription.charAt(0).toUpperCase() +
+            weatherDescription.slice(1),
+          temp: `${Math.round(temp)}°C`,
+          tempFeelsLike: `${Math.round(tempFeelsLike)}°C`,
+          humidity: `${humidity}%`,
+          windSpeed: `${windSpeed} m/s`,
+          windDeg: `${windDeg} deg`,
+          cloudiness: `${cloudiness}%`,
+          sunrise: moment(sunrise * 1000).format("hh:mm"),
+          sunset: moment(sunset * 1000).format("hh:mm"),
+          id: id,
         },
-        cityName: cityName ? cityName : null,
+        cityName,
       };
     });
 };

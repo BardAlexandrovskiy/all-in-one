@@ -7,7 +7,7 @@
   justify-content: space-between;
   border-radius: 10px;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   &:last-child {
     margin-bottom: 0;
@@ -40,11 +40,20 @@
   .name {
     color: white;
     font-size: 24px;
+
+    svg {
+      margin-left: 10px;
+
+      @media (max-width: 1024px) {
+        margin-left: 6px;
+      }
+    }
   }
 
   .delete-button {
     padding: 6px;
     font-size: 25px;
     color: $lilac;
+    cursor: pointer;
   }
 }

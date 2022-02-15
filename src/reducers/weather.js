@@ -1,8 +1,11 @@
 import {
   ADD_NEW_LOCATION,
   CHANGE_WEATHER_HEADER,
+  DELETE_LOCATION,
   SET_CURRENT_LOCATION,
   SHOW_WEATHER_SETTINGS,
+  SHOW_WEATHER_SETTINGS_PRELOADER,
+  UPDATE_LOCATION,
 } from "../actions/weather";
 
 let localInitialState = JSON.parse(localStorage.getItem("all-in-one"));
@@ -22,6 +25,7 @@ const initialState = localInitialState || {
   locations: [],
   isActiveHeader: false,
   isShowSettings: false,
+  isShowSettingsPreloader: false,
 };
 
 export function weatherReducer(state = initialState, action) {
@@ -72,6 +76,25 @@ export function weatherReducer(state = initialState, action) {
           locations: locations.concat(payload.location),
         };
       } else return state;
+    case DELETE_LOCATION:
+      return {
+        ...state,
+        locations: locations.filter(({ id }) => id !== payload.id),
+      };
+    case SHOW_WEATHER_SETTINGS_PRELOADER:
+      return {
+        ...state,
+        isShowSettingsPreloader: payload.bool,
+      };
+    case UPDATE_LOCATION:
+      return {
+        ...state,
+        locations: locations.map((location) => {
+          if (location.id === payload.id) {
+            return Object.assign(location, payload.info);
+          } else return location;
+        }),
+      };
     default:
       return state;
   }

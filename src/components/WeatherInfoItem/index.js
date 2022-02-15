@@ -7,7 +7,11 @@ import Preloader from "../Preloader";
 import RequestErrorBanner from "../RequestErrorBanner";
 import Moment from "react-moment";
 import "./styles.scss";
-import { changeWeatherHeader, setCurrentLocation } from "../../actions/weather";
+import {
+  changeWeatherHeader,
+  setCurrentLocation,
+  updateLocation,
+} from "../../actions/weather";
 
 // Weather icons
 import { ReactComponent as SunriseIcon } from "../../assets/images/weather/icons/sunrise-icon.svg";
@@ -48,6 +52,7 @@ class WeatherInfoItem extends React.Component {
       updateWeatherTime,
       setCurrentLocation,
       changeWeatherHeader,
+      updateLocation,
     } = this.props;
 
     changeWeatherHeader(false);
@@ -59,33 +64,35 @@ class WeatherInfoItem extends React.Component {
         1
       );
 
-      if (minutes > 10) {
+      if (minutes > 0) {
         isWeatherUpdate = true;
       }
     } else {
       isWeatherUpdate = true;
     }
 
-    if (id === currentId) {
-      if (isEmptyObject(weatherInfo) || isWeatherUpdate) {
-        this.setState({ isPreloader: true });
-        getWeatherFunction(city)
-          .then((result) => {
-            const { weatherInfo } = result;
+    if (isEmptyObject(weatherInfo) || isWeatherUpdate) {
+      this.setState({ isPreloader: true });
+      getWeatherFunction(city)
+        .then((result) => {
+          const { weatherInfo } = result;
 
+          if (id === currentId) {
             setCurrentLocation({
               weatherInfo,
               updateWeatherTime: Date.now(),
             });
+          } else {
+            updateLocation(id, { weatherInfo, updateWeatherTime });
+          }
+        })
+        .catch((error) =>
+          this.setState({
+            isError: true,
+            errorText: `Error: ${error.message}.`,
           })
-          .catch((error) =>
-            this.setState({
-              isError: true,
-              errorText: `Error: ${error.message}.`,
-            })
-          )
-          .finally(() => this.setState({ isPreloader: false }));
-      }
+        )
+        .finally(() => this.setState({ isPreloader: false }));
     }
   }
 
@@ -254,6 +261,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   changeWeatherHeader: (bool) => changeWeatherHeader(bool),
   setCurrentLocation: (location) => setCurrentLocation(location),
+  updateLocation: (id, info) => updateLocation(id, info),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeatherInfoItem);

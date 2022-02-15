@@ -5,6 +5,10 @@ export const SET_CURRENT_LOCATION = "SET_CURRENT_LOCATION";
 export const CHANGE_WEATHER_HEADER = "CHANGE_WEATHER_HEADER";
 export const SHOW_WEATHER_SETTINGS = "SHOW_WEATHER_SETTINGS";
 export const ADD_NEW_LOCATION = "ADD_NEW_LOCATION";
+export const DELETE_LOCATION = "DELETE_LOCATION";
+export const SHOW_WEATHER_SETTINGS_PRELOADER =
+  "SHOW_WEATHER_SETTINGS_PRELOADER";
+export const UPDATE_LOCATION = "UPDATE_LOCATION";
 
 // Actions
 export const showWeatherSettings = (bool) => {
@@ -105,5 +109,26 @@ export const addNewLocation = (location) => {
   return {
     type: ADD_NEW_LOCATION,
     payload: { location },
+  };
+};
+
+export const deleteLocation = (id) => {
+  return {
+    type: DELETE_LOCATION,
+    payload: { id },
+  };
+};
+
+export const showWeatherSettingsPreloader = (bool) => {
+  return {
+    type: SHOW_WEATHER_SETTINGS_PRELOADER,
+    payload: { bool },
+  };
+};
+
+export const updateLocation = (id, info) => {
+  return {
+    type: UPDATE_LOCATION,
+    payload: { id, info },
   };
 };

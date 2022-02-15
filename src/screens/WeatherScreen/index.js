@@ -23,8 +23,8 @@ class WeatherScreen extends React.Component {
   }
 
   checkLocations = () => {
-    const { getCurrentLocationByGeo, currentCity } = this.props;
-    if (!currentCity) {
+    const { getCurrentLocationByGeo, currentCity, locations } = this.props;
+    if (!currentCity && !locations.length) {
       getCurrentLocationByGeo();
     }
   };
@@ -55,12 +55,14 @@ const mapStateToProps = (state) => {
     weather: {
       currentLocation: { city: currentCity },
       isShowSettings,
+      locations,
     },
   } = state;
 
   return {
     currentCity: currentCity,
     isShowSettings,
+    locations,
   };
 };
 

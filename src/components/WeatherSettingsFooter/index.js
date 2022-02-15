@@ -3,7 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
 import { CSSTransition } from "react-transition-group";
-import { addNewLocation } from "../../actions/weather";
+import {
+  addNewLocation,
+  showWeatherSettingsPreloader,
+} from "../../actions/weather";
 import { getWeatherFunction } from "../../constants/weather";
 import "./styles.scss";
 
@@ -13,7 +16,6 @@ class WeatherSettingsFooter extends React.Component {
     this.state = {
       inputValue: "",
       redInputBorder: false,
-      isPreloader: false,
     };
     this.inputRef = React.createRef();
   }
@@ -34,12 +36,13 @@ class WeatherSettingsFooter extends React.Component {
 
   handleClickButton = () => {
     const { inputValue } = this.state;
-    const { addNewLocation } = this.props;
+    const { addNewLocation, showPreloader } = this.props;
 
     const cityName = inputValue;
 
     if (inputValue.length && inputValue.trim()) {
-      this.setState({ redInputBorder: false, isPreloader: true });
+      this.setState({ redInputBorder: false });
+      showPreloader(true);
       getWeatherFunction(cityName)
         .then((location) => {
           const { weatherInfo, cityName } = location;
@@ -50,10 +53,13 @@ class WeatherSettingsFooter extends React.Component {
             updateWeatherTime: Date.now(),
           });
         })
-        .catch((error) => {
+        .catch(() => {
           this.setState({ redInputBorder: true });
         })
-        .finally(() => this.setState({ inputValue: "", isPreloader: false }));
+        .finally(() => {
+          showPreloader(false);
+          this.setState({ inputValue: "", isPreloader: false });
+        });
     } else {
       this.setState({ redInputBorder: true });
     }
@@ -101,6 +107,7 @@ class WeatherSettingsFooter extends React.Component {
 
 const mapDispatchToProps = {
   addNewLocation: (location) => addNewLocation(location),
+  showPreloader: (bool) => showWeatherSettingsPreloader(bool),
 };
 
 export default connect(null, mapDispatchToProps)(WeatherSettingsFooter);
