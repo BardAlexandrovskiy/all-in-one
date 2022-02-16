@@ -34,18 +34,10 @@ class WeatherSettingsScreen extends React.Component {
           </CSSTransition>
           <div className="locations-list">
             <div className="container list-container">
-              <CSSTransition
-                in={!!currentCity}
-                timeout={300}
-                unmountOnExit
-                mountOnEnter
-              >
-                <WeatherLocationItem city={currentCity} id={currentId} />
-              </CSSTransition>
+              <WeatherLocationItem city={currentCity} id={currentId} />
               <TransitionGroup component={null}>
                 {locations.map((location) => {
                   const { city, id } = location;
-
                   return (
                     <CSSTransition key={id} timeout={300}>
                       <WeatherLocationItem city={city} id={id} />

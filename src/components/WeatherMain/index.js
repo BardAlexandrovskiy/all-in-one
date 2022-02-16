@@ -42,12 +42,15 @@ class WeatherMain extends React.Component {
           >
             {!!currentCity && (
               <SwiperSlide key={currentId}>
-                <WeatherInfoItem
-                  city={currentCity}
-                  id={currentId}
-                  weatherInfo={currentWeatherInfo}
-                  updateWeatherTime={currentUpdateWeatherTime}
-                />
+                {({ isActive }) => (
+                  <WeatherInfoItem
+                    resetScrollPosition={isActive}
+                    city={currentCity}
+                    id={currentId}
+                    weatherInfo={currentWeatherInfo}
+                    updateWeatherTime={currentUpdateWeatherTime}
+                  />
+                )}
               </SwiperSlide>
             )}
             {!!locations.length &&
@@ -56,12 +59,15 @@ class WeatherMain extends React.Component {
 
                 return (
                   <SwiperSlide key={id}>
-                    <WeatherInfoItem
-                      city={city}
-                      id={id}
-                      weatherInfo={weatherInfo}
-                      updateWeatherTime={updateWeatherTime}
-                    />
+                    {({ isActive }) => (
+                      <WeatherInfoItem
+                        resetScrollPosition={isActive}
+                        city={city}
+                        id={id}
+                        weatherInfo={weatherInfo}
+                        updateWeatherTime={updateWeatherTime}
+                      />
+                    )}
                   </SwiperSlide>
                 );
               })}

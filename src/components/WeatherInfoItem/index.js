@@ -43,6 +43,14 @@ class WeatherInfoItem extends React.Component {
     this.infoBlockRef = React.createRef();
   }
 
+  componentDidUpdate() {
+    const { resetScrollPosition } = this.props;
+
+    if (resetScrollPosition) {
+      this.infoBlockRef.current.scrollTo(0, 0);
+    }
+  }
+
   componentDidMount() {
     const {
       city,

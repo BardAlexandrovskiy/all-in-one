@@ -1,34 +1,43 @@
-import { faMapMarkerAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMapMarkerAlt,
+  faRedo,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
-import { deleteLocation, setCurrentLocation } from "../../actions/weather";
+import {
+  deleteLocation,
+  getCurrentLocationByGeo,
+  setCurrentLocation,
+} from "../../actions/weather";
 import "./style.scss";
 
 class WeatherLocationItem extends React.Component {
-  deleteCity = () => {
-    const { currentId, id, setCurrentLocation, deleteLocation } = this.props;
-    console.log(this.props);
-
-    if (currentId === id) {
-      setCurrentLocation();
-    } else {
-      deleteLocation(id);
-    }
-  };
-
   render() {
-    const { city, id, currentId } = this.props;
+    const { city, id, currentId, deleteLocation, getCurrentLocationByGeo } =
+      this.props;
+
+    const isCurrentLocation = id === currentId;
 
     return (
       <div className="weather-location-item">
         <div className="name">
-          {city}
-          {currentId === id && <FontAwesomeIcon icon={faMapMarkerAlt} />}
+          {city || "Not found"}
+          {isCurrentLocation && <FontAwesomeIcon icon={faMapMarkerAlt} />}
         </div>
-        <div className="delete-button" onClick={this.deleteCity}>
-          <FontAwesomeIcon icon={faTimes} />
-        </div>
+        {isCurrentLocation ? (
+          <div
+            className="update-button"
+            onClick={() => getCurrentLocationByGeo()}
+          >
+            <FontAwesomeIcon icon={faRedo} />
+          </div>
+        ) : (
+          <div className="delete-button" onClick={() => deleteLocation(id)}>
+            <FontAwesomeIcon icon={faTimes} />
+          </div>
+        )}
       </div>
     );
   }
@@ -49,6 +58,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setCurrentLocation: (location) => setCurrentLocation(location),
   deleteLocation: (id) => deleteLocation(id),
+  getCurrentLocationByGeo: () => getCurrentLocationByGeo(),
 };
 
 export default connect(

@@ -56,4 +56,11 @@
     color: $lilac;
     cursor: pointer;
   }
+
+  .update-button {
+    padding: 6px;
+    font-size: 25px;
+    color: rgba($color: white, $alpha: 0.8);
+    cursor: pointer;
+  }
 }
