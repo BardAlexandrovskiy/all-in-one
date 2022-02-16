@@ -3,7 +3,6 @@ import {
   CHANGE_WEATHER_HEADER,
   DELETE_LOCATION,
   SET_CURRENT_LOCATION,
-  SHOW_WEATHER_SETTINGS,
   SHOW_WEATHER_SETTINGS_PRELOADER,
   UPDATE_LOCATION,
 } from "../actions/weather";
@@ -52,8 +51,6 @@ export function weatherReducer(state = initialState, action) {
         };
     case CHANGE_WEATHER_HEADER:
       return { ...state, isActiveHeader: payload.bool };
-    case SHOW_WEATHER_SETTINGS:
-      return { ...state, isShowSettings: payload.bool };
     case ADD_NEW_LOCATION:
       let isUnique = true;
       const {

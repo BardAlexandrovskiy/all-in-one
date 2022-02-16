@@ -7,6 +7,7 @@ import WeatherScreen from "../screens/WeatherScreen";
 import TasksScreen from "../screens/TasksScreen";
 import { connect } from "react-redux";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import WeatherSettingsScreen from "../screens/WeatherSettingsScreen";
 
 const Router = ({ store }) => {
   useEffect(() => {
@@ -31,6 +32,10 @@ const RouterAnimation = () => {
             <Route path="/" element={<MainScreen />} />
             <Route path="/news" element={<NewsScreen />} />
             <Route path="/weather" element={<WeatherScreen />} />
+            <Route
+              path="/weather/settings"
+              element={<WeatherSettingsScreen />}
+            />
             <Route path="/tasks" element={<TasksScreen />} />
           </Routes>
         </CSSTransition>

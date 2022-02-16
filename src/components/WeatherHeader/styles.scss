@@ -1,8 +1,6 @@
 @import "../../assets/styles/vars";
 
 .weather-header {
-  padding-top: 15px;
-  padding-bottom: 15px;
   z-index: 10;
   width: 100%;
   background-color: transparent;
@@ -10,9 +8,16 @@
   position: fixed;
 
   &.active {
-    padding-top: 10px;
-    padding-bottom: 10px;
     background-color: $grey;
+
+    .swiper {
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      .swiper-pagination {
+        opacity: 0;
+      }
+    }
   }
 
   .header-container {
@@ -21,9 +26,46 @@
     align-items: center;
   }
 
-  .current-city {
+  .swiper {
+    margin-left: 0;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    transition: 0.3s;
+    flex: 1;
+
+    .swiper-pagination {
+      text-align: left;
+      bottom: auto;
+      top: calc(100% - 19px);
+
+      .swiper-pagination-bullet {
+        background-color: white;
+        opacity: 0.5;
+
+        &:first-child {
+          margin-left: 0;
+        }
+
+        &.swiper-pagination-bullet-active {
+          background-color: $sky-blue;
+          opacity: 1;
+        }
+      }
+    }
+
+    .swiper-slide {
+      opacity: 0 !important;
+
+      &.swiper-slide-active {
+        opacity: 1 !important;
+      }
+    }
+  }
+
+  .city {
     color: white;
     font-size: 24px;
+    background-color: transparent;
 
     @media (max-width: 1024px) {
       font-size: 20px;

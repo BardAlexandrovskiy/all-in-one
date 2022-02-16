@@ -3,14 +3,21 @@ import { connect } from "react-redux";
 import WeatherInfoItem from "../WeatherInfoItem";
 import "./styles.scss";
 
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+// Core modules imports are same as usual
+import { Controller } from "swiper";
+// Direct React component imports
+import { Swiper, SwiperSlide } from "swiper/react/swiper-react.js";
 
-// Import Swiper styles
-import "swiper/swiper-bundle.min.css";
-import "swiper/swiper.min.css";
+// Styles must use direct files imports
+import "swiper/swiper.scss"; // core Swiper
+import { changeWeatherHeader } from "../../actions/weather";
 
 class WeatherMain extends React.Component {
+  handleChangeSlide = () => {
+    const { changeWeatherHeader } = this.props;
+    changeWeatherHeader(false);
+  };
+
   render() {
     const {
       currentCity,
@@ -18,14 +25,23 @@ class WeatherMain extends React.Component {
       currentWeatherInfo,
       currentUpdateWeatherTime,
       locations,
+      setSecondSwiper,
+      firstSwiper,
     } = this.props;
 
     return (
       <div className="weather-main">
         {(!!currentCity || !!locations.length) && (
-          <Swiper slidesPerView={1} className="weather-info-list">
+          <Swiper
+            modules={[Controller]}
+            onSwiper={setSecondSwiper}
+            controller={{ control: firstSwiper }}
+            onSlideChange={this.handleChangeSlide}
+            slidesPerView={1}
+            className="weather-info-list"
+          >
             {!!currentCity && (
-              <SwiperSlide>
+              <SwiperSlide key={currentId}>
                 <WeatherInfoItem
                   city={currentCity}
                   id={currentId}
@@ -39,7 +55,7 @@ class WeatherMain extends React.Component {
                 const { city, id, updateWeatherTime, weatherInfo } = location;
 
                 return (
-                  <SwiperSlide>
+                  <SwiperSlide key={id}>
                     <WeatherInfoItem
                       city={city}
                       id={id}
@@ -78,4 +94,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(WeatherMain);
+const mapDispatchToProps = {
+  changeWeatherHeader: (bool) => changeWeatherHeader(bool),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeatherMain);

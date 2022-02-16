@@ -11,13 +11,6 @@ export const SHOW_WEATHER_SETTINGS_PRELOADER =
 export const UPDATE_LOCATION = "UPDATE_LOCATION";
 
 // Actions
-export const showWeatherSettings = (bool) => {
-  return {
-    type: SHOW_WEATHER_SETTINGS,
-    payload: { bool },
-  };
-};
-
 export const setCurrentLocation = (location) => {
   return {
     type: SET_CURRENT_LOCATION,

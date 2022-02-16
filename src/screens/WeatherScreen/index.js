@@ -1,54 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { CSSTransition } from "react-transition-group";
-import {
-  getCurrentLocationByGeo,
-  showWeatherSettings,
-} from "../../actions/weather";
+import { getCurrentLocationByGeo } from "../../actions/weather";
 import WeatherHeader from "../../components/WeatherHeader";
 import WeatherMain from "../../components/WeatherMain";
-import WeatherSettings from "../../components/WeatherSettings";
 import "./styles.scss";
 
-class WeatherScreen extends React.Component {
-  componentDidMount() {
-    const { showWeatherSettings } = this.props;
-
-    showWeatherSettings(false);
-    this.checkLocations();
-  }
-
-  componentDidUpdate() {
-    this.checkLocations();
-  }
-
-  checkLocations = () => {
-    const { getCurrentLocationByGeo, currentCity, locations } = this.props;
+const WeatherScreen = ({ getCurrentLocationByGeo, currentCity, locations }) => {
+  useEffect(() => {
     if (!currentCity && !locations.length) {
       getCurrentLocationByGeo();
     }
-  };
+  });
 
-  render() {
-    const { isShowSettings } = this.props;
-    return (
-      <>
-        <CSSTransition
-          in={isShowSettings}
-          timeout={300}
-          unmountOnExit
-          mountOnEnter
-        >
-          <WeatherSettings />
-        </CSSTransition>
-        <div className="weather-screen screen">
-          <WeatherHeader />
-          <WeatherMain />
-        </div>
-      </>
-    );
-  }
-}
+  const [firstSwiper, setFirstSwiper] = useState(null);
+  const [secondSwiper, setSecondSwiper] = useState(null);
+
+  return (
+    <>
+      <div className="weather-screen screen">
+        <WeatherHeader
+          setFirstSwiper={setFirstSwiper}
+          secondSwiper={secondSwiper}
+        />
+        <WeatherMain
+          setSecondSwiper={setSecondSwiper}
+          firstSwiper={firstSwiper}
+        />
+      </div>
+    </>
+  );
+};
 
 const mapStateToProps = (state) => {
   const {
@@ -68,7 +49,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   getCurrentLocationByGeo: () => getCurrentLocationByGeo(),
-  showWeatherSettings: (bool) => showWeatherSettings(bool),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeatherScreen);

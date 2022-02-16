@@ -1,6 +1,6 @@
 @import "../../assets/styles/vars";
 
-.weather-settings {
+.weather-settings-screen {
   position: absolute;
   top: 0;
   left: 0;
@@ -46,6 +46,7 @@
       font-size: 20px;
       display: flex;
       align-items: center;
+      text-decoration: none;
 
       svg {
         margin-right: 10px;

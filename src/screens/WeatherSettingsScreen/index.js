@@ -2,34 +2,25 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { showWeatherSettings } from "../../actions/weather";
-import Preloader from "../Preloader";
-import WeatherLocationItem from "../WeatherLocationItem";
-import WeatherSettingsFooter from "../WeatherSettingsFooter";
+import Preloader from "../../components/Preloader";
+import WeatherLocationItem from "../../components/WeatherLocationItem";
+import WeatherSettingsFooter from "../../components/WeatherSettingsFooter";
 import "./styles.scss";
 
-class WeatherSettings extends React.Component {
+class WeatherSettingsScreen extends React.Component {
   render() {
-    const {
-      showWeatherSettings,
-      currentCity,
-      currentId,
-      locations,
-      isPreloader,
-    } = this.props;
+    const { currentCity, currentId, locations, isPreloader } = this.props;
 
     return (
-      <div className="weather-settings">
+      <div className="weather-settings-screen screen">
         <header className="header">
           <div className="header-container container">
-            <div
-              className="close-button"
-              onClick={() => showWeatherSettings(false)}
-            >
+            <Link to="/weather" className="close-button">
               <FontAwesomeIcon icon={faArrowLeft} />
               Back to the weather
-            </div>
+            </Link>
           </div>
         </header>
         <div className="weather-settings-main">
@@ -88,8 +79,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  showWeatherSettings: (bool) => showWeatherSettings(bool),
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(WeatherSettings);
+export default connect(mapStateToProps, null)(WeatherSettingsScreen);
