@@ -4,7 +4,7 @@ import { isEmptyObject } from "../../constants";
 import { getWeatherFunction } from "../../constants/weather";
 import { CSSTransition } from "react-transition-group";
 import Preloader from "../Preloader";
-import RequestErrorBanner from "../RequestErrorBanner";
+import TextBanner from "../TextBanner";
 import Moment from "react-moment";
 import "./styles.scss";
 import {
@@ -46,8 +46,10 @@ class WeatherInfoItem extends React.Component {
   componentDidUpdate(prevProps) {
     const { isActive: isActivePrev } = prevProps;
     const { isActive } = this.props;
+
     if (isActive && isActivePrev !== isActive) {
       this.checkUpadate();
+
       if (this.infoBlockRef.current) {
         this.infoBlockRef.current.scrollTo(0, 0);
       }
@@ -182,9 +184,7 @@ class WeatherInfoItem extends React.Component {
           <Preloader />
         </CSSTransition>
         <CSSTransition in={isError} timeout={300} mountOnEnter unmountOnExit>
-          <RequestErrorBanner
-            text={`Oops, something went wrong. ${errorText}`}
-          />
+          <TextBanner text={`Oops, something went wrong. ${errorText}`} />
         </CSSTransition>
         <CSSTransition
           in={!isEmptyObject(weatherInfo)}

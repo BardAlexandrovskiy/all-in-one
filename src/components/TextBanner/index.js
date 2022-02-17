@@ -1,8 +1,8 @@
 import "./styles.scss";
 
-const RequestErrorBanner = ({ text }) => {
+const TextBanner = ({ text }) => {
   return (
-    <div className="request-error-banner">
+    <div className="text-banner">
       <div className="container">
         <div className="text">{text}</div>
       </div>
@@ -10,4 +10,4 @@ const RequestErrorBanner = ({ text }) => {
   );
 };
 
-export default RequestErrorBanner;
+export default TextBanner;
