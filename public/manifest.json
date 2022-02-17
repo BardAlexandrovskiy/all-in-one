@@ -3,7 +3,7 @@
   "short_name": "All in One",
   "description": "All at once",
   "lang": "en",
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#1a1a1a",
