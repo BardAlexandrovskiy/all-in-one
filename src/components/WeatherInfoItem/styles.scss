@@ -8,14 +8,14 @@
   flex-direction: column;
 
   .preloader {
-    background-color: $dark-blue;
+    background-color: $black;
   }
 
   .request-error-banner {
-    background-color: $dark-blue;
+    background-color: $black;
 
     .text {
-      background-color: rgba($color: white, $alpha: 0.2);
+      background-color: $grey;
     }
   }
 

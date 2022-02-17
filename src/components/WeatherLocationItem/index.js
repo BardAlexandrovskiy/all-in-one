@@ -14,8 +14,18 @@ import {
 import "./style.scss";
 
 class WeatherLocationItem extends React.Component {
+  deleteCity = () => {
+    const { currentId, id, setCurrentLocation, deleteLocation } = this.props;
+
+    if (currentId === id) {
+      setCurrentLocation();
+    } else {
+      deleteLocation(id);
+    }
+  };
+
   render() {
-    const { city, id, currentId, deleteLocation, getCurrentLocationByGeo } =
+    const { city, id, currentId, getCurrentLocationByGeo, isCurrentPreloader } =
       this.props;
 
     const isCurrentLocation = id === currentId;
@@ -26,15 +36,16 @@ class WeatherLocationItem extends React.Component {
           {city || "Not found"}
           {isCurrentLocation && <FontAwesomeIcon icon={faMapMarkerAlt} />}
         </div>
-        {isCurrentLocation ? (
+        {isCurrentLocation && !city && (
           <div
-            className="update-button"
+            className={`update-button${isCurrentPreloader ? " active" : ""}`}
             onClick={() => getCurrentLocationByGeo()}
           >
             <FontAwesomeIcon icon={faRedo} />
           </div>
-        ) : (
-          <div className="delete-button" onClick={() => deleteLocation(id)}>
+        )}
+        {city && (
+          <div className="delete-button" onClick={this.deleteCity}>
             <FontAwesomeIcon icon={faTimes} />
           </div>
         )}
@@ -47,11 +58,13 @@ const mapStateToProps = (state) => {
   const {
     weather: {
       currentLocation: { id: currentId },
+      isShowCurrentLocationPreloader: isCurrentPreloader,
     },
   } = state;
 
   return {
     currentId,
+    isCurrentPreloader,
   };
 };
 

@@ -20,22 +20,11 @@ class WeatherHeader extends React.Component {
   render() {
     const {
       currentCity,
-      isCurrentCitySearchError,
       isActiveHeader,
       locations,
       setFirstSwiper,
       secondSwiper,
     } = this.props;
-
-    let currentCityOutput = "";
-
-    if (currentCity) {
-      currentCityOutput = currentCity;
-    } else if (!currentCity && isCurrentCitySearchError && !locations.length) {
-      currentCityOutput = "City not found";
-    } else if (!locations.length) {
-      currentCityOutput = "Locating...";
-    }
 
     return (
       <header className={`weather-header${isActiveHeader ? " active" : ""}`}>
@@ -50,10 +39,16 @@ class WeatherHeader extends React.Component {
               clickable: false,
             }}
           >
-            {!!currentCityOutput && (
+            {!currentCity && !locations.length && (
+              <div className="current-city city">
+                Not found
+                <FontAwesomeIcon icon={faMapMarkerAlt} />
+              </div>
+            )}
+            {!!currentCity && (
               <SwiperSlide key={currentCity}>
                 <div className="current-city city">
-                  {currentCityOutput}
+                  {currentCity}
                   <FontAwesomeIcon icon={faMapMarkerAlt} />
                 </div>
               </SwiperSlide>
@@ -81,10 +76,7 @@ class WeatherHeader extends React.Component {
 const mapStateToProps = (store) => {
   const {
     weather: {
-      currentLocation: {
-        city: currentCity,
-        isSearchError: isCurrentCitySearchError,
-      },
+      currentLocation: { city: currentCity },
       isActiveHeader,
       locations,
     },
@@ -92,7 +84,6 @@ const mapStateToProps = (store) => {
 
   return {
     currentCity,
-    isCurrentCitySearchError,
     isActiveHeader,
     locations,
   };

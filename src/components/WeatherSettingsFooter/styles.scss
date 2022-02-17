@@ -3,6 +3,28 @@
 .add-location-input {
   overflow: hidden;
 
+  &.enter {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  &.enter-active {
+    opacity: 1;
+    transition: 0.3s;
+    transform: translateX(0);
+  }
+
+  &.exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &.exit-active {
+    opacity: 0;
+    transition: 0.3s;
+    transform: translateX(100%);
+  }
+
   .input-container {
     display: flex;
     justify-content: space-between;

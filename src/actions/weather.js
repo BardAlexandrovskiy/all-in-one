@@ -9,6 +9,8 @@ export const DELETE_LOCATION = "DELETE_LOCATION";
 export const SHOW_WEATHER_SETTINGS_PRELOADER =
   "SHOW_WEATHER_SETTINGS_PRELOADER";
 export const UPDATE_LOCATION = "UPDATE_LOCATION";
+export const SHOW_CURRENT_LOCATION_PRELOADER =
+  "SHOW_CURRENT_LOCATION_PRELOADER";
 
 // Actions
 export const setCurrentLocation = (location) => {
@@ -18,11 +20,17 @@ export const setCurrentLocation = (location) => {
   };
 };
 
+export const showCurrentLocationPreloader = (bool) => {
+  return {
+    type: SHOW_CURRENT_LOCATION_PRELOADER,
+    payload: { bool },
+  };
+};
+
 export const getCurrentLocationByGeo = () => {
   return (dispatch) => {
     const options = {
       enableHighAccuracy: true,
-      timeout: 5000,
       maximumAge: 0,
     };
 
@@ -30,6 +38,7 @@ export const getCurrentLocationByGeo = () => {
       const lat = position.coords.latitude;
       const long = position.coords.longitude;
 
+      dispatch(showCurrentLocationPreloader(true));
       getWeatherFunction(null, lat, long)
         .then((location) => {
           const { weatherInfo, cityName } = location;
@@ -39,57 +48,52 @@ export const getCurrentLocationByGeo = () => {
               setCurrentLocation({
                 city: cityName,
                 weatherInfo,
-                isSearchError: false,
                 id: Date.now(),
                 updateWeatherTime: Date.now(),
               })
             );
           } else throw new Error("City by geolocation not found");
         })
-        .catch(() => {
-          dispatch(getCurrentLocationByIp());
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          dispatch(showCurrentLocationPreloader(false));
         });
     };
 
-    const error = () => {
-      dispatch(getCurrentLocationByIp());
-    };
-
-    dispatch(setCurrentLocation({ isSearchError: false }));
     if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(success, error, options);
-    } else {
-      dispatch(getCurrentLocationByIp());
+      navigator.geolocation.getCurrentPosition(success, null, options);
     }
   };
 };
 
-export const getCurrentLocationByIp = () => {
-  return (dispatch) => {
-    return fetch(`https://api.sypexgeo.net/json/`)
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        throw new Error(response.status);
-      })
-      .then((location) => {
-        const { city } = location;
-        if (city) {
-          dispatch(
-            setCurrentLocation({
-              city: city.name_en,
-              isSearchError: false,
-              id: Date.now(),
-            })
-          );
-        } else throw new Error("City by ip not found");
-      })
-      .catch(() => {
-        dispatch(setCurrentLocation({ isSearchError: true }));
-      });
-  };
-};
+// export const getCurrentLocationByIp = () => {
+//   return (dispatch) => {
+//     return fetch(`https://api.sypexgeo.net/json/`)
+//       .then((response) => {
+//         if (response.status === 200) {
+//           return response.json();
+//         }
+//         throw new Error(response.status);
+//       })
+//       .then((location) => {
+//         const { city } = location;
+//         if (city) {
+//           dispatch(
+//             setCurrentLocation({
+//               city: city.name_en,
+//               id: Date.now(),
+//             })
+//           );
+//         } else throw new Error("City by ip not found");
+//       })
+//       .catch((error) => console.log(error))
+//       .finally(() => {
+//         dispatch(showCurrentLocationPreloader(false));
+//       });
+//   };
+// };
 
 export const changeWeatherHeader = (bool) => {
   return {

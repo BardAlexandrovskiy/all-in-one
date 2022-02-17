@@ -44,7 +44,7 @@ class WeatherMain extends React.Component {
               <SwiperSlide key={currentId}>
                 {({ isActive }) => (
                   <WeatherInfoItem
-                    resetScrollPosition={isActive}
+                    isActive={isActive}
                     city={currentCity}
                     id={currentId}
                     weatherInfo={currentWeatherInfo}
@@ -61,7 +61,7 @@ class WeatherMain extends React.Component {
                   <SwiperSlide key={id}>
                     {({ isActive }) => (
                       <WeatherInfoItem
-                        resetScrollPosition={isActive}
+                        isActive={isActive}
                         city={city}
                         id={id}
                         weatherInfo={weatherInfo}

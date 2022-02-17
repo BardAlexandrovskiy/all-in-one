@@ -3,6 +3,7 @@ import {
   CHANGE_WEATHER_HEADER,
   DELETE_LOCATION,
   SET_CURRENT_LOCATION,
+  SHOW_CURRENT_LOCATION_PRELOADER,
   SHOW_WEATHER_SETTINGS_PRELOADER,
   UPDATE_LOCATION,
 } from "../actions/weather";
@@ -16,11 +17,11 @@ if (localInitialState) {
 const initialState = localInitialState || {
   currentLocation: {
     city: "",
-    isSearchError: false,
     weatherInfo: {},
     updateWeatherTime: null,
     id: null,
   },
+  isShowCurrentLocationPreloader: false,
   locations: [],
   isActiveHeader: false,
   isShowSettings: false,
@@ -37,13 +38,13 @@ export function weatherReducer(state = initialState, action) {
         return {
           ...state,
           currentLocation: Object.assign(currentLocation, payload),
+          locations: locations.filter(({ city }) => city !== payload.city),
         };
       } else
         return {
           ...state,
           currentLocation: {
             city: "",
-            isSearchError: false,
             weatherInfo: {},
             updateWeatherTime: null,
             id: null,
@@ -91,6 +92,11 @@ export function weatherReducer(state = initialState, action) {
             return Object.assign(location, payload.info);
           } else return location;
         }),
+      };
+    case SHOW_CURRENT_LOCATION_PRELOADER:
+      return {
+        ...state,
+        isShowCurrentLocationPreloader: payload.bool,
       };
     default:
       return state;

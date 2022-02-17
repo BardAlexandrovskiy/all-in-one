@@ -43,15 +43,23 @@ class WeatherInfoItem extends React.Component {
     this.infoBlockRef = React.createRef();
   }
 
-  componentDidUpdate() {
-    const { resetScrollPosition } = this.props;
-
-    if (resetScrollPosition) {
-      this.infoBlockRef.current.scrollTo(0, 0);
+  componentDidUpdate(prevProps) {
+    const { isActive: isActivePrev } = prevProps;
+    const { isActive } = this.props;
+    if (isActive && isActivePrev !== isActive) {
+      this.checkUpadate();
+      if (this.infoBlockRef.current) {
+        this.infoBlockRef.current.scrollTo(0, 0);
+      }
     }
   }
 
   componentDidMount() {
+    const { changeWeatherHeader } = this.props;
+    changeWeatherHeader(false);
+  }
+
+  checkUpadate = () => {
     const {
       city,
       currentId,
@@ -59,11 +67,8 @@ class WeatherInfoItem extends React.Component {
       weatherInfo,
       updateWeatherTime,
       setCurrentLocation,
-      changeWeatherHeader,
       updateLocation,
     } = this.props;
-
-    changeWeatherHeader(false);
 
     let isWeatherUpdate = false;
 
@@ -102,7 +107,7 @@ class WeatherInfoItem extends React.Component {
         )
         .finally(() => this.setState({ isPreloader: false }));
     }
-  }
+  };
 
   handleScrollInfoBlock = () => {
     const { changeWeatherHeader, isActiveHeader } = this.props;

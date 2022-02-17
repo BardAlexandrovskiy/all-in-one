@@ -48,7 +48,14 @@ class WeatherSettingsScreen extends React.Component {
             </div>
           </div>
         </div>
-        <WeatherSettingsFooter />
+        <CSSTransition
+          in={locations.length < 5}
+          mountOnEnter
+          unmountOnExit
+          timeout={300}
+        >
+          <WeatherSettingsFooter />
+        </CSSTransition>
       </div>
     );
   }
