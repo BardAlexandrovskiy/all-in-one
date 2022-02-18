@@ -2,11 +2,6 @@
   "name": "All in One",
   "short_name": "All in One",
   "description": "All at once",
-  "lang": "en",
-  "start_url": "/all-in-one",
-  "display": "standalone",
-  "orientation": "portrait",
-  "theme_color": "#2c2933",
   "icons": [
     {
       "src": "all-in-one-icon512.png",
@@ -19,5 +14,8 @@
       "type": "image/png"
     }
   ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#2c2933",
   "background_color": "#2c2933"
 }
