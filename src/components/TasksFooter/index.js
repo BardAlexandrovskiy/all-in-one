@@ -84,10 +84,9 @@ class TasksFooter extends React.Component {
         </CSSTransition>
         <div className="add-task-input">
           <div className="container input-container">
-            <div className="input-wrapper">
+            <div className={`input-wrapper${redInputBorder ? " red" : ""}`}>
               <input
                 ref={this.inputRef}
-                className={redInputBorder ? "red" : ""}
                 onKeyPress={this.handlePressInput}
                 onBlur={this.handleBlurInput}
                 onChange={this.handleChangeInput}

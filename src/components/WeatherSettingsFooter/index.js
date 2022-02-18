@@ -77,7 +77,7 @@ class WeatherSettingsFooter extends React.Component {
     return (
       <div className="add-location-input">
         <div className="container input-container">
-          <div className="input-wrapper">
+          <div className={`input-wrapper${redInputBorder ? " red" : ""}`}>
             <input
               ref={this.inputRef}
               type="text"
@@ -85,7 +85,6 @@ class WeatherSettingsFooter extends React.Component {
               onChange={this.handleChangeInput}
               onKeyPress={this.handlePressInput}
               value={inputValue}
-              className={redInputBorder ? "red" : ""}
               onBlur={this.handleBlurInput}
             />
             <CSSTransition
