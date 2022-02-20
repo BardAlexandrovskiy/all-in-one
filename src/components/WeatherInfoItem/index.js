@@ -1,18 +1,3 @@
-import React from "react";
-import { connect } from "react-redux";
-import { isEmptyObject } from "../../constants";
-import { getWeatherFunction } from "../../constants/weather";
-import { CSSTransition } from "react-transition-group";
-import Preloader from "../Preloader";
-import TextBanner from "../TextBanner";
-import Moment from "react-moment";
-import "./styles.scss";
-import {
-  changeWeatherHeader,
-  setCurrentLocation,
-  updateLocation,
-} from "../../actions/weather";
-
 // Weather icons
 import { ReactComponent as SunriseIcon } from "../../assets/images/weather/icons/sunrise-icon.svg";
 import { ReactComponent as SunsetIcon } from "../../assets/images/weather/icons/sunset-icon.svg";
@@ -31,6 +16,20 @@ import thunderstormImg from "../../assets/images/weather/backgrounds/thunderstor
 import snowImg from "../../assets/images/weather/backgrounds/snow.jpg";
 import mistImg from "../../assets/images/weather/backgrounds/mist.jpg";
 import drizzleImg from "../../assets/images/weather/backgrounds/drizzle.jpg";
+
+import React from "react";
+import { connect } from "react-redux";
+import { isEmptyObject } from "../../constants";
+import { getWeatherFunction } from "../../constants/weather";
+import { CSSTransition } from "react-transition-group";
+import Preloader from "../Preloader";
+import TextBanner from "../TextBanner";
+import "./styles.scss";
+import {
+  changeWeatherHeader,
+  setCurrentLocation,
+  updateLocation,
+} from "../../actions/weather";
 
 class WeatherInfoItem extends React.Component {
   constructor(props) {
@@ -91,6 +90,7 @@ class WeatherInfoItem extends React.Component {
       getWeatherFunction(city)
         .then((result) => {
           const { weatherInfo } = result;
+          console.log(result);
 
           if (id === currentId) {
             setCurrentLocation({
@@ -98,7 +98,7 @@ class WeatherInfoItem extends React.Component {
               updateWeatherTime: Date.now(),
             });
           } else {
-            updateLocation(id, { weatherInfo, updateWeatherTime });
+            updateLocation(id, { weatherInfo, updateWeatherTime: Date.now() });
           }
         })
         .catch((error) =>
@@ -137,6 +137,7 @@ class WeatherInfoItem extends React.Component {
       sunrise,
       sunset,
       id,
+      updateTime,
     } = weatherInfo;
 
     // Set background by weather id
@@ -204,9 +205,9 @@ class WeatherInfoItem extends React.Component {
                 {!!weatherDescription && (
                   <div className="description">{weatherDescription}</div>
                 )}
-                <div className="current-date">
-                  <Moment format="MMMM Do YYYY, h:mm a" interval={1000} />
-                </div>
+                {!!updateTime && (
+                  <div className="current-date">{updateTime}</div>
+                )}
                 {!!tempFeelsLike && (
                   <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
                 )}
