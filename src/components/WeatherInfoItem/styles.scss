@@ -81,7 +81,12 @@
     }
 
     .info-container {
-      padding-top: 180px;
+      padding-top: 250px;
+      padding-bottom: 100px;
+
+      @media (max-width: 1024px) {
+        padding-bottom: 50px;
+      }
     }
 
     .main {
@@ -147,6 +152,10 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
 
         @media (max-width: 640px) {
           flex-direction: column;

@@ -71,8 +71,12 @@ export const getCurrentLocationByGeo = () => {
         });
     };
 
+    const error = () => {
+      dispatch(setGeoAccess(false));
+    };
+
     if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(success, null, options);
+      navigator.geolocation.getCurrentPosition(success, error, options);
     } else {
       dispatch(setGeoAccess(false));
     }
