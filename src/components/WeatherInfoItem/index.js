@@ -5,6 +5,9 @@ import { ReactComponent as HumidityIcon } from "../../assets/images/weather/icon
 import { ReactComponent as CloudinessIcon } from "../../assets/images/weather/icons/cloudiness-icon.svg";
 import { ReactComponent as WindSpeedIcon } from "../../assets/images/weather/icons/wind-speed-icon.svg";
 import { ReactComponent as WindDirectionIcon } from "../../assets/images/weather/icons/wind-direction-icon.svg";
+import { ReactComponent as WindGustIcon } from "../../assets/images/weather/icons/wind-gust-icon.svg";
+import { ReactComponent as VisibilityIcon } from "../../assets/images/weather/icons/visibility-icon.svg";
+import { ReactComponent as PressureIcon } from "../../assets/images/weather/icons/pressure-icon.svg";
 
 // Weather backgrounds
 import clearSkyImg from "../../assets/images/weather/backgrounds/clear-sky.jpg";
@@ -78,7 +81,7 @@ class WeatherInfoItem extends React.Component {
         1
       );
 
-      if (minutes > 10) {
+      if (minutes > 0) {
         isWeatherUpdate = true;
       }
     } else {
@@ -90,7 +93,6 @@ class WeatherInfoItem extends React.Component {
       getWeatherFunction(city)
         .then((result) => {
           const { weatherInfo } = result;
-          console.log(result);
 
           if (id === currentId) {
             setCurrentLocation({
@@ -128,16 +130,20 @@ class WeatherInfoItem extends React.Component {
 
     const {
       weatherDescription,
+      icon,
       temp,
       tempFeelsLike,
       humidity,
       windSpeed,
       windDeg,
+      windGust,
       cloudiness,
+      pressure,
+      visibility,
       sunrise,
       sunset,
       id,
-      updateTime,
+      date,
     } = weatherInfo;
 
     // Set background by weather id
@@ -203,11 +209,12 @@ class WeatherInfoItem extends React.Component {
               <div className="main">
                 {!!temp && <span className="current-temp">{temp}</span>}
                 {!!weatherDescription && (
-                  <div className="description">{weatherDescription}</div>
+                  <div className="description">
+                    {weatherDescription}
+                    {!!icon && <img src={icon} alt="" />}
+                  </div>
                 )}
-                {!!updateTime && (
-                  <div className="current-date">{updateTime}</div>
-                )}
+                {!!date && <div className="current-date">{date}</div>}
                 {!!tempFeelsLike && (
                   <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
                 )}
@@ -225,30 +232,52 @@ class WeatherInfoItem extends React.Component {
                     {`Humidity: ${humidity}`}
                   </div>
                 )}
-                {!!windSpeed && (
+                <div className="info-item full">
+                  {!!windSpeed && (
+                    <div className="inner">
+                      <WindSpeedIcon />
+                      {`Wind speed: ${windSpeed}`}
+                    </div>
+                  )}
+                  {!!windGust && (
+                    <div className="inner">
+                      <WindGustIcon />
+                      {`Wind gust: ${windGust}`}
+                    </div>
+                  )}
+                  {!!windDeg && (
+                    <div className="inner long">
+                      <WindDirectionIcon />
+                      {`Wind direction: ${windDeg}`}
+                    </div>
+                  )}
+                </div>
+                {!!visibility && (
                   <div className="info-item">
-                    <WindSpeedIcon />
-                    {`Wind speed: ${windSpeed}`}
+                    <VisibilityIcon />
+                    <span>{`Visibility: ${visibility}`}</span>
                   </div>
                 )}
-                {!!windDeg && (
+                {!!pressure && (
                   <div className="info-item">
-                    <WindDirectionIcon />
-                    {`Wind direction: ${windDeg}`}
+                    <PressureIcon />
+                    <span>{`Pressure: ${pressure}`}</span>
                   </div>
                 )}
-                {!!sunrise && (
-                  <div className="info-item sun-info">
-                    <SunriseIcon />
-                    <span>{`Sunrise: ${sunrise}`}</span>
-                  </div>
-                )}
-                {!!sunset && (
-                  <div className="info-item sun-info">
-                    <SunsetIcon />
-                    <span>{`Sunset: ${sunset}`}</span>
-                  </div>
-                )}
+                <div className="info-item full">
+                  {!!sunrise && (
+                    <div className="inner">
+                      <SunriseIcon />
+                      <span>{`Sunrise: ${sunrise}`}</span>
+                    </div>
+                  )}
+                  {!!sunset && (
+                    <div className="inner">
+                      <SunsetIcon />
+                      <span>{`Sunset: ${sunset}`}</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

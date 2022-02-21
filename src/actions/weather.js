@@ -11,6 +11,7 @@ export const SHOW_WEATHER_SETTINGS_PRELOADER =
 export const UPDATE_LOCATION = "UPDATE_LOCATION";
 export const SHOW_CURRENT_LOCATION_PRELOADER =
   "SHOW_CURRENT_LOCATION_PRELOADER";
+export const SET_GEO_ACCESS = "SET_GEO_ACCESS";
 
 // Actions
 export const setCurrentLocation = (location) => {
@@ -27,6 +28,13 @@ export const showCurrentLocationPreloader = (bool) => {
   };
 };
 
+export const setGeoAccess = (bool) => {
+  return {
+    type: SET_GEO_ACCESS,
+    payload: { bool },
+  };
+};
+
 export const getCurrentLocationByGeo = () => {
   return (dispatch) => {
     const options = {
@@ -38,6 +46,7 @@ export const getCurrentLocationByGeo = () => {
       const lat = position.coords.latitude;
       const long = position.coords.longitude;
 
+      dispatch(setGeoAccess(true));
       dispatch(showCurrentLocationPreloader(true));
       getWeatherFunction(null, lat, long)
         .then((location) => {
@@ -64,6 +73,8 @@ export const getCurrentLocationByGeo = () => {
 
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(success, null, options);
+    } else {
+      dispatch(setGeoAccess(false));
     }
   };
 };

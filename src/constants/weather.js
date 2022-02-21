@@ -54,10 +54,7 @@ export const getWeatherFunction = (cityName, lat, long) => {
             sunset !== null ? moment(sunset * 1000).format("HH:mm") : null,
           visibility: visibility !== null ? `${visibility} m` : null,
           id: id !== null ? id : null,
-          updateTime:
-            dt !== null
-              ? `Update time: ${moment(dt * 1000).format("MM.DD, HH:mm")}`
-              : null,
+          date: dt !== null ? moment(dt * 1000).format("Do MMMM dddd") : null,
         },
         cityName,
       };

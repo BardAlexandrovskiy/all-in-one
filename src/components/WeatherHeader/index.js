@@ -24,6 +24,7 @@ class WeatherHeader extends React.Component {
       locations,
       setFirstSwiper,
       secondSwiper,
+      isGeoAccess,
     } = this.props;
 
     return (
@@ -41,7 +42,7 @@ class WeatherHeader extends React.Component {
           >
             {!currentCity && !locations.length && (
               <div className="current-city city">
-                Not found
+                {isGeoAccess ? "Not defined" : "No geo access"}
                 <FontAwesomeIcon icon={faMapMarkerAlt} />
               </div>
             )}
@@ -79,6 +80,7 @@ const mapStateToProps = (store) => {
       currentLocation: { city: currentCity },
       isActiveHeader,
       locations,
+      isGeoAccess,
     },
   } = store;
 
@@ -86,6 +88,7 @@ const mapStateToProps = (store) => {
     currentCity,
     isActiveHeader,
     locations,
+    isGeoAccess,
   };
 };
 

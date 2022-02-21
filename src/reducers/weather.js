@@ -3,6 +3,7 @@ import {
   CHANGE_WEATHER_HEADER,
   DELETE_LOCATION,
   SET_CURRENT_LOCATION,
+  SET_GEO_ACCESS,
   SHOW_CURRENT_LOCATION_PRELOADER,
   SHOW_WEATHER_SETTINGS_PRELOADER,
   UPDATE_LOCATION,
@@ -26,6 +27,7 @@ const initialState = localInitialState || {
   isActiveHeader: false,
   isShowSettings: false,
   isShowSettingsPreloader: false,
+  isGeoAccess: false,
 };
 
 export function weatherReducer(state = initialState, action) {
@@ -97,6 +99,11 @@ export function weatherReducer(state = initialState, action) {
       return {
         ...state,
         isShowCurrentLocationPreloader: payload.bool,
+      };
+    case SET_GEO_ACCESS:
+      return {
+        ...state,
+        isGeoAccess: payload.bool,
       };
     default:
       return state;

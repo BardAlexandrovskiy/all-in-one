@@ -25,7 +25,7 @@ class WeatherLocationItem extends React.Component {
   };
 
   render() {
-    const { city, id, currentId, getCurrentLocationByGeo, isCurrentPreloader } =
+    const { city, id, currentId, getCurrentLocationByGeo, isGeoAccess } =
       this.props;
 
     const isCurrentLocation = id === currentId;
@@ -33,12 +33,12 @@ class WeatherLocationItem extends React.Component {
     return (
       <div className="weather-location-item">
         <div className="name">
-          {city || "Not found"}
+          {city || (isGeoAccess ? "Not defined" : "No geo access")}
           {isCurrentLocation && <FontAwesomeIcon icon={faMapMarkerAlt} />}
         </div>
         {isCurrentLocation && !city && (
           <div
-            className={`update-button${isCurrentPreloader ? " active" : ""}`}
+            className={`update-button`}
             onClick={() => getCurrentLocationByGeo()}
           >
             <FontAwesomeIcon icon={faRedo} />
@@ -58,13 +58,13 @@ const mapStateToProps = (state) => {
   const {
     weather: {
       currentLocation: { id: currentId },
-      isShowCurrentLocationPreloader: isCurrentPreloader,
+      isGeoAccess,
     },
   } = state;
 
   return {
     currentId,
-    isCurrentPreloader,
+    isGeoAccess,
   };
 };
 
