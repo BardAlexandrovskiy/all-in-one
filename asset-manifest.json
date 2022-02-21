@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/all-in-one/static/css/main.6256fc17.chunk.css",
-    "main.js": "/all-in-one/static/js/main.e4d9cf58.chunk.js",
-    "main.js.map": "/all-in-one/static/js/main.e4d9cf58.chunk.js.map",
+    "main.css": "/all-in-one/static/css/main.59bf9533.chunk.css",
+    "main.js": "/all-in-one/static/js/main.788c02ae.chunk.js",
+    "main.js.map": "/all-in-one/static/js/main.788c02ae.chunk.js.map",
     "runtime-main.js": "/all-in-one/static/js/runtime-main.25d427dd.js",
     "runtime-main.js.map": "/all-in-one/static/js/runtime-main.25d427dd.js.map",
     "static/css/2.a82bc5ae.chunk.css": "/all-in-one/static/css/2.a82bc5ae.chunk.css",
-    "static/js/2.1bf4071b.chunk.js": "/all-in-one/static/js/2.1bf4071b.chunk.js",
-    "static/js/2.1bf4071b.chunk.js.map": "/all-in-one/static/js/2.1bf4071b.chunk.js.map",
+    "static/js/2.3a51d9e5.chunk.js": "/all-in-one/static/js/2.3a51d9e5.chunk.js",
+    "static/js/2.3a51d9e5.chunk.js.map": "/all-in-one/static/js/2.3a51d9e5.chunk.js.map",
     "index.html": "/all-in-one/index.html",
     "service-worker.js": "/all-in-one/service-worker.js",
     "service-worker.js.map": "/all-in-one/service-worker.js.map",
     "static/css/2.a82bc5ae.chunk.css.map": "/all-in-one/static/css/2.a82bc5ae.chunk.css.map",
-    "static/css/main.6256fc17.chunk.css.map": "/all-in-one/static/css/main.6256fc17.chunk.css.map",
-    "static/js/2.1bf4071b.chunk.js.LICENSE.txt": "/all-in-one/static/js/2.1bf4071b.chunk.js.LICENSE.txt",
+    "static/css/main.59bf9533.chunk.css.map": "/all-in-one/static/css/main.59bf9533.chunk.css.map",
+    "static/js/2.3a51d9e5.chunk.js.LICENSE.txt": "/all-in-one/static/js/2.3a51d9e5.chunk.js.LICENSE.txt",
     "static/media/broken-clouds.409656ee.jpg": "/all-in-one/static/media/broken-clouds.409656ee.jpg",
     "static/media/clear-sky.f4a511bf.jpg": "/all-in-one/static/media/clear-sky.f4a511bf.jpg",
     "static/media/cloudiness-icon.3c722a27.svg": "/all-in-one/static/media/cloudiness-icon.3c722a27.svg",
@@ -21,20 +21,23 @@
     "static/media/few-clouds.520594be.jpg": "/all-in-one/static/media/few-clouds.520594be.jpg",
     "static/media/humidity-icon.2b6b198c.svg": "/all-in-one/static/media/humidity-icon.2b6b198c.svg",
     "static/media/mist.b539d855.jpg": "/all-in-one/static/media/mist.b539d855.jpg",
+    "static/media/pressure-icon.c42fc056.svg": "/all-in-one/static/media/pressure-icon.c42fc056.svg",
     "static/media/rain.7a452fa2.jpg": "/all-in-one/static/media/rain.7a452fa2.jpg",
     "static/media/scattered-clouds.ed9eaa12.jpg": "/all-in-one/static/media/scattered-clouds.ed9eaa12.jpg",
     "static/media/snow.01b3ee5e.jpg": "/all-in-one/static/media/snow.01b3ee5e.jpg",
     "static/media/sunrise-icon.0f831070.svg": "/all-in-one/static/media/sunrise-icon.0f831070.svg",
     "static/media/sunset-icon.07ffa76a.svg": "/all-in-one/static/media/sunset-icon.07ffa76a.svg",
     "static/media/thunderstorm.a6a82cb2.jpg": "/all-in-one/static/media/thunderstorm.a6a82cb2.jpg",
+    "static/media/visibility-icon.fe7ff1c3.svg": "/all-in-one/static/media/visibility-icon.fe7ff1c3.svg",
     "static/media/wind-direction-icon.91f6c105.svg": "/all-in-one/static/media/wind-direction-icon.91f6c105.svg",
+    "static/media/wind-gust-icon.1ca67753.svg": "/all-in-one/static/media/wind-gust-icon.1ca67753.svg",
     "static/media/wind-speed-icon.6d139a82.svg": "/all-in-one/static/media/wind-speed-icon.6d139a82.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.25d427dd.js",
     "static/css/2.a82bc5ae.chunk.css",
-    "static/js/2.1bf4071b.chunk.js",
-    "static/css/main.6256fc17.chunk.css",
-    "static/js/main.e4d9cf58.chunk.js"
+    "static/js/2.3a51d9e5.chunk.js",
+    "static/css/main.59bf9533.chunk.css",
+    "static/js/main.788c02ae.chunk.js"
   ]
 }
