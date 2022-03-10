@@ -31,32 +31,41 @@ export const getWeatherFunction = (cityName, lat, long) => {
       return {
         weatherInfo: {
           weatherDescription:
-            weatherDescription !== null
+            typeof weatherDescription === "string"
               ? weatherDescription.charAt(0).toUpperCase() +
                 weatherDescription.slice(1)
               : null,
           icon:
-            icon !== null
+            typeof icon === "string"
               ? `http://openweathermap.org/img/wn/${icon}@2x.png`
               : null,
-          temp: temp !== null ? `${Math.round(temp)}°C` : null,
+          temp: typeof temp === "number" ? `${Math.round(temp)}°C` : null,
           tempFeelsLike:
-            tempFeelsLike !== null ? `${Math.round(tempFeelsLike)}°C` : null,
-          humidity: humidity !== null ? `${humidity}%` : null,
-          windSpeed: windSpeed !== null ? `${windSpeed} m/s` : null,
-          windDeg: windDeg !== null ? `${windDeg} deg` : null,
-          windGust: windGust !== null ? `${windGust} m/s` : null,
-          cloudiness: cloudiness !== null ? `${cloudiness}%` : null,
-          pressure: pressure !== null ? `${pressure} hPa` : null,
+            typeof tempFeelsLike === "number"
+              ? `${Math.round(tempFeelsLike)}°C`
+              : null,
+          humidity: typeof humidity === "number" ? `${humidity}%` : null,
+          windSpeed: typeof windSpeed === "number" ? `${windSpeed} m/s` : null,
+          windDeg: typeof windDeg === "number" ? `${windDeg} deg` : null,
+          windGust: typeof windGust === "number" ? `${windGust} m/s` : null,
+          cloudiness: typeof cloudiness === "number" ? `${cloudiness}%` : null,
+          pressure: typeof pressure === "number" ? `${pressure} hPa` : null,
           sunrise:
-            sunrise !== null ? moment(sunrise * 1000).format("HH:mm") : null,
+            typeof sunrise === "number"
+              ? moment(sunrise * 1000).format("HH:mm")
+              : null,
           sunset:
-            sunset !== null ? moment(sunset * 1000).format("HH:mm") : null,
-          visibility: visibility !== null ? `${visibility} m` : null,
-          id: id !== null ? id : null,
-          date: dt !== null ? moment(dt * 1000).format("Do MMMM dddd") : null,
+            typeof sunset === "number"
+              ? moment(sunset * 1000).format("HH:mm")
+              : null,
+          visibility: typeof visibility === "number" ? `${visibility} m` : null,
+          id: typeof id === "number" ? id : null,
+          date:
+            typeof dt === "number"
+              ? moment(dt * 1000).format("Do MMMM dddd")
+              : null,
         },
-        cityName,
+        cityName: typeof cityName === "string" ? cityName : null,
       };
     });
 };

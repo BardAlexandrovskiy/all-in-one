@@ -239,16 +239,16 @@ class WeatherInfoItem extends React.Component {
                       {`Wind speed: ${windSpeed}`}
                     </div>
                   )}
-                  {!!windGust && (
-                    <div className="inner">
-                      <WindGustIcon />
-                      {`Wind gust: ${windGust}`}
-                    </div>
-                  )}
                   {!!windDeg && (
-                    <div className="inner long">
+                    <div className="inner">
                       <WindDirectionIcon />
                       {`Wind direction: ${windDeg}`}
+                    </div>
+                  )}
+                  {!!windGust && (
+                    <div className="inner long">
+                      <WindGustIcon />
+                      {`Wind gust: ${windGust}`}
                     </div>
                   )}
                 </div>
