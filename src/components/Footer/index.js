@@ -1,11 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import { NavLink } from "react-router-dom";
 import {
   faCloud,
+  faGrinTongueWink,
   faHome,
   faListUl,
-  faNewspaper,
 } from "@fortawesome/free-solid-svg-icons";
 import "./styles.scss";
 
@@ -23,8 +22,8 @@ const Footer = () => {
             </li>
             <li>
               <NavLink to="/news">
-                <FontAwesomeIcon icon={faNewspaper} />
-                News
+                <FontAwesomeIcon icon={faGrinTongueWink} />
+                Fun
               </NavLink>
             </li>
             <li>

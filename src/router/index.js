@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import Footer from "../components/Footer";
 import MainScreen from "../screens/MainScreen";
-import NewsScreen from "../screens/NewsScreen";
+import JokesScreen from "../screens/JokesScreen";
 import WeatherScreen from "../screens/WeatherScreen";
 import TasksScreen from "../screens/TasksScreen";
 import { connect } from "react-redux";
@@ -30,7 +30,7 @@ const RouterAnimation = () => {
         <CSSTransition key={location.key} timeout={300}>
           <Routes location={location}>
             <Route path="/" element={<MainScreen />} />
-            <Route path="/news" element={<NewsScreen />} />
+            <Route path="/news" element={<JokesScreen />} />
             <Route path="/weather" element={<WeatherScreen />} />
             <Route
               path="/weather/settings"
