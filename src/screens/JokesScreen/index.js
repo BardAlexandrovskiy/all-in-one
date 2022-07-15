@@ -1,5 +1,5 @@
 import React from "react";
-import TextBanner from "../../components/TextBanner";
+import JokesFilters from "../../components/JokesFilters";
 import "./styles.scss";
 
 class JokesScreen extends React.Component {
@@ -8,7 +8,7 @@ class JokesScreen extends React.Component {
   render() {
     return (
       <div className="jokes-screen screen">
-        <TextBanner text={"Jokes will be here. Coming soon."} />
+        <JokesFilters />
       </div>
     );
   }
