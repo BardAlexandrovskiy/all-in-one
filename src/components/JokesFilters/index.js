@@ -26,6 +26,7 @@ class JokesFilters extends React.Component {
         { value: "single", isCheck: false },
         { value: "twopart", isCheck: false },
       ],
+      searchValue: "",
       amountJokes: 1,
     };
   }
@@ -58,8 +59,45 @@ class JokesFilters extends React.Component {
     this.setState({ blacklist: updatedBlacklist });
   };
 
+  handleChangeJokeType = (value) => {
+    const { jokeType } = this.state;
+
+    const updatedJokeType = jokeType.map((item) => {
+      if (item.value === value) {
+        return { ...item, isCheck: true };
+      } else return { ...item, isCheck: false };
+    });
+
+    this.setState({ jokeType: updatedJokeType });
+  };
+
+  handleChangeSearchInput = (event) => {
+    this.setState({ searchValue: event.target.value });
+  };
+
+  handleChangeAmountInput = (event) => {
+    let number = event.target.value;
+
+    console.log(number);
+
+    if (number > 10) {
+      number = 10;
+    } else if (number < 1) {
+      number = 1;
+    }
+
+    this.setState({ amountJokes: number });
+  };
+
   render() {
-    const { categoryTypeValue, categoriesList, blacklist } = this.state;
+    const {
+      categoryTypeValue,
+      categoriesList,
+      blacklist,
+      jokeType,
+      searchValue,
+      amountJokes,
+    } = this.state;
 
     return (
       <section className="jokes-filters">
@@ -85,9 +123,7 @@ class JokesFilters extends React.Component {
 
                     return (
                       <div key={value} className="checkbox-wrapper">
-                        <label id={id} htmlFor={`checkbox${value}`}>
-                          {value}
-                        </label>
+                        <label htmlFor={id}>{value}</label>
                         <input
                           checked={isCheck}
                           type="checkbox"
@@ -105,13 +141,11 @@ class JokesFilters extends React.Component {
               <h2>Select flags to blacklist</h2>
               {blacklist.map((item, index) => {
                 const { isCheck, value } = item;
-                const id = `blacklist-item-${index}`;
+                const id = `blacklist-${index}`;
 
                 return (
                   <div key={value} className="checkbox-wrapper">
-                    <label id={id} htmlFor={`checkbox${value}`}>
-                      {value}
-                    </label>
+                    <label htmlFor={id}>{value}</label>
                     <input
                       checked={isCheck}
                       type="checkbox"
@@ -122,6 +156,47 @@ class JokesFilters extends React.Component {
                   </div>
                 );
               })}
+            </div>
+            <div className="joke-type">
+              <h2>Select at least one joke type</h2>
+              {jokeType.map((item, index) => {
+                const { isCheck, value } = item;
+                const id = `joke-type-${index}`;
+
+                return (
+                  <div key={value} className="radio-wrapper">
+                    <label htmlFor={id}>{value}</label>
+                    <input
+                      checked={isCheck}
+                      type="radio"
+                      value={value}
+                      id={id}
+                      onChange={() => this.handleChangeJokeType(value)}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <div className="search-joke">
+              <h2>Search for a joke that contains this search string</h2>
+              <div className="input-wrapper">
+                <input
+                  onChange={this.handleChangeSearchInput}
+                  placeholder="Search string"
+                  type="text"
+                  value={searchValue}
+                />
+              </div>
+            </div>
+            <div className="amount-jokes">
+              <h2>Amount of jokes</h2>
+              <div className="input-wrapper">
+                <input
+                  onChange={this.handleChangeAmountInput}
+                  type="number"
+                  value={amountJokes}
+                />
+              </div>
             </div>
           </form>
         </div>
