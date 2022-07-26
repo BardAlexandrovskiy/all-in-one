@@ -21,7 +21,7 @@ const Footer = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/news">
+              <NavLink to="/fun">
                 <FontAwesomeIcon icon={faGrinTongueWink} />
                 Fun
               </NavLink>

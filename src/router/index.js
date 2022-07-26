@@ -30,7 +30,7 @@ const RouterAnimation = () => {
         <CSSTransition key={location.key} timeout={300}>
           <Routes location={location}>
             <Route path="/" element={<MainScreen />} />
-            <Route path="/news" element={<JokesScreen />} />
+            <Route path="/fun" element={<JokesScreen />} />
             <Route path="/weather" element={<WeatherScreen />} />
             <Route
               path="/weather/settings"

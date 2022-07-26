@@ -1,92 +1,35 @@
 import React from "react";
+import { connect } from "react-redux";
+import {
+  changeAmountValue,
+  changeBlackList,
+  changeCategories,
+  changeCategoryType,
+  changeJokeType,
+  changeSearchValue,
+  resetFilters,
+} from "../../actions/jokes";
 
 class JokesFilters extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categoryTypeValue: "any",
-      categoriesList: [
-        { value: "Programming", isCheck: false },
-        { value: "Miscellaneous", isCheck: false },
-        { value: "Dark", isCheck: false },
-        { value: "Pun", isCheck: false },
-        { value: "Spooky", isCheck: false },
-        { value: "Christmas", isCheck: false },
-      ],
-      blacklist: [
-        { value: "nsfw", isCheck: false },
-        { value: "religious", isCheck: false },
-        { value: "political", isCheck: false },
-        { value: "racist", isCheck: false },
-        { value: "sexist", isCheck: false },
-        { value: "explicit", isCheck: false },
-      ],
-      jokeType: [
-        { value: "both", isCheck: true },
-        { value: "single", isCheck: false },
-        { value: "twopart", isCheck: false },
-      ],
-      searchValue: "",
-      amountJokes: 1,
-    };
-  }
+  handleBlurAmountInput = () => {
+    const { amountValue, changeAmountValue } = this.props;
 
-  handleChangeCategoryType = (event) => {
-    this.setState({ categoryTypeValue: event.target.value });
-  };
-
-  handleChangeCategories = (value) => {
-    const { categoriesList } = this.state;
-
-    const updatedCategoriesList = categoriesList.map((category) => {
-      if (category.value === value) {
-        return { ...category, isCheck: !category.isCheck };
-      } else return category;
-    });
-
-    this.setState({ categoriesList: updatedCategoriesList });
-  };
-
-  handleChangeBlacklist = (value) => {
-    const { blacklist } = this.state;
-
-    const updatedBlacklist = blacklist.map((item) => {
-      if (item.value === value) {
-        return { ...item, isCheck: !item.isCheck };
-      } else return item;
-    });
-
-    this.setState({ blacklist: updatedBlacklist });
-  };
-
-  handleChangeJokeType = (value) => {
-    const { jokeType } = this.state;
-
-    const updatedJokeType = jokeType.map((item) => {
-      if (item.value === value) {
-        return { ...item, isCheck: true };
-      } else return { ...item, isCheck: false };
-    });
-
-    this.setState({ jokeType: updatedJokeType });
-  };
-
-  handleChangeSearchInput = (event) => {
-    this.setState({ searchValue: event.target.value });
-  };
-
-  handleChangeAmountInput = (event) => {
-    let number = event.target.value;
-
-    console.log(number);
-
-    if (number > 10) {
-      number = 10;
-    } else if (number < 1) {
-      number = 1;
+    if (amountValue > 10) {
+      changeAmountValue(10);
+    } else if (amountValue < 1) {
+      changeAmountValue(1);
     }
+  };
 
-    this.setState({ amountJokes: number });
+  handleSubmit = (event) => {
+    // event.preventDefault();
+    // console.log("submit");
+  };
+
+  handleReset = (event) => {
+    event.preventDefault();
+    const { resetFilters } = this.props;
+    resetFilters();
   };
 
   render() {
@@ -96,19 +39,27 @@ class JokesFilters extends React.Component {
       blacklist,
       jokeType,
       searchValue,
-      amountJokes,
-    } = this.state;
+      amountValue,
+      changeCategoryType,
+      changeCategories,
+      changeBlackList,
+      changeJokeType,
+      changeSearchValue,
+      changeAmountValue,
+    } = this.props;
 
     return (
       <section className="jokes-filters">
         <div className="container filters-container">
           <h1 className="title">Get a joke</h1>
-          <form className="filters">
+          <form onSubmit={this.handleSubmit} className="filters">
             <div className="cetegories">
               <h2>Select category / categories</h2>
               <label htmlFor="select-category">Category</label>
               <select
-                onChange={this.handleChangeCategoryType}
+                onChange={(event) => {
+                  changeCategoryType(event.target.value);
+                }}
                 value={categoryTypeValue}
                 id="select-category"
               >
@@ -119,17 +70,15 @@ class JokesFilters extends React.Component {
                 <div className="categories-list">
                   {categoriesList.map((category, index) => {
                     const { isCheck, value } = category;
-                    const id = `categoty-${index}`;
-
+                    const id = `category-${index}`;
                     return (
                       <div key={value} className="checkbox-wrapper">
                         <label htmlFor={id}>{value}</label>
                         <input
-                          checked={isCheck}
+                          defaultChecked={isCheck}
                           type="checkbox"
-                          value={value}
                           id={id}
-                          onChange={() => this.handleChangeCategories(value)}
+                          onChange={() => changeCategories(value)}
                         />
                       </div>
                     );
@@ -149,9 +98,8 @@ class JokesFilters extends React.Component {
                     <input
                       checked={isCheck}
                       type="checkbox"
-                      value={value}
                       id={id}
-                      onChange={() => this.handleChangeBlacklist(value)}
+                      onChange={() => changeBlackList(value)}
                     />
                   </div>
                 );
@@ -169,9 +117,8 @@ class JokesFilters extends React.Component {
                     <input
                       checked={isCheck}
                       type="radio"
-                      value={value}
                       id={id}
-                      onChange={() => this.handleChangeJokeType(value)}
+                      onChange={() => changeJokeType(value)}
                     />
                   </div>
                 );
@@ -181,7 +128,7 @@ class JokesFilters extends React.Component {
               <h2>Search for a joke that contains this search string</h2>
               <div className="input-wrapper">
                 <input
-                  onChange={this.handleChangeSearchInput}
+                  onChange={(e) => changeSearchValue(e.target.value)}
                   placeholder="Search string"
                   type="text"
                   value={searchValue}
@@ -192,11 +139,23 @@ class JokesFilters extends React.Component {
               <h2>Amount of jokes</h2>
               <div className="input-wrapper">
                 <input
-                  onChange={this.handleChangeAmountInput}
+                  onChange={(e) => changeAmountValue(e.target.value)}
+                  onBlur={this.handleBlurAmountInput}
                   type="number"
-                  value={amountJokes}
+                  value={amountValue}
                 />
               </div>
+            </div>
+            <div className="buttons">
+              <button
+                onClick={this.handleReset}
+                className="button reset-button"
+              >
+                Reset all
+              </button>
+              <button type="submit" className="button submit-button">
+                Submit
+              </button>
             </div>
           </form>
         </div>
@@ -205,4 +164,36 @@ class JokesFilters extends React.Component {
   }
 }
 
-export default JokesFilters;
+const mapStateToProps = (store) => {
+  const {
+    jokes: {
+      categoryTypeValue,
+      categoriesList,
+      blacklist,
+      jokeType,
+      searchValue,
+      amountValue,
+    },
+  } = store;
+
+  return {
+    categoryTypeValue,
+    categoriesList,
+    blacklist,
+    jokeType,
+    searchValue,
+    amountValue,
+  };
+};
+
+const mapDispatchToProps = {
+  changeCategoryType: (value) => changeCategoryType(value),
+  changeCategories: (value) => changeCategories(value),
+  changeBlackList: (value) => changeBlackList(value),
+  changeJokeType: (value) => changeJokeType(value),
+  changeSearchValue: (value) => changeSearchValue(value),
+  changeAmountValue: (value) => changeAmountValue(value),
+  resetFilters: () => resetFilters(),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(JokesFilters);
