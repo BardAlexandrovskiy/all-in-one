@@ -45,7 +45,7 @@ const initialState = localInitialState || defaultState;
 
 export function jokesReducer(state = initialState, action) {
   const { type, payload } = action;
-  const { categoriesList, blacklist, jokeType } = initialState;
+  const { categoriesList, blacklist, jokeType } = state;
 
   switch (type) {
     case CHANGE_CATEGORY_TYPE:
@@ -55,7 +55,6 @@ export function jokesReducer(state = initialState, action) {
         ...state,
         categoriesList: categoriesList.map((category) => {
           if (category.value === payload.value) {
-            console.log(category.isCheck);
             return { ...category, isCheck: !category.isCheck };
           } else return category;
         }),

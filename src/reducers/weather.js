@@ -15,7 +15,7 @@ if (localInitialState) {
   localInitialState = localInitialState.weather;
 } else localInitialState = null;
 
-const initialState = localInitialState || {
+const defaultState = {
   currentLocation: {
     city: "",
     weatherInfo: {},
@@ -29,6 +29,8 @@ const initialState = localInitialState || {
   isShowSettingsPreloader: false,
   isGeoAccess: false,
 };
+
+const initialState = localInitialState || defaultState;
 
 export function weatherReducer(state = initialState, action) {
   const { type, payload } = action;

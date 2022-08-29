@@ -17,12 +17,14 @@ if (localInitialState) {
   localInitialState = localInitialState.tasks;
 } else localInitialState = null;
 
-const initialState = localInitialState || {
+const defaultState = {
   list: [],
   filter: filterAll.name,
   searchTasksInputValue: "",
   addTaskInputValue: "",
 };
+
+const initialState = localInitialState || defaultState;
 
 export function tasksReducer(state = initialState, action) {
   const { type, payload } = action;
