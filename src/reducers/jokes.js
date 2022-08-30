@@ -6,6 +6,8 @@ import {
   CHANGE_JOKE_TYPE,
   CHANGE_SEARCH_VALUE,
   RESET_FILTERS,
+  SET_JOKES,
+  SHOW_JOKES_PRELOADER,
 } from "../actions/jokes";
 
 let localInitialState = JSON.parse(localStorage.getItem("all-in-one"));
@@ -15,7 +17,9 @@ if (localInitialState) {
 } else localInitialState = null;
 
 const defaultState = {
-  categoryTypeValue: "any",
+  isShowJokesPreloader: false,
+  categoryTypeValue: "Any",
+  jokesList: [],
   categoriesList: [
     { value: "Programming", isCheck: false },
     { value: "Miscellaneous", isCheck: false },
@@ -83,6 +87,10 @@ export function jokesReducer(state = initialState, action) {
       return { ...state, amountValue: payload.value };
     case RESET_FILTERS:
       return defaultState;
+    case SHOW_JOKES_PRELOADER:
+      return { ...state, isShowJokesPreloader: payload.bool };
+    case SET_JOKES:
+      return { ...state, jokesList: payload.list };
     default:
       return state;
   }

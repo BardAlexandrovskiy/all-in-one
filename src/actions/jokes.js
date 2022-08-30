@@ -6,6 +6,9 @@ export const CHANGE_JOKE_TYPE = "CHANGE_JOKE_TYPE";
 export const CHANGE_SEARCH_VALUE = "CHANGE_SEARCH_VALUE";
 export const CHANGE_AMOUNT_VALUE = "CHANGE_AMOUNT_VALUE";
 export const RESET_FILTERS = "RESET_FILTERS";
+export const SHOW_JOKES_PRELOADER = "SHOW_JOKES_PRELOADER";
+export const SET_JOKES = "SET_JOKES";
+export const DELETE_JOKES = "DELETE_JOKES";
 
 // Actions
 export const changeCategoryType = (value) => {
@@ -53,5 +56,43 @@ export const changeAmountValue = (value) => {
 export const resetFilters = () => {
   return {
     type: RESET_FILTERS,
+  };
+};
+
+export const showJokesPreloader = (bool) => {
+  return {
+    type: SHOW_JOKES_PRELOADER,
+    payload: { bool },
+  };
+};
+
+export const setJokes = (list) => {
+  return {
+    type: SET_JOKES,
+    payload: { list },
+  };
+};
+
+export const getJokes = (request) => {
+  return (dispatch) => {
+    dispatch(showJokesPreloader(true));
+
+    return fetch(request)
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+        throw new Error(response.status);
+      })
+      .then((response) => {
+        const { error, jokes } = response;
+        if (jokes && !error) {
+          dispatch(setJokes(jokes));
+        } else throw new Error("Jokes not found");
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        dispatch(showJokesPreloader(false));
+      });
   };
 };

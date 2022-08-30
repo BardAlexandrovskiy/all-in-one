@@ -33,6 +33,8 @@ import {
   setCurrentLocation,
   updateLocation,
 } from "../../actions/weather";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 class WeatherInfoItem extends React.Component {
   constructor(props) {
@@ -43,6 +45,8 @@ class WeatherInfoItem extends React.Component {
       errorText: "",
     };
     this.infoBlockRef = React.createRef();
+    this.backgroundImageRef = React.createRef();
+    this.triggerRef = React.createRef();
   }
 
   componentDidUpdate(prevProps) {
@@ -55,6 +59,18 @@ class WeatherInfoItem extends React.Component {
       if (this.infoBlockRef.current) {
         this.infoBlockRef.current.scrollTo(0, 0);
       }
+
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.to(this.backgroundImageRef.current, {
+        scrollTrigger: {
+          trigger: this.triggerRef.current,
+          scrub: true,
+          start: "top top",
+          end: "bottom bottom",
+          scroller: this.infoBlockRef.current,
+        },
+        top: 0,
+      });
     }
   }
 
@@ -204,79 +220,86 @@ class WeatherInfoItem extends React.Component {
             ref={this.infoBlockRef}
             onScroll={this.handleScrollInfoBlock}
           >
-            <img className="background-image" src={backgroundImageSrc} alt="" />
-            <div className="container info-container">
-              <div className="main">
-                {!!temp && <span className="current-temp">{temp}</span>}
-                {!!weatherDescription && (
-                  <div className="description">
-                    {weatherDescription}
-                    {!!icon && <img src={icon} alt="" />}
-                  </div>
-                )}
-                {!!date && <div className="current-date">{date}</div>}
-                {!!tempFeelsLike && (
-                  <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
-                )}
-              </div>
-              <div className="other-info">
-                {!!cloudiness && (
-                  <div className="info-item">
-                    <CloudinessIcon />
-                    {`Cloudiness: ${cloudiness}`}
-                  </div>
-                )}
-                {!!humidity && (
-                  <div className="info-item">
-                    <HumidityIcon />
-                    {`Humidity: ${humidity}`}
-                  </div>
-                )}
-                <div className="info-item full">
-                  {!!windSpeed && (
-                    <div className="inner">
-                      <WindSpeedIcon />
-                      {`Wind speed: ${windSpeed}`}
+            <img
+              ref={this.backgroundImageRef}
+              className="background-image"
+              src={backgroundImageSrc}
+              alt=""
+            />
+            <div className="trigger-wrapper" ref={this.triggerRef}>
+              <div className="container info-container">
+                <div className="main">
+                  {!!temp && <span className="current-temp">{temp}</span>}
+                  {!!weatherDescription && (
+                    <div className="description">
+                      {weatherDescription}
+                      {!!icon && <img src={icon} alt="" />}
                     </div>
                   )}
-                  {!!windDeg && (
-                    <div className="inner">
-                      <WindDirectionIcon />
-                      {`Wind direction: ${windDeg}`}
-                    </div>
-                  )}
-                  {!!windGust && (
-                    <div className="inner long">
-                      <WindGustIcon />
-                      {`Wind gust: ${windGust}`}
-                    </div>
+                  {!!date && <div className="current-date">{date}</div>}
+                  {!!tempFeelsLike && (
+                    <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
                   )}
                 </div>
-                {!!visibility && (
-                  <div className="info-item">
-                    <VisibilityIcon />
-                    <span>{`Visibility: ${visibility}`}</span>
-                  </div>
-                )}
-                {!!pressure && (
-                  <div className="info-item">
-                    <PressureIcon />
-                    <span>{`Pressure: ${pressure}`}</span>
-                  </div>
-                )}
-                <div className="info-item full">
-                  {!!sunrise && (
-                    <div className="inner">
-                      <SunriseIcon />
-                      <span>{`Sunrise: ${sunrise}`}</span>
+                <div className="other-info">
+                  {!!cloudiness && (
+                    <div className="info-item">
+                      <CloudinessIcon />
+                      {`Cloudiness: ${cloudiness}`}
                     </div>
                   )}
-                  {!!sunset && (
-                    <div className="inner">
-                      <SunsetIcon />
-                      <span>{`Sunset: ${sunset}`}</span>
+                  {!!humidity && (
+                    <div className="info-item">
+                      <HumidityIcon />
+                      {`Humidity: ${humidity}`}
                     </div>
                   )}
+                  <div className="info-item full">
+                    {!!windSpeed && (
+                      <div className="inner">
+                        <WindSpeedIcon />
+                        {`Wind speed: ${windSpeed}`}
+                      </div>
+                    )}
+                    {!!windDeg && (
+                      <div className="inner">
+                        <WindDirectionIcon />
+                        {`Wind direction: ${windDeg}`}
+                      </div>
+                    )}
+                    {!!windGust && (
+                      <div className="inner long">
+                        <WindGustIcon />
+                        {`Wind gust: ${windGust}`}
+                      </div>
+                    )}
+                  </div>
+                  {!!visibility && (
+                    <div className="info-item">
+                      <VisibilityIcon />
+                      <span>{`Visibility: ${visibility}`}</span>
+                    </div>
+                  )}
+                  {!!pressure && (
+                    <div className="info-item">
+                      <PressureIcon />
+                      <span>{`Pressure: ${pressure}`}</span>
+                    </div>
+                  )}
+                  <div className="info-item full">
+                    {!!sunrise && (
+                      <div className="inner">
+                        <SunriseIcon />
+                        <span>{`Sunrise: ${sunrise}`}</span>
+                      </div>
+                    )}
+                    {!!sunset && (
+                      <div className="inner">
+                        <SunsetIcon />
+                        <span>{`Sunset: ${sunset}`}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
