@@ -7,10 +7,18 @@ import {
   changeCategoryType,
   changeJokeType,
   changeSearchValue,
+  getJokes,
   resetFilters,
 } from "../../actions/jokes";
 
 class JokesFilters extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isCategoriesRedBorder: false,
+    };
+  }
+
   handleBlurAmountInput = () => {
     const { amountValue, changeAmountValue } = this.props;
 
@@ -22,8 +30,78 @@ class JokesFilters extends React.Component {
   };
 
   handleSubmit = (event) => {
-    // event.preventDefault();
-    // console.log("submit");
+    event.preventDefault();
+    const {
+      categoryTypeValue,
+      categoriesList,
+      blacklist,
+      jokeType,
+      searchValue,
+      amountValue,
+    } = this.props;
+
+    let request = "https://v2.jokeapi.dev/joke/";
+    const requestOptions = [];
+    let areSelectedCategories = false;
+
+    if (categoryTypeValue === "Any") {
+      areSelectedCategories = true;
+      request += "Any";
+    }
+
+    if (categoryTypeValue === "Custom") {
+      const selectedCategories = categoriesList.filter(
+        ({ isCheck }) => isCheck
+      );
+
+      if (selectedCategories.length) {
+        areSelectedCategories = true;
+        selectedCategories.forEach(({ value }, index) => {
+          if (index < selectedCategories.length - 1) {
+            request += `${value},`;
+          } else {
+            request += value;
+          }
+        });
+      }
+    }
+
+    if (areSelectedCategories) {
+      const blacklistSelected = blacklist.filter(({ isCheck }) => isCheck);
+      let blacklistOptios = "";
+
+      if (blacklistSelected.length) {
+        blacklistOptios += "blacklistFlags=";
+        blacklistSelected.forEach(({ value }, index) => {
+          if (index < blacklistSelected.length - 1) {
+            blacklistOptios += `${value},`;
+          } else {
+            blacklistOptios += value;
+          }
+        });
+
+        requestOptions.push(blacklistOptios);
+      }
+
+      const jokeTypeSelected = jokeType.filter(({ isCheck }) => isCheck);
+      const currentJokeType = 
+
+      if (
+        jokeTypeSelected[0] === "single" ||
+        jokeTypeSelected[0] === "twopart"
+      ) {
+        requestOptions.push(`type=${jokeTypeSelected[0]}`);
+      }
+
+      console.log(request, requestOptions);
+    } else {
+      this.setState({ isCategoriesRedBorder: true });
+      setTimeout(() => {
+        this.setState({ isCategoriesRedBorder: false });
+      }, 3000);
+    }
+
+    // getJokes(request);
   };
 
   handleReset = (event) => {
@@ -63,10 +141,10 @@ class JokesFilters extends React.Component {
                 value={categoryTypeValue}
                 id="select-category"
               >
-                <option value="any">Any</option>
-                <option value="custom">Custom</option>
+                <option value="Any">Any</option>
+                <option value="Custom">Custom</option>
               </select>
-              {categoryTypeValue === "custom" && (
+              {categoryTypeValue === "Custom" && (
                 <div className="categories-list">
                   {categoriesList.map((category, index) => {
                     const { isCheck, value } = category;
@@ -194,6 +272,7 @@ const mapDispatchToProps = {
   changeSearchValue: (value) => changeSearchValue(value),
   changeAmountValue: (value) => changeAmountValue(value),
   resetFilters: () => resetFilters(),
+  getJokes: (request) => getJokes(request),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(JokesFilters);
