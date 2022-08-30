@@ -38,8 +38,10 @@ class JokesFilters extends React.Component {
       jokeType,
       searchValue,
       amountValue,
+      getJokes
     } = this.props;
 
+    // Create request
     let request = "https://v2.jokeapi.dev/joke/";
     const requestOptions = [];
     let areSelectedCategories = false;
@@ -84,16 +86,35 @@ class JokesFilters extends React.Component {
       }
 
       const jokeTypeSelected = jokeType.filter(({ isCheck }) => isCheck);
-      const currentJokeType = 
+      const currentJokeType = jokeTypeSelected[0].value;
 
       if (
-        jokeTypeSelected[0] === "single" ||
-        jokeTypeSelected[0] === "twopart"
+        currentJokeType === "single" ||
+        currentJokeType === "twopart"
       ) {
-        requestOptions.push(`type=${jokeTypeSelected[0]}`);
+        requestOptions.push(`type=${currentJokeType}`);
       }
 
-      console.log(request, requestOptions);
+      if(searchValue) {
+        requestOptions.push(`contains=${searchValue}`)
+      }
+
+      if(amountValue > 1) {
+        requestOptions.push(`amount=${amountValue}`);
+      }
+
+      if(requestOptions.length) {
+        request += '?';
+        requestOptions.forEach((option, index) => {
+            if(index < requestOptions.length - 1) {
+              request += `${option}&`;
+            } else {
+              request += option;
+            }
+        });
+      }
+
+      getJokes(request);
     } else {
       this.setState({ isCategoriesRedBorder: true });
       setTimeout(() => {

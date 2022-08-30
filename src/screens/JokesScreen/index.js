@@ -8,7 +8,9 @@ class JokesScreen extends React.Component {
   render() {
     return (
       <div className="jokes-screen screen">
+        <div className="scroll-container">
         <JokesFilters />
+        </div>
       </div>
     );
   }

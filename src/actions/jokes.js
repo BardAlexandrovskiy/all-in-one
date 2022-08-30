@@ -87,6 +87,7 @@ export const getJokes = (request) => {
       .then((response) => {
         const { error, jokes } = response;
         if (jokes && !error) {
+          console.log(jokes);
           dispatch(setJokes(jokes));
         } else throw new Error("Jokes not found");
       })
