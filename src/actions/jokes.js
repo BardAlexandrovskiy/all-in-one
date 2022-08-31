@@ -74,6 +74,7 @@ export const setJokes = (list) => {
 };
 
 export const getJokes = (request) => {
+  console.log(request);
   return (dispatch) => {
     dispatch(showJokesPreloader(true));
 
@@ -85,10 +86,15 @@ export const getJokes = (request) => {
         throw new Error(response.status);
       })
       .then((response) => {
-        const { error, jokes } = response;
-        if (jokes && !error) {
-          console.log(jokes);
-          dispatch(setJokes(jokes));
+        console.log(response);
+        const { error, jokes, joke, setup, delivery } = response;
+        if ((jokes || joke || setup || delivery) && !error) {
+          if (jokes) {
+            dispatch(setJokes(jokes));
+          } else {
+            delete response.error;
+            dispatch(setJokes([response]));
+          }
         } else throw new Error("Jokes not found");
       })
       .catch((error) => console.log(error))

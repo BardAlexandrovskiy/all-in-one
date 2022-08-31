@@ -1,3 +1,5 @@
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
 import {
@@ -10,6 +12,11 @@ import {
   getJokes,
   resetFilters,
 } from "../../actions/jokes";
+import "./styles.scss";
+import { CSSTransition } from "react-transition-group";
+
+// Jokes backgrounds
+import filtersBacjground from "../../assets/images/jokes/jokes-background.jpg";
 
 class JokesFilters extends React.Component {
   constructor(props) {
@@ -38,7 +45,7 @@ class JokesFilters extends React.Component {
       jokeType,
       searchValue,
       amountValue,
-      getJokes
+      getJokes,
     } = this.props;
 
     // Create request
@@ -88,29 +95,26 @@ class JokesFilters extends React.Component {
       const jokeTypeSelected = jokeType.filter(({ isCheck }) => isCheck);
       const currentJokeType = jokeTypeSelected[0].value;
 
-      if (
-        currentJokeType === "single" ||
-        currentJokeType === "twopart"
-      ) {
+      if (currentJokeType === "single" || currentJokeType === "twopart") {
         requestOptions.push(`type=${currentJokeType}`);
       }
 
-      if(searchValue) {
-        requestOptions.push(`contains=${searchValue}`)
+      if (searchValue) {
+        requestOptions.push(`contains=${searchValue}`);
       }
 
-      if(amountValue > 1) {
+      if (amountValue > 1) {
         requestOptions.push(`amount=${amountValue}`);
       }
 
-      if(requestOptions.length) {
-        request += '?';
+      if (requestOptions.length) {
+        request += "?";
         requestOptions.forEach((option, index) => {
-            if(index < requestOptions.length - 1) {
-              request += `${option}&`;
-            } else {
-              request += option;
-            }
+          if (index < requestOptions.length - 1) {
+            request += `${option}&`;
+          } else {
+            request += option;
+          }
         });
       }
 
@@ -121,8 +125,6 @@ class JokesFilters extends React.Component {
         this.setState({ isCategoriesRedBorder: false });
       }, 3000);
     }
-
-    // getJokes(request);
   };
 
   handleReset = (event) => {
@@ -147,26 +149,39 @@ class JokesFilters extends React.Component {
       changeAmountValue,
     } = this.props;
 
+    const { isCategoriesRedBorder } = this.state;
+
     return (
       <section className="jokes-filters">
+        <img className="filters-background" src={filtersBacjground} />
         <div className="container filters-container">
-          <h1 className="title">Get a joke</h1>
+          <h1 className="title">Get jokes</h1>
           <form onSubmit={this.handleSubmit} className="filters">
-            <div className="cetegories">
-              <h2>Select category / categories</h2>
-              <label htmlFor="select-category">Category</label>
-              <select
-                onChange={(event) => {
-                  changeCategoryType(event.target.value);
-                }}
-                value={categoryTypeValue}
-                id="select-category"
+            <div className="cetegories joke-options">
+              <h2>Select category / categories:</h2>
+              <div className="select-category-wrapper">
+                <FontAwesomeIcon icon={faChevronDown} />
+                <select
+                  onChange={(event) => {
+                    changeCategoryType(event.target.value);
+                  }}
+                  value={categoryTypeValue}
+                  id="select-category"
+                >
+                  <option value="Any">Any</option>
+                  <option value="Custom">Custom</option>
+                </select>
+              </div>
+              <CSSTransition
+                in={categoryTypeValue === "Custom"}
+                timeout={5000}
+                mountOnEnter
               >
-                <option value="Any">Any</option>
-                <option value="Custom">Custom</option>
-              </select>
-              {categoryTypeValue === "Custom" && (
-                <div className="categories-list">
+                <div
+                  className={`categories-list${
+                    isCategoriesRedBorder ? " red-border" : ""
+                  }`}
+                >
                   {categoriesList.map((category, index) => {
                     const { isCheck, value } = category;
                     const id = `category-${index}`;
@@ -183,48 +198,52 @@ class JokesFilters extends React.Component {
                     );
                   })}
                 </div>
-              )}
+              </CSSTransition>
             </div>
-            <div className="blacklist">
-              <h2>Select flags to blacklist</h2>
-              {blacklist.map((item, index) => {
-                const { isCheck, value } = item;
-                const id = `blacklist-${index}`;
+            <div className="blacklist joke-options">
+              <h2>Select flags to blacklist:</h2>
+              <div className="wrapper">
+                {blacklist.map((item, index) => {
+                  const { isCheck, value } = item;
+                  const id = `blacklist-${index}`;
 
-                return (
-                  <div key={value} className="checkbox-wrapper">
-                    <label htmlFor={id}>{value}</label>
-                    <input
-                      checked={isCheck}
-                      type="checkbox"
-                      id={id}
-                      onChange={() => changeBlackList(value)}
-                    />
-                  </div>
-                );
-              })}
+                  return (
+                    <div key={value} className="checkbox-wrapper">
+                      <label htmlFor={id}>{value}</label>
+                      <input
+                        checked={isCheck}
+                        type="checkbox"
+                        id={id}
+                        onChange={() => changeBlackList(value)}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="joke-type">
-              <h2>Select at least one joke type</h2>
-              {jokeType.map((item, index) => {
-                const { isCheck, value } = item;
-                const id = `joke-type-${index}`;
+            <div className="joke-type joke-options">
+              <h2>Select at least one joke type:</h2>
+              <div className="wrapper">
+                {jokeType.map((item, index) => {
+                  const { isCheck, value } = item;
+                  const id = `joke-type-${index}`;
 
-                return (
-                  <div key={value} className="radio-wrapper">
-                    <label htmlFor={id}>{value}</label>
-                    <input
-                      checked={isCheck}
-                      type="radio"
-                      id={id}
-                      onChange={() => changeJokeType(value)}
-                    />
-                  </div>
-                );
-              })}
+                  return (
+                    <div key={value} className="radio-wrapper">
+                      <label htmlFor={id}>{value}</label>
+                      <input
+                        checked={isCheck}
+                        type="radio"
+                        id={id}
+                        onChange={() => changeJokeType(value)}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="search-joke">
-              <h2>Search for a joke that contains this search string</h2>
+            <div className="search-joke joke-options">
+              <h2>Search for a joke that contains this search string:</h2>
               <div className="input-wrapper">
                 <input
                   onChange={(e) => changeSearchValue(e.target.value)}
@@ -234,14 +253,16 @@ class JokesFilters extends React.Component {
                 />
               </div>
             </div>
-            <div className="amount-jokes">
-              <h2>Amount of jokes</h2>
+            <div className="amount-jokes joke-options">
+              <h2>Amount of jokes:</h2>
               <div className="input-wrapper">
                 <input
                   onChange={(e) => changeAmountValue(e.target.value)}
                   onBlur={this.handleBlurAmountInput}
                   type="number"
                   value={amountValue}
+                  max="10"
+                  min="1"
                 />
               </div>
             </div>

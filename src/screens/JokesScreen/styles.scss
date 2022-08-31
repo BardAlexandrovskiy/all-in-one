@@ -1,11 +1,10 @@
 @import "../../assets/styles/vars.scss";
 
 .jokes-screen {
-  .text-banner {
-    background-color: $black;
+  background-color: $black;
 
-    .text {
-      background-color: $grey;
-    }
+  .scroll-container {
+    height: 100%;
+    overflow: auto;
   }
 }

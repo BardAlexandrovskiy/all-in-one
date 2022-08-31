@@ -69,7 +69,7 @@ class WeatherInfoItem extends React.Component {
           end: "bottom bottom",
           scroller: this.infoBlockRef.current,
         },
-        top: 0,
+        top: "0%",
       });
     }
   }
