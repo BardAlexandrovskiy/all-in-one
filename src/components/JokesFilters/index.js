@@ -16,7 +16,10 @@ import "./styles.scss";
 import { CSSTransition } from "react-transition-group";
 
 // Jokes backgrounds
-import filtersBacjground from "../../assets/images/jokes/jokes-background.jpg";
+import filtersBackground from "../../assets/images/jokes/jokes-background-2.jpg";
+import happyImage from "../../assets/images/jokes/happy.svg";
+import neutralImage from "../../assets/images/jokes/neutral.svg";
+import sadImage from "../../assets/images/jokes/sad.svg";
 
 class JokesFilters extends React.Component {
   constructor(props) {
@@ -153,9 +156,14 @@ class JokesFilters extends React.Component {
 
     return (
       <section className="jokes-filters">
-        <img className="filters-background" src={filtersBacjground} />
+        <img className="filters-background" src={filtersBackground} />
         <div className="container filters-container">
-          <h1 className="title">Get jokes</h1>
+        <h1 className="title"><img className="left-image" src={neutralImage} /><span>Get jokes</span><div className="right-images"><img className="happy-image" src={happyImage} /><img className="sad-image" src={sadImage} /></div></h1>
+          <div className="left-column">
+          <img className="happy-image" src={happyImage} />
+          <img className="neutral-image" src={neutralImage} />
+          </div>
+          <div class="center-column">
           <form onSubmit={this.handleSubmit} className="filters">
             <div className="cetegories joke-options">
               <h2>Select category / categories:</h2>
@@ -174,8 +182,9 @@ class JokesFilters extends React.Component {
               </div>
               <CSSTransition
                 in={categoryTypeValue === "Custom"}
-                timeout={5000}
+                timeout={300}
                 mountOnEnter
+                unmountOnExit
               >
                 <div
                   className={`categories-list${
@@ -243,7 +252,7 @@ class JokesFilters extends React.Component {
               </div>
             </div>
             <div className="search-joke joke-options">
-              <h2>Search for a joke that contains this search string:</h2>
+              <h2>Search for keywords:</h2>
               <div className="input-wrapper">
                 <input
                   onChange={(e) => changeSearchValue(e.target.value)}
@@ -278,6 +287,10 @@ class JokesFilters extends React.Component {
               </button>
             </div>
           </form>
+          </div>
+          <div className="right-column">
+          <img className="sad-image" src={sadImage} />
+          </div>
         </div>
       </section>
     );
