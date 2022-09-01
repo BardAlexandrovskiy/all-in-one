@@ -1,0 +1,26 @@
+@import "../../assets/styles/vars";
+
+.jokes-results {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: all ease-in 5s;
+  overflow: hidden;
+
+  &.preloader-active {
+    height: 300px;
+  }
+
+  .text-banner {
+    .container {
+      width: 100%;
+      padding-top: 50px;
+      padding-bottom: 50px;
+
+      @media (max-width: 1024px) {
+        padding-top: 15px;
+        padding-bottom: 15px;
+      }
+    }
+  }
+}

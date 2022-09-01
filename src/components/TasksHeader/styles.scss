@@ -107,7 +107,7 @@
 
         svg {
           font-size: 20px;
-          color: $grey;
+          color: $lilac;
         }
       }
 
@@ -117,6 +117,12 @@
         font-size: 20px;
         border-radius: 50px;
         font-family: $main-font;
+        background-color: rgba($white, 0.3);
+        color: $white;
+
+        &::placeholder {
+          color: rgba($white, 0.8);
+        }
 
         @media (max-width: 1024px) {
           padding: 8px 45px 8px 20px;

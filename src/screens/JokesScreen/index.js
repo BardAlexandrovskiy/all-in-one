@@ -1,5 +1,6 @@
 import React from "react";
 import JokesFilters from "../../components/JokesFilters";
+import JokesResults from "../../components/JokesResults";
 import "./styles.scss";
 
 class JokesScreen extends React.Component {
@@ -9,7 +10,8 @@ class JokesScreen extends React.Component {
     return (
       <div className="jokes-screen screen">
         <div className="scroll-container">
-        <JokesFilters />
+          <JokesFilters />
+          <JokesResults />
         </div>
       </div>
     );

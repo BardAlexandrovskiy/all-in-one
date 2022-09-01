@@ -37,12 +37,25 @@
     font-size: 24px;
     padding: 30px 20px;
     border-radius: 10px;
-    margin-bottom: 20px;
     text-align: center;
     width: 100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 
     @media (max-width: 1024px) {
       font-size: 20px;
+    }
+
+    @media (max-width: 640px) {
+      flex-direction: column;
+    }
+
+    img {
+      height: 150px;
+      width: auto;
+      object-fit: contain;
+      object-position: 50% 50%;
     }
   }
 }

@@ -20,6 +20,9 @@ import snowImg from "../../assets/images/weather/backgrounds/snow.jpg";
 import mistImg from "../../assets/images/weather/backgrounds/mist.jpg";
 import drizzleImg from "../../assets/images/weather/backgrounds/drizzle.jpg";
 
+// Error image
+import errorImage from "../../assets/images/error-image-3.svg";
+
 import React from "react";
 import { connect } from "react-redux";
 import { isEmptyObject } from "../../constants";
@@ -59,19 +62,19 @@ class WeatherInfoItem extends React.Component {
       if (this.infoBlockRef.current) {
         this.infoBlockRef.current.scrollTo(0, 0);
       }
-
-      gsap.registerPlugin(ScrollTrigger);
-      gsap.to(this.backgroundImageRef.current, {
-        scrollTrigger: {
-          trigger: this.triggerRef.current,
-          scrub: true,
-          start: "top top",
-          end: "bottom bottom",
-          scroller: this.infoBlockRef.current,
-        },
-        top: "0%",
-      });
     }
+
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.to(this.backgroundImageRef.current, {
+      scrollTrigger: {
+        trigger: this.triggerRef.current,
+        scrub: true,
+        start: "top top",
+        end: "bottom bottom",
+        scroller: this.infoBlockRef.current,
+      },
+      top: "0%",
+    });
   }
 
   componentDidMount() {
@@ -119,12 +122,13 @@ class WeatherInfoItem extends React.Component {
             updateLocation(id, { weatherInfo, updateWeatherTime: Date.now() });
           }
         })
-        .catch((error) =>
+        .catch((error) => {
+          console.log(error);
           this.setState({
             isError: true,
             errorText: `Error: ${error.message}.`,
-          })
-        )
+          });
+        })
         .finally(() => this.setState({ isPreloader: false }));
     }
   };
@@ -202,15 +206,17 @@ class WeatherInfoItem extends React.Component {
           timeout={300}
           mountOnEnter
           unmountOnExit
-          appera
         >
           <Preloader />
         </CSSTransition>
         <CSSTransition in={isError} timeout={300} mountOnEnter unmountOnExit>
-          <TextBanner text={`Oops, something went wrong. ${errorText}`} />
+          <TextBanner
+            image={errorImage}
+            text={`Oops, something went wrong. ${errorText}`}
+          />
         </CSSTransition>
         <CSSTransition
-          in={!isEmptyObject(weatherInfo)}
+          in={!isEmptyObject(weatherInfo) && !isError}
           timeout={300}
           mountOnEnter
           unmountOnExit

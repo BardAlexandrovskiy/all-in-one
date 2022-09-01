@@ -103,6 +103,12 @@
       transition: 0.3s;
       outline: 1px solid transparent;
       z-index: 2;
+      background-color: $blue;
+      color: $black;
+
+      &::placeholder {
+        color: rgba($grey, 0.8);
+      }
 
       @media (max-width: 1024px) {
         padding: 8px 45px 8px 20px;

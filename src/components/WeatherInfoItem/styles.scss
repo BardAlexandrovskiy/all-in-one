@@ -11,7 +11,7 @@
     background-color: $black;
   }
 
-  .request-error-banner {
+  .text-banner {
     background-color: $black;
 
     .text {
@@ -59,7 +59,7 @@
     }
 
     .background-image {
-      position: fixed;
+      position: absolute;
       transition: 0.5s;
       top: -30%;
       left: 0;
@@ -79,7 +79,7 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      position: fixed;
+      position: absolute;
     }
 
     .info-container {

@@ -9,6 +9,7 @@ export const RESET_FILTERS = "RESET_FILTERS";
 export const SHOW_JOKES_PRELOADER = "SHOW_JOKES_PRELOADER";
 export const SET_JOKES = "SET_JOKES";
 export const DELETE_JOKES = "DELETE_JOKES";
+export const SET_ERROR = "SET_ERROR";
 
 // Actions
 export const changeCategoryType = (value) => {
@@ -73,31 +74,40 @@ export const setJokes = (list) => {
   };
 };
 
+export const setError = (obj) => {
+  return {
+    type: SET_ERROR,
+    payload: { obj },
+  };
+};
+
 export const getJokes = (request) => {
-  console.log(request);
   return (dispatch) => {
     dispatch(showJokesPreloader(true));
-
+    dispatch(setError({ isError: false, errorText: "" }));
+    dispatch(setJokes([]));
     return fetch(request)
       .then((response) => {
         if (response.status === 200) {
           return response.json();
         }
-        throw new Error(response.status);
+        throw new Error(`Error: ${response.status}`);
       })
       .then((response) => {
-        console.log(response);
         const { error, jokes, joke, setup, delivery } = response;
         if ((jokes || joke || setup || delivery) && !error) {
           if (jokes) {
             dispatch(setJokes(jokes));
           } else {
             delete response.error;
+            dispatch(setError({ isError: false, errorText: "" }));
             dispatch(setJokes([response]));
           }
         } else throw new Error("Jokes not found");
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+        dispatch(setError({ isError: true, errorText: error.message }));
+      })
       .finally(() => {
         dispatch(showJokesPreloader(false));
       });
