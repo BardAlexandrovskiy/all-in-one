@@ -7,6 +7,7 @@ import {
   CHANGE_SEARCH_VALUE,
   RESET_FILTERS,
   SET_ERROR,
+  SET_ERROR_TEXT,
   SET_JOKES,
   SHOW_JOKES_PRELOADER,
 } from "../actions/jokes";
@@ -21,7 +22,8 @@ const defaultState = {
   isShowJokesPreloader: false,
   categoryTypeValue: "Any",
   jokesList: [],
-  requestError: { isError: false, errorText: "" },
+  isError: false,
+  errorText: "",
   categoriesList: [
     { value: "Programming", isCheck: false },
     { value: "Miscellaneous", isCheck: false },
@@ -94,7 +96,9 @@ export function jokesReducer(state = initialState, action) {
     case SET_JOKES:
       return { ...state, jokesList: payload.list };
     case SET_ERROR:
-      return { ...state, requestError: payload.obj };
+      return { ...state, isError: payload.bool };
+    case SET_ERROR_TEXT:
+      return { ...state, errorText: payload.text };
     default:
       return state;
   }

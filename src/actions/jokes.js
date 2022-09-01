@@ -10,6 +10,7 @@ export const SHOW_JOKES_PRELOADER = "SHOW_JOKES_PRELOADER";
 export const SET_JOKES = "SET_JOKES";
 export const DELETE_JOKES = "DELETE_JOKES";
 export const SET_ERROR = "SET_ERROR";
+export const SET_ERROR_TEXT = "SET_ERROR_TEXT";
 
 // Actions
 export const changeCategoryType = (value) => {
@@ -74,17 +75,24 @@ export const setJokes = (list) => {
   };
 };
 
-export const setError = (obj) => {
+export const setError = (bool) => {
   return {
     type: SET_ERROR,
-    payload: { obj },
+    payload: { bool },
+  };
+};
+
+export const setErrorText = (text) => {
+  return {
+    type: SET_ERROR_TEXT,
+    payload: { text },
   };
 };
 
 export const getJokes = (request) => {
   return (dispatch) => {
     dispatch(showJokesPreloader(true));
-    dispatch(setError({ isError: false, errorText: "" }));
+    dispatch(setError(false));
     dispatch(setJokes([]));
     return fetch(request)
       .then((response) => {
@@ -100,13 +108,15 @@ export const getJokes = (request) => {
             dispatch(setJokes(jokes));
           } else {
             delete response.error;
-            dispatch(setError({ isError: false, errorText: "" }));
+            dispatch(setError(false));
             dispatch(setJokes([response]));
           }
         } else throw new Error("Jokes not found");
       })
       .catch((error) => {
-        dispatch(setError({ isError: true, errorText: error.message }));
+        console.log(error);
+        dispatch(setError(true));
+        dispatch(setErrorText(error.message));
       })
       .finally(() => {
         dispatch(showJokesPreloader(false));

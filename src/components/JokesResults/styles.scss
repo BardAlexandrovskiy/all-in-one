@@ -4,11 +4,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  transition: all ease-in 5s;
-  overflow: hidden;
 
   &.preloader-active {
-    height: 300px;
+    min-height: 200px;
   }
 
   .text-banner {
@@ -21,6 +19,29 @@
         padding-top: 15px;
         padding-bottom: 15px;
       }
+    }
+  }
+
+  .jokes-list {
+    height: 210px;
+    background-color: $white;
+
+    &.enter {
+      opacity: 0;
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transition: 0.3s;
+    }
+
+    &.exit {
+      opacity: 1;
+    }
+
+    &.exit-active {
+      opacity: 0;
+      transition: 0.3s;
     }
   }
 }

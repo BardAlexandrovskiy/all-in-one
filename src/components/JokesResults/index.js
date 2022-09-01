@@ -10,14 +10,22 @@ class JokesResults extends React.Component {
   constructor(props) {
     super(props);
     this.resultsSection = React.createRef();
+    this.state = {
+      isTransitionJokesList: true,
+      isTransitionError: true,
+      isScrollToResult: false,
+    };
   }
 
   componentDidUpdate(prevProps) {
     const { isShowJokesPreloader: isShowJokesPreloaderPrev } = prevProps;
     const { isShowJokesPreloader } = this.props;
+    const { isScrollToResult } = this.state;
 
-    if (!isShowJokesPreloaderPrev && isShowJokesPreloader) {
-      console.log("scroll to");
+    if (
+      (!isShowJokesPreloaderPrev && isShowJokesPreloader) ||
+      isScrollToResult
+    ) {
       this.resultsSection.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -26,7 +34,8 @@ class JokesResults extends React.Component {
   }
 
   render() {
-    const { jokesList, requestError, isShowJokesPreloader } = this.props;
+    const { jokesList, isError, errorText, isShowJokesPreloader } = this.props;
+    const { isTransitionError, isTransitionJokesList } = this.state;
 
     return (
       <section
@@ -44,22 +53,38 @@ class JokesResults extends React.Component {
           <Preloader />
         </CSSTransition>
         <CSSTransition
-          in={requestError.isError}
-          timeout={300}
+          in={isError && isTransitionError}
+          timeout={150}
           mountOnEnter
           unmountOnExit
+          onEnter={() =>
+            this.setState({
+              isTransitionJokesList: false,
+              isScrollToResult: true,
+            })
+          }
+          onExited={() =>
+            this.setState({
+              isTransitionJokesList: true,
+              isScrollToResult: false,
+            })
+          }
         >
-          <TextBanner text={`${requestError.errorText}.`} image={errorImage} />
+          <TextBanner text={`${errorText}.`} image={errorImage} />
         </CSSTransition>
         <CSSTransition
-          in={!!jokesList.length}
+          in={!!jokesList.length && isTransitionJokesList}
           timeout={300}
           mountOnEnter
           unmountOnExit
+          onEnter={() =>
+            this.setState({ isTransitionError: false, isScrollToResult: true })
+          }
+          onExited={() =>
+            this.setState({ isTransitionError: true, isScrollToResult: false })
+          }
         >
-          <div>
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-          </div>
+          <div className="jokes-list"></div>
         </CSSTransition>
       </section>
     );
@@ -68,12 +93,13 @@ class JokesResults extends React.Component {
 
 const mapStateToProps = (store) => {
   const {
-    jokes: { jokesList, requestError, isShowJokesPreloader },
+    jokes: { jokesList, isError, errorText, isShowJokesPreloader },
   } = store;
 
   return {
     jokesList,
-    requestError,
+    isError,
+    errorText,
     isShowJokesPreloader,
   };
 };
