@@ -108,13 +108,11 @@ export const getJokes = (request) => {
             dispatch(setJokes(jokes));
           } else {
             delete response.error;
-            dispatch(setError(false));
             dispatch(setJokes([response]));
           }
         } else throw new Error("Jokes not found");
       })
       .catch((error) => {
-        console.log(error);
         dispatch(setError(true));
         dispatch(setErrorText(error.message));
       })

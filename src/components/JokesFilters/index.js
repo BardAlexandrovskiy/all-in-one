@@ -25,8 +25,9 @@ class JokesFilters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCategoriesRedBorder: false,
+      isCategoriesRed: false,
     };
+    this.categoriesRef = React.createRef();
   }
 
   handleBlurAmountInput = () => {
@@ -36,6 +37,13 @@ class JokesFilters extends React.Component {
       changeAmountValue(10);
     } else if (amountValue < 1) {
       changeAmountValue(1);
+    }
+  };
+
+  handlePressEnterInput = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.target.blur();
     }
   };
 
@@ -123,9 +131,13 @@ class JokesFilters extends React.Component {
 
       getJokes(request);
     } else {
-      this.setState({ isCategoriesRedBorder: true });
+      this.setState({ isCategoriesRed: true });
+      this.categoriesRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
       setTimeout(() => {
-        this.setState({ isCategoriesRedBorder: false });
+        this.setState({ isCategoriesRed: false });
       }, 3000);
     }
   };
@@ -152,7 +164,7 @@ class JokesFilters extends React.Component {
       changeAmountValue,
     } = this.props;
 
-    const { isCategoriesRedBorder } = this.state;
+    const { isCategoriesRed } = this.state;
 
     return (
       <section className="jokes-filters">
@@ -172,7 +184,7 @@ class JokesFilters extends React.Component {
           </div>
           <div className="center-column">
             <form onSubmit={this.handleSubmit} className="filters">
-              <div className="cetegories joke-options">
+              <div className="cetegories joke-options" ref={this.categoriesRef}>
                 <h2>Select category / categories:</h2>
                 <div className="select-category-wrapper">
                   <FontAwesomeIcon icon={faChevronDown} />
@@ -195,7 +207,7 @@ class JokesFilters extends React.Component {
                 >
                   <div
                     className={`categories-list${
-                      isCategoriesRedBorder ? " red-border" : ""
+                      isCategoriesRed ? " red" : ""
                     }`}
                   >
                     {categoriesList.map((category, index) => {
@@ -262,6 +274,7 @@ class JokesFilters extends React.Component {
                 <h2>Search for keywords:</h2>
                 <div className="input-wrapper">
                   <input
+                    onKeyPress={this.handlePressEnterInput}
                     onChange={(e) => changeSearchValue(e.target.value)}
                     placeholder="Search string"
                     type="text"
@@ -274,6 +287,7 @@ class JokesFilters extends React.Component {
                 <div className="input-wrapper">
                   <input
                     onChange={(e) => changeAmountValue(e.target.value)}
+                    onKeyPress={this.handlePressEnterInput}
                     onBlur={this.handleBlurAmountInput}
                     type="number"
                     value={amountValue}

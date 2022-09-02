@@ -1,0 +1,42 @@
+@import "../../assets/styles/vars";
+
+.jokes-item {
+  padding: 30px 20px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  background-color: rgba($white, 0.1);
+
+  @media (max-width: 1024px) {
+    padding: 30px 15px;
+  }
+
+  .category,
+  .flags-List {
+    color: rgba($white, 0.8);
+    font-size: 20px;
+  }
+
+  .text {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+    font-size: 20px;
+    line-height: 1.4;
+    color: $white;
+
+    p {
+      padding: 15px;
+      margin-bottom: 10px;
+      background: linear-gradient(
+        135deg,
+        darken($lilac, 20) 33%,
+        darken($sky-blue, 30) 100%
+      );
+      border-radius: 15px 15px 15px 0;
+    }
+  }
+}

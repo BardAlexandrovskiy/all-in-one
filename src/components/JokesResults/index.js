@@ -5,11 +5,16 @@ import Preloader from "../Preloader";
 import TextBanner from "../TextBanner";
 import "./styles.scss";
 import errorImage from "../../assets/images/error-image-3.svg";
+import JokesItem from "../JokesItem";
+
+// Images
+import resultImage from "../../assets/images/jokes/result-1.svg";
+import resultBackground from "../../assets/images/jokes/result-background.jpg";
 
 class JokesResults extends React.Component {
   constructor(props) {
     super(props);
-    this.resultsSection = React.createRef();
+    this.resultsSectionRef = React.createRef();
     this.state = {
       isTransitionJokesList: true,
       isTransitionError: true,
@@ -26,7 +31,7 @@ class JokesResults extends React.Component {
       (!isShowJokesPreloaderPrev && isShowJokesPreloader) ||
       isScrollToResult
     ) {
-      this.resultsSection.current.scrollIntoView({
+      this.resultsSectionRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
@@ -39,7 +44,7 @@ class JokesResults extends React.Component {
 
     return (
       <section
-        ref={this.resultsSection}
+        ref={this.resultsSectionRef}
         className={`jokes-results${
           isShowJokesPreloader ? " preloader-active" : ""
         }`}
@@ -84,7 +89,19 @@ class JokesResults extends React.Component {
             this.setState({ isTransitionError: true, isScrollToResult: false })
           }
         >
-          <div className="jokes-list"></div>
+          <div className="result">
+            <img className="background-image" src={resultBackground} alt="" />
+            <div className="container result-container">
+              <h1 className="title">
+                <span>Result</span> <img alt="" src={resultImage} />
+              </h1>
+              <div className="jokes-list">
+                {jokesList.map((jokeItem) => (
+                  <JokesItem key={jokeItem.id} jokeInfo={jokeItem} />
+                ))}
+              </div>
+            </div>
+          </div>
         </CSSTransition>
       </section>
     );
