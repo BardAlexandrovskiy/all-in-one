@@ -160,6 +160,10 @@
         @media (max-width: 640px) {
           font-size: 24px;
         }
+
+        @media (max-width: 390px) {
+          font-size: 22px;
+        }
       }
     }
 
@@ -208,6 +212,7 @@
 
           @media (max-width: 640px) {
             width: 100%;
+            font-size: 18px;
           }
         }
       }
@@ -289,6 +294,10 @@
           label {
             font-size: 20px;
             color: $white;
+
+            @media (max-width: 390px) {
+              font-size: 18px;
+            }
           }
 
           input {
@@ -351,6 +360,10 @@
           label {
             font-size: 20px;
             color: $white;
+
+            @media (max-width: 390px) {
+              font-size: 18px;
+            }
           }
 
           input {
@@ -413,6 +426,10 @@
           label {
             font-size: 20px;
             color: $white;
+
+            @media (max-width: 390px) {
+              font-size: 18px;
+            }
           }
 
           input {
@@ -485,6 +502,10 @@
             width: 100%;
           }
 
+          @media (max-width: 390px) {
+            font-size: 18px;
+          }
+
           &::placeholder {
             color: lighten($grey, 25);
           }
@@ -513,6 +534,10 @@
           color: $grey;
           border-radius: 17px;
           overflow: hidden;
+
+          @media (max-width: 390px) {
+            font-size: 18px;
+          }
 
           @media (max-width: 640px) {
             width: 100%;
@@ -549,6 +574,7 @@
 
         @media (max-width: 640px) {
           width: 100%;
+          min-height: 48px;
         }
 
         &:first-child {

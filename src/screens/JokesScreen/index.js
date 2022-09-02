@@ -39,24 +39,26 @@ class JokesScreen extends React.Component {
 
     return (
       <div className="jokes-screen screen">
-        <img alt="" className="background" src={background} />
-        <div
-          className="scroll-container"
-          onScroll={this.handleScroll}
-          ref={this.scrollContainerRef}
-        >
-          <JokesFilters />
-          <JokesResults />
-          <CSSTransition
-            in={isShowArrowUp}
-            timeout={300}
-            unmountOnExit
-            mountOnEnter
+        <div className="wrapper">
+          <img alt="" className="background" src={background} />
+          <div
+            className="scroll-container"
+            onScroll={this.handleScroll}
+            ref={this.scrollContainerRef}
           >
-            <div onClick={this.handleClickArrowUp} className="arrow-up">
-              <FontAwesomeIcon icon={faArrowUp} />
-            </div>
-          </CSSTransition>
+            <JokesFilters />
+            <JokesResults />
+            <CSSTransition
+              in={isShowArrowUp}
+              timeout={300}
+              unmountOnExit
+              mountOnEnter
+            >
+              <div onClick={this.handleClickArrowUp} className="arrow-up">
+                <FontAwesomeIcon icon={faArrowUp} />
+              </div>
+            </CSSTransition>
+          </div>
         </div>
       </div>
     );
