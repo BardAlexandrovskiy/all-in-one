@@ -119,6 +119,7 @@
         font-family: $main-font;
         background-color: rgba($white, 0.3);
         color: $white;
+        font-weight: 700;
 
         &::placeholder {
           color: rgba($white, 0.8);

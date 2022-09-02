@@ -15,8 +15,7 @@ import {
 import "./styles.scss";
 import { CSSTransition } from "react-transition-group";
 
-// Jokes backgrounds
-import filtersBackground from "../../assets/images/jokes/jokes-background-2.jpg";
+// Jokes images
 import happyImage from "../../assets/images/jokes/happy.svg";
 import neutralImage from "../../assets/images/jokes/neutral.svg";
 import sadImage from "../../assets/images/jokes/sad.svg";
@@ -168,7 +167,6 @@ class JokesFilters extends React.Component {
 
     return (
       <section className="jokes-filters">
-        <img alt="" className="filters-background" src={filtersBackground} />
         <div className="container filters-container">
           <h1 className="title">
             <img alt="" className="left-image" src={neutralImage} />

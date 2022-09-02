@@ -80,8 +80,9 @@
     transition: 0.3s;
     outline: 1px solid transparent;
     position: relative;
-    background-color: $blue;
+    background-color: rgba($blue, 0.8);
     color: $black;
+    font-weight: 700;
 
     &::placeholder {
       color: rgba($grey, 0.8);

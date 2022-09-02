@@ -9,7 +9,6 @@ import JokesItem from "../JokesItem";
 
 // Images
 import resultImage from "../../assets/images/jokes/result-1.svg";
-import resultBackground from "../../assets/images/jokes/result-background.jpg";
 
 class JokesResults extends React.Component {
   constructor(props) {
@@ -90,7 +89,6 @@ class JokesResults extends React.Component {
           }
         >
           <div className="result">
-            <img className="background-image" src={resultBackground} alt="" />
             <div className="container result-container">
               <h1 className="title">
                 <span>Result</span> <img alt="" src={resultImage} />
