@@ -84,7 +84,7 @@
     color: $black;
 
     &::placeholder {
-      color: rgba($grey, 0.8);
+      color: rgba($black, 0.8);
     }
 
     @media (max-width: 1024px) {

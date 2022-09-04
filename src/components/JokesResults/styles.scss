@@ -102,5 +102,44 @@
       row-gap: 30px;
       grid-template-columns: 1fr;
     }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      padding-top: 30px;
+
+      @media (max-width: 640px) {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      button {
+        min-height: 60px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 20px;
+        min-width: 200px;
+        border-radius: 30px;
+        color: white;
+
+        @media (max-width: 640px) {
+          width: 100%;
+          min-height: 48px;
+          max-width: 300px;
+        }
+
+        &:first-child {
+          background-color: darken($lilac, 15);
+        }
+
+        &:last-child {
+          background-color: darken($sky-blue, 25);
+        }
+      }
+    }
   }
 }

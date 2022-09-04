@@ -46,18 +46,20 @@ class JokesScreen extends React.Component {
             onScroll={this.handleScroll}
             ref={this.scrollContainerRef}
           >
-            <JokesFilters />
-            <JokesResults />
-            <CSSTransition
-              in={isShowArrowUp}
-              timeout={300}
-              unmountOnExit
-              mountOnEnter
-            >
-              <div onClick={this.handleClickArrowUp} className="arrow-up">
-                <FontAwesomeIcon icon={faArrowUp} />
-              </div>
-            </CSSTransition>
+            <div className="inner">
+              <JokesFilters />
+              <JokesResults />
+              <CSSTransition
+                in={isShowArrowUp}
+                timeout={300}
+                unmountOnExit
+                mountOnEnter
+              >
+                <div onClick={this.handleClickArrowUp} className="arrow-up">
+                  <FontAwesomeIcon icon={faArrowUp} />
+                </div>
+              </CSSTransition>
+            </div>
           </div>
         </div>
       </div>

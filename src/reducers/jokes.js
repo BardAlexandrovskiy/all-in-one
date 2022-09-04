@@ -32,13 +32,14 @@ const defaultState = {
     { value: "Spooky", isCheck: false },
     { value: "Christmas", isCheck: false },
   ],
+  isCategoriesRedBorder: false,
   blacklist: [
-    { value: "nsfw", isCheck: false },
-    { value: "religious", isCheck: false },
-    { value: "political", isCheck: false },
-    { value: "racist", isCheck: false },
-    { value: "sexist", isCheck: false },
-    { value: "explicit", isCheck: false },
+    { value: "nsfw", isCheck: true },
+    { value: "religious", isCheck: true },
+    { value: "political", isCheck: true },
+    { value: "racist", isCheck: true },
+    { value: "sexist", isCheck: true },
+    { value: "explicit", isCheck: true },
   ],
   jokeType: [
     { value: "both", isCheck: true },
@@ -46,7 +47,7 @@ const defaultState = {
     { value: "twopart", isCheck: false },
   ],
   searchValue: "",
-  amountValue: 1,
+  amountValue: 10,
 };
 
 const initialState = localInitialState || defaultState;

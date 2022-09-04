@@ -9,6 +9,8 @@ import JokesItem from "../JokesItem";
 
 // Images
 import resultImage from "../../assets/images/jokes/result-1.svg";
+import { setJokes } from "../../actions/jokes";
+import JokesSubmitButton from "../JokesSubmitButton";
 
 class JokesResults extends React.Component {
   constructor(props) {
@@ -38,8 +40,11 @@ class JokesResults extends React.Component {
   }
 
   render() {
-    const { jokesList, isError, errorText, isShowJokesPreloader } = this.props;
+    const { jokesList, isError, errorText, isShowJokesPreloader, setJokes } =
+      this.props;
     const { isTransitionError, isTransitionJokesList } = this.state;
+
+    console.log(jokesList);
 
     return (
       <section
@@ -98,6 +103,15 @@ class JokesResults extends React.Component {
                   <JokesItem key={jokeItem.id} jokeInfo={jokeItem} />
                 ))}
               </div>
+              <div className="buttons">
+                <button
+                  onClick={() => setJokes([])}
+                  className="button delte-button"
+                >
+                  Delete jokes
+                </button>
+                <JokesSubmitButton text="Get new jokes" />
+              </div>
             </div>
           </div>
         </CSSTransition>
@@ -119,6 +133,8 @@ const mapStateToProps = (store) => {
   };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setJokes: (list) => setJokes(list),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(JokesResults);

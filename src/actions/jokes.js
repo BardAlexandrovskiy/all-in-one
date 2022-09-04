@@ -11,6 +11,7 @@ export const SET_JOKES = "SET_JOKES";
 export const DELETE_JOKES = "DELETE_JOKES";
 export const SET_ERROR = "SET_ERROR";
 export const SET_ERROR_TEXT = "SET_ERROR_TEXT";
+export const SHOW_CATEGORIES_RED_BORDER = "SHOW_CATEGORIES_RED_BORDER";
 
 // Actions
 export const changeCategoryType = (value) => {
@@ -24,6 +25,13 @@ export const changeCategories = (value) => {
   return {
     type: CHANGE_CATEGORIES,
     payload: { value },
+  };
+};
+
+export const showCategoriesRedBorder = (bool) => {
+  return {
+    type: SHOW_CATEGORIES_RED_BORDER,
+    payload: { bool },
   };
 };
 

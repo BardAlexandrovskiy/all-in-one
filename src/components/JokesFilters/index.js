@@ -9,7 +9,6 @@ import {
   changeCategoryType,
   changeJokeType,
   changeSearchValue,
-  getJokes,
   resetFilters,
 } from "../../actions/jokes";
 import "./styles.scss";
@@ -19,13 +18,11 @@ import { CSSTransition } from "react-transition-group";
 import happyImage from "../../assets/images/jokes/happy.svg";
 import neutralImage from "../../assets/images/jokes/neutral.svg";
 import sadImage from "../../assets/images/jokes/sad.svg";
+import JokesSubmitButton from "../JokesSubmitButton";
 
 class JokesFilters extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isCategoriesRed: false,
-    };
     this.categoriesRef = React.createRef();
   }
 
@@ -43,101 +40,6 @@ class JokesFilters extends React.Component {
     if (e.key === "Enter") {
       e.preventDefault();
       e.target.blur();
-    }
-  };
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const {
-      categoryTypeValue,
-      categoriesList,
-      blacklist,
-      jokeType,
-      searchValue,
-      amountValue,
-      getJokes,
-    } = this.props;
-
-    // Create request
-    let request = "https://v2.jokeapi.dev/joke/";
-    const requestOptions = [];
-    let areSelectedCategories = false;
-
-    if (categoryTypeValue === "Any") {
-      areSelectedCategories = true;
-      request += "Any";
-    }
-
-    if (categoryTypeValue === "Custom") {
-      const selectedCategories = categoriesList.filter(
-        ({ isCheck }) => isCheck
-      );
-
-      if (selectedCategories.length) {
-        areSelectedCategories = true;
-        selectedCategories.forEach(({ value }, index) => {
-          if (index < selectedCategories.length - 1) {
-            request += `${value},`;
-          } else {
-            request += value;
-          }
-        });
-      }
-    }
-
-    if (areSelectedCategories) {
-      const blacklistSelected = blacklist.filter(({ isCheck }) => isCheck);
-      let blacklistOptios = "";
-
-      if (blacklistSelected.length) {
-        blacklistOptios += "blacklistFlags=";
-        blacklistSelected.forEach(({ value }, index) => {
-          if (index < blacklistSelected.length - 1) {
-            blacklistOptios += `${value},`;
-          } else {
-            blacklistOptios += value;
-          }
-        });
-
-        requestOptions.push(blacklistOptios);
-      }
-
-      const jokeTypeSelected = jokeType.filter(({ isCheck }) => isCheck);
-      const currentJokeType = jokeTypeSelected[0].value;
-
-      if (currentJokeType === "single" || currentJokeType === "twopart") {
-        requestOptions.push(`type=${currentJokeType}`);
-      }
-
-      if (searchValue) {
-        requestOptions.push(`contains=${searchValue}`);
-      }
-
-      if (amountValue > 1) {
-        requestOptions.push(`amount=${amountValue}`);
-      }
-
-      if (requestOptions.length) {
-        request += "?";
-        requestOptions.forEach((option, index) => {
-          if (index < requestOptions.length - 1) {
-            request += `${option}&`;
-          } else {
-            request += option;
-          }
-        });
-      }
-
-      getJokes(request);
-    } else {
-      this.setState({ isCategoriesRed: true });
-      this.categoriesRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-      setTimeout(() => {
-        this.setState({ isCategoriesRed: false });
-      }, 3000);
     }
   };
 
@@ -161,9 +63,8 @@ class JokesFilters extends React.Component {
       changeJokeType,
       changeSearchValue,
       changeAmountValue,
+      isCategoriesRedBorder,
     } = this.props;
-
-    const { isCategoriesRed } = this.state;
 
     return (
       <section className="jokes-filters">
@@ -181,7 +82,7 @@ class JokesFilters extends React.Component {
             <img alt="" className="neutral-image" src={neutralImage} />
           </div>
           <div className="center-column">
-            <form onSubmit={this.handleSubmit} className="filters">
+            <form className="filters">
               <div className="cetegories joke-options" ref={this.categoriesRef}>
                 <h2>Select category / categories:</h2>
                 <div className="select-category-wrapper">
@@ -205,7 +106,7 @@ class JokesFilters extends React.Component {
                 >
                   <div
                     className={`categories-list${
-                      isCategoriesRed ? " red" : ""
+                      isCategoriesRedBorder ? " red" : ""
                     }`}
                   >
                     {categoriesList.map((category, index) => {
@@ -301,9 +202,7 @@ class JokesFilters extends React.Component {
                 >
                   Reset all
                 </button>
-                <button type="submit" className="button submit-button">
-                  Submit
-                </button>
+                <JokesSubmitButton text={"Submit"} />
               </div>
             </form>
           </div>
@@ -346,7 +245,6 @@ const mapDispatchToProps = {
   changeSearchValue: (value) => changeSearchValue(value),
   changeAmountValue: (value) => changeAmountValue(value),
   resetFilters: () => resetFilters(),
-  getJokes: (request) => getJokes(request),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(JokesFilters);
