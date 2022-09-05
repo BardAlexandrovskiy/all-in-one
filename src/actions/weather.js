@@ -83,33 +83,6 @@ export const getCurrentLocationByGeo = () => {
   };
 };
 
-// export const getCurrentLocationByIp = () => {
-//   return (dispatch) => {
-//     return fetch(`https://api.sypexgeo.net/json/`)
-//       .then((response) => {
-//         if (response.status === 200) {
-//           return response.json();
-//         }
-//         throw new Error(response.status);
-//       })
-//       .then((location) => {
-//         const { city } = location;
-//         if (city) {
-//           dispatch(
-//             setCurrentLocation({
-//               city: city.name_en,
-//               id: Date.now(),
-//             })
-//           );
-//         } else throw new Error("City by ip not found");
-//       })
-//       .catch((error) => console.log(error))
-//       .finally(() => {
-//         dispatch(showCurrentLocationPreloader(false));
-//       });
-//   };
-// };
-
 export const changeWeatherHeader = (bool) => {
   return {
     type: CHANGE_WEATHER_HEADER,

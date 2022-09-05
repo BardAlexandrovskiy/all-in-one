@@ -1,11 +1,8 @@
 @import "../../assets/styles/vars.scss";
 
 .main-screen {
-  .text-banner {
-    background-color: $black;
-
-    .text {
-      background-color: $grey;
-    }
+  .scroll-container {
+    height: 100%;
+    overflow: auto;
   }
 }

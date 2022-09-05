@@ -1,0 +1,53 @@
+@import "../../assets/styles/vars";
+
+.holidays {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    z-index: -2;
+  }
+
+  &:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: $grey, $alpha: 0.3);
+    z-index: -1;
+    content: "";
+  }
+
+  .holidays-container {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  h1.title {
+    color: $white;
+    font-size: 40px;
+
+    @media (max-width: 1024px) {
+      font-size: 36px;
+    }
+
+    @media (max-width: 640px) {
+      font-size: 32px;
+    }
+
+    @media (max-width: 390px) {
+      font-size: 28px;
+    }
+  }
+}
