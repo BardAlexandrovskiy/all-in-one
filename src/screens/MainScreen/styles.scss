@@ -1,8 +1,64 @@
 @import "../../assets/styles/vars.scss";
 
 .main-screen {
+  .wrapper {
+    position: relative;
+    height: 100%;
+
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 50%;
+      z-index: -2;
+    }
+
+    &:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba($color: $grey, $alpha: 0.4);
+      z-index: -1;
+      content: "";
+    }
+  }
+
   .scroll-container {
     height: 100%;
     overflow: auto;
+  }
+
+  .inner {
+    .widgets-container {
+      padding-top: 50px;
+      padding-bottom: 50px;
+      width: 100%;
+    }
+
+    .hello-message-widget {
+      h1 {
+        color: $white;
+        font-size: 40px;
+        margin-bottom: 30px;
+        margin-left: 15px;
+
+        @media (max-width: 1024px) {
+          font-size: 36px;
+        }
+
+        @media (max-width: 640px) {
+          font-size: 32px;
+        }
+
+        @media (max-width: 390px) {
+          font-size: 28px;
+        }
+      }
+    }
   }
 }

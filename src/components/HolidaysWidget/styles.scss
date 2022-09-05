@@ -1,0 +1,19 @@
+@import "../../assets/styles/vars";
+
+.holidays-widget {
+  position: relative;
+  display: flex;
+
+  .holidays-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 15px;
+    background: linear-gradient(
+      135deg,
+      rgba(darken($grey, 20), 0.6) 33%,
+      rgba(darken($sky-blue, 55), 0.8) 100%
+    );
+    border-radius: 30px;
+  }
+}

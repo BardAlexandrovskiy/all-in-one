@@ -1,6 +1,6 @@
 import "./styles.scss";
 
-const HolidaysItem = ({ holiday, firstPartOfTitle, isShowDate }) => {
+const HolidaysItem = ({ holiday, firstPartOfTitle, isDateNow }) => {
   const { name, localName, date } = holiday;
 
   let holidayName = "";
@@ -19,9 +19,11 @@ const HolidaysItem = ({ holiday, firstPartOfTitle, isShowDate }) => {
         {firstPartOfTitle}
         <span>{holidayName}</span>
       </h2>
-      <div className="wrapper">
-        {isShowDate && date && <div className="date">Date: {date}</div>}
-      </div>
+      {!!date && (
+        <div className="date">
+          {isDateNow ? "Today:" : "Date:"} {date}
+        </div>
+      )}
     </div>
   );
 };
