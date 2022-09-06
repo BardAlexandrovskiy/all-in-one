@@ -44,8 +44,6 @@ class JokesResults extends React.Component {
       this.props;
     const { isTransitionError, isTransitionJokesList } = this.state;
 
-    console.log(jokesList);
-
     return (
       <section
         ref={this.resultsSectionRef}

@@ -8,6 +8,7 @@ import eveningImage from "../../assets/images/home/evening.jpg";
 import dayImage from "../../assets/images/home/day.jpg";
 import nightImage from "../../assets/images/home/night.jpg";
 import morningImage from "../../assets/images/home/morning.jpg";
+import WeatherWidget from "../../components/WeatherWidget";
 
 class MainScreen extends React.Component {
   render() {
@@ -44,6 +45,7 @@ class MainScreen extends React.Component {
                   <h1>{helloMessage}</h1>
                 </div>
                 <HolidaysWidget />
+                <WeatherWidget />
               </div>
             </div>
           </div>

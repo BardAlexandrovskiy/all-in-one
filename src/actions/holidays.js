@@ -44,7 +44,6 @@ export const setLastUpdateDate = (time) => {
 };
 
 export const getHolidays = () => {
-  console.log("start");
   return (dispatch) => {
     dispatch(showHolidaysPreloader(true));
     dispatch(setError(false));
@@ -57,7 +56,6 @@ export const getHolidays = () => {
         throw new Error(`Error: ${response.status}`);
       })
       .then((response) => {
-        console.log(response);
         dispatch(setLastUpdateDate(moment().format("yyyyMMDD")));
         dispatch(setHolidays(response));
       })
@@ -66,7 +64,6 @@ export const getHolidays = () => {
         dispatch(setErrorText(error.message));
       })
       .finally(() => {
-        console.log("end");
         dispatch(showHolidaysPreloader(false));
       });
   };

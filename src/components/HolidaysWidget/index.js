@@ -49,13 +49,6 @@ class HolidaysWidget extends React.Component {
           {!!nextHoliday && (
             <HolidaysItem
               holiday={nextHoliday}
-              firstPartOfTitle={todayHolidayMessage}
-              isDateNow={true}
-            />
-          )}
-          {!!nextHoliday && (
-            <HolidaysItem
-              holiday={nextHoliday}
               firstPartOfTitle={nextHolidayMessage}
               isDateNow={false}
             />

@@ -1,3 +1,14 @@
+// Weather backgrounds
+import clearSkyImg from "../assets/images/weather/backgrounds/clear-sky.jpg";
+import fewCloudsImg from "../assets/images/weather/backgrounds/few-clouds.jpg";
+import scatteredCloudsImg from "../assets/images/weather/backgrounds/scattered-clouds.jpg";
+import brokenCloudsImg from "../assets/images/weather/backgrounds/broken-clouds.jpg";
+import rainImg from "../assets/images/weather/backgrounds/rain.jpg";
+import thunderstormImg from "../assets/images/weather/backgrounds/thunderstorm.jpg";
+import snowImg from "../assets/images/weather/backgrounds/snow.jpg";
+import mistImg from "../assets/images/weather/backgrounds/mist.jpg";
+import drizzleImg from "../assets/images/weather/backgrounds/drizzle.jpg";
+
 import moment from "moment";
 
 // Weather request function
@@ -68,4 +79,42 @@ export const getWeatherFunction = (cityName, lat, long) => {
         cityName: typeof cityName === "string" ? cityName : null,
       };
     });
+};
+
+// Get weather background by id
+
+export const getWeatherBackgroundById = (id) => {
+  let backgroundImageSrc = "";
+
+  switch (true) {
+    case id >= 200 && id <= 232:
+      backgroundImageSrc = thunderstormImg;
+      break;
+    case id >= 300 && id <= 321:
+      backgroundImageSrc = drizzleImg;
+      break;
+    case id >= 500 && id <= 531:
+      backgroundImageSrc = rainImg;
+      break;
+    case id >= 600 && id <= 622:
+      backgroundImageSrc = snowImg;
+      break;
+    case id >= 700 && id <= 781:
+      backgroundImageSrc = mistImg;
+      break;
+    case id === 800:
+      backgroundImageSrc = clearSkyImg;
+      break;
+    case id === 801:
+      backgroundImageSrc = fewCloudsImg;
+      break;
+    case id === 802:
+      backgroundImageSrc = scatteredCloudsImg;
+      break;
+    default:
+      backgroundImageSrc = brokenCloudsImg;
+      break;
+  }
+
+  return backgroundImageSrc;
 };

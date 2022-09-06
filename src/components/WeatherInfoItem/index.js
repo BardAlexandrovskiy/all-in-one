@@ -9,24 +9,16 @@ import { ReactComponent as WindGustIcon } from "../../assets/images/weather/icon
 import { ReactComponent as VisibilityIcon } from "../../assets/images/weather/icons/visibility-icon.svg";
 import { ReactComponent as PressureIcon } from "../../assets/images/weather/icons/pressure-icon.svg";
 
-// Weather backgrounds
-import clearSkyImg from "../../assets/images/weather/backgrounds/clear-sky.jpg";
-import fewCloudsImg from "../../assets/images/weather/backgrounds/few-clouds.jpg";
-import scatteredCloudsImg from "../../assets/images/weather/backgrounds/scattered-clouds.jpg";
-import brokenCloudsImg from "../../assets/images/weather/backgrounds/broken-clouds.jpg";
-import rainImg from "../../assets/images/weather/backgrounds/rain.jpg";
-import thunderstormImg from "../../assets/images/weather/backgrounds/thunderstorm.jpg";
-import snowImg from "../../assets/images/weather/backgrounds/snow.jpg";
-import mistImg from "../../assets/images/weather/backgrounds/mist.jpg";
-import drizzleImg from "../../assets/images/weather/backgrounds/drizzle.jpg";
-
 // Error image
 import errorImage from "../../assets/images/error-image-3.svg";
 
 import React from "react";
 import { connect } from "react-redux";
 import { isEmptyObject } from "../../constants";
-import { getWeatherFunction } from "../../constants/weather";
+import {
+  getWeatherBackgroundById,
+  getWeatherFunction,
+} from "../../constants/weather";
 import { CSSTransition } from "react-transition-group";
 import Preloader from "../Preloader";
 import TextBanner from "../TextBanner";
@@ -147,7 +139,13 @@ class WeatherInfoItem extends React.Component {
   };
 
   render() {
-    const { isPreloader, errorText, isError, isTransitionWeatherInfo, isTransitionError } = this.state;
+    const {
+      isPreloader,
+      errorText,
+      isError,
+      isTransitionWeatherInfo,
+      isTransitionError,
+    } = this.state;
     let { weatherInfo } = this.props;
 
     const {
@@ -169,37 +167,7 @@ class WeatherInfoItem extends React.Component {
     } = weatherInfo;
 
     // Set background by weather id
-    let backgroundImageSrc = "";
-
-    switch (true) {
-      case id >= 200 && id <= 232:
-        backgroundImageSrc = thunderstormImg;
-        break;
-      case id >= 300 && id <= 321:
-        backgroundImageSrc = drizzleImg;
-        break;
-      case id >= 500 && id <= 531:
-        backgroundImageSrc = rainImg;
-        break;
-      case id >= 600 && id <= 622:
-        backgroundImageSrc = snowImg;
-        break;
-      case id >= 700 && id <= 781:
-        backgroundImageSrc = mistImg;
-        break;
-      case id === 800:
-        backgroundImageSrc = clearSkyImg;
-        break;
-      case id === 801:
-        backgroundImageSrc = fewCloudsImg;
-        break;
-      case id === 802:
-        backgroundImageSrc = scatteredCloudsImg;
-        break;
-      default:
-        backgroundImageSrc = brokenCloudsImg;
-        break;
-    }
+    const backgroundImageSrc = getWeatherBackgroundById(id);
 
     return (
       <div className="weather-info-item">
@@ -211,13 +179,13 @@ class WeatherInfoItem extends React.Component {
         >
           <Preloader />
         </CSSTransition>
-        <CSSTransition 
+        <CSSTransition
           in={isError && isTransitionError}
           timeout={150}
           mountOnEnter
           unmountOnExit
-          onEnter={() => this.setState({isTransitionWeatherInfo: false})}
-          onExited={() => this.setState({isTransitionWeatherInfo: true})}
+          onEnter={() => this.setState({ isTransitionWeatherInfo: false })}
+          onExited={() => this.setState({ isTransitionWeatherInfo: true })}
         >
           <TextBanner
             image={errorImage}
@@ -229,8 +197,8 @@ class WeatherInfoItem extends React.Component {
           timeout={300}
           mountOnEnter
           unmountOnExit
-          onEnter={() => this.setState({isTransitionError: false})}
-          onExited={() => this.setState({isTransitionError: true})}
+          onEnter={() => this.setState({ isTransitionError: false })}
+          onExited={() => this.setState({ isTransitionError: true })}
         >
           <div
             className="info"
