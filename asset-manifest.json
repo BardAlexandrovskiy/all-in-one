@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/all-in-one/static/css/main.154998c9.chunk.css",
-    "main.js": "/all-in-one/static/js/main.478041cb.chunk.js",
-    "main.js.map": "/all-in-one/static/js/main.478041cb.chunk.js.map",
+    "main.css": "/all-in-one/static/css/main.80c682ad.chunk.css",
+    "main.js": "/all-in-one/static/js/main.9627b285.chunk.js",
+    "main.js.map": "/all-in-one/static/js/main.9627b285.chunk.js.map",
     "runtime-main.js": "/all-in-one/static/js/runtime-main.4e1bc979.js",
     "runtime-main.js.map": "/all-in-one/static/js/runtime-main.4e1bc979.js.map",
     "static/css/2.aef014ba.chunk.css": "/all-in-one/static/css/2.aef014ba.chunk.css",
-    "static/js/2.55f19ab1.chunk.js": "/all-in-one/static/js/2.55f19ab1.chunk.js",
-    "static/js/2.55f19ab1.chunk.js.map": "/all-in-one/static/js/2.55f19ab1.chunk.js.map",
+    "static/js/2.10a1b68b.chunk.js": "/all-in-one/static/js/2.10a1b68b.chunk.js",
+    "static/js/2.10a1b68b.chunk.js.map": "/all-in-one/static/js/2.10a1b68b.chunk.js.map",
     "index.html": "/all-in-one/index.html",
     "service-worker.js": "/all-in-one/service-worker.js",
     "service-worker.js.LICENSE.txt": "/all-in-one/service-worker.js.LICENSE.txt",
     "service-worker.js.map": "/all-in-one/service-worker.js.map",
     "static/css/2.aef014ba.chunk.css.map": "/all-in-one/static/css/2.aef014ba.chunk.css.map",
-    "static/css/main.154998c9.chunk.css.map": "/all-in-one/static/css/main.154998c9.chunk.css.map",
-    "static/js/2.55f19ab1.chunk.js.LICENSE.txt": "/all-in-one/static/js/2.55f19ab1.chunk.js.LICENSE.txt",
+    "static/css/main.80c682ad.chunk.css.map": "/all-in-one/static/css/main.80c682ad.chunk.css.map",
+    "static/js/2.10a1b68b.chunk.js.LICENSE.txt": "/all-in-one/static/js/2.10a1b68b.chunk.js.LICENSE.txt",
     "static/media/broken-clouds.409656ee.jpg": "/all-in-one/static/media/broken-clouds.409656ee.jpg",
     "static/media/clear-sky.f4a511bf.jpg": "/all-in-one/static/media/clear-sky.f4a511bf.jpg",
     "static/media/cloudiness-icon.3c722a27.svg": "/all-in-one/static/media/cloudiness-icon.3c722a27.svg",
@@ -47,8 +47,8 @@
   "entrypoints": [
     "static/js/runtime-main.4e1bc979.js",
     "static/css/2.aef014ba.chunk.css",
-    "static/js/2.55f19ab1.chunk.js",
-    "static/css/main.154998c9.chunk.css",
-    "static/js/main.478041cb.chunk.js"
+    "static/js/2.10a1b68b.chunk.js",
+    "static/css/main.80c682ad.chunk.css",
+    "static/js/main.9627b285.chunk.js"
   ]
 }
