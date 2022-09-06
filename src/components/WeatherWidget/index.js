@@ -1,11 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   getCurrentLocationByGeo,
   setCurrentLocation,
 } from "../../actions/weather";
 import { isEmptyObject } from "../../constants";
-import { getWeatherFunction } from "../../constants/weather";
+import {
+  getWeatherBackgroundById,
+  getWeatherFunction,
+} from "../../constants/weather";
+import "./styles.scss";
 
 class WeatherWidget extends React.Component {
   componentDidMount = () => {
@@ -62,26 +67,20 @@ class WeatherWidget extends React.Component {
   render() {
     const { weatherInfo, city } = this.props;
 
-    const { weatherDescription, icon, temp, tempFeelsLike, id, date } =
-      weatherInfo;
+    const { icon, temp, id, date } = weatherInfo;
+
+    const backgroundImage = getWeatherBackgroundById(id);
 
     return (
-      <div className="weather-widget">
+      <Link to="/weather" className="weather-widget">
+        <img className="background" src={backgroundImage} alt="" />
         <div className="info">
-          {!!city && <div className="city">{city}</div>}
-          {!!date && <div className="current-date">{date}</div>}
-          {!!weatherDescription && (
-            <div className="description">
-              {weatherDescription}
-              {!!icon && <img src={icon} alt="" />}
-            </div>
-          )}
+          {!!city && <h2 className="city">{city}</h2>}
           {!!temp && <span className="current-temp">{temp}</span>}
-          {!!tempFeelsLike && (
-            <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
-          )}
+          {!!icon && <img src={icon} alt="" />}
+          {!!date && <div className="current-date">{date}</div>}
         </div>
-      </div>
+      </Link>
     );
   }
 }

@@ -4,6 +4,10 @@
   padding: 30px 15px;
   border-radius: 30px;
   background-color: rgba($white, 0.1);
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
 
   h2 {
     color: $white;

@@ -38,13 +38,22 @@
       padding-top: 50px;
       padding-bottom: 50px;
       width: 100%;
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+
+      @media (max-width: 640px) {
+        gap: 20px;
+        flex-direction: column;
+      }
     }
 
     .hello-message-widget {
+      width: 100%;
+
       h1 {
         color: $white;
         font-size: 40px;
-        margin-bottom: 30px;
         margin-left: 15px;
 
         @media (max-width: 1024px) {

@@ -98,7 +98,7 @@
       align-items: center;
 
       .current-temp {
-        color: white;
+        color: $white;
         font-size: 70px;
       }
 
@@ -110,6 +110,7 @@
 
         img {
           width: 90px;
+          margin-left: 5px;
 
           @media (max-width: 640px) {
             width: 60px;

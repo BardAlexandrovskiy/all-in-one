@@ -3,6 +3,12 @@
 .holidays-widget {
   position: relative;
   display: flex;
+  width: calc(60% - 15px);
+
+  @media (max-width: 640px) {
+    width: 100%;
+    order: 2;
+  }
 
   .holidays-list {
     display: flex;
