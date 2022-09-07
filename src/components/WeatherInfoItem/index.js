@@ -168,6 +168,7 @@ class WeatherInfoItem extends React.Component {
 
     // Set background by weather id
     const backgroundImageSrc = getWeatherBackgroundById(id);
+    console.log(weatherInfo);
 
     return (
       <div className="weather-info-item">
@@ -193,7 +194,9 @@ class WeatherInfoItem extends React.Component {
           />
         </CSSTransition>
         <CSSTransition
-          in={!isEmptyObject(weatherInfo) && isTransitionWeatherInfo}
+          in={
+            !isEmptyObject(weatherInfo) && isTransitionWeatherInfo && !isError
+          }
           timeout={300}
           mountOnEnter
           unmountOnExit

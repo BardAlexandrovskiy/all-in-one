@@ -10,9 +10,22 @@ import {
   getWeatherBackgroundById,
   getWeatherFunction,
 } from "../../constants/weather";
+import Preloader from "../Preloader";
 import "./styles.scss";
+import { CSSTransition } from "react-transition-group";
+import errorImage from "../../assets/images/error-image-1.svg";
+import noGeoImage from "../../assets/images/error-image-3.svg";
 
 class WeatherWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPreloader: false,
+      isError: false,
+      errorText: "",
+    };
+  }
+
   componentDidMount = () => {
     const { getCurrentLocationByGeo, city } = this.props;
 
@@ -42,6 +55,7 @@ class WeatherWidget extends React.Component {
     }
 
     if (isEmptyObject(weatherInfo) || isWeatherUpdate) {
+      this.setState({ isPreloader: true });
       getWeatherFunction(city)
         .then((result) => {
           const { weatherInfo } = result;
@@ -52,28 +66,60 @@ class WeatherWidget extends React.Component {
           });
         })
         .catch((error) => {
-          console.log(error);
+          this.setState({
+            isError: true,
+            errorText: `Error: ${error.message}.`,
+          });
         })
-        .finally(() => {});
+        .finally(() => {
+          console.log("end");
+
+          this.setState({ isPreloader: false });
+        });
     }
   };
 
   render() {
     const { weatherInfo, city } = this.props;
+    const { isPreloader, errorText, isError, isGeoAccess } = this.state;
 
     const { icon, temp, id, date } = weatherInfo;
 
     const backgroundImage = getWeatherBackgroundById(id);
+    console.log(weatherInfo);
 
     return (
       <Link to="/weather" className="weather-widget">
-        <img className="background" src={backgroundImage} alt="" />
-        <div className="info">
-          {!!city && <h2 className="city">{city}</h2>}
-          {!!temp && <span className="current-temp">{temp}</span>}
-          {!!icon && <img src={icon} alt="" />}
-          {!!date && <div className="current-date">{date}</div>}
-        </div>
+        <CSSTransition
+          in={isPreloader}
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+        >
+          <Preloader />
+        </CSSTransition>
+        {!!isError && (
+          <div className="error">
+            <img src={errorImage} alt="" />
+            <p>Oops, something went wrong, no weather yet.</p>
+            <p>{errorText}.</p>
+          </div>
+        )}
+        {!city && !isGeoAccess && !isPreloader && (
+          <div className="no-geo-access">
+            <img src={noGeoImage} alt="" />
+            <p>Oops, no access to geolocation.</p>
+          </div>
+        )}
+        {!isEmptyObject(weatherInfo) && !isError && (
+          <div className="info">
+            <img className="background" src={backgroundImage} alt="" />
+            {!!city && <h2 className="city">{city}</h2>}
+            {!!temp && <span className="current-temp">{temp}</span>}
+            {!!icon && <img src={icon} alt="" />}
+            {!!date && <div className="current-date">{date}</div>}
+          </div>
+        )}
       </Link>
     );
   }
@@ -83,6 +129,7 @@ const mapStateToProps = (state) => {
   const {
     weather: {
       currentLocation: { city, weatherInfo, updateWeatherTime },
+      isGeoAccess,
     },
   } = state;
 
@@ -90,6 +137,7 @@ const mapStateToProps = (state) => {
     city,
     weatherInfo,
     updateWeatherTime,
+    isGeoAccess,
   };
 };
 

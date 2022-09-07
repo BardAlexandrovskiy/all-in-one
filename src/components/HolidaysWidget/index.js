@@ -6,15 +6,16 @@ import HolidaysItem from "../HolidaysItem";
 import Preloader from "../Preloader";
 import { CSSTransition } from "react-transition-group";
 import "./styles.scss";
+import errorImage from "../../assets/images/error-image-1.svg";
 
 class HolidaysWidget extends React.Component {
   componentDidMount = () => {
     const { getHolidays, lastUpdateDate, isError } = this.props;
     const currentDate = moment().format("yyyyMMDD");
 
-    // if (lastUpdateDate !== currentDate || isError) {
-    getHolidays();
-    // }
+    if (lastUpdateDate !== currentDate || isError) {
+      getHolidays();
+    }
   };
 
   render() {
@@ -54,39 +55,47 @@ class HolidaysWidget extends React.Component {
           <Preloader />
         </CSSTransition>
         {!!isError && (
-          <div>
-            <p>Oops, something went wrong, no holidays yet</p>
-            <p></p>
+          <div className="error">
+            <img src={errorImage} alt="" />
+            <p>Oops, something went wrong, no holidays yet.</p>
+            <p>{errorText}.</p>
           </div>
         )}
-        <div className="holidays-list">
-          {todayHolidays.map((holiday) => (
-            <HolidaysItem holiday={holiday} firstPartOfTitle="Today is " />
-          ))}
-          {nextHolidays.map((holiday, index) => {
-            let isNextMessage = false;
-
-            if (!index) {
-              isNextMessage = true;
-            } else {
-              const { date } = holiday;
-              const firstHolidayDate = nextHolidays[0].date;
-
-              if (date === firstHolidayDate) {
-                isNextMessage = true;
-              }
-            }
-
-            return (
+        {(!!todayHolidays.length || !!nextHolidays.length) && (
+          <div className="holidays-list">
+            {todayHolidays.map((holiday) => (
               <HolidaysItem
+                key={holiday.name}
                 holiday={holiday}
-                firstPartOfTitle={
-                  isNextMessage ? "The next holiday is " : "Then we'll have "
-                }
+                firstPartOfTitle="Today is "
               />
-            );
-          })}
-        </div>
+            ))}
+            {nextHolidays.map((holiday, index) => {
+              let isNextMessage = false;
+
+              if (!index) {
+                isNextMessage = true;
+              } else {
+                const { date } = holiday;
+                const firstHolidayDate = nextHolidays[0].date;
+
+                if (date === firstHolidayDate) {
+                  isNextMessage = true;
+                }
+              }
+
+              return (
+                <HolidaysItem
+                  key={holiday.name}
+                  holiday={holiday}
+                  firstPartOfTitle={
+                    isNextMessage ? "The next holiday is " : "Then we'll have "
+                  }
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     );
   }

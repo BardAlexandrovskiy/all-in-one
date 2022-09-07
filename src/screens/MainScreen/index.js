@@ -44,8 +44,8 @@ class MainScreen extends React.Component {
                 <div className="hello-message-widget">
                   <h1>{helloMessage}</h1>
                 </div>
-                <HolidaysWidget />
                 <WeatherWidget />
+                <HolidaysWidget />
               </div>
             </div>
           </div>
