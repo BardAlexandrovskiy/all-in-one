@@ -21,7 +21,7 @@ const HolidaysItem = ({ holiday, firstPartOfTitle, isDateNow }) => {
       </h2>
       {!!date && (
         <div className="date">
-          {isDateNow ? "Today:" : "Date:"} {date}
+          {isDateNow ? "Today:" : "Holiday date:"} {date}
         </div>
       )}
     </div>

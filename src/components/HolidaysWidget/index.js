@@ -3,56 +3,89 @@ import React from "react";
 import { connect } from "react-redux";
 import { getHolidays } from "../../actions/holidays";
 import HolidaysItem from "../HolidaysItem";
+import Preloader from "../Preloader";
+import { CSSTransition } from "react-transition-group";
 import "./styles.scss";
 
 class HolidaysWidget extends React.Component {
   componentDidMount = () => {
-    const { getHolidays, lastUpdateDate } = this.props;
+    const { getHolidays, lastUpdateDate, isError } = this.props;
     const currentDate = moment().format("yyyyMMDD");
 
-    if (lastUpdateDate !== currentDate) {
-      getHolidays();
-    }
+    // if (lastUpdateDate !== currentDate || isError) {
+    getHolidays();
+    // }
   };
 
   render() {
     const { isError, errorText, holidaysList, isShowHolidaysPreloader } =
       this.props;
 
-    let todayHoliday = null;
-    let nextHoliday = null;
-    let todayHolidayMessage = "Today is ";
-    let nextHolidayMessage = "The next holiday is ";
-    const currentDate = moment().format("yyyyMMDD");
+    let todayHolidays = [];
+    let nextHolidays = [];
+    const currentDate = 'moment().format("yyyyMMDD");';
 
-    if (holidaysList.length > 1) {
-      const { date } = holidaysList[0];
+    if (holidaysList.length) {
+      holidaysList.forEach((holiday) => {
+        const { date } = holiday;
 
-      if (date.replaceAll("-", "") === currentDate) {
-        todayHoliday = holidaysList[0];
-        nextHoliday = holidaysList[1];
-      } else if (date.replaceAll("-", "") > currentDate) {
-        nextHoliday = holidaysList[0];
-      }
+        if (date.replaceAll("-", "") === currentDate) {
+          todayHolidays.push(holiday);
+        } else if (nextHolidays.length < 2) {
+          nextHolidays.push(holiday);
+        }
+      });
+    }
+
+    if (todayHolidays.length === 1 && nextHolidays.length) {
+      nextHolidays = nextHolidays.slice(0, 1);
+    } else if (todayHolidays.length === 2 && nextHolidays.length) {
+      todayHolidays = [];
     }
 
     return (
       <div className="holidays-widget">
+        <CSSTransition
+          in={isShowHolidaysPreloader}
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+        >
+          <Preloader />
+        </CSSTransition>
+        {!!isError && (
+          <div>
+            <p>Oops, something went wrong, no holidays yet</p>
+            <p></p>
+          </div>
+        )}
         <div className="holidays-list">
-          {!!todayHoliday && (
-            <HolidaysItem
-              holiday={todayHoliday}
-              firstPartOfTitle={todayHolidayMessage}
-              isShowDate={true}
-            />
-          )}
-          {!!nextHoliday && (
-            <HolidaysItem
-              holiday={nextHoliday}
-              firstPartOfTitle={nextHolidayMessage}
-              isDateNow={false}
-            />
-          )}
+          {todayHolidays.map((holiday) => (
+            <HolidaysItem holiday={holiday} firstPartOfTitle="Today is " />
+          ))}
+          {nextHolidays.map((holiday, index) => {
+            let isNextMessage = false;
+
+            if (!index) {
+              isNextMessage = true;
+            } else {
+              const { date } = holiday;
+              const firstHolidayDate = nextHolidays[0].date;
+
+              if (date === firstHolidayDate) {
+                isNextMessage = true;
+              }
+            }
+
+            return (
+              <HolidaysItem
+                holiday={holiday}
+                firstPartOfTitle={
+                  isNextMessage ? "The next holiday is " : "Then we'll have "
+                }
+              />
+            );
+          })}
         </div>
       </div>
     );

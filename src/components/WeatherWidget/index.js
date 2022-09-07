@@ -17,7 +17,6 @@ class WeatherWidget extends React.Component {
     const { getCurrentLocationByGeo, city } = this.props;
 
     if (!city) {
-      console.log("get city by geo");
       getCurrentLocationByGeo();
     } else {
       this.checkUpadate();
@@ -25,8 +24,6 @@ class WeatherWidget extends React.Component {
   };
 
   checkUpadate = () => {
-    console.log("check");
-
     const { city, weatherInfo, updateWeatherTime, setCurrentLocation } =
       this.props;
 
@@ -45,11 +42,10 @@ class WeatherWidget extends React.Component {
     }
 
     if (isEmptyObject(weatherInfo) || isWeatherUpdate) {
-      console.log("updating start");
       getWeatherFunction(city)
         .then((result) => {
           const { weatherInfo } = result;
-          console.log(weatherInfo);
+
           setCurrentLocation({
             weatherInfo,
             updateWeatherTime: Date.now(),
@@ -58,9 +54,7 @@ class WeatherWidget extends React.Component {
         .catch((error) => {
           console.log(error);
         })
-        .finally(() => {
-          console.log("updating end");
-        });
+        .finally(() => {});
     }
   };
 
