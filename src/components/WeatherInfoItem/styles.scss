@@ -127,13 +127,14 @@
         color: white;
         display: flex;
         align-items: center;
+        margin-bottom: 5px;
 
         img {
-          width: 90px;
+          width: 100px;
           margin-left: 5px;
 
           @media (max-width: 640px) {
-            width: 60px;
+            width: 75px;
           }
         }
 

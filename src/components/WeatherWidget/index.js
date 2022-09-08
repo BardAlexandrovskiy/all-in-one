@@ -9,6 +9,7 @@ import { isEmptyObject } from "../../constants";
 import {
   getWeatherBackgroundById,
   getWeatherFunction,
+  getWeatherIconById,
 } from "../../constants/weather";
 import Preloader from "../Preloader";
 import "./styles.scss";
@@ -82,9 +83,10 @@ class WeatherWidget extends React.Component {
     const { weatherInfo, city } = this.props;
     const { isPreloader, errorText, isError, isGeoAccess } = this.state;
 
-    const { icon, temp, id, date } = weatherInfo;
+    const { temp, id, date, time } = weatherInfo;
 
     const backgroundImage = getWeatherBackgroundById(id);
+    const icon = getWeatherIconById(id, time);
 
     return (
       <Link to="/weather" className="weather-widget">
@@ -104,10 +106,10 @@ class WeatherWidget extends React.Component {
           />
         )}
         {!city && !isGeoAccess && !isPreloader && (
-          <div className="no-geo-access">
-            <img src={noGeoImage} alt="" />
-            <p>Oops, no access to geolocation.</p>
-          </div>
+          <WidgetErrorBlock
+            text="Oops, no access to geolocation."
+            image={noGeoImage}
+          />
         )}
         {!isEmptyObject(weatherInfo) && !isError && (
           <div className="info">

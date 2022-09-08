@@ -9,6 +9,25 @@ import snowImg from "../assets/images/weather/backgrounds/snow.jpg";
 import mistImg from "../assets/images/weather/backgrounds/mist.jpg";
 import drizzleImg from "../assets/images/weather/backgrounds/drizzle.jpg";
 
+// Weather icons
+import atmosphereIcon from "../assets/images/weather/weather-condition-icons/atmosphere.svg";
+import clearSkyIcon from "../assets/images/weather/weather-condition-icons/clear-sky.svg";
+import clearSkyNightIcon from "../assets/images/weather/weather-condition-icons/clear-sky-night.svg";
+import cloudsIcon from "../assets/images/weather/weather-condition-icons/clouds.svg";
+import drizzleIcon from "../assets/images/weather/weather-condition-icons/drizzle.svg";
+import fewCloudsIcon from "../assets/images/weather/weather-condition-icons/few-clouds.svg";
+import fewCloudsNightIcon from "../assets/images/weather/weather-condition-icons/few-clouds-night.svg";
+import freezingRainIcon from "../assets/images/weather/weather-condition-icons/freezing-rain.svg";
+import nightRainIcon from "../assets/images/weather/weather-condition-icons/night-rain.svg";
+import rainIcon from "../assets/images/weather/weather-condition-icons/rain.svg";
+import scatteredCloudsIcon from "../assets/images/weather/weather-condition-icons/scattered-clouds.svg";
+import snowIcon from "../assets/images/weather/weather-condition-icons/snow.svg";
+// import snow2Icon from "../assets/images/weather/weather-condition-icons/snow-2.svg";
+import sunRainIcon from "../assets/images/weather/weather-condition-icons/sun-rain.svg";
+// import thunderstorm2Icon from "../assets/images/weather/weather-condition-icons/thunderstorm-2.svg";
+import thunderstormIcon from "../assets/images/weather/weather-condition-icons/thunderstorm.svg";
+import windIcon from "../assets/images/weather/weather-condition-icons/wind.svg";
+
 import moment from "moment";
 
 // Weather request function
@@ -28,8 +47,10 @@ export const getWeatherFunction = (cityName, lat, long) => {
       throw new Error(response.status);
     })
     .then((weatherObject) => {
+      // console.log(weatherObject);
+
       const {
-        weather: [{ description: weatherDescription, id, icon }],
+        weather: [{ description: weatherDescription, id }],
         main: { temp, feels_like: tempFeelsLike, humidity, pressure },
         wind: { speed: windSpeed, deg: windDeg, gust: windGust },
         clouds: { all: cloudiness },
@@ -45,10 +66,6 @@ export const getWeatherFunction = (cityName, lat, long) => {
             typeof weatherDescription === "string"
               ? weatherDescription.charAt(0).toUpperCase() +
                 weatherDescription.slice(1)
-              : null,
-          icon:
-            typeof icon === "string"
-              ? `http://openweathermap.org/img/wn/${icon}@2x.png`
               : null,
           temp: typeof temp === "number" ? `${Math.round(temp)}°C` : null,
           tempFeelsLike:
@@ -69,6 +86,7 @@ export const getWeatherFunction = (cityName, lat, long) => {
             typeof sunset === "number"
               ? moment(sunset * 1000).format("HH:mm")
               : null,
+          time: typeof dt === "number" ? moment(dt * 1000).format("H") : null,
           visibility: typeof visibility === "number" ? `${visibility} m` : null,
           id: typeof id === "number" ? id : null,
           date:
@@ -117,4 +135,79 @@ export const getWeatherBackgroundById = (id) => {
   }
 
   return backgroundImageSrc;
+};
+
+export const getWeatherIconById = (id, time) => {
+  let timesOfDay = "";
+  let icon = null;
+
+  if (time) {
+    switch (true) {
+      case time < 6:
+        timesOfDay = "night";
+        break;
+      case time < 12:
+      case time < 18:
+        timesOfDay = "day";
+        break;
+      default:
+        timesOfDay = "night";
+    }
+  } else {
+    timesOfDay = "day";
+  }
+
+  switch (true) {
+    case id >= 200 && id <= 232:
+      icon = thunderstormIcon;
+      break;
+    case id >= 300 && id <= 321:
+      icon = drizzleIcon;
+      break;
+    case id >= 500 && id <= 504:
+      if (timesOfDay === "night") {
+        icon = nightRainIcon;
+      } else {
+        icon = sunRainIcon;
+      }
+      break;
+    case id >= 520 && id <= 531:
+      icon = rainIcon;
+      break;
+    case id === 511:
+      icon = freezingRainIcon;
+      break;
+    case id >= 600 && id <= 622:
+      icon = snowIcon;
+      break;
+    case id === 731 || id === 771 || id === 781:
+      icon = windIcon;
+      break;
+    case id >= 701 && id <= 721:
+    case id >= 741 && id <= 762:
+      icon = atmosphereIcon;
+      break;
+    case id === 800:
+      if (timesOfDay === "night") {
+        icon = clearSkyNightIcon;
+      } else {
+        icon = clearSkyIcon;
+      }
+      break;
+    case id === 801:
+      if (timesOfDay === "night") {
+        icon = fewCloudsNightIcon;
+      } else {
+        icon = fewCloudsIcon;
+      }
+      break;
+    case id === 802:
+      icon = scatteredCloudsIcon;
+      break;
+    default:
+      icon = cloudsIcon;
+      break;
+  }
+
+  return icon;
 };

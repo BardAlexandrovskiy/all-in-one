@@ -18,6 +18,7 @@ import { isEmptyObject } from "../../constants";
 import {
   getWeatherBackgroundById,
   getWeatherFunction,
+  getWeatherIconById,
 } from "../../constants/weather";
 import { CSSTransition } from "react-transition-group";
 import Preloader from "../Preloader";
@@ -150,7 +151,6 @@ class WeatherInfoItem extends React.Component {
 
     const {
       weatherDescription,
-      icon,
       temp,
       tempFeelsLike,
       humidity,
@@ -164,10 +164,12 @@ class WeatherInfoItem extends React.Component {
       sunset,
       id,
       date,
+      time,
     } = weatherInfo;
 
     // Set background by weather id
     const backgroundImageSrc = getWeatherBackgroundById(id);
+    const icon = getWeatherIconById(id, time);
 
     return (
       <div className="weather-info-item">
