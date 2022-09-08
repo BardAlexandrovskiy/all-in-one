@@ -9,6 +9,8 @@ import {
   SET_ERROR,
   SET_ERROR_TEXT,
   SET_JOKES,
+  SET_JOKES_ERROR,
+  SET_JOKES_ERROR_TEXT,
   SHOW_JOKES_PRELOADER,
 } from "../actions/jokes";
 
@@ -96,9 +98,9 @@ export function jokesReducer(state = initialState, action) {
       return { ...state, isShowJokesPreloader: payload.bool };
     case SET_JOKES:
       return { ...state, jokesList: payload.list };
-    case SET_ERROR:
+    case SET_JOKES_ERROR:
       return { ...state, isError: payload.bool };
-    case SET_ERROR_TEXT:
+    case SET_JOKES_ERROR_TEXT:
       return { ...state, errorText: payload.text };
     default:
       return state;

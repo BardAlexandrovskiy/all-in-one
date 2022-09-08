@@ -15,6 +15,7 @@ import "./styles.scss";
 import { CSSTransition } from "react-transition-group";
 import errorImage from "../../assets/images/error-image-1.svg";
 import noGeoImage from "../../assets/images/error-image-3.svg";
+import WidgetErrorBlock from "../WidgetErrorBlock";
 
 class WeatherWidget extends React.Component {
   constructor(props) {
@@ -72,8 +73,6 @@ class WeatherWidget extends React.Component {
           });
         })
         .finally(() => {
-          console.log("end");
-
           this.setState({ isPreloader: false });
         });
     }
@@ -86,7 +85,6 @@ class WeatherWidget extends React.Component {
     const { icon, temp, id, date } = weatherInfo;
 
     const backgroundImage = getWeatherBackgroundById(id);
-    console.log(weatherInfo);
 
     return (
       <Link to="/weather" className="weather-widget">
@@ -99,11 +97,11 @@ class WeatherWidget extends React.Component {
           <Preloader />
         </CSSTransition>
         {!!isError && (
-          <div className="error">
-            <img src={errorImage} alt="" />
-            <p>Oops, something went wrong, no weather yet.</p>
-            <p>{errorText}.</p>
-          </div>
+          <WidgetErrorBlock
+            text="Oops, something went wrong, no weather yet."
+            errorText={errorText}
+            image={errorImage}
+          />
         )}
         {!city && !isGeoAccess && !isPreloader && (
           <div className="no-geo-access">

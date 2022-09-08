@@ -7,6 +7,7 @@ import Preloader from "../Preloader";
 import { CSSTransition } from "react-transition-group";
 import "./styles.scss";
 import errorImage from "../../assets/images/error-image-1.svg";
+import WidgetErrorBlock from "../WidgetErrorBlock";
 
 class HolidaysWidget extends React.Component {
   componentDidMount = () => {
@@ -55,11 +56,11 @@ class HolidaysWidget extends React.Component {
           <Preloader />
         </CSSTransition>
         {!!isError && (
-          <div className="error">
-            <img src={errorImage} alt="" />
-            <p>Oops, something went wrong, no holidays yet.</p>
-            <p>{errorText}.</p>
-          </div>
+          <WidgetErrorBlock
+            text="Oops, something went wrong, no holidays yet."
+            errorText={errorText}
+            image={errorImage}
+          />
         )}
         {(!!todayHolidays.length || !!nextHolidays.length) && (
           <div className="holidays-list">

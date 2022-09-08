@@ -13,6 +13,26 @@
 
   .text-banner {
     background-color: $black;
+    padding-top: 100px;
+    padding-bottom: 100px;
+
+    &.enter {
+      opacity: 0;
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transition: 0.15s;
+    }
+
+    &.exit {
+      opacity: 1;
+    }
+
+    &.exit-active {
+      opacity: 0;
+      transition: 0.15s;
+    }
 
     .text {
       background-color: $grey;

@@ -35,27 +35,6 @@
     z-index: -2;
   }
 
-  .error,
-  .no-geo-access {
-    padding: 30px 15px;
-    border-radius: 30px;
-    background-color: rgba($white, 0.1);
-    flex: 1;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    color: $white;
-    font-size: 20px;
-    text-align: center;
-
-    img {
-      max-width: 200px;
-      width: 100%;
-      margin-bottom: 10px;
-    }
-  }
-
   .info {
     padding: 30px 15px;
     border-radius: 30px;

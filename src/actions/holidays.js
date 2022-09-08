@@ -3,9 +3,9 @@ import moment from "moment";
 // Types
 export const SET_HOLIDAYS = "SET_HOLIDAYS";
 export const SHOW_HOLIDAYS_PRELOADER = "SHOW_HOLIDAYS_PRELOADER";
-export const SET_ERROR = "SET_ERROR";
-export const SET_ERROR_TEXT = "SET_ERROR_TEXT";
-export const SET_LAST_UPDATE_DATE = "SET_LAST_UPDATE_DATE";
+export const SET_HOLIDAYS_ERROR = "SET_HOLIDAYS_ERROR";
+export const SET_HOLIDAYS_ERROR_TEXT = "SET_HOLIDAYS_ERROR_TEXT";
+export const SET_LAST_UPDATE_DATE = "SET_HOLIDAYS_LAST_UPDATE_DATE";
 
 // Actions
 export const setHolidays = (list) => {
@@ -24,14 +24,14 @@ export const showHolidaysPreloader = (bool) => {
 
 export const setError = (bool) => {
   return {
-    type: SET_ERROR,
+    type: SET_HOLIDAYS_ERROR,
     payload: { bool },
   };
 };
 
 export const setErrorText = (text) => {
   return {
-    type: SET_ERROR_TEXT,
+    type: SET_HOLIDAYS_ERROR_TEXT,
     payload: { text },
   };
 };
@@ -53,7 +53,7 @@ export const getHolidays = () => {
         if (response.status === 200) {
           return response.json();
         }
-        throw new Error(`Error: ${response.status}`);
+        throw new Error(`Error: ${response.status}.`);
       })
       .then((response) => {
         dispatch(setLastUpdateDate(moment().format("yyyyMMDD")));

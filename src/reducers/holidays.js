@@ -2,6 +2,8 @@ import {
   SET_ERROR,
   SET_ERROR_TEXT,
   SET_HOLIDAYS,
+  SET_HOLIDAYS_ERROR,
+  SET_HOLIDAYS_ERROR_TEXT,
   SET_LAST_UPDATE_DATE,
   SHOW_HOLIDAYS_PRELOADER,
 } from "../actions/holidays";
@@ -28,9 +30,9 @@ export function holidaysReducer(state = initialState, action) {
   switch (type) {
     case SET_HOLIDAYS:
       return { ...state, holidaysList: payload.list };
-    case SET_ERROR:
+    case SET_HOLIDAYS_ERROR:
       return { ...state, isError: payload.bool };
-    case SET_ERROR_TEXT:
+    case SET_HOLIDAYS_ERROR_TEXT:
       return { ...state, errorText: payload.text };
     case SHOW_HOLIDAYS_PRELOADER:
       return { ...state, isShowHolidaysPreloader: payload.bool };

@@ -1,27 +1,9 @@
 @import "../../assets/styles/vars";
 
 .text-banner {
-  height: 100%;
+  flex: 1;
   display: flex;
   align-items: center;
-
-  &.enter {
-    opacity: 0;
-  }
-
-  &.enter-active {
-    opacity: 1;
-    transition: 0.15s;
-  }
-
-  &.exit {
-    opacity: 1;
-  }
-
-  &.exit-active {
-    opacity: 0;
-    transition: 0.15s;
-  }
 
   .container {
     display: flex;
@@ -33,7 +15,7 @@
   }
 
   .text {
-    color: white;
+    color: $white;
     font-size: 24px;
     padding: 30px 20px;
     border-radius: 10px;
