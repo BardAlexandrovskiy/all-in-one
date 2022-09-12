@@ -1,13 +1,21 @@
 // Weather backgrounds
 import clearSkyImg from "../assets/images/weather/backgrounds/clear-sky.jpg";
+import clearSkyNightImg from "../assets/images/weather/backgrounds/clear-sky-night.jpg";
 import fewCloudsImg from "../assets/images/weather/backgrounds/few-clouds.jpg";
+import cloudsNightImg from "../assets/images/weather/backgrounds/clouds-night.jpg";
 import scatteredCloudsImg from "../assets/images/weather/backgrounds/scattered-clouds.jpg";
+import scatteredCloudsNightImg from "../assets/images/weather/backgrounds/scattered-clouds-night.jpg";
 import brokenCloudsImg from "../assets/images/weather/backgrounds/broken-clouds.jpg";
 import rainImg from "../assets/images/weather/backgrounds/rain.jpg";
-import thunderstormImg from "../assets/images/weather/backgrounds/thunderstorm.jpg";
+import rainNightImg from "../assets/images/weather/backgrounds/rain-night.jpg";
+import thunderstormImg from "../assets/images/weather/backgrounds/thunderstorm-day.jpg";
+import thunderstormNightImg from "../assets/images/weather/backgrounds/thunderstorm.jpg";
 import snowImg from "../assets/images/weather/backgrounds/snow.jpg";
+import snowNightImg from "../assets/images/weather/backgrounds/snow-night.jpg";
 import mistImg from "../assets/images/weather/backgrounds/mist.jpg";
+import mistNightImg from "../assets/images/weather/backgrounds/mist-night.jpg";
 import drizzleImg from "../assets/images/weather/backgrounds/drizzle.jpg";
+import drizzleNightImg from "../assets/images/weather/backgrounds/drizzle-night.jpg";
 
 // Weather icons
 import atmosphereIcon from "../assets/images/weather/weather-condition-icons/atmosphere.svg";
@@ -99,38 +107,91 @@ export const getWeatherFunction = (cityName, lat, long) => {
     });
 };
 
-// Get weather background by id
+// Get time of day
+export const dayOrNight = (time) => {
+  if (time) {
+    switch (true) {
+      case time < 6:
+        return "night";
+      case time < 12:
+      case time < 18:
+        return "day";
+      default:
+        return "night";
+    }
+  } else {
+    return "day";
+  }
+};
 
-export const getWeatherBackgroundById = (id) => {
-  let backgroundImageSrc = "";
+// Get weather background by id
+export const getWeatherBackgroundById = (id, time) => {
+  let backgroundImageSrc = null;
+  let timesOfDay = dayOrNight(time);
 
   switch (true) {
     case id >= 200 && id <= 232:
-      backgroundImageSrc = thunderstormImg;
+      if (timesOfDay === "night") {
+        backgroundImageSrc = thunderstormNightImg;
+      } else {
+        backgroundImageSrc = thunderstormImg;
+      }
       break;
     case id >= 300 && id <= 321:
-      backgroundImageSrc = drizzleImg;
+      if (timesOfDay === "night") {
+        backgroundImageSrc = drizzleNightImg;
+      } else {
+        backgroundImageSrc = drizzleImg;
+      }
       break;
     case id >= 500 && id <= 531:
-      backgroundImageSrc = rainImg;
+      if (timesOfDay === "night") {
+        backgroundImageSrc = rainNightImg;
+      } else {
+        backgroundImageSrc = rainImg;
+      }
       break;
     case id >= 600 && id <= 622:
-      backgroundImageSrc = snowImg;
+      if (timesOfDay === "night") {
+        backgroundImageSrc = snowNightImg;
+      } else {
+        backgroundImageSrc = snowImg;
+      }
       break;
     case id >= 700 && id <= 781:
-      backgroundImageSrc = mistImg;
+      if (timesOfDay === "night") {
+        backgroundImageSrc = mistNightImg;
+      } else {
+        backgroundImageSrc = mistImg;
+      }
       break;
     case id === 800:
-      backgroundImageSrc = clearSkyImg;
+      if (timesOfDay === "night") {
+        backgroundImageSrc = clearSkyNightImg;
+      } else {
+        backgroundImageSrc = clearSkyImg;
+      }
       break;
     case id === 801:
-      backgroundImageSrc = fewCloudsImg;
+      if (timesOfDay === "night") {
+        backgroundImageSrc = cloudsNightImg;
+      } else {
+        backgroundImageSrc = fewCloudsImg;
+      }
       break;
     case id === 802:
-      backgroundImageSrc = scatteredCloudsImg;
+      if (timesOfDay === "night") {
+        backgroundImageSrc = scatteredCloudsNightImg;
+      } else {
+        backgroundImageSrc = scatteredCloudsImg;
+      }
       break;
     default:
-      backgroundImageSrc = brokenCloudsImg;
+      if (timesOfDay === "night") {
+        backgroundImageSrc = scatteredCloudsNightImg;
+      } else {
+        backgroundImageSrc = brokenCloudsImg;
+      }
       break;
   }
 
@@ -138,24 +199,8 @@ export const getWeatherBackgroundById = (id) => {
 };
 
 export const getWeatherIconById = (id, time) => {
-  let timesOfDay = "";
+  let timesOfDay = dayOrNight(time);
   let icon = null;
-
-  if (time) {
-    switch (true) {
-      case time < 6:
-        timesOfDay = "night";
-        break;
-      case time < 12:
-      case time < 18:
-        timesOfDay = "day";
-        break;
-      default:
-        timesOfDay = "night";
-    }
-  } else {
-    timesOfDay = "day";
-  }
 
   switch (true) {
     case id >= 200 && id <= 232:

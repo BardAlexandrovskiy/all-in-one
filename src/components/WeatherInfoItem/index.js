@@ -168,7 +168,7 @@ class WeatherInfoItem extends React.Component {
     } = weatherInfo;
 
     // Set background by weather id
-    const backgroundImageSrc = getWeatherBackgroundById(id);
+    const backgroundImageSrc = getWeatherBackgroundById(id, time);
     const icon = getWeatherIconById(id, time);
 
     return (

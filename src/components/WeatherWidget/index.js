@@ -85,7 +85,7 @@ class WeatherWidget extends React.Component {
 
     const { temp, id, date, time } = weatherInfo;
 
-    const backgroundImage = getWeatherBackgroundById(id);
+    const backgroundImage = getWeatherBackgroundById(id, time);
     const icon = getWeatherIconById(id, time);
 
     return (
