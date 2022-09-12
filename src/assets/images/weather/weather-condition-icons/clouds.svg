@@ -1,1 +1,9 @@
-<?xml version="1.0" ?><svg height="20.315mm" viewBox="0 0 57.587 57.587" width="20.315mm" xmlns="http://www.w3.org/2000/svg"><title/><path d="M35.272,41.085A12.292,12.292,0,1,0,23.46,25.426a8.582,8.582,0,1,0-4.854,15.659Z" fill="#daf5ff"/></svg>
+<svg width="57.587" height="57.587" xmlns="http://www.w3.org/2000/svg">
+ <title/>
+
+ <g>
+  <title>Layer 1</title>
+  <path id="cloud-1" fill="#69ddff" d="m33.34892,39.16192a12.292,12.292 0 1 0 -11.812,-15.659a8.582,8.582 0 1 0 -4.854,15.659l16.666,0z"/>
+  <path id="cloud-2" fill="#daf5ff" d="m37.19508,43.00808a12.292,12.292 0 1 0 -11.812,-15.659a8.582,8.582 0 1 0 -4.854,15.659l16.666,0z"/>
+ </g>
+</svg>
