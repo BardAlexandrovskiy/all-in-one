@@ -22,7 +22,7 @@
 
     &.enter-active {
       opacity: 1;
-      transition: 0.15s;
+      transition: 0.3s;
     }
 
     &.exit {
@@ -31,7 +31,7 @@
 
     &.exit-active {
       opacity: 0;
-      transition: 0.15s;
+      transition: 0.3s;
     }
 
     .text {

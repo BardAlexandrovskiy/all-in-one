@@ -183,7 +183,7 @@ class WeatherInfoItem extends React.Component {
         </CSSTransition>
         <CSSTransition
           in={isError && isTransitionError}
-          timeout={150}
+          timeout={300}
           mountOnEnter
           unmountOnExit
           onEnter={() => this.setState({ isTransitionWeatherInfo: false })}
