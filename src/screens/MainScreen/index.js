@@ -10,6 +10,7 @@ import nightImage from "../../assets/images/home/night.jpg";
 import morningImage from "../../assets/images/home/morning.jpg";
 import WeatherWidget from "../../components/WeatherWidget";
 import TasksWidget from "../../components/TasksWidget";
+import JokesWidget from "../../components/JokesWidget";
 
 class MainScreen extends React.Component {
   render() {
@@ -48,6 +49,7 @@ class MainScreen extends React.Component {
                 <WeatherWidget />
                 <HolidaysWidget />
                 <TasksWidget />
+                <JokesWidget />
               </div>
             </div>
           </div>

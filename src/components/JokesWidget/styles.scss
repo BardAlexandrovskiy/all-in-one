@@ -1,0 +1,17 @@
+@import "../../assets/styles/vars";
+
+.jokes-widget {
+  display: flex;
+  flex-direction: column;
+  width: calc(45% - 15px);
+  padding: 15px;
+  border-radius: 30px;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  background-color: rgba($grey, 0.9);
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+}
