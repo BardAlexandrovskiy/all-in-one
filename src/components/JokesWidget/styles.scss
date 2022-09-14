@@ -14,4 +14,49 @@
   @media (max-width: 640px) {
     width: 100%;
   }
+
+  .inner-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+
+    .joke-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      h2 {
+        color: $white;
+        font-size: 30px;
+        text-align: center;
+        margin-bottom: 15px;
+
+        @media (max-width: 1024px) {
+          font-size: 28px;
+        }
+
+        @media (max-width: 640px) {
+          font-size: 24px;
+        }
+
+        @media (max-width: 390px) {
+          font-size: 22px;
+        }
+      }
+    }
+
+    a {
+      color: $sky-blue;
+      text-decoration: none;
+      font-size: 20px;
+      text-align: center;
+
+      @media (max-width: 1024px) {
+        font-size: 18px;
+      }
+    }
+  }
 }

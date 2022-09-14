@@ -10,8 +10,10 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+html,
+body,
 #root {
-  height: 100vh;
+  height: 100%;
 }
 
 body {
