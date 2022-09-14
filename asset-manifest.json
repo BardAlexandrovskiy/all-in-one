@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/all-in-one/static/css/main.2045fd26.chunk.css",
-    "main.js": "/all-in-one/static/js/main.e59964b1.chunk.js",
-    "main.js.map": "/all-in-one/static/js/main.e59964b1.chunk.js.map",
+    "main.css": "/all-in-one/static/css/main.fd3071d3.chunk.css",
+    "main.js": "/all-in-one/static/js/main.63cf3f59.chunk.js",
+    "main.js.map": "/all-in-one/static/js/main.63cf3f59.chunk.js.map",
     "runtime-main.js": "/all-in-one/static/js/runtime-main.4e1bc979.js",
     "runtime-main.js.map": "/all-in-one/static/js/runtime-main.4e1bc979.js.map",
     "static/css/2.aef014ba.chunk.css": "/all-in-one/static/css/2.aef014ba.chunk.css",
@@ -13,7 +13,7 @@
     "service-worker.js.LICENSE.txt": "/all-in-one/service-worker.js.LICENSE.txt",
     "service-worker.js.map": "/all-in-one/service-worker.js.map",
     "static/css/2.aef014ba.chunk.css.map": "/all-in-one/static/css/2.aef014ba.chunk.css.map",
-    "static/css/main.2045fd26.chunk.css.map": "/all-in-one/static/css/main.2045fd26.chunk.css.map",
+    "static/css/main.fd3071d3.chunk.css.map": "/all-in-one/static/css/main.fd3071d3.chunk.css.map",
     "static/js/2.aec6c8cc.chunk.js.LICENSE.txt": "/all-in-one/static/js/2.aec6c8cc.chunk.js.LICENSE.txt",
     "static/media/atmosphere.ff396202.svg": "/all-in-one/static/media/atmosphere.ff396202.svg",
     "static/media/broken-clouds.409656ee.jpg": "/all-in-one/static/media/broken-clouds.409656ee.jpg",
@@ -72,7 +72,7 @@
     "static/js/runtime-main.4e1bc979.js",
     "static/css/2.aef014ba.chunk.css",
     "static/js/2.aec6c8cc.chunk.js",
-    "static/css/main.2045fd26.chunk.css",
-    "static/js/main.e59964b1.chunk.js"
+    "static/css/main.fd3071d3.chunk.css",
+    "static/js/main.63cf3f59.chunk.js"
   ]
 }
