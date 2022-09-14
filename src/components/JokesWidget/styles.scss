@@ -12,7 +12,10 @@
   background-color: rgba($grey, 0.9);
 
   @media (max-width: 640px) {
-    width: 100%;
+    order: 2;
+    padding: 10px;
+    border-radius: 15px;
+    width: calc(50% - 5px);
   }
 
   .inner-wrapper {
@@ -22,11 +25,26 @@
     align-items: center;
     justify-content: center;
     gap: 15px;
+    background-color: rgba($white, 0.1);
+    border-radius: 30px;
+    padding: 30px 15px;
+
+    @media (max-width: 640px) {
+      border-radius: 15px;
+      padding: 10px;
+      gap: 10px;
+    }
+
+    .widget-error {
+      padding: 0;
+      background: transparent;
+    }
 
     .joke-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
+      max-width: 100%;
 
       h2 {
         color: $white;
@@ -39,11 +57,31 @@
         }
 
         @media (max-width: 640px) {
-          font-size: 24px;
+          font-size: 22px;
         }
 
         @media (max-width: 390px) {
-          font-size: 22px;
+          font-size: 18px;
+          margin-bottom: 10px;
+        }
+      }
+
+      .jokes-item {
+        background-color: transparent;
+        padding: 0;
+
+        .text {
+          p {
+            @media (max-width: 640px) {
+              padding: 10px;
+              border-radius: 10px 10px 10px 0;
+              font-size: 18px;
+            }
+
+            @media (max-width: 390px) {
+              font-size: 16px;
+            }
+          }
         }
       }
     }
@@ -56,6 +94,14 @@
 
       @media (max-width: 1024px) {
         font-size: 18px;
+      }
+
+      @media (max-width: 640px) {
+        font-size: 16px;
+      }
+
+      @media (max-width: 390px) {
+        font-size: 14px;
       }
     }
   }

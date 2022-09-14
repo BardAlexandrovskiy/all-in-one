@@ -12,7 +12,10 @@
   text-decoration: none;
 
   @media (max-width: 640px) {
-    width: 100%;
+    width: calc(50% - 5px);
+    order: 1;
+    padding: 10px;
+    border-radius: 15px;
   }
 
   &:after {
@@ -46,6 +49,11 @@
     justify-content: center;
     overflow: hidden;
 
+    @media (max-width: 640px) {
+      padding: 10px;
+      border-radius: 15px;
+    }
+
     .city {
       color: $white;
       font-size: 30px;
@@ -58,16 +66,29 @@
 
       @media (max-width: 640px) {
         font-size: 24px;
+        margin-bottom: 10px;
       }
 
       @media (max-width: 390px) {
-        font-size: 22px;
+        font-size: 18px;
       }
     }
 
     .current-temp {
       color: $white;
       font-size: 70px;
+
+      @media (max-width: 1024px) {
+        font-size: 50px;
+      }
+
+      @media (max-width: 640px) {
+        font-size: 40px;
+      }
+
+      @media (max-width: 390px) {
+        font-size: 30px;
+      }
     }
 
     img {
@@ -87,7 +108,11 @@
       text-align: center;
 
       @media (max-width: 640px) {
-        font-size: 18px;
+        font-size: 16px;
+      }
+
+      @media (max-width: 390px) {
+        font-size: 14px;
       }
     }
   }

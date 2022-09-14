@@ -23,7 +23,7 @@ class JokesWidget extends React.Component {
   componentDidMount() {
     this.setState({ isPreloader: true });
     fetch(
-      "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit"
+      "https://v2.jokeapi.dev/joke/Programming,Miscellaneous,Pun,Christmas?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single"
     )
       .then((response) => {
         if (response.status === 200) {
@@ -32,9 +32,10 @@ class JokesWidget extends React.Component {
         throw new Error(`Error: ${response.status}.`);
       })
       .then((response) => {
-        const { error, joke, setup, delivery } = response;
-        if ((joke || setup || delivery) && !error) {
+        const { error, joke } = response;
+        if (joke && !error) {
           delete response.error;
+          delete response.category;
           this.setState({ joke: response });
         } else throw new Error("Joke not found.");
       })
