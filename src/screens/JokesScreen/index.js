@@ -55,6 +55,8 @@ class JokesScreen extends React.Component {
                   enter: 300,
                   exit: 300,
                 }}
+                unmountOnExit={true}
+                mountOnEnter={true}
               >
                 <div onClick={this.handleClickArrowUp} className="arrow-up">
                   <FontAwesomeIcon icon={faArrowUp} />

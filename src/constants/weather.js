@@ -6,6 +6,7 @@ import cloudsNightImg from "../assets/images/weather/backgrounds/clouds-night.jp
 import scatteredCloudsImg from "../assets/images/weather/backgrounds/scattered-clouds.jpg";
 import scatteredCloudsNightImg from "../assets/images/weather/backgrounds/scattered-clouds-night.jpg";
 import brokenCloudsImg from "../assets/images/weather/backgrounds/broken-clouds.jpg";
+import brokenCloudsNightImg from "../assets/images/weather/backgrounds/broken-clouds-night.jpg";
 import rainImg from "../assets/images/weather/backgrounds/rain.jpg";
 import rainNightImg from "../assets/images/weather/backgrounds/rain-night.jpg";
 import thunderstormImg from "../assets/images/weather/backgrounds/thunderstorm-day.jpg";
@@ -188,7 +189,7 @@ export const getWeatherBackgroundById = (id, time) => {
       break;
     default:
       if (timesOfDay === "night") {
-        backgroundImageSrc = scatteredCloudsNightImg;
+        backgroundImageSrc = brokenCloudsNightImg;
       } else {
         backgroundImageSrc = brokenCloudsImg;
       }

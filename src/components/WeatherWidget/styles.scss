@@ -10,7 +10,7 @@
   overflow: hidden;
   min-height: 200px;
   text-decoration: none;
-  background-color: rgba(darken($sky-blue, 55), 0.4);
+  background-color: rgba(darken($sky-blue, 55), 0.5);
 
   @media (max-width: 640px) {
     width: calc(50% - 5px);
