@@ -51,9 +51,12 @@ class JokesScreen extends React.Component {
               <JokesResults />
               <CSSTransition
                 in={isShowArrowUp}
-                timeout={300}
-                unmountOnExit
-                mountOnEnter
+                timeout={{
+                  appear: 0,
+                  enter: 300,
+                  exit: 300,
+                }}
+                appear={true}
               >
                 <div onClick={this.handleClickArrowUp} className="arrow-up">
                   <FontAwesomeIcon icon={faArrowUp} />

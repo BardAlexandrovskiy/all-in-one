@@ -51,9 +51,11 @@
     align-items: center;
     cursor: pointer;
     z-index: 10;
+    display: none;
 
     &.enter {
       opacity: 0;
+      display: flex;
     }
 
     &.enter-active {
@@ -61,8 +63,13 @@
       transition: 0.3s;
     }
 
+    &.enter-done {
+      display: flex;
+    }
+
     &.exit {
       opacity: 1;
+      display: flex;
     }
 
     &.exit-active {

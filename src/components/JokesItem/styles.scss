@@ -7,6 +7,7 @@
   flex-direction: column;
   row-gap: 10px;
   background-color: rgba($white, 0.1);
+  max-width: 100%;
 
   @media (max-width: 1024px) {
     padding: 30px 15px;

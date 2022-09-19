@@ -20,7 +20,7 @@ class JokesWidget extends React.Component {
     };
   }
 
-  componentDidMount() {
+  getJoke = () => {
     this.setState({ isPreloader: true });
     fetch(
       "https://v2.jokeapi.dev/joke/Programming,Miscellaneous,Pun,Christmas?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single"
@@ -36,16 +36,24 @@ class JokesWidget extends React.Component {
         if (joke && !error) {
           delete response.error;
           delete response.category;
-          this.setState({ joke: response });
+
+          if (joke.length > 100) {
+            this.getJoke();
+          } else {
+            this.setState({ isPreloader: false });
+            this.setState({ joke: response });
+          }
         } else throw new Error("Joke not found.");
       })
       .catch((error) => {
         this.setState({ isError: true });
         this.setState({ errorText: error.message });
-      })
-      .finally(() => {
         this.setState({ isPreloader: false });
       });
+  };
+
+  componentDidMount() {
+    this.getJoke();
   }
 
   render() {
