@@ -95,7 +95,7 @@ class WeatherInfoItem extends React.Component {
         1
       );
 
-      if (minutes > 5) {
+      if (minutes > 0) {
         isWeatherUpdate = true;
       }
     } else {

@@ -56,8 +56,6 @@ export const getWeatherFunction = (cityName, lat, long) => {
       throw new Error(response.status);
     })
     .then((weatherObject) => {
-      // console.log(weatherObject);
-
       const {
         weather: [{ description: weatherDescription, id }],
         main: { temp, feels_like: tempFeelsLike, humidity, pressure },
@@ -67,7 +65,12 @@ export const getWeatherFunction = (cityName, lat, long) => {
         sys: { sunrise, sunset },
         visibility,
         dt,
+        timezone,
       } = weatherObject;
+
+      const localTime = new Date().getTime();
+      const localOffset = new Date().getTimezoneOffset() * 60000;
+      const currentUtcTime = localOffset + localTime;
 
       return {
         weatherInfo: {
@@ -95,7 +98,10 @@ export const getWeatherFunction = (cityName, lat, long) => {
             typeof sunset === "number"
               ? moment(sunset * 1000).format("HH:mm")
               : null,
-          time: typeof dt === "number" ? moment(dt * 1000).format("H") : null,
+          time:
+            typeof timezone === "number"
+              ? moment(currentUtcTime + 1000 * timezone).format("H")
+              : null,
           visibility: typeof visibility === "number" ? `${visibility} m` : null,
           id: typeof id === "number" ? id : null,
           date:
