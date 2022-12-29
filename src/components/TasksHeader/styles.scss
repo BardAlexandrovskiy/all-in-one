@@ -5,68 +5,6 @@
   padding-top: 10px;
   background-color: $grey;
 
-  &.enter {
-    background-color: $black;
-
-    .search {
-      opacity: 0;
-      transform: translateX(-100%);
-    }
-
-    .bottom-side {
-      opacity: 0;
-      transform: translateX(100%);
-    }
-  }
-
-  &.enter-active {
-    background-color: $grey;
-    transition: 0.3s;
-
-    .search {
-      opacity: 1;
-      transform: translateX(0);
-      transition: 0.3s;
-    }
-
-    .bottom-side {
-      opacity: 1;
-      transform: translateX(0);
-      transition: 0.3s;
-    }
-  }
-
-  &.exit {
-    background-color: $grey;
-
-    .search {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .bottom-side {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  &.exit-active {
-    background-color: $black;
-    transition: 0.3s;
-
-    .search {
-      opacity: 0;
-      transform: translateX(-100%);
-      transition: 0.3s;
-    }
-
-    .bottom-side {
-      opacity: 0;
-      transform: translateX(100%);
-      transition: 0.3s;
-    }
-  }
-
   .search {
     .input-wrapper {
       position: relative;

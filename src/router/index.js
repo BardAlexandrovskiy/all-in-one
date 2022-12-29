@@ -26,20 +26,22 @@ const RouterAnimation = () => {
 
   return (
     <>
-      <TransitionGroup component={null}>
-        <CSSTransition key={location.key} timeout={300}>
-          <Routes location={location}>
-            <Route path="/" element={<MainScreen />} />
-            <Route path="/fun" element={<JokesScreen />} />
-            <Route path="/weather" element={<WeatherScreen />} />
-            <Route
-              path="/weather/settings"
-              element={<WeatherSettingsScreen />}
-            />
-            <Route path="/tasks" element={<TasksScreen />} />
-          </Routes>
-        </CSSTransition>
-      </TransitionGroup>
+      <div className="screens-wrapper">
+        <TransitionGroup component={null}>
+          <CSSTransition key={location.key} timeout={300}>
+            <Routes location={location}>
+              <Route path="/" element={<MainScreen />} />
+              <Route path="/fun" element={<JokesScreen />} />
+              <Route path="/weather" element={<WeatherScreen />} />
+              <Route
+                path="/weather/settings"
+                element={<WeatherSettingsScreen />}
+              />
+              <Route path="/tasks" element={<TasksScreen />} />
+            </Routes>
+          </CSSTransition>
+        </TransitionGroup>
+      </div>
       <Footer />
     </>
   );

@@ -40,72 +40,65 @@ class TasksHeader extends React.Component {
     });
 
     return (
-      <CSSTransition
-        in={!!tasksList.length}
-        timeout={300}
-        unmountOnExit
-        mountOnEnter
-      >
-        <header className="tasks-header">
-          <div className="search">
-            <div className="container search-container">
-              <div className="input-wrapper">
-                <CSSTransition
-                  in={!!searchTasksInputValue}
-                  timeout={300}
-                  unmountOnExit
-                  mountOnEnter
-                >
-                  <div
-                    onClick={this.handleClickClearButton}
-                    className="clear-input"
-                  >
-                    <FontAwesomeIcon icon={faBackspace} />
-                  </div>
-                </CSSTransition>
-                <input
-                  onChange={this.handleChangeInput}
-                  type="text"
-                  placeholder="Search"
-                  value={searchTasksInputValue}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="bottom-side">
-            <div className="container bottom-container">
-              <div className="column left-column">
+      <header className="tasks-header">
+        <div className="search">
+          <div className="container search-container">
+            <div className="input-wrapper">
+              <CSSTransition
+                in={!!searchTasksInputValue}
+                timeout={300}
+                unmountOnExit
+                mountOnEnter
+              >
                 <div
-                  onClick={checkAllTasks}
-                  className={`button check-all-button${
-                    tasksList.length && !counter ? " green" : ""
-                  }`}
+                  onClick={this.handleClickClearButton}
+                  className="clear-input"
                 >
-                  <FontAwesomeIcon icon={faChevronDown} />
+                  <FontAwesomeIcon icon={faBackspace} />
                 </div>
-                <div className="counter">
-                  Active: {counter}/{tasksList.length}
-                </div>
-              </div>
-              <div className="column right-column">
-                <CSSTransition
-                  in={!!check}
-                  timeout={300}
-                  unmountOnExit
-                  mountOnEnter
-                >
-                  <div
-                    onClick={deleteCompletedTasks}
-                    className="button delete-completed-button"
-                  >
-                    Delete completed
-                  </div>
-                </CSSTransition>
-              </div>
+              </CSSTransition>
+              <input
+                onChange={this.handleChangeInput}
+                type="text"
+                placeholder="Search"
+                value={searchTasksInputValue}
+              />
             </div>
           </div>
-        </header>
-      </CSSTransition>
+        </div>
+        <div className="bottom-side">
+          <div className="container bottom-container">
+            <div className="column left-column">
+              <div
+                onClick={checkAllTasks}
+                className={`button check-all-button${
+                  tasksList.length && !counter ? " green" : ""
+                }`}
+              >
+                <FontAwesomeIcon icon={faChevronDown} />
+              </div>
+              <div className="counter">
+                Active: {counter}/{tasksList.length}
+              </div>
+            </div>
+            <div className="column right-column">
+              <CSSTransition
+                in={!!check}
+                timeout={300}
+                unmountOnExit
+                mountOnEnter
+              >
+                <div
+                  onClick={deleteCompletedTasks}
+                  className="button delete-completed-button"
+                >
+                  Delete completed
+                </div>
+              </CSSTransition>
+            </div>
+          </div>
+        </div>
+      </header>
     );
   }
 }

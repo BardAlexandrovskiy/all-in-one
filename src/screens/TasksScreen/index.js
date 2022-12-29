@@ -40,10 +40,10 @@ class TasksScreen extends React.Component {
             {!tasksList.length ? (
               <TasksWelcomeBanner />
             ) : (
-              <>
+              <div className="header-and-tasks-wrapper">
                 <TasksHeader />
                 <TasksMain />
-              </>
+              </div>
             )}
           </CSSTransition>
         </SwitchTransition>
