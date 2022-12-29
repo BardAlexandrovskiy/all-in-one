@@ -2,7 +2,11 @@ import "./styles.scss";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
-import { addNewTask, changeAddTaskInputValue } from "../../actions/tasks";
+import {
+  addNewTask,
+  changeAddTaskInputValue,
+  isAddNewTaskInputInFocus,
+} from "../../actions/tasks";
 import React from "react";
 import { CSSTransition } from "react-transition-group";
 import {
@@ -52,6 +56,13 @@ class TasksFooter extends React.Component {
 
   handleBlurInput = () => {
     this.setState({ redInputBorder: false });
+    const { isAddNewTaskInputInFocus } = this.props;
+    isAddNewTaskInputInFocus(false);
+  };
+
+  handleFocusInput = () => {
+    const { isAddNewTaskInputInFocus } = this.props;
+    isAddNewTaskInputInFocus(true);
   };
 
   render() {
@@ -89,6 +100,7 @@ class TasksFooter extends React.Component {
                 ref={this.inputRef}
                 onKeyPress={this.handlePressInput}
                 onBlur={this.handleBlurInput}
+                onFocus={this.handleFocusInput}
                 onChange={this.handleChangeInput}
                 value={addTaskInputValue}
                 type="text"
@@ -127,6 +139,7 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = {
   addNewTask: (value) => addNewTask(value),
   changeAddTaskInputValue: (value) => changeAddTaskInputValue(value),
+  isAddNewTaskInputInFocus: (bool) => isAddNewTaskInputInFocus(bool),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TasksFooter);

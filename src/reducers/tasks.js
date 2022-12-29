@@ -8,6 +8,7 @@ import {
   CHECK_ALL_TASKS,
   DELETE_COMPLETED_TASKS,
   EDIT_TASK,
+  IS_ADD_NEW_TASK_INPUT_IN_FOCUS,
 } from "../actions/tasks";
 import { filterAll } from "../constants/tasks";
 
@@ -22,6 +23,7 @@ const defaultState = {
   filter: filterAll.name,
   searchTasksInputValue: "",
   addTaskInputValue: "",
+  isAddNewTaskInputInFocus: false,
 };
 
 const initialState = localInitialState || defaultState;
@@ -39,6 +41,12 @@ export function tasksReducer(state = initialState, action) {
           check: false,
           id: Date.now(),
         }),
+      };
+    case IS_ADD_NEW_TASK_INPUT_IN_FOCUS:
+      console.log(payload.bool);
+      return {
+        ...state,
+        isAddNewTaskInputInFocus: payload.bool,
       };
     case TOGGLE_TASK:
       return {

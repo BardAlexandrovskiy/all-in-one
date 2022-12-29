@@ -5,6 +5,21 @@
   overflow: overlay;
   background-color: $black;
 
+  &.add-tasks-input-active {
+    flex-direction: column-reverse;
+    display: flex;
+
+    .tasks-list {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+  }
+
   &::-webkit-scrollbar {
     width: 10px;
 

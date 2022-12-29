@@ -33,9 +33,15 @@ class TasksMain extends React.Component {
   };
 
   render() {
-    const { tasksList, filter, searchInputValue } = this.props;
+    const { tasksList, filter, searchInputValue, isAddNewTaskInputInFocus } =
+      this.props;
     return (
-      <main className="tasks-main" ref={this.tasksMainRef}>
+      <main
+        className={`tasks-main${
+          isAddNewTaskInputInFocus ? " add-tasks-input-active" : ""
+        }`}
+        ref={this.tasksMainRef}
+      >
         <div className="tasks-list">
           <div className="container">
             <ul>
@@ -81,13 +87,14 @@ class TasksMain extends React.Component {
 
 const mapStateToProps = (store) => {
   const {
-    tasks: { list, filter, searchTasksInputValue },
+    tasks: { list, filter, searchTasksInputValue, isAddNewTaskInputInFocus },
   } = store;
 
   return {
     tasksList: list,
     filter: filter,
     searchInputValue: searchTasksInputValue,
+    isAddNewTaskInputInFocus: isAddNewTaskInputInFocus,
   };
 };
 
