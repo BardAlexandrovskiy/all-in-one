@@ -1,6 +1,5 @@
 // Types
 export const ADD_NEW_TASK = "ADD_NEW_TASK";
-export const IS_ADD_NEW_TASK_INPUT_IN_FOCUS = "IS_ADD_NEW_TASK_INPUT_IN_FOCUS";
 export const TOGGLE_TASK = "TOGGLE_TASK";
 export const DELETE_TASK = "DELETE_TASK";
 export const CHANGE_TASK_FILTER = "CHANGE_TASK_FILTER";
@@ -16,13 +15,6 @@ export const addNewTask = (value) => {
   return {
     type: ADD_NEW_TASK,
     payload: { value },
-  };
-};
-
-export const isAddNewTaskInputInFocus = (bool) => {
-  return {
-    type: IS_ADD_NEW_TASK_INPUT_IN_FOCUS,
-    payload: { bool },
   };
 };
 

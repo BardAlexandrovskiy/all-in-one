@@ -5,13 +5,13 @@
   overflow: overlay;
   background-color: $black;
 
-  &.add-tasks-input-active {
-    flex-direction: column-reverse;
+  &.mobile-keyboard-active {
     display: flex;
+    align-items: flex-end;
+    overflow: hidden;
 
     .tasks-list {
-      display: flex;
-      flex-direction: column-reverse;
+      width: 100%;
     }
 
     ul {

@@ -9,6 +9,7 @@ class TasksMain extends React.Component {
   constructor(props) {
     super(props);
     this.tasksMainRef = React.createRef();
+    this.state = { isKeyboardActive: false };
   }
 
   componentDidUpdate = (prevProps) => {
@@ -32,13 +33,31 @@ class TasksMain extends React.Component {
     }
   };
 
+  componentDidMount() {
+    window.addEventListener("resize", this.windowResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("click", this.windowResize);
+  }
+
+  windowResize = () => {
+    if (window.innerWidth < 1025) {
+      const { isKeyboardActive } = this.state;
+      this.setState({ isKeyboardActive: !isKeyboardActive });
+    } else {
+      this.setState({ isKeyboardActive: false });
+    }
+  };
+
   render() {
-    const { tasksList, filter, searchInputValue, isAddNewTaskInputInFocus } =
-      this.props;
+    const { tasksList, filter, searchInputValue } = this.props;
+    const { isKeyboardActive } = this.state;
+
     return (
       <main
         className={`tasks-main${
-          isAddNewTaskInputInFocus ? " add-tasks-input-active" : ""
+          isKeyboardActive ? " mobile-keyboard-active" : ""
         }`}
         ref={this.tasksMainRef}
       >

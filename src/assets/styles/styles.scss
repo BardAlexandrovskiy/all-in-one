@@ -9,7 +9,6 @@
   box-sizing: border-box;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-
 html,
 body,
 #root {
@@ -25,8 +24,14 @@ body {
   display: grid;
   grid-template-rows: 1fr auto;
   position: relative;
+}
 
-  &:after {
+.screens-wrapper {
+  position: relative;
+  height: 100%;
+  z-index: 1;
+
+  &::after {
     content: "";
     position: absolute;
     top: 0;
@@ -34,19 +39,11 @@ body {
     width: 100%;
     height: 100%;
     background-color: $grey;
-    z-index: -100;
+    z-index: -1000;
   }
 }
 
-.screens-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 .screen {
-  flex: 1;
   height: 100%;
   width: 100%;
   z-index: 1;
