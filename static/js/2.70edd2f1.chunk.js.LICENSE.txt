@@ -60,6 +60,12 @@ object-assign
  * @license MIT
  */
 
+/** @license MIT License (c) copyright 2010 original author or authors */
+
+/** @license MIT License (c) copyright 2010-2016 original author or authors */
+
+/** @license MIT License (c) copyright 2010-2017 original author or authors */
+
 /** @license React v0.20.2
  * scheduler.production.min.js
  *
