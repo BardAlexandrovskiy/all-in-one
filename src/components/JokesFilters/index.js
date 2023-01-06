@@ -10,6 +10,7 @@ import {
   changeJokeType,
   changeSearchValue,
   resetFilters,
+  showCategoriesRedBorder,
 } from "../../actions/jokes";
 import "./styles.scss";
 import { CSSTransition } from "react-transition-group";
@@ -25,6 +26,19 @@ class JokesFilters extends React.Component {
     super(props);
     this.categoriesRef = React.createRef();
   }
+
+  componentDidUpdate = () => {
+    const { isCategoriesRedBorder, showCategoriesRedBorder } = this.props;
+    if (isCategoriesRedBorder) {
+      this.categoriesRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      setTimeout(() => {
+        showCategoriesRedBorder(false);
+      }, 3000);
+    }
+  };
 
   handleBlurAmountInput = () => {
     const { amountValue, changeAmountValue } = this.props;
@@ -224,6 +238,7 @@ const mapStateToProps = (store) => {
       jokeType,
       searchValue,
       amountValue,
+      isCategoriesRedBorder,
     },
   } = store;
 
@@ -234,6 +249,7 @@ const mapStateToProps = (store) => {
     jokeType,
     searchValue,
     amountValue,
+    isCategoriesRedBorder,
   };
 };
 
@@ -245,6 +261,7 @@ const mapDispatchToProps = {
   changeSearchValue: (value) => changeSearchValue(value),
   changeAmountValue: (value) => changeAmountValue(value),
   resetFilters: () => resetFilters(),
+  showCategoriesRedBorder: (bool) => showCategoriesRedBorder(bool),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(JokesFilters);

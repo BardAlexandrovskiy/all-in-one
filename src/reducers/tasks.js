@@ -16,9 +16,8 @@ let localInitialState = JSON.parse(localStorage.getItem("all-in-one"));
 
 if (localInitialState) {
   localInitialState = localInitialState.tasks;
+  localInitialState.addTaskInputFocus = false;
 } else localInitialState = null;
-
-localInitialState.addTaskInputFocus = false;
 
 const defaultState = {
   list: [],

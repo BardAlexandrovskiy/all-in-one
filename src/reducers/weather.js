@@ -14,9 +14,8 @@ let localInitialState = JSON.parse(localStorage.getItem("all-in-one"));
 
 if (localInitialState) {
   localInitialState = localInitialState.weather;
+  localInitialState.addLocationInputFocus = false;
 } else localInitialState = null;
-
-localInitialState.addLocationInputFocus = false;
 
 const defaultState = {
   currentLocation: {

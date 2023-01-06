@@ -35,6 +35,11 @@ class WeatherSettingsFooter extends React.Component {
     }
   };
 
+  componentWillUnmount = () => {
+    const { setAddLocationInputFocus } = this.props;
+    setAddLocationInputFocus(false);
+  };
+
   handleClickButton = () => {
     const { inputValue } = this.state;
     const { addNewLocation, showPreloader } = this.props;

@@ -9,6 +9,7 @@ import {
   SET_JOKES,
   SET_JOKES_ERROR,
   SET_JOKES_ERROR_TEXT,
+  SHOW_CATEGORIES_RED_BORDER,
   SHOW_JOKES_PRELOADER,
 } from "../actions/jokes";
 
@@ -100,6 +101,8 @@ export function jokesReducer(state = initialState, action) {
       return { ...state, isError: payload.bool };
     case SET_JOKES_ERROR_TEXT:
       return { ...state, errorText: payload.text };
+    case SHOW_CATEGORIES_RED_BORDER:
+      return { ...state, isCategoriesRedBorder: payload.bool };
     default:
       return state;
   }

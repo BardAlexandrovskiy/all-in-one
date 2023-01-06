@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getJokes } from "../../actions/jokes";
+import { getJokes, showCategoriesRedBorder } from "../../actions/jokes";
 
 class JokesSubmitButton extends React.Component {
   handleClick = (event) => {
@@ -13,6 +13,7 @@ class JokesSubmitButton extends React.Component {
       searchValue,
       amountValue,
       getJokes,
+      showCategoriesRedBorder,
     } = this.props;
 
     // Create request
@@ -87,14 +88,7 @@ class JokesSubmitButton extends React.Component {
 
       getJokes(request);
     } else {
-      this.setState({ isCategoriesRedBorder: true });
-      this.categoriesRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-      setTimeout(() => {
-        this.setState({ isCategoriesRedBorder: false });
-      }, 3000);
+      showCategoriesRedBorder(true);
     }
   };
 
@@ -133,6 +127,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = {
   getJokes: (request) => getJokes(request),
+  showCategoriesRedBorder: (bool) => showCategoriesRedBorder(bool),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(JokesSubmitButton);
