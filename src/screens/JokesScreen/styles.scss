@@ -51,23 +51,39 @@
     align-items: center;
     cursor: pointer;
     z-index: 10;
+    opacity: 0;
+    transform: translateX(500px);
 
     &.enter {
       opacity: 0;
+      transform: translateX(500px);
     }
 
     &.enter-active {
       opacity: 1;
       transition: 0.3s;
+      transform: translateX(0);
+    }
+
+    &.enter-done {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     &.exit {
       opacity: 1;
+      transform: translateX(0);
     }
 
     &.exit-active {
       opacity: 0;
       transition: 0.3s;
+      transform: translateX(500px);
+    }
+
+    &.exir-done {
+      opacity: 0;
+      transform: translateX(500px);
     }
 
     @media (min-width: 2560px) {
