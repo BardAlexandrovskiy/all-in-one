@@ -9,8 +9,16 @@ export const CHANGE_ADD_TASK_INPUT_VALUE = "CHANGE_ADD_TASK_INPUT_VALUE";
 export const CHECK_ALL_TASKS = "CHECK_ALL_TASKS";
 export const DELETE_COMPLETED_TASKS = "DELETE_COMPLETED_TASKS";
 export const EDIT_TASK = "EDIT_TASK";
+export const SET_ADD_TASK_INPUT_FOCUS = "ADD_TASKS_INPUT_FOCUS";
 
 // Actions
+export const setAddTaskInputFocus = (bool) => {
+  return {
+    type: SET_ADD_TASK_INPUT_FOCUS,
+    payload: { bool },
+  };
+};
+
 export const addNewTask = (value) => {
   return {
     type: ADD_NEW_TASK,

@@ -2,6 +2,7 @@ import {
   ADD_NEW_LOCATION,
   CHANGE_WEATHER_HEADER,
   DELETE_LOCATION,
+  SET_ADD_LOCATION_INPUT_FOCUS,
   SET_CURRENT_LOCATION,
   SET_GEO_ACCESS,
   SHOW_CURRENT_LOCATION_PRELOADER,
@@ -14,6 +15,8 @@ let localInitialState = JSON.parse(localStorage.getItem("all-in-one"));
 if (localInitialState) {
   localInitialState = localInitialState.weather;
 } else localInitialState = null;
+
+localInitialState.addLocationInputFocus = false;
 
 const defaultState = {
   currentLocation: {
@@ -28,6 +31,7 @@ const defaultState = {
   isShowSettings: false,
   isShowSettingsPreloader: false,
   isGeoAccess: false,
+  addLocationInputFocus: false,
 };
 
 const initialState = localInitialState || defaultState;
@@ -107,6 +111,20 @@ export function weatherReducer(state = initialState, action) {
         ...state,
         isGeoAccess: payload.bool,
       };
+    case SET_ADD_LOCATION_INPUT_FOCUS:
+      if (
+        navigator.userAgent.match(/Android/i) ||
+        navigator.userAgent.match(/webOS/i) ||
+        navigator.userAgent.match(/iPhone/i) ||
+        navigator.userAgent.match(/iPad/i) ||
+        navigator.userAgent.match(/iPod/i) ||
+        navigator.userAgent.match(/BlackBerry/i) ||
+        navigator.userAgent.match(/Windows Phone/i)
+      ) {
+        return { ...state, addLocationInputFocus: payload.bool };
+      } else {
+        return state;
+      }
     default:
       return state;
   }

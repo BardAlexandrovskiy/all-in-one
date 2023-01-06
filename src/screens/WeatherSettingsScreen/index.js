@@ -11,7 +11,13 @@ import "./styles.scss";
 
 class WeatherSettingsScreen extends React.Component {
   render() {
-    const { currentCity, currentId, locations, isPreloader } = this.props;
+    const {
+      currentCity,
+      currentId,
+      locations,
+      isPreloader,
+      addLocationInputFocus,
+    } = this.props;
 
     return (
       <div className="weather-settings-screen screen">
@@ -23,7 +29,11 @@ class WeatherSettingsScreen extends React.Component {
             </Link>
           </div>
         </header>
-        <div className="weather-settings-main">
+        <div
+          className={`weather-settings-main${
+            addLocationInputFocus ? " add-location-input-active" : ""
+          }`}
+        >
           <CSSTransition
             timeout={300}
             unmountOnExit
@@ -32,7 +42,7 @@ class WeatherSettingsScreen extends React.Component {
           >
             <Preloader />
           </CSSTransition>
-          <div className="locations-list">
+          <div className={`locations-list`}>
             <div className="container list-container">
               <WeatherLocationItem city={currentCity} id={currentId} />
               <TransitionGroup component={null}>
@@ -67,6 +77,7 @@ const mapStateToProps = (state) => {
       currentLocation: { city: currentCity, id: currentId },
       locations,
       isShowSettingsPreloader: isPreloader,
+      addLocationInputFocus,
     },
   } = state;
 
@@ -75,6 +86,7 @@ const mapStateToProps = (state) => {
     currentId,
     locations,
     isPreloader,
+    addLocationInputFocus,
   };
 };
 

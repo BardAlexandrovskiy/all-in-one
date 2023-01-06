@@ -12,8 +12,16 @@ export const UPDATE_LOCATION = "UPDATE_LOCATION";
 export const SHOW_CURRENT_LOCATION_PRELOADER =
   "SHOW_CURRENT_LOCATION_PRELOADER";
 export const SET_GEO_ACCESS = "SET_GEO_ACCESS";
+export const SET_ADD_LOCATION_INPUT_FOCUS = "SET_ADD_LOCATION_INPUT_FOCUS";
 
 // Actions
+export const setAddLocationInputFocus = (bool) => {
+  return {
+    type: SET_ADD_LOCATION_INPUT_FOCUS,
+    payload: { bool },
+  };
+};
+
 export const setCurrentLocation = (location) => {
   return {
     type: SET_CURRENT_LOCATION,

@@ -8,6 +8,7 @@ import {
   CHECK_ALL_TASKS,
   DELETE_COMPLETED_TASKS,
   EDIT_TASK,
+  SET_ADD_TASK_INPUT_FOCUS,
 } from "../actions/tasks";
 import { filterAll } from "../constants/tasks";
 
@@ -17,11 +18,14 @@ if (localInitialState) {
   localInitialState = localInitialState.tasks;
 } else localInitialState = null;
 
+localInitialState.addTaskInputFocus = false;
+
 const defaultState = {
   list: [],
   filter: filterAll.name,
   searchTasksInputValue: "",
   addTaskInputValue: "",
+  addTaskInputFocus: false,
 };
 
 const initialState = localInitialState || defaultState;
@@ -86,6 +90,20 @@ export function tasksReducer(state = initialState, action) {
           return task;
         }),
       };
+    case SET_ADD_TASK_INPUT_FOCUS:
+      if (
+        navigator.userAgent.match(/Android/i) ||
+        navigator.userAgent.match(/webOS/i) ||
+        navigator.userAgent.match(/iPhone/i) ||
+        navigator.userAgent.match(/iPad/i) ||
+        navigator.userAgent.match(/iPod/i) ||
+        navigator.userAgent.match(/BlackBerry/i) ||
+        navigator.userAgent.match(/Windows Phone/i)
+      ) {
+        return { ...state, addTaskInputFocus: payload.bool };
+      } else {
+        return state;
+      }
     default:
       return state;
   }

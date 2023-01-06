@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import {
   addNewLocation,
+  setAddLocationInputFocus,
   showWeatherSettingsPreloader,
 } from "../../actions/weather";
 import { getWeatherFunction } from "../../constants/weather";
@@ -68,7 +69,14 @@ class WeatherSettingsFooter extends React.Component {
   };
 
   handleBlurInput = () => {
+    const { setAddLocationInputFocus } = this.props;
+    setAddLocationInputFocus(false);
     this.setState({ redInputBorder: false });
+  };
+
+  handleFocusInput = () => {
+    const { setAddLocationInputFocus } = this.props;
+    setAddLocationInputFocus(true);
   };
 
   render() {
@@ -86,6 +94,7 @@ class WeatherSettingsFooter extends React.Component {
               onKeyPress={this.handlePressInput}
               value={inputValue}
               onBlur={this.handleBlurInput}
+              onFocus={this.handleFocusInput}
             />
             <CSSTransition
               in={!!inputValue}
@@ -107,6 +116,7 @@ class WeatherSettingsFooter extends React.Component {
 const mapDispatchToProps = {
   addNewLocation: (location) => addNewLocation(location),
   showPreloader: (bool) => showWeatherSettingsPreloader(bool),
+  setAddLocationInputFocus: (bool) => setAddLocationInputFocus(bool),
 };
 
 export default connect(null, mapDispatchToProps)(WeatherSettingsFooter);

@@ -9,7 +9,6 @@ class TasksMain extends React.Component {
   constructor(props) {
     super(props);
     this.tasksMainRef = React.createRef();
-    this.state = { isKeyboardActive: false };
   }
 
   componentDidUpdate = (prevProps) => {
@@ -33,31 +32,14 @@ class TasksMain extends React.Component {
     }
   };
 
-  componentDidMount() {
-    window.addEventListener("resize", this.windowResize);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("click", this.windowResize);
-  }
-
-  windowResize = () => {
-    if (window.innerWidth < 1025) {
-      const { isKeyboardActive } = this.state;
-      this.setState({ isKeyboardActive: !isKeyboardActive });
-    } else {
-      this.setState({ isKeyboardActive: false });
-    }
-  };
-
   render() {
-    const { tasksList, filter, searchInputValue } = this.props;
-    const { isKeyboardActive } = this.state;
+    const { tasksList, filter, searchInputValue, addTaskInputFocus } =
+      this.props;
 
     return (
       <main
         className={`tasks-main${
-          isKeyboardActive ? " mobile-keyboard-active" : ""
+          addTaskInputFocus ? " add-tasks-input-active" : ""
         }`}
         ref={this.tasksMainRef}
       >
@@ -106,14 +88,14 @@ class TasksMain extends React.Component {
 
 const mapStateToProps = (store) => {
   const {
-    tasks: { list, filter, searchTasksInputValue, isAddNewTaskInputInFocus },
+    tasks: { list, filter, searchTasksInputValue, addTaskInputFocus },
   } = store;
 
   return {
     tasksList: list,
     filter: filter,
     searchInputValue: searchTasksInputValue,
-    isAddNewTaskInputInFocus: isAddNewTaskInputInFocus,
+    addTaskInputFocus: addTaskInputFocus,
   };
 };
 

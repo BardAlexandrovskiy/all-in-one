@@ -2,9 +2,14 @@
 
 .tasks-welcome-banner {
   height: 100%;
-  display: flex;
   align-items: center;
   background-color: $black;
+  overflow: auto;
+  display: grid;
+
+  &.add-task-input-active {
+    align-items: end;
+  }
 
   &.enter {
     opacity: 0;
