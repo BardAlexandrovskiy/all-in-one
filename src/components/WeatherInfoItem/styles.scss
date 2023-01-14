@@ -6,6 +6,20 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: 0.3s;
+  padding-top: 62px;
+
+  @media (max-width: 1024px) {
+    padding-top: 56px;
+  }
+
+  &.header-active {
+    padding-top: 52px;
+
+    @media (max-width: 1024px) {
+      padding-top: 46px;
+    }
+  }
 
   .preloader {
     background-color: $black;
@@ -40,7 +54,7 @@
   }
 
   .info {
-    overflow: overlay;
+    overflow: auto;
     flex: 1;
 
     &.enter {

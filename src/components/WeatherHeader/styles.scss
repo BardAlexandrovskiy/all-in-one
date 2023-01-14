@@ -6,9 +6,21 @@
   background-color: transparent;
   transition: 0.3s;
   position: fixed;
+  height: 62px;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 1024px) {
+    height: 56px;
+  }
 
   &.active {
     background-color: $grey;
+    height: 52px;
+
+    @media (max-width: 1024px) {
+      height: 46px;
+    }
 
     .swiper {
       padding-top: 10px;
@@ -21,13 +33,15 @@
   }
 
   .header-container {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
     align-items: center;
   }
 
   .swiper {
     margin-left: 0;
+    margin-right: 0;
     padding-bottom: 15px;
     padding-top: 15px;
     transition: 0.3s;
@@ -66,17 +80,26 @@
     color: white;
     font-size: 24px;
     background-color: transparent;
+    gap: 10px;
+    display: flex;
+    max-width: 100%;
+    align-items: center;
+
+    @media (max-width: 1024px) {
+      gap: 6px;
+    }
 
     @media (max-width: 1024px) {
       font-size: 20px;
     }
 
-    svg {
-      margin-left: 10px;
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
 
-      @media (max-width: 1024px) {
-        margin-left: 6px;
-      }
+    svg {
+      flex-shrink: 0;
     }
   }
 

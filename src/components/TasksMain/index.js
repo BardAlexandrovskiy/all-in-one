@@ -9,6 +9,7 @@ class TasksMain extends React.Component {
   constructor(props) {
     super(props);
     this.tasksMainRef = React.createRef();
+    this.tasksContainerRef = React.createRef();
   }
 
   componentDidUpdate = (prevProps) => {
@@ -32,6 +33,26 @@ class TasksMain extends React.Component {
     }
   };
 
+  componentDidMount = () => {
+    new ResizeObserver(() => {
+      const tasksList = this.tasksMainRef.current;
+      const tasksListContainer = this.tasksContainerRef.current;
+      if (tasksList && tasksListContainer) {
+        tasksListContainer.style = null;
+        if (tasksList.offsetWidth > tasksList.scrollWidth) {
+          const currentContainerStyles = getComputedStyle(tasksListContainer);
+          const offset = tasksList.offsetWidth - tasksList.scrollWidth;
+          const newMaxWidth =
+            +currentContainerStyles.maxWidth.replace("px", "") - offset;
+          const newPaddingRight =
+            +currentContainerStyles.paddingRight.replace("px", "") - offset;
+          tasksListContainer.style.maxWidth = newMaxWidth + "px";
+          tasksListContainer.style.paddingRight = newPaddingRight + "px";
+        }
+      }
+    }).observe(this.tasksMainRef.current);
+  };
+
   render() {
     const { tasksList, filter, searchInputValue, addTaskInputFocus } =
       this.props;
@@ -44,7 +65,7 @@ class TasksMain extends React.Component {
         ref={this.tasksMainRef}
       >
         <div className="tasks-list">
-          <div className="container">
+          <div className="container" ref={this.tasksContainerRef}>
             <ul>
               <TransitionGroup component={null}>
                 {tasksList

@@ -14,6 +14,7 @@ import {
 } from "../../actions/jokes";
 import "./styles.scss";
 import { CSSTransition } from "react-transition-group";
+import { defaultState } from "../../reducers/jokes";
 
 // Jokes images
 import happyImage from "../../assets/images/jokes/happy.svg";
@@ -78,7 +79,11 @@ class JokesFilters extends React.Component {
       changeSearchValue,
       changeAmountValue,
       isCategoriesRedBorder,
+      jokesState,
     } = this.props;
+
+    const isResetNotActive =
+      JSON.stringify(jokesState) === JSON.stringify(defaultState);
 
     return (
       <section className="jokes-filters">
@@ -210,12 +215,22 @@ class JokesFilters extends React.Component {
                 </div>
               </div>
               <div className="buttons">
-                <button
-                  onClick={this.handleReset}
-                  className="button reset-button"
+                <CSSTransition
+                  in={isResetNotActive}
+                  timeout={{
+                    appear: 0,
+                    enter: 300,
+                    exit: 300,
+                  }}
+                  appear={true}
                 >
-                  Reset all
-                </button>
+                  <button
+                    onClick={this.handleReset}
+                    className="button reset-button"
+                  >
+                    Reset all
+                  </button>
+                </CSSTransition>
                 <JokesSubmitButton text={"Submit"} />
               </div>
             </form>
@@ -243,6 +258,7 @@ const mapStateToProps = (store) => {
   } = store;
 
   return {
+    jokesState: store.jokes,
     categoryTypeValue,
     categoriesList,
     blacklist,

@@ -49,7 +49,7 @@ class WeatherHeader extends React.Component {
             {!!currentCity && (
               <SwiperSlide key={currentCity}>
                 <div className="current-city city">
-                  {currentCity}
+                  <span>{currentCity}</span>
                   <FontAwesomeIcon icon={faMapMarkerAlt} />
                 </div>
               </SwiperSlide>

@@ -585,6 +585,39 @@
           background-color: darken($sky-blue, 25);
         }
       }
+
+      .reset-button {
+        &.enter {
+          opacity: 1;
+          pointer-events: none;
+        }
+
+        &.enter-active {
+          opacity: 0.7;
+          transition: 0.3s;
+          background-color: darken($lilac, 35);
+          pointer-events: none;
+        }
+
+        &.enter-done {
+          opacity: 0.7;
+          background-color: darken($lilac, 35);
+          pointer-events: none;
+        }
+
+        &.exit {
+          opacity: 0.7;
+        }
+
+        &.exit-active {
+          opacity: 1;
+          transition: 0.3s;
+        }
+
+        &.exit-done {
+          opacity: 1;
+        }
+      }
     }
   }
 }

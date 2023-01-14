@@ -147,7 +147,7 @@ class WeatherInfoItem extends React.Component {
       isTransitionWeatherInfo,
       isTransitionError,
     } = this.state;
-    let { weatherInfo } = this.props;
+    let { weatherInfo, isActiveHeader } = this.props;
 
     const {
       weatherDescription,
@@ -172,7 +172,9 @@ class WeatherInfoItem extends React.Component {
     const icon = getWeatherIconById(id, time);
 
     return (
-      <div className="weather-info-item">
+      <div
+        className={`weather-info-item${isActiveHeader ? " header-active" : ""}`}
+      >
         <CSSTransition
           in={isPreloader}
           timeout={300}

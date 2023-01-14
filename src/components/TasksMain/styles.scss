@@ -2,7 +2,7 @@
 
 .tasks-main {
   flex: 1;
-  overflow: overlay;
+  overflow: auto;
   background-color: $black;
 
   &.add-tasks-input-active {

@@ -37,7 +37,6 @@ class Router extends React.Component {
       navigator.userAgent.match(/BlackBerry/i) ||
       navigator.userAgent.match(/Windows Phone/i)
     ) {
-      console.log(prevActiveElement);
       if (prevActiveElement === document.activeElement) {
         document.activeElement.blur();
         this.setState({ prevActiveElement: null });

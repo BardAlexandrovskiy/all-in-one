@@ -19,7 +19,7 @@ if (localInitialState) {
   localInitialState = localInitialState.jokes;
 } else localInitialState = null;
 
-const defaultState = {
+export const defaultState = {
   isShowJokesPreloader: false,
   categoryTypeValue: "Any",
   jokesList: [],
@@ -48,7 +48,7 @@ const defaultState = {
     { value: "twopart", isCheck: false },
   ],
   searchValue: "",
-  amountValue: 10,
+  amountValue: "10",
 };
 
 const initialState = localInitialState || defaultState;
