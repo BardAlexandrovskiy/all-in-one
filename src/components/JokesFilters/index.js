@@ -88,7 +88,7 @@ class JokesFilters extends React.Component {
     return (
       <section className="jokes-filters">
         <div className="container filters-container">
-          <h1 className="title" translate="no">
+          <h1 className="title notranslate">
             <img alt="" className="left-image" src={neutralImage} />
             <span>Get jokes</span>
             <div className="right-images">

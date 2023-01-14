@@ -101,7 +101,7 @@ class TasksItem extends React.Component {
             <FontAwesomeIcon icon={faCheck} />
           </CSSTransition>
         </div>
-        <div className="value" translate="no">
+        <div className="value notranslate">
           {isShowEditValue ? (
             <input
               onFocus={this.handleFocusEditor}
