@@ -1,5 +1,52 @@
 @import "../../assets/styles/vars";
 
+.weather-settings-screen .text-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba($black, 0.8);
+
+  &.enter {
+    opacity: 0;
+  }
+
+  &.enter-active {
+    opacity: 1;
+    transition: 0.3s;
+  }
+
+  &.exit {
+    opacity: 1;
+  }
+
+  &.exit-active {
+    opacity: 0;
+    transition: 0.3s;
+  }
+
+  .text {
+    background-color: $grey;
+    flex-direction: column;
+  }
+
+  button {
+    min-height: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+    min-width: 100px;
+    border-radius: 30px;
+    background-color: darken($color: $sky-blue, $amount: 25);
+    color: white;
+    margin-top: 15px;
+  }
+}
+
 .add-location-input {
   overflow: hidden;
 

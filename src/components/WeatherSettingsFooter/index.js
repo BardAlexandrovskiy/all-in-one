@@ -9,7 +9,9 @@ import {
   showWeatherSettingsPreloader,
 } from "../../actions/weather";
 import { getWeatherFunction } from "../../constants/weather";
+import TextBanner from "../TextBanner";
 import "./styles.scss";
+import errorImage from "../../assets/images/error-image-3.svg";
 
 class WeatherSettingsFooter extends React.Component {
   constructor(props) {
@@ -17,6 +19,8 @@ class WeatherSettingsFooter extends React.Component {
     this.state = {
       inputValue: "",
       redInputBorder: false,
+      isError: false,
+      errorText: "",
     };
     this.inputRef = React.createRef();
   }
@@ -59,8 +63,13 @@ class WeatherSettingsFooter extends React.Component {
             updateWeatherTime: Date.now(),
           });
         })
-        .catch(() => {
-          this.setState({ redInputBorder: true });
+        .catch((error) => {
+          this.setState({ isError: true });
+          if (error.message === "404") {
+            this.setState({ errorText: "City not found." });
+          } else {
+            this.setState({ errorText: `Error: ${error.message}.` });
+          }
         })
         .finally(() => {
           showPreloader(false);
@@ -85,35 +94,46 @@ class WeatherSettingsFooter extends React.Component {
   };
 
   render() {
-    const { inputValue, redInputBorder } = this.state;
+    const { inputValue, redInputBorder, isError, errorText } = this.state;
 
     return (
-      <div className="add-location-input">
-        <div className="container input-container">
-          <div className={`input-wrapper${redInputBorder ? " red" : ""}`}>
-            <input
-              ref={this.inputRef}
-              type="text"
-              placeholder="Add location"
-              onChange={this.handleChangeInput}
-              onKeyPress={this.handlePressInput}
-              value={inputValue}
-              onBlur={this.handleBlurInput}
-              onFocus={this.handleFocusInput}
-            />
-            <CSSTransition
-              in={!!inputValue}
-              timeout={300}
-              unmountOnExit
-              mountOnEnter
-            >
-              <button className="button" onClick={this.handleClickButton}>
-                <FontAwesomeIcon icon={faPlus} />
-              </button>
-            </CSSTransition>
+      <>
+        <CSSTransition in={!!isError} timeout={300} mountOnEnter unmountOnExit>
+          <TextBanner
+            image={errorImage}
+            text={errorText}
+            deleteFuncion={() =>
+              this.setState({ isError: false, textError: "" })
+            }
+          />
+        </CSSTransition>
+        <div className="add-location-input">
+          <div className="container input-container">
+            <div className={`input-wrapper${redInputBorder ? " red" : ""}`}>
+              <input
+                ref={this.inputRef}
+                type="text"
+                placeholder="Add location"
+                onChange={this.handleChangeInput}
+                onKeyPress={this.handlePressInput}
+                value={inputValue}
+                onBlur={this.handleBlurInput}
+                onFocus={this.handleFocusInput}
+              />
+              <CSSTransition
+                in={!!inputValue}
+                timeout={300}
+                unmountOnExit
+                mountOnEnter
+              >
+                <button className="button" onClick={this.handleClickButton}>
+                  <FontAwesomeIcon icon={faPlus} />
+                </button>
+              </CSSTransition>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

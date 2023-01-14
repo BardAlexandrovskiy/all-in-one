@@ -88,7 +88,7 @@ class JokesFilters extends React.Component {
     return (
       <section className="jokes-filters">
         <div className="container filters-container">
-          <h1 className="title">
+          <h1 className="title" translate="no">
             <img alt="" className="left-image" src={neutralImage} />
             <span>Get jokes</span>
             <div className="right-images">
@@ -150,12 +150,12 @@ class JokesFilters extends React.Component {
                 <h2>Select flags to blacklist:</h2>
                 <div className="wrapper">
                   {blacklist.map((item, index) => {
-                    const { isCheck, value } = item;
+                    const { isCheck, value, display } = item;
                     const id = `blacklist-${index}`;
 
                     return (
                       <div key={value} className="checkbox-wrapper">
-                        <label htmlFor={id}>{value}</label>
+                        <label htmlFor={id}>{display}</label>
                         <input
                           checked={isCheck}
                           type="checkbox"
@@ -171,12 +171,12 @@ class JokesFilters extends React.Component {
                 <h2>Select at least one joke type:</h2>
                 <div className="wrapper">
                   {jokeType.map((item, index) => {
-                    const { isCheck, value } = item;
+                    const { isCheck, value, display } = item;
                     const id = `joke-type-${index}`;
 
                     return (
                       <div key={value} className="radio-wrapper">
-                        <label htmlFor={id}>{value}</label>
+                        <label htmlFor={id}>{display}</label>
                         <input
                           checked={isCheck}
                           type="radio"
