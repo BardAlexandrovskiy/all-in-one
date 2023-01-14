@@ -65,6 +65,7 @@ class WeatherSettingsFooter extends React.Component {
         })
         .catch((error) => {
           this.setState({ isError: true });
+          this.inputRef.current.blur();
           if (error.message === "404") {
             this.setState({ errorText: "City not found." });
           } else {
