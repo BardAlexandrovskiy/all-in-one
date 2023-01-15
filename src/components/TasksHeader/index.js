@@ -14,7 +14,10 @@ import {
 class TasksHeader extends React.Component {
   handleChangeInput = (e) => {
     const { changeSearchTasksInputValue } = this.props;
-    changeSearchTasksInputValue(e.target.value);
+    const value = e.target.value.replace(/\s+/g, " ").trimLeft();
+    if (value.length <= 140) {
+      changeSearchTasksInputValue(value);
+    }
   };
 
   handleClickClearButton = () => {

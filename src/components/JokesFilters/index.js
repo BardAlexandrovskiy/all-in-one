@@ -64,6 +64,14 @@ class JokesFilters extends React.Component {
     resetFilters();
   };
 
+  handleChangeSearchValue = (e) => {
+    const { changeSearchValue } = this.props;
+    const value = e.target.value.replace(/\s+/g, " ").trimLeft();
+    if (value.length <= 140) {
+      changeSearchValue(value);
+    }
+  };
+
   render() {
     const {
       categoryTypeValue,
@@ -76,7 +84,6 @@ class JokesFilters extends React.Component {
       changeCategoryType,
       changeBlackList,
       changeJokeType,
-      changeSearchValue,
       changeAmountValue,
       isCategoriesRedBorder,
       jokesState,
@@ -193,7 +200,7 @@ class JokesFilters extends React.Component {
                 <div className="input-wrapper">
                   <input
                     onKeyPress={this.handlePressEnterInput}
-                    onChange={(e) => changeSearchValue(e.target.value)}
+                    onChange={this.handleChangeSearchValue}
                     placeholder="Search string"
                     type="text"
                     value={searchValue}

@@ -21,7 +21,6 @@
         align-items: center;
         display: flex;
         cursor: pointer;
-        transition: 0.3s;
 
         &.enter {
           opacity: 0;
@@ -31,6 +30,7 @@
         &.enter-active {
           opacity: 1;
           transform: translateX(0);
+          transition: 0.3s;
         }
 
         &.exit {
@@ -41,6 +41,7 @@
         &.exit-active {
           opacity: 0;
           transform: translateX(50%);
+          transition: 0.3s;
         }
 
         svg {

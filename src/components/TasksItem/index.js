@@ -17,8 +17,7 @@ const Hightlight = ({ otherValue, hightlightValue }) => {
 
 const ChangedValue = ({ searchValue, string }) => {
   if (searchValue) {
-    const newSearchValue = searchValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const regExp = new RegExp(newSearchValue, "gi");
+    const regExp = new RegExp(searchValue.trim(), "gi");
     const matchValue = string.match(regExp);
 
     if (matchValue) {
@@ -56,16 +55,19 @@ class TasksItem extends React.Component {
   };
 
   handleChangeEditor = (e) => {
-    console.log(e.target.value);
-    this.setState({ editorValue: e.target.value });
+    const value = e.target.value.replace(/\s+/g, " ").trimLeft();
+    if (value.length <= 140) {
+      this.setState({ editorValue: value });
+    }
   };
 
   addNewValue = () => {
     const { editTask, id } = this.props;
     const { editorValue } = this.state;
+    const value = editorValue.trim();
 
-    if (editorValue.trim()) {
-      editTask({ id: id, value: editorValue });
+    if (value) {
+      editTask({ id: id, value: value });
       this.setState({ isShowEditValue: false });
     } else {
       this.setState({ isShowEditValue: false, editorValue: "" });

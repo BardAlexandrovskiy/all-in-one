@@ -127,7 +127,6 @@
       position: absolute;
       top: 50%;
       right: 2px;
-      transition: 0.3s;
       transform: translate(0, -50%);
 
       &.enter {
@@ -138,6 +137,7 @@
       &.enter-active {
         opacity: 1;
         transform: translate(0, -50%);
+        transition: 0.3s;
       }
 
       &.exit {
@@ -148,6 +148,7 @@
       &.exit-active {
         opacity: 0;
         transform: translate(50%, -50%);
+        transition: 0.3s;
       }
 
       @media (max-width: 1024px) {

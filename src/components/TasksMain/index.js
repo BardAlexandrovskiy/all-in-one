@@ -81,7 +81,7 @@ class TasksMain extends React.Component {
                   })
                   .filter((task) => {
                     if (searchInputValue) {
-                      const matchValue = searchInputValue.toLowerCase();
+                      const matchValue = searchInputValue.toLowerCase().trim();
                       if (task.value.toLowerCase().includes(matchValue))
                         return true;
                       return false;

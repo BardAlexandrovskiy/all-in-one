@@ -26,7 +26,7 @@ class WeatherSettingsFooter extends React.Component {
   }
 
   handleChangeInput = (e) => {
-    const value = e.target.value;
+    const value = e.target.value.replace(/\s+/g, " ").trimLeft();
 
     if (value.length <= 140) {
       this.setState({ inputValue: value });

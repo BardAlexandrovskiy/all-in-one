@@ -27,7 +27,7 @@ class TasksFooter extends React.Component {
 
   handleChangeInput = (e) => {
     const { changeAddTaskInputValue } = this.props;
-    const value = e.target.value;
+    const value = e.target.value.replace(/\s+/g, " ").trimLeft();
 
     if (value.length <= 140) {
       changeAddTaskInputValue(value);
@@ -42,9 +42,10 @@ class TasksFooter extends React.Component {
 
   handleClickButton = () => {
     const { changeAddTaskInputValue, addTaskInputValue } = this.props;
-    if (addTaskInputValue.length && addTaskInputValue.trim()) {
+    const value = addTaskInputValue.trim();
+    if (addTaskInputValue.length && value) {
       const { addNewTask } = this.props;
-      addNewTask(addTaskInputValue);
+      addNewTask(value);
       changeAddTaskInputValue("");
       this.setState({ redInputBorder: false });
     } else {
