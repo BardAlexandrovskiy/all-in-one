@@ -10,7 +10,7 @@ const Hightlight = ({ otherValue, hightlightValue }) => {
   return (
     <>
       {otherValue}
-      <span className={"hightlight"}>{hightlightValue}</span>
+      <span className={"hightlight notranslate"}>{hightlightValue}</span>
     </>
   );
 };
@@ -114,7 +114,10 @@ class TasksItem extends React.Component {
               type="text"
             />
           ) : (
-            <div className="inner" onClick={() => this.handleClickValue()}>
+            <div
+              className="inner notranslate"
+              onClick={() => this.handleClickValue()}
+            >
               {<ChangedValue searchValue={searchInputValue} string={value} />}
             </div>
           )}
