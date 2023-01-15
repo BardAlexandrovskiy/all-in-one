@@ -13,6 +13,7 @@ class JokesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.scrollContainerRef = React.createRef();
+    this.arrowAlignmentBlockRef = React.createRef();
     this.state = {
       isShowArrowUp: false,
     };
@@ -34,6 +35,22 @@ class JokesScreen extends React.Component {
     });
   };
 
+  componentDidMount = () => {
+    new ResizeObserver(() => {
+      const scrollContainer = this.scrollContainerRef.current;
+      const arrowAlignmentBlock = this.arrowAlignmentBlockRef.current;
+      if (scrollContainer && arrowAlignmentBlock) {
+        if (scrollContainer.offsetWidth > scrollContainer.scrollWidth) {
+          const offset =
+            scrollContainer.offsetWidth - scrollContainer.scrollWidth;
+          arrowAlignmentBlock.style.width = `calc(100% - ${offset}px)`;
+        } else {
+          arrowAlignmentBlock.style = null;
+        }
+      }
+    }).observe(this.scrollContainerRef.current);
+  };
+
   render() {
     const { isShowArrowUp } = this.state;
 
@@ -42,13 +59,10 @@ class JokesScreen extends React.Component {
         <div className="wrapper">
           <img alt="" className="background" src={background} />
           <div
-            className="scroll-container"
-            onScroll={this.handleScroll}
-            ref={this.scrollContainerRef}
+            className="arrow-alignment-block"
+            ref={this.arrowAlignmentBlockRef}
           >
-            <div className="inner">
-              <JokesFilters />
-              <JokesResults />
+            <div className="arrow-up-container container">
               <CSSTransition
                 in={isShowArrowUp}
                 timeout={{
@@ -62,6 +76,16 @@ class JokesScreen extends React.Component {
                   <FontAwesomeIcon icon={faArrowUp} />
                 </div>
               </CSSTransition>
+            </div>
+          </div>
+          <div
+            className="scroll-container"
+            onScroll={this.handleScroll}
+            ref={this.scrollContainerRef}
+          >
+            <div className="inner">
+              <JokesFilters />
+              <JokesResults />
             </div>
           </div>
         </div>

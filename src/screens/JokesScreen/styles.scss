@@ -38,78 +38,83 @@
     }
   }
 
-  .arrow-up {
-    width: 60px;
-    height: 60px;
-    background-color: rgba($blue, 0.65);
-    border-radius: 50%;
-    position: fixed;
-    bottom: 94px;
-    right: 47px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 10;
-    opacity: 0;
-    transform: translateX(500px);
+  .arrow-alignment-block {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20;
 
-    &.enter {
+    .arrow-up-container {
+      width: calc(100% - 30px);
+      position: relative;
+
+      @media (min-width: 1480px) {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    .arrow-up {
+      width: 60px;
+      height: 60px;
+      background-color: rgba($blue, 0.65);
+      border-radius: 50%;
+      position: absolute;
+      bottom: 32.5px;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 10;
       opacity: 0;
-      transform: translateX(500px);
-    }
+      transform: translateX(200px);
 
-    &.enter-active {
-      opacity: 1;
-      transition: 0.3s;
-      transform: translateX(0);
-    }
+      @media (min-width: 1480px) {
+        right: 32.5px;
+      }
 
-    &.enter-done {
-      opacity: 1;
-      transform: translateX(0);
-    }
+      @media (max-width: 1024px) {
+        bottom: 15px;
+      }
 
-    &.exit {
-      opacity: 1;
-      transform: translateX(0);
-    }
+      &.enter {
+        opacity: 0;
+        transform: translateX(200px);
+      }
 
-    &.exit-active {
-      opacity: 0;
-      transition: 0.3s;
-      transform: translateX(500px);
-    }
+      &.enter-active {
+        opacity: 1;
+        transition: 0.3s;
+        transform: translateX(0);
+      }
 
-    &.exir-done {
-      opacity: 0;
-      transform: translateX(500px);
-    }
+      &.enter-done {
+        opacity: 1;
+        transform: translateX(0);
+      }
 
-    @media (min-width: 2560px) {
-      right: 97px;
-    }
+      &.exit {
+        opacity: 1;
+        transform: translateX(0);
+      }
 
-    @media (max-width: 1024px) {
-      bottom: 77px;
-      right: 15px;
-    }
+      &.exit-active {
+        opacity: 0;
+        transition: 0.3s;
+        transform: translateX(200px);
+      }
 
-    @media (max-width: 640px) {
-      bottom: 83px;
-    }
+      &.exit-done {
+        opacity: 0;
+        transform: translateX(200px);
+      }
 
-    @media (max-width: 375px) {
-      bottom: 75px;
-    }
-
-    @media (max-width: 320px) {
-      bottom: 65px;
-    }
-
-    svg {
-      font-size: 25px;
-      color: $grey;
+      svg {
+        font-size: 25px;
+        color: $grey;
+      }
     }
   }
 }

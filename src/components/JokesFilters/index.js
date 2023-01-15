@@ -1,4 +1,4 @@
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faBackspace, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
@@ -43,10 +43,7 @@ class JokesFilters extends React.Component {
 
   handleBlurAmountInput = () => {
     const { amountValue, changeAmountValue } = this.props;
-
-    if (amountValue > 10) {
-      changeAmountValue(10);
-    } else if (amountValue < 1) {
+    if (+amountValue < 1) {
       changeAmountValue(1);
     }
   };
@@ -72,6 +69,22 @@ class JokesFilters extends React.Component {
     }
   };
 
+  handleChangeAmountValue = (e) => {
+    const { changeAmountValue } = this.props;
+    const value = e.target.value;
+    const valueToNumber = +value;
+
+    if (value === "") {
+      changeAmountValue("");
+    } else if (valueToNumber > 10) {
+      changeAmountValue(10);
+    } else if (valueToNumber < 1) {
+      changeAmountValue(1);
+    } else {
+      changeAmountValue(value);
+    }
+  };
+
   render() {
     const {
       categoryTypeValue,
@@ -84,9 +97,9 @@ class JokesFilters extends React.Component {
       changeCategoryType,
       changeBlackList,
       changeJokeType,
-      changeAmountValue,
       isCategoriesRedBorder,
       jokesState,
+      changeSearchValue,
     } = this.props;
 
     const isResetNotActive =
@@ -205,13 +218,26 @@ class JokesFilters extends React.Component {
                     type="text"
                     value={searchValue}
                   />
+                  <CSSTransition
+                    in={!!searchValue}
+                    timeout={300}
+                    unmountOnExit
+                    mountOnEnter
+                  >
+                    <div
+                      className="clear-input"
+                      onClick={() => changeSearchValue("")}
+                    >
+                      <FontAwesomeIcon icon={faBackspace} />
+                    </div>
+                  </CSSTransition>
                 </div>
               </div>
               <div className="amount-jokes joke-options">
-                <h2>Amount of jokes:</h2>
+                <h2>Amount of jokes(1-10):</h2>
                 <div className="input-wrapper">
                   <input
-                    onChange={(e) => changeAmountValue(e.target.value)}
+                    onChange={this.handleChangeAmountValue}
                     onKeyPress={this.handlePressEnterInput}
                     onBlur={this.handleBlurAmountInput}
                     type="number"
