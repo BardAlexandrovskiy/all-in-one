@@ -12,8 +12,14 @@ import {
   setCurrentLocation,
 } from "../../actions/weather";
 import "./style.scss";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 
 class WeatherLocationItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.updateButtonRef = React.createRef();
+  }
+
   deleteCity = () => {
     const { currentId, id, setCurrentLocation, deleteLocation } = this.props;
 
@@ -25,8 +31,14 @@ class WeatherLocationItem extends React.Component {
   };
 
   render() {
-    const { city, id, currentId, getCurrentLocationByGeo, isGeoAccess } =
-      this.props;
+    const {
+      city,
+      id,
+      currentId,
+      getCurrentLocationByGeo,
+      isGeoAccess,
+      isShowCurrentLocationPreloader,
+    } = this.props;
 
     const isCurrentLocation = id === currentId;
 
@@ -36,19 +48,35 @@ class WeatherLocationItem extends React.Component {
           {city || (isGeoAccess ? "Not defined" : "No geo access")}
           {isCurrentLocation && <FontAwesomeIcon icon={faMapMarkerAlt} />}
         </div>
-        {isCurrentLocation && !city && (
-          <div
-            className={`update-button`}
-            onClick={() => getCurrentLocationByGeo()}
-          >
-            <FontAwesomeIcon icon={faRedo} />
-          </div>
-        )}
-        {city && (
-          <div className="delete-button" onClick={this.deleteCity}>
-            <FontAwesomeIcon icon={faTimes} />
-          </div>
-        )}
+        <SwitchTransition mode="out-in">
+          <CSSTransition timeout={300} key={isCurrentLocation && !city}>
+            {isCurrentLocation && !city ? (
+              <div
+                style={
+                  this.updateButtonRef.current &&
+                  !isShowCurrentLocationPreloader
+                    ? {
+                        animationPlayState: "paused",
+                      }
+                    : null
+                }
+                ref={this.updateButtonRef}
+                className={`update-button${
+                  isShowCurrentLocationPreloader ? " animation-active" : ""
+                }`}
+                onClick={() => getCurrentLocationByGeo()}
+              >
+                <FontAwesomeIcon icon={faRedo} />
+              </div>
+            ) : (
+              city && (
+                <div className="delete-button" onClick={this.deleteCity}>
+                  <FontAwesomeIcon icon={faTimes} />
+                </div>
+              )
+            )}
+          </CSSTransition>
+        </SwitchTransition>
       </div>
     );
   }
@@ -59,12 +87,14 @@ const mapStateToProps = (state) => {
     weather: {
       currentLocation: { id: currentId },
       isGeoAccess,
+      isShowCurrentLocationPreloader,
     },
   } = state;
 
   return {
     currentId,
     isGeoAccess,
+    isShowCurrentLocationPreloader,
   };
 };
 

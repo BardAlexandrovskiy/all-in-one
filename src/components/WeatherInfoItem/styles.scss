@@ -36,7 +36,16 @@
 
     &.enter-active {
       opacity: 1;
-      transition: 0.5s;
+      transition: 0.3s;
+    }
+
+    &.exit {
+      opacity: 1;
+    }
+
+    &.exit-active {
+      opacity: 0;
+      transition: 0.3s;
     }
 
     .text {
@@ -54,7 +63,16 @@
 
     &.enter-active {
       opacity: 1;
-      transition: 0.5s;
+      transition: 0.3s;
+    }
+
+    &.exit {
+      opacity: 1;
+    }
+
+    &.exit-active {
+      opacity: 0;
+      transition: 0.3s;
     }
 
     &::-webkit-scrollbar {

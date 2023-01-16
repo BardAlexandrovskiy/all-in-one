@@ -13,7 +13,7 @@ import {
 } from "../../constants/weather";
 import Preloader from "../Preloader";
 import "./styles.scss";
-import { CSSTransition } from "react-transition-group";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 import errorImage from "../../assets/images/error-image-1.svg";
 import noGeoImage from "../../assets/images/error-image-3.svg";
 import WidgetErrorBlock from "../WidgetErrorBlock";
@@ -49,7 +49,7 @@ class WeatherWidget extends React.Component {
         1
       );
 
-      if (minutes > 5) {
+      if (minutes > 0) {
         isWeatherUpdate = true;
       }
     } else {
@@ -98,62 +98,97 @@ class WeatherWidget extends React.Component {
         >
           <Preloader />
         </CSSTransition>
-        <CSSTransition
-          in={isError}
-          timeout={{
-            enter: 500,
-            exit: 0,
-          }}
-          mountOnEnter
-          unmountOnExit
-        >
-          <WidgetErrorBlock
-            text="Oops, something went wrong, no weather yet."
-            errorText={errorText}
-            image={errorImage}
-          />
-        </CSSTransition>
-        <CSSTransition
-          in={!city && !isGeoAccess && !isPreloader}
-          timeout={{
-            enter: 500,
-            exit: 0,
-          }}
-          mountOnEnter
-          unmountOnExit
-        >
-          <WidgetErrorBlock
-            text="Oops, no access to geolocation."
-            image={noGeoImage}
-          />
-        </CSSTransition>
-        <CSSTransition
-          in={!isEmptyObject(weatherInfo) && !isError}
-          timeout={{
-            enter: 500,
-            exit: 0,
-          }}
-          mountOnEnter
-          unmountOnExit
-        >
-          <img className="background" src={backgroundImage} alt="" />
-        </CSSTransition>
-        <CSSTransition
-          in={!isEmptyObject(weatherInfo) && !isError}
-          timeout={{
-            enter: 500,
-            exit: 0,
-          }}
-          mountOnEnter
-          unmountOnExit
-        >
-          <div className="info">
-            {!!city && <h2 className="city">{city}</h2>}
-            {!!temp && <span className="current-temp">{temp}</span>}
-            {!!icon && <img src={icon} alt="" />}
-            {!!date && <div className="current-date">{date}</div>}
-          </div>
-        </CSSTransition>
+        <SwitchTransition mode="out-in">
+          <CSSTransition key={isError || (!city && !isGeoAccess)} timeout={300}>
+            {isError || (!city && !isGeoAccess) ? (
+              isError ? (
+                <WidgetErrorBlock
+                  text="Oops, something went wrong, no weather yet."
+                  errorText={errorText}
+                  image={errorImage}
+                />
+              ) : (
+                !city &&
+                !isGeoAccess && (
+                  <WidgetErrorBlock
+                    text="Oops, no access to geolocation."
+                    image={noGeoImage}
+                  />
+                )
+              )
+            ) : (
+              !isEmptyObject(weatherInfo) &&
+              !isError && (
+                <>
+                  <img className="background" src={backgroundImage} alt="" />
+                  <div className="info">
+                    {!!city && <h2 className="city">{city}</h2>}
+                    {!!temp && <span className="current-temp">{temp}</span>}
+                    {!!icon && <img src={icon} alt="" />}
+                    {!!date && <div className="current-date">{date}</div>}
+                  </div>
+                </>
+              )
+            )}
+          </CSSTransition>
+        </SwitchTransition>
+
+        {/* <CSSTransition
+            in={isError}
+            timeout={{
+              enter: 500,
+              exit: 0,
+            }}
+            mountOnEnter
+            unmountOnExit
+          >
+            <WidgetErrorBlock
+              text="Oops, something went wrong, no weather yet."
+              errorText={errorText}
+              image={errorImage}
+            />
+          </CSSTransition>
+          <CSSTransition
+            in={!city && !isGeoAccess && !isPreloader}
+            timeout={{
+              enter: 500,
+              exit: 0,
+            }}
+            mountOnEnter
+            unmountOnExit
+          >
+            <WidgetErrorBlock
+              text="Oops, no access to geolocation."
+              image={noGeoImage}
+            />
+          </CSSTransition>
+          <CSSTransition
+            in={!isEmptyObject(weatherInfo) && !isError}
+            timeout={{
+              enter: 500,
+              exit: 0,
+            }}
+            mountOnEnter
+            unmountOnExit
+          >
+            <img className="background" src={backgroundImage} alt="" />
+          </CSSTransition>
+          <CSSTransition
+            in={!isEmptyObject(weatherInfo) && !isError}
+            timeout={{
+              enter: 500,
+              exit: 0,
+            }}
+            mountOnEnter
+            unmountOnExit
+          >
+            <div className="info">
+              {!!city && <h2 className="city">{city}</h2>}
+              {!!temp && <span className="current-temp">{temp}</span>}
+              {!!icon && <img src={icon} alt="" />}
+              {!!date && <div className="current-date">{date}</div>}
+            </div>
+          </CSSTransition> */}
       </Link>
     );
   }

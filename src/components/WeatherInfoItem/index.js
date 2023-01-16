@@ -20,7 +20,7 @@ import {
   getWeatherFunction,
   getWeatherIconById,
 } from "../../constants/weather";
-import { CSSTransition } from "react-transition-group";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 import Preloader from "../Preloader";
 import TextBanner from "../TextBanner";
 import "./styles.scss";
@@ -116,7 +116,6 @@ class WeatherInfoItem extends React.Component {
           }
         })
         .catch((error) => {
-          console.log(error);
           this.setState({
             isError: true,
             errorText: `Error: ${error.message}.`,
@@ -175,119 +174,112 @@ class WeatherInfoItem extends React.Component {
         >
           <Preloader />
         </CSSTransition>
-        <CSSTransition
-          in={isError}
-          timeout={{
-            enter: 500,
-            exit: 0,
-          }}
-          mountOnEnter
-          unmountOnExit
-        >
-          <TextBanner
-            image={errorImage}
-            text={`Oops, something went wrong. ${errorText}`}
-          />
-        </CSSTransition>
-        <CSSTransition
-          in={!isEmptyObject(weatherInfo) && !isError}
-          timeout={{
-            enter: 500,
-            exit: 0,
-          }}
-          mountOnEnter
-          unmountOnExit
-        >
-          <div
-            className="info"
-            ref={this.infoBlockRef}
-            onScroll={this.handleScrollInfoBlock}
-          >
-            <img
-              ref={this.backgroundImageRef}
-              className="background-image"
-              src={backgroundImageSrc}
-              alt=""
-            />
-            <div className="trigger-wrapper" ref={this.triggerRef}>
-              <div className="container info-container">
-                <div className="main">
-                  {!!temp && <span className="current-temp">{temp}</span>}
-                  {!!weatherDescription && (
-                    <div className="description">
-                      {weatherDescription}
-                      {!!icon && <img src={icon} alt="" />}
-                    </div>
-                  )}
-                  {!!date && <div className="current-date">{date}</div>}
-                  {!!tempFeelsLike && (
-                    <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
-                  )}
-                </div>
-                <div className="other-info">
-                  {!!cloudiness && (
-                    <div className="info-item">
-                      <CloudinessIcon />
-                      {`Cloudiness: ${cloudiness}`}
-                    </div>
-                  )}
-                  {!!humidity && (
-                    <div className="info-item">
-                      <HumidityIcon />
-                      {`Humidity: ${humidity}`}
-                    </div>
-                  )}
-                  <div className="info-item full">
-                    {!!windSpeed && (
-                      <div className="inner">
-                        <WindSpeedIcon />
-                        {`Wind speed: ${windSpeed}`}
+        <SwitchTransition mode="out-in">
+          <CSSTransition timeout={300} key={isError}>
+            {isError ? (
+              <TextBanner
+                image={errorImage}
+                text={`Oops, something went wrong. ${errorText}`}
+                deleteFuncion={() => {
+                  this.setState({ isError: false });
+                }}
+              />
+            ) : (
+              !isEmptyObject(weatherInfo) &&
+              !isError && (
+                <div
+                  className="info"
+                  ref={this.infoBlockRef}
+                  onScroll={this.handleScrollInfoBlock}
+                >
+                  <img
+                    ref={this.backgroundImageRef}
+                    className="background-image"
+                    src={backgroundImageSrc}
+                    alt=""
+                  />
+                  <div className="trigger-wrapper" ref={this.triggerRef}>
+                    <div className="container info-container">
+                      <div className="main">
+                        {!!temp && <span className="current-temp">{temp}</span>}
+                        {!!weatherDescription && (
+                          <div className="description">
+                            {weatherDescription}
+                            {!!icon && <img src={icon} alt="" />}
+                          </div>
+                        )}
+                        {!!date && <div className="current-date">{date}</div>}
+                        {!!tempFeelsLike && (
+                          <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
+                        )}
                       </div>
-                    )}
-                    {!!windDeg && (
-                      <div className="inner">
-                        <WindDirectionIcon />
-                        {`Wind direction: ${windDeg}`}
+                      <div className="other-info">
+                        {!!cloudiness && (
+                          <div className="info-item">
+                            <CloudinessIcon />
+                            {`Cloudiness: ${cloudiness}`}
+                          </div>
+                        )}
+                        {!!humidity && (
+                          <div className="info-item">
+                            <HumidityIcon />
+                            {`Humidity: ${humidity}`}
+                          </div>
+                        )}
+                        <div className="info-item full">
+                          {!!windSpeed && (
+                            <div className="inner">
+                              <WindSpeedIcon />
+                              {`Wind speed: ${windSpeed}`}
+                            </div>
+                          )}
+                          {!!windDeg && (
+                            <div className="inner">
+                              <WindDirectionIcon />
+                              {`Wind direction: ${windDeg}`}
+                            </div>
+                          )}
+                          {!!windGust && (
+                            <div className="inner long">
+                              <WindGustIcon />
+                              {`Wind gust: ${windGust}`}
+                            </div>
+                          )}
+                        </div>
+                        {!!visibility && (
+                          <div className="info-item">
+                            <VisibilityIcon />
+                            <span>{`Visibility: ${visibility}`}</span>
+                          </div>
+                        )}
+                        {!!pressure && (
+                          <div className="info-item">
+                            <PressureIcon />
+                            <span>{`Pressure: ${pressure}`}</span>
+                          </div>
+                        )}
+                        <div className="info-item full">
+                          {!!sunrise && (
+                            <div className="inner">
+                              <SunriseIcon />
+                              <span>{`Sunrise: ${sunrise}`}</span>
+                            </div>
+                          )}
+                          {!!sunset && (
+                            <div className="inner">
+                              <SunsetIcon />
+                              <span>{`Sunset: ${sunset}`}</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    )}
-                    {!!windGust && (
-                      <div className="inner long">
-                        <WindGustIcon />
-                        {`Wind gust: ${windGust}`}
-                      </div>
-                    )}
-                  </div>
-                  {!!visibility && (
-                    <div className="info-item">
-                      <VisibilityIcon />
-                      <span>{`Visibility: ${visibility}`}</span>
                     </div>
-                  )}
-                  {!!pressure && (
-                    <div className="info-item">
-                      <PressureIcon />
-                      <span>{`Pressure: ${pressure}`}</span>
-                    </div>
-                  )}
-                  <div className="info-item full">
-                    {!!sunrise && (
-                      <div className="inner">
-                        <SunriseIcon />
-                        <span>{`Sunrise: ${sunrise}`}</span>
-                      </div>
-                    )}
-                    {!!sunset && (
-                      <div className="inner">
-                        <SunsetIcon />
-                        <span>{`Sunset: ${sunset}`}</span>
-                      </div>
-                    )}
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </CSSTransition>
+              )
+            )}
+          </CSSTransition>
+        </SwitchTransition>
       </div>
     );
   }
