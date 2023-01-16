@@ -15,8 +15,6 @@ class JokesWidget extends React.Component {
       joke: null,
       isError: false,
       errorText: false,
-      isTransitionJoke: true,
-      isTransitionError: true,
     };
   }
 
@@ -57,14 +55,7 @@ class JokesWidget extends React.Component {
   }
 
   render() {
-    const {
-      joke,
-      isPreloader,
-      isError,
-      errorText,
-      isTransitionError,
-      isTransitionJoke,
-    } = this.state;
+    const { joke, isPreloader, isError, errorText } = this.state;
     return (
       <div className="jokes-widget">
         <div className="inner-wrapper">
@@ -77,30 +68,24 @@ class JokesWidget extends React.Component {
             <Preloader />
           </CSSTransition>
           <CSSTransition
-            in={isError && isTransitionError}
-            timeout={150}
+            in={isError}
+            timeout={{
+              enter: 500,
+              exit: 0,
+            }}
             mountOnEnter
             unmountOnExit
-            onEnter={() =>
-              this.setState({
-                isTransitionJoke: false,
-              })
-            }
-            onExited={() =>
-              this.setState({
-                isTransitionJoke: true,
-              })
-            }
           >
             <WidgetErrorBlock errorText={errorText} image={errorImage} />
           </CSSTransition>
           <CSSTransition
-            in={!!joke && isTransitionJoke}
-            timeout={300}
+            in={!!joke}
+            timeout={{
+              enter: 500,
+              exit: 0,
+            }}
             mountOnEnter
             unmountOnExit
-            onEnter={() => this.setState({ isTransitionError: false })}
-            onExited={() => this.setState({ isTransitionError: true })}
           >
             <div className="joke-wrapper">
               <h2>Random joke</h2>

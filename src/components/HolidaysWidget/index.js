@@ -55,14 +55,30 @@ class HolidaysWidget extends React.Component {
         >
           <Preloader />
         </CSSTransition>
-        {!!isError && (
+        <CSSTransition
+          in={!!isError}
+          timeout={{
+            enter: 500,
+            exit: 0,
+          }}
+          mountOnEnter
+          unmountOnExit
+        >
           <WidgetErrorBlock
             text="Oops, something went wrong, no holidays yet."
             errorText={errorText}
             image={errorImage}
           />
-        )}
-        {(!!todayHolidays.length || !!nextHolidays.length) && (
+        </CSSTransition>
+        <CSSTransition
+          in={!!todayHolidays.length || !!nextHolidays.length}
+          timeout={{
+            enter: 500,
+            exit: 0,
+          }}
+          mountOnEnter
+          unmountOnExit
+        >
           <div className="holidays-list">
             {todayHolidays.map((holiday) => (
               <HolidaysItem
@@ -96,7 +112,7 @@ class HolidaysWidget extends React.Component {
               );
             })}
           </div>
-        )}
+        </CSSTransition>
       </div>
     );
   }

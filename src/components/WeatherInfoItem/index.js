@@ -39,8 +39,6 @@ class WeatherInfoItem extends React.Component {
       isPreloader: false,
       isError: false,
       errorText: "",
-      isTransitionWeatherInfo: true,
-      isTransitionError: true,
     };
     this.infoBlockRef = React.createRef();
     this.backgroundImageRef = React.createRef();
@@ -140,13 +138,7 @@ class WeatherInfoItem extends React.Component {
   };
 
   render() {
-    const {
-      isPreloader,
-      errorText,
-      isError,
-      isTransitionWeatherInfo,
-      isTransitionError,
-    } = this.state;
+    const { isPreloader, errorText, isError } = this.state;
     let { weatherInfo, isActiveHeader } = this.props;
 
     const {
@@ -184,12 +176,13 @@ class WeatherInfoItem extends React.Component {
           <Preloader />
         </CSSTransition>
         <CSSTransition
-          in={isError && isTransitionError}
-          timeout={300}
+          in={isError}
+          timeout={{
+            enter: 500,
+            exit: 0,
+          }}
           mountOnEnter
           unmountOnExit
-          onEnter={() => this.setState({ isTransitionWeatherInfo: false })}
-          onExited={() => this.setState({ isTransitionWeatherInfo: true })}
         >
           <TextBanner
             image={errorImage}
@@ -197,14 +190,13 @@ class WeatherInfoItem extends React.Component {
           />
         </CSSTransition>
         <CSSTransition
-          in={
-            !isEmptyObject(weatherInfo) && isTransitionWeatherInfo && !isError
-          }
-          timeout={300}
+          in={!isEmptyObject(weatherInfo) && !isError}
+          timeout={{
+            enter: 500,
+            exit: 0,
+          }}
           mountOnEnter
           unmountOnExit
-          onEnter={() => this.setState({ isTransitionError: false })}
-          onExited={() => this.setState({ isTransitionError: true })}
         >
           <div
             className="info"

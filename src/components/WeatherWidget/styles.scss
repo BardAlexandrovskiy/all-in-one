@@ -30,8 +30,28 @@
     z-index: -2;
     border-radius: 30px;
 
+    &.enter {
+      opacity: 0;
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transition: 0.5s;
+    }
+
     @media (max-width: 640px) {
       border-radius: 15px;
+    }
+  }
+
+  .widget-error {
+    &.enter {
+      opacity: 0;
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transition: 0.5s;
     }
   }
 
@@ -45,6 +65,15 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+
+    &.enter {
+      opacity: 0;
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transition: 0.5s;
+    }
 
     @media (max-width: 640px) {
       padding: 10px;

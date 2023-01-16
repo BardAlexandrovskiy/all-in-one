@@ -38,6 +38,15 @@
     .widget-error {
       padding: 0;
       background: transparent;
+
+      &.enter {
+        opacity: 0;
+      }
+
+      &.enter-active {
+        opacity: 1;
+        transition: 0.5s;
+      }
     }
 
     .joke-wrapper {
@@ -45,6 +54,15 @@
       flex-direction: column;
       align-items: center;
       max-width: 100%;
+
+      &.enter {
+        opacity: 0;
+      }
+
+      &.enter-active {
+        opacity: 1;
+        transition: 0.5s;
+      }
 
       h2 {
         color: $white;

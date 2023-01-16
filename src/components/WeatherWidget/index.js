@@ -98,28 +98,62 @@ class WeatherWidget extends React.Component {
         >
           <Preloader />
         </CSSTransition>
-        {!!isError && (
+        <CSSTransition
+          in={isError}
+          timeout={{
+            enter: 500,
+            exit: 0,
+          }}
+          mountOnEnter
+          unmountOnExit
+        >
           <WidgetErrorBlock
             text="Oops, something went wrong, no weather yet."
             errorText={errorText}
             image={errorImage}
           />
-        )}
-        {!city && !isGeoAccess && !isPreloader && (
+        </CSSTransition>
+        <CSSTransition
+          in={!city && !isGeoAccess && !isPreloader}
+          timeout={{
+            enter: 500,
+            exit: 0,
+          }}
+          mountOnEnter
+          unmountOnExit
+        >
           <WidgetErrorBlock
             text="Oops, no access to geolocation."
             image={noGeoImage}
           />
-        )}
-        {!isEmptyObject(weatherInfo) && !isError && (
+        </CSSTransition>
+        <CSSTransition
+          in={!isEmptyObject(weatherInfo) && !isError}
+          timeout={{
+            enter: 500,
+            exit: 0,
+          }}
+          mountOnEnter
+          unmountOnExit
+        >
+          <img className="background" src={backgroundImage} alt="" />
+        </CSSTransition>
+        <CSSTransition
+          in={!isEmptyObject(weatherInfo) && !isError}
+          timeout={{
+            enter: 500,
+            exit: 0,
+          }}
+          mountOnEnter
+          unmountOnExit
+        >
           <div className="info">
-            <img className="background" src={backgroundImage} alt="" />
             {!!city && <h2 className="city">{city}</h2>}
             {!!temp && <span className="current-temp">{temp}</span>}
             {!!icon && <img src={icon} alt="" />}
             {!!date && <div className="current-date">{date}</div>}
           </div>
-        )}
+        </CSSTransition>
       </Link>
     );
   }

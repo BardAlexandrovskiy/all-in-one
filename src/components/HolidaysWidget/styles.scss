@@ -20,11 +20,31 @@
     border-radius: 15px;
   }
 
+  .widget-error {
+    &.enter {
+      opacity: 0;
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transition: 0.5s;
+    }
+  }
+
   .holidays-list {
     display: flex;
     flex-direction: column;
     gap: 20px;
     flex: 1;
+
+    &.enter {
+      opacity: 0;
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transition: 0.5s;
+    }
 
     @media (max-width: 640px) {
       gap: 10px;
