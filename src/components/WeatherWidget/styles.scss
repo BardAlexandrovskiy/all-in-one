@@ -19,16 +19,9 @@
     border-radius: 15px;
   }
 
-  .background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    z-index: -2;
-    border-radius: 30px;
+  .widget-error-wrapper {
+    display: flex;
+    flex: 1;
 
     &.enter {
       opacity: 0;
@@ -39,12 +32,22 @@
       transition: 0.5s;
     }
 
-    @media (max-width: 640px) {
-      border-radius: 15px;
+    &.exit {
+      opacity: 1;
+    }
+
+    &.exit-active {
+      opacity: 0;
+      transition: 0.5s;
     }
   }
 
-  .widget-error {
+  .info-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    z-index: 1;
+
     &.enter {
       opacity: 0;
     }
@@ -52,6 +55,44 @@
     &.enter-active {
       opacity: 1;
       transition: 0.5s;
+    }
+
+    &.exit {
+      opacity: 1;
+    }
+
+    &.exit-active {
+      opacity: 0;
+      transition: 0.5s;
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: calc(100% + 30px);
+      height: calc(100% + 30px);
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      background-color: rgba(darken($sky-blue, 55), 0.5);
+    }
+
+    .background {
+      position: absolute;
+      object-fit: cover;
+      object-position: center;
+      z-index: -2;
+      border-radius: 30px;
+      width: calc(100% + 30px);
+      height: calc(100% + 30px);
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
+
+      @media (max-width: 640px) {
+        border-radius: 15px;
+      }
     }
   }
 
@@ -65,15 +106,6 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-
-    &.enter {
-      opacity: 0;
-    }
-
-    &.enter-active {
-      opacity: 1;
-      transition: 0.5s;
-    }
 
     @media (max-width: 640px) {
       padding: 10px;

@@ -17,7 +17,9 @@ import { CSSTransition, SwitchTransition } from "react-transition-group";
 class WeatherLocationItem extends React.Component {
   constructor(props) {
     super(props);
-    this.updateButtonRef = React.createRef();
+    this.state = {
+      isAnimationUploadButton: false,
+    };
   }
 
   deleteCity = () => {
@@ -30,15 +32,34 @@ class WeatherLocationItem extends React.Component {
     }
   };
 
+  componentDidUpdate = (prev) => {
+    if (
+      !prev.isShowCurrentLocationPreloader &&
+      this.props.isShowCurrentLocationPreloader
+    ) {
+      this.uploadButtonAnimation();
+    }
+  };
+
+  uploadButtonAnimation = () => {
+    this.setState({ isAnimationUploadButton: true });
+
+    const uploadButtonAnimationInterval = setInterval(() => {
+      const { isShowCurrentLocationPreloader } = this.props;
+      if (!isShowCurrentLocationPreloader) {
+        this.setState({
+          isAnimationUploadButton: false,
+          isLastInterval: false,
+        });
+        clearInterval(uploadButtonAnimationInterval);
+      }
+    }, 1000);
+  };
+
   render() {
-    const {
-      city,
-      id,
-      currentId,
-      getCurrentLocationByGeo,
-      isGeoAccess,
-      isShowCurrentLocationPreloader,
-    } = this.props;
+    const { city, id, currentId, getCurrentLocationByGeo, isGeoAccess } =
+      this.props;
+    const { isAnimationUploadButton } = this.state;
 
     const isCurrentLocation = id === currentId;
 
@@ -52,17 +73,8 @@ class WeatherLocationItem extends React.Component {
           <CSSTransition timeout={300} key={isCurrentLocation && !city}>
             {isCurrentLocation && !city ? (
               <div
-                style={
-                  this.updateButtonRef.current &&
-                  !isShowCurrentLocationPreloader
-                    ? {
-                        animationPlayState: "paused",
-                      }
-                    : null
-                }
-                ref={this.updateButtonRef}
                 className={`update-button${
-                  isShowCurrentLocationPreloader ? " animation-active" : ""
+                  isAnimationUploadButton ? " animation-active" : ""
                 }`}
                 onClick={() => getCurrentLocationByGeo()}
               >

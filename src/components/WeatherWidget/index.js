@@ -49,7 +49,7 @@ class WeatherWidget extends React.Component {
         1
       );
 
-      if (minutes > 0) {
+      if (minutes > 5) {
         isWeatherUpdate = true;
       }
     } else {
@@ -99,27 +99,29 @@ class WeatherWidget extends React.Component {
           <Preloader />
         </CSSTransition>
         <SwitchTransition mode="out-in">
-          <CSSTransition key={isError || (!city && !isGeoAccess)} timeout={300}>
+          <CSSTransition key={isError || (!city && !isGeoAccess)} timeout={500}>
             {isError || (!city && !isGeoAccess) ? (
-              isError ? (
-                <WidgetErrorBlock
-                  text="Oops, something went wrong, no weather yet."
-                  errorText={errorText}
-                  image={errorImage}
-                />
-              ) : (
-                !city &&
-                !isGeoAccess && (
+              <div className="widget-error-wrapper">
+                {isError ? (
                   <WidgetErrorBlock
-                    text="Oops, no access to geolocation."
-                    image={noGeoImage}
+                    text="Oops, something went wrong, no weather yet."
+                    errorText={errorText}
+                    image={errorImage}
                   />
-                )
-              )
+                ) : (
+                  !city &&
+                  !isGeoAccess && (
+                    <WidgetErrorBlock
+                      text="Oops, no access to geolocation."
+                      image={noGeoImage}
+                    />
+                  )
+                )}
+              </div>
             ) : (
               !isEmptyObject(weatherInfo) &&
               !isError && (
-                <>
+                <div className="info-wrapper">
                   <img className="background" src={backgroundImage} alt="" />
                   <div className="info">
                     {!!city && <h2 className="city">{city}</h2>}
@@ -127,7 +129,7 @@ class WeatherWidget extends React.Component {
                     {!!icon && <img src={icon} alt="" />}
                     {!!date && <div className="current-date">{date}</div>}
                   </div>
-                </>
+                </div>
               )
             )}
           </CSSTransition>

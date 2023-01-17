@@ -81,24 +81,20 @@
     color: rgba($color: white, $alpha: 0.8);
     cursor: pointer;
     margin-left: auto;
-    transition: 0.3s;
-    animation: rotateAnimation 0.5s linear infinite;
-
-    @keyframes rotateAnimation {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
 
     &.animation-active {
-    }
+      svg {
+        animation: rotateAnimation 500ms linear infinite;
+        @keyframes rotateAnimation {
+          0% {
+            transform: rotate(0deg);
+          }
 
-    &.animation-end {
-      transition: 0.3s;
-      transform: rotate(360deg);
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      }
     }
 
     &.enter {

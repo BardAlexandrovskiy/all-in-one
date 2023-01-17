@@ -47,6 +47,15 @@
         opacity: 1;
         transition: 0.5s;
       }
+
+      &.exit {
+        opacity: 1;
+      }
+
+      &.exit-active {
+        opacity: 0;
+        transition: 0.5s;
+      }
     }
 
     .joke-wrapper {
@@ -61,6 +70,15 @@
 
       &.enter-active {
         opacity: 1;
+        transition: 0.5s;
+      }
+
+      &.exit {
+        opacity: 1;
+      }
+
+      &.exit-active {
+        opacity: 0;
         transition: 0.5s;
       }
 
