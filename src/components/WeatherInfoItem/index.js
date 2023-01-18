@@ -103,10 +103,7 @@ class WeatherInfoItem extends React.Component {
       isWeatherUpdate = true;
     }
 
-    const { isError } = this.state;
-    console.log("error after: " + isError);
-
-    if (isEmptyObject(weatherInfo) || isWeatherUpdate || isError) {
+    if (isEmptyObject(weatherInfo) || isWeatherUpdate) {
       this.setState({ isPreloader: true });
       getWeatherFunction(city)
         .then((result) => {
