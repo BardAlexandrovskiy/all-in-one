@@ -1,7 +1,6 @@
 import "./styles.scss";
 
 const JokesItem = ({ jokeInfo }) => {
-  console.log(jokeInfo);
   const { category, flags, joke, setup, delivery } = jokeInfo;
   const selectedFlags = [];
   if (flags) {

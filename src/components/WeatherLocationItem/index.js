@@ -41,17 +41,21 @@ class WeatherLocationItem extends React.Component {
     }
   };
 
+  componentWillUnmount = () => {
+    clearInterval(this.uploadButtonAnimationInterval);
+  };
+
   uploadButtonAnimation = () => {
     this.setState({ isAnimationUploadButton: true });
 
-    const uploadButtonAnimationInterval = setInterval(() => {
+    this.uploadButtonAnimationInterval = setInterval(() => {
       const { isShowCurrentLocationPreloader } = this.props;
       if (!isShowCurrentLocationPreloader) {
         this.setState({
           isAnimationUploadButton: false,
           isLastInterval: false,
         });
-        clearInterval(uploadButtonAnimationInterval);
+        clearInterval(this.uploadButtonAnimationInterval);
       }
     }, 1000);
   };

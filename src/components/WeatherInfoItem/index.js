@@ -20,7 +20,7 @@ import {
   getWeatherFunction,
   getWeatherIconById,
 } from "../../constants/weather";
-import { CSSTransition, SwitchTransition } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 import Preloader from "../Preloader";
 import TextBanner from "../TextBanner";
 import "./styles.scss";
@@ -39,6 +39,8 @@ class WeatherInfoItem extends React.Component {
       isPreloader: false,
       isError: false,
       errorText: "",
+      isErrorBannerClosed: true,
+      isInfoWeatherClosed: true,
     };
     this.infoBlockRef = React.createRef();
     this.backgroundImageRef = React.createRef();
@@ -56,18 +58,19 @@ class WeatherInfoItem extends React.Component {
         this.infoBlockRef.current.scrollTo(0, 0);
       }
     }
-
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.to(this.backgroundImageRef.current, {
-      scrollTrigger: {
-        trigger: this.triggerRef.current,
-        scrub: true,
-        start: "top top",
-        end: "bottom bottom",
-        scroller: this.infoBlockRef.current,
-      },
-      top: "0%",
-    });
+    if (this.backgroundImageRef.current) {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.to(this.backgroundImageRef.current, {
+        scrollTrigger: {
+          trigger: this.triggerRef.current,
+          scrub: true,
+          start: "top top",
+          end: "bottom bottom",
+          scroller: this.infoBlockRef.current,
+        },
+        top: "0%",
+      });
+    }
   }
 
   componentDidMount() {
@@ -93,19 +96,27 @@ class WeatherInfoItem extends React.Component {
         1
       );
 
-      if (minutes > 5) {
+      if (minutes > 0) {
         isWeatherUpdate = true;
       }
     } else {
       isWeatherUpdate = true;
     }
 
-    if (isEmptyObject(weatherInfo) || isWeatherUpdate) {
+    const { isError } = this.state;
+    console.log("error after: " + isError);
+
+    if (isEmptyObject(weatherInfo) || isWeatherUpdate || isError) {
       this.setState({ isPreloader: true });
       getWeatherFunction(city)
         .then((result) => {
           const { weatherInfo } = result;
-
+          this.setState({
+            isInfoWeatherClosed: false,
+            isErrorBannerClosed: true,
+            isError: false,
+            errorText: "",
+          });
           if (id === currentId) {
             setCurrentLocation({
               weatherInfo,
@@ -119,9 +130,14 @@ class WeatherInfoItem extends React.Component {
           this.setState({
             isError: true,
             errorText: `Error: ${error.message}.`,
+            isErrorBannerClosed: false,
+            isInfoWeatherClosed: true,
           });
+          console.log(this.state.isError);
         })
         .finally(() => this.setState({ isPreloader: false }));
+    } else {
+      this.setState({ isInfoWeatherClosed: false });
     }
   };
 
@@ -137,8 +153,14 @@ class WeatherInfoItem extends React.Component {
   };
 
   render() {
-    const { isPreloader, errorText, isError } = this.state;
-    let { weatherInfo, isActiveHeader } = this.props;
+    const { weatherInfo, isActiveHeader } = this.props;
+    const {
+      isPreloader,
+      errorText,
+      isError,
+      isErrorBannerClosed,
+      isInfoWeatherClosed,
+    } = this.state;
 
     const {
       weatherDescription,
@@ -174,112 +196,128 @@ class WeatherInfoItem extends React.Component {
         >
           <Preloader />
         </CSSTransition>
-        <SwitchTransition mode="out-in">
-          <CSSTransition timeout={300} key={isError}>
-            {isError ? (
-              <TextBanner
-                image={errorImage}
-                text={`Oops, something went wrong. ${errorText}`}
-                deleteFuncion={() => {
-                  this.setState({ isError: false });
-                }}
-              />
-            ) : (
-              !isEmptyObject(weatherInfo) &&
-              !isError && (
-                <div
-                  className="info"
-                  ref={this.infoBlockRef}
-                  onScroll={this.handleScrollInfoBlock}
-                >
-                  <img
-                    ref={this.backgroundImageRef}
-                    className="background-image"
-                    src={backgroundImageSrc}
-                    alt=""
-                  />
-                  <div className="trigger-wrapper" ref={this.triggerRef}>
-                    <div className="container info-container">
-                      <div className="main">
-                        {!!temp && <span className="current-temp">{temp}</span>}
-                        {!!weatherDescription && (
-                          <div className="description">
-                            {weatherDescription}
-                            {!!icon && <img src={icon} alt="" />}
-                          </div>
-                        )}
-                        {!!date && <div className="current-date">{date}</div>}
-                        {!!tempFeelsLike && (
-                          <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
-                        )}
-                      </div>
-                      <div className="other-info">
-                        {!!cloudiness && (
-                          <div className="info-item">
-                            <CloudinessIcon />
-                            {`Cloudiness: ${cloudiness}`}
-                          </div>
-                        )}
-                        {!!humidity && (
-                          <div className="info-item">
-                            <HumidityIcon />
-                            {`Humidity: ${humidity}`}
-                          </div>
-                        )}
-                        <div className="info-item full">
-                          {!!windSpeed && (
-                            <div className="inner">
-                              <WindSpeedIcon />
-                              {`Wind speed: ${windSpeed}`}
-                            </div>
-                          )}
-                          {!!windDeg && (
-                            <div className="inner">
-                              <WindDirectionIcon />
-                              {`Wind direction: ${windDeg}`}
-                            </div>
-                          )}
-                          {!!windGust && (
-                            <div className="inner long">
-                              <WindGustIcon />
-                              {`Wind gust: ${windGust}`}
-                            </div>
-                          )}
-                        </div>
-                        {!!visibility && (
-                          <div className="info-item">
-                            <VisibilityIcon />
-                            <span>{`Visibility: ${visibility}`}</span>
-                          </div>
-                        )}
-                        {!!pressure && (
-                          <div className="info-item">
-                            <PressureIcon />
-                            <span>{`Pressure: ${pressure}`}</span>
-                          </div>
-                        )}
-                        <div className="info-item full">
-                          {!!sunrise && (
-                            <div className="inner">
-                              <SunriseIcon />
-                              <span>{`Sunrise: ${sunrise}`}</span>
-                            </div>
-                          )}
-                          {!!sunset && (
-                            <div className="inner">
-                              <SunsetIcon />
-                              <span>{`Sunset: ${sunset}`}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
+        <CSSTransition
+          in={isError && isInfoWeatherClosed && !isErrorBannerClosed}
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+          onExit={() => this.setState({ isPreloader: true })}
+          onExited={() => {
+            this.setState({ isInfoWeatherClosed: false });
+            this.checkUpadate();
+          }}
+        >
+          <TextBanner
+            image={errorImage}
+            text={`Oops, something went wrong. ${errorText}`}
+            deleteFuncion={() => {
+              this.setState({ isError: false });
+            }}
+          />
+        </CSSTransition>
+        <CSSTransition
+          in={
+            !isEmptyObject(weatherInfo) &&
+            isErrorBannerClosed &&
+            !isInfoWeatherClosed
+          }
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+          onExited={() => {
+            this.setState({ isErrorBannerClosed: false });
+          }}
+        >
+          <div
+            className="info"
+            ref={this.infoBlockRef}
+            onScroll={this.handleScrollInfoBlock}
+          >
+            <img
+              ref={this.backgroundImageRef}
+              className="background-image"
+              src={backgroundImageSrc}
+              alt=""
+            />
+            <div className="trigger-wrapper" ref={this.triggerRef}>
+              <div className="container info-container">
+                <div className="main">
+                  {!!temp && <span className="current-temp">{temp}</span>}
+                  {!!weatherDescription && (
+                    <div className="description">
+                      {weatherDescription}
+                      {!!icon && <img src={icon} alt="" />}
                     </div>
+                  )}
+                  {!!date && <div className="current-date">{date}</div>}
+                  {!!tempFeelsLike && (
+                    <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
+                  )}
+                </div>
+                <div className="other-info">
+                  {!!cloudiness && (
+                    <div className="info-item">
+                      <CloudinessIcon />
+                      {`Cloudiness: ${cloudiness}`}
+                    </div>
+                  )}
+                  {!!humidity && (
+                    <div className="info-item">
+                      <HumidityIcon />
+                      {`Humidity: ${humidity}`}
+                    </div>
+                  )}
+                  <div className="info-item full">
+                    {!!windSpeed && (
+                      <div className="inner">
+                        <WindSpeedIcon />
+                        {`Wind speed: ${windSpeed}`}
+                      </div>
+                    )}
+                    {!!windDeg && (
+                      <div className="inner">
+                        <WindDirectionIcon />
+                        {`Wind direction: ${windDeg}`}
+                      </div>
+                    )}
+                    {!!windGust && (
+                      <div className="inner long">
+                        <WindGustIcon />
+                        {`Wind gust: ${windGust}`}
+                      </div>
+                    )}
+                  </div>
+                  {!!visibility && (
+                    <div className="info-item">
+                      <VisibilityIcon />
+                      <span>{`Visibility: ${visibility}`}</span>
+                    </div>
+                  )}
+                  {!!pressure && (
+                    <div className="info-item">
+                      <PressureIcon />
+                      <span>{`Pressure: ${pressure}`}</span>
+                    </div>
+                  )}
+                  <div className="info-item full">
+                    {!!sunrise && (
+                      <div className="inner">
+                        <SunriseIcon />
+                        <span>{`Sunrise: ${sunrise}`}</span>
+                      </div>
+                    )}
+                    {!!sunset && (
+                      <div className="inner">
+                        <SunsetIcon />
+                        <span>{`Sunset: ${sunset}`}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
-              )
-            )}
-          </CSSTransition>
-        </SwitchTransition>
+              </div>
+            </div>
+          </div>
+        </CSSTransition>
       </div>
     );
   }

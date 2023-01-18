@@ -27,7 +27,6 @@ const defaultState = {
   isShowCurrentLocationPreloader: false,
   locations: [],
   isActiveHeader: false,
-  isShowSettings: false,
   isShowSettingsPreloader: false,
   isGeoAccess: false,
   addLocationInputFocus: false,
