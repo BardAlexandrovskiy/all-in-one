@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import WeatherInfoItem from "../WeatherInfoItem";
 import "./styles.scss";
+import { CSSTransition } from "react-transition-group";
 
 // Core modules imports are same as usual
 import { Controller } from "swiper";
@@ -11,6 +12,10 @@ import { Swiper, SwiperSlide } from "swiper/react/swiper-react.js";
 // Styles must use direct files imports
 import "swiper/swiper.scss"; // core Swiper
 import { changeWeatherHeader } from "../../actions/weather";
+import TextBanner from "../TextBanner";
+
+// Error image
+import errorImage from "../../assets/images/error-image-3.svg";
 
 class WeatherMain extends React.Component {
   handleChangeSlide = () => {
@@ -27,6 +32,7 @@ class WeatherMain extends React.Component {
       locations,
       setSecondSwiper,
       firstSwiper,
+      isGeoAccess,
     } = this.props;
 
     return (
@@ -73,6 +79,19 @@ class WeatherMain extends React.Component {
               })}
           </Swiper>
         )}
+        <CSSTransition
+          in={!isGeoAccess && !locations.length && !currentCity}
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+        >
+          <TextBanner
+            image={errorImage}
+            text={
+              "No access to geolocation. Turn on geolocation and reload the page or add the desired location in the settings."
+            }
+          />
+        </CSSTransition>
       </div>
     );
   }
@@ -87,6 +106,7 @@ const mapStateToProps = (state) => {
         weatherInfo: currentWeatherInfo,
         updateWeatherTime: currentUpdateWeatherTime,
       },
+      isGeoAccess,
       locations,
     },
   } = state;
@@ -97,6 +117,7 @@ const mapStateToProps = (state) => {
     currentWeatherInfo,
     currentUpdateWeatherTime,
     locations,
+    isGeoAccess,
   };
 };
 

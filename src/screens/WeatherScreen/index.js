@@ -10,7 +10,7 @@ const WeatherScreen = ({ getCurrentLocationByGeo, currentCity, locations }) => {
     if (!currentCity && !locations.length) {
       getCurrentLocationByGeo();
     }
-  });
+  }, [getCurrentLocationByGeo, currentCity, locations]);
 
   const [firstSwiper, setFirstSwiper] = useState(null);
   const [secondSwiper, setSecondSwiper] = useState(null);

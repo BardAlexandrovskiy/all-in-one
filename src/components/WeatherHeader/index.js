@@ -40,12 +40,12 @@ class WeatherHeader extends React.Component {
               clickable: false,
             }}
           >
-            {/* {!currentCity && !locations.length && (
+            {!currentCity && !locations.length && (
               <div className="current-city city">
                 {isGeoAccess ? "Not defined" : "No geo access"}
                 <FontAwesomeIcon icon={faMapMarkerAlt} />
               </div>
-            )} */}
+            )}
             {!!currentCity && (
               <SwiperSlide key={currentCity}>
                 <div className="current-city city">
