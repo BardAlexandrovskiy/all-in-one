@@ -96,7 +96,7 @@ class WeatherInfoItem extends React.Component {
         1
       );
 
-      if (minutes > 0) {
+      if (minutes > 5) {
         isWeatherUpdate = true;
       }
     } else {
@@ -130,7 +130,6 @@ class WeatherInfoItem extends React.Component {
             isErrorBannerClosed: false,
             isInfoWeatherClosed: true,
           });
-          console.log(this.state.isError);
         })
         .finally(() => this.setState({ isPreloader: false }));
     } else {

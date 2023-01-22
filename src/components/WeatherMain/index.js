@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import WeatherInfoItem from "../WeatherInfoItem";
 import "./styles.scss";
-import { CSSTransition } from "react-transition-group";
 
 // Core modules imports are same as usual
 import { Controller } from "swiper";
@@ -79,19 +78,16 @@ class WeatherMain extends React.Component {
               })}
           </Swiper>
         )}
-        <CSSTransition
-          in={!isGeoAccess && !locations.length && !currentCity}
-          timeout={300}
-          mountOnEnter
-          unmountOnExit
-        >
+        {!locations.length && !currentCity && (
           <TextBanner
             image={errorImage}
             text={
-              "No access to geolocation. Turn on geolocation and reload the page or add the desired location in the settings."
+              !isGeoAccess
+                ? "No access to geolocation. Turn on geolocation and reload the page or add the desired location In the location settings."
+                : "Oops, something went wrong. Try again later."
             }
           />
-        </CSSTransition>
+        )}
       </div>
     );
   }

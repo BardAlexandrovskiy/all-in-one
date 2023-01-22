@@ -50,6 +50,21 @@
 
     .text {
       background-color: $grey;
+      flex-direction: column;
+    }
+
+    button {
+      min-height: 30px;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-size: 20px;
+      min-width: 100px;
+      border-radius: 30px;
+      background-color: darken($color: $sky-blue, $amount: 25);
+      color: white;
+      margin-top: 15px;
     }
   }
 
