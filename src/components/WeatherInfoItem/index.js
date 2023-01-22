@@ -114,6 +114,7 @@ class WeatherInfoItem extends React.Component {
             isError: false,
             errorText: "",
           });
+
           if (id === currentId) {
             setCurrentLocation({
               weatherInfo,

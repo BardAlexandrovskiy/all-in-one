@@ -19,18 +19,22 @@ class JokesResults extends React.Component {
     this.state = {
       isTransitionJokesList: true,
       isTransitionError: true,
-      isScrollToResult: false,
     };
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const { isShowJokesPreloader: isShowJokesPreloaderPrev } = prevProps;
     const { isShowJokesPreloader } = this.props;
-    const { isScrollToResult } = this.state;
+    const { isTransitionJokesList, isTransitionError } = this.state;
+    const {
+      isTransitionJokesList: isTransitionJokesListPrev,
+      isTransitionError: isTransitionErrorPrev,
+    } = prevState;
 
     if (
       (!isShowJokesPreloaderPrev && isShowJokesPreloader) ||
-      isScrollToResult
+      (!isTransitionJokesList && isTransitionJokesListPrev) ||
+      (!isTransitionError && isTransitionErrorPrev)
     ) {
       this.resultsSectionRef.current.scrollIntoView({
         behavior: "smooth",
@@ -67,13 +71,11 @@ class JokesResults extends React.Component {
           onEnter={() =>
             this.setState({
               isTransitionJokesList: false,
-              isScrollToResult: true,
             })
           }
           onExited={() =>
             this.setState({
               isTransitionJokesList: true,
-              isScrollToResult: false,
             })
           }
         >
@@ -85,10 +87,14 @@ class JokesResults extends React.Component {
           mountOnEnter
           unmountOnExit
           onEnter={() =>
-            this.setState({ isTransitionError: false, isScrollToResult: true })
+            this.setState({
+              isTransitionError: false,
+            })
           }
           onExited={() =>
-            this.setState({ isTransitionError: true, isScrollToResult: false })
+            this.setState({
+              isTransitionError: true,
+            })
           }
         >
           <div className="result">
