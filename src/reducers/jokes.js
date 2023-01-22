@@ -96,7 +96,7 @@ export function jokesReducer(state = initialState, action) {
     case SHOW_JOKES_PRELOADER:
       return { ...state, isShowJokesPreloader: payload.bool };
     case SET_JOKES:
-      return { ...state, jokesList: payload.list };
+      return { ...state, jokesList: payload.list, errorText: "" };
     case SET_JOKES_ERROR:
       return { ...state, isError: payload.bool };
     case SET_JOKES_ERROR_TEXT:

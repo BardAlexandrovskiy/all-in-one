@@ -79,7 +79,10 @@ class JokesResults extends React.Component {
             })
           }
         >
-          <TextBanner text={`${errorText}.`} image={errorImage} />
+          <TextBanner
+            text={errorText ? `${errorText}.` : "The error goes away."}
+            image={errorImage}
+          />
         </CSSTransition>
         <CSSTransition
           in={!!jokesList.length && isTransitionJokesList}

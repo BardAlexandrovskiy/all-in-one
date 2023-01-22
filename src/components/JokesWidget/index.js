@@ -1,5 +1,5 @@
 import React from "react";
-import { CSSTransition, SwitchTransition } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 import Preloader from "../Preloader";
 import WidgetErrorBlock from "../WidgetErrorBlock";
 import errorImage from "../../assets/images/error-image-1.svg";
@@ -67,22 +67,31 @@ class JokesWidget extends React.Component {
           >
             <Preloader />
           </CSSTransition>
-          <SwitchTransition mode="out-in">
-            <CSSTransition key={isError} timeout={500}>
-              {isError ? (
-                <WidgetErrorBlock errorText={errorText} image={errorImage} />
-              ) : (
-                <div>
-                  {!!joke && (
-                    <div className="joke-wrapper">
-                      <h2>Random joke</h2>
-                      <JokesItem jokeInfo={joke} />
-                    </div>
-                  )}
-                </div>
-              )}
-            </CSSTransition>
-          </SwitchTransition>
+          <CSSTransition
+            in={isError}
+            timeout={{
+              enter: 500,
+              exit: 0,
+            }}
+            mountOnEnter
+            unmountOnExit
+          >
+            <WidgetErrorBlock errorText={errorText} image={errorImage} />
+          </CSSTransition>
+          <CSSTransition
+            in={!!joke}
+            timeout={{
+              enter: 500,
+              exit: 0,
+            }}
+            mountOnEnter
+            unmountOnExit
+          >
+            <div className="joke-wrapper">
+              <h2>Random joke</h2>
+              <JokesItem jokeInfo={joke} />
+            </div>
+          </CSSTransition>
           <Link to="/fun">Find your own jokes</Link>
         </div>
       </div>

@@ -87,6 +87,7 @@ class WeatherWidget extends React.Component {
 
     const backgroundImage = getWeatherBackgroundById(id, time);
     const icon = getWeatherIconById(id, time);
+    console.log(!city && !isGeoAccess && !isPreloader);
 
     return (
       <Link to="/weather" className="weather-widget">
@@ -114,7 +115,7 @@ class WeatherWidget extends React.Component {
             image={errorImage}
           />
         </CSSTransition>
-        {!city && !isGeoAccess && (
+        {!city && !isGeoAccess && !isPreloader && (
           <WidgetErrorBlock
             text="Oops, no access to geolocation."
             image={noGeoImage}
