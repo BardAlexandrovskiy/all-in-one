@@ -32,6 +32,7 @@ class WeatherMain extends React.Component {
       setSecondSwiper,
       firstSwiper,
       isGeoAccess,
+      isShowCurrentLocationPreloader,
     } = this.props;
 
     return (
@@ -78,16 +79,18 @@ class WeatherMain extends React.Component {
               })}
           </Swiper>
         )}
-        {!locations.length && !currentCity && (
-          <TextBanner
-            image={errorImage}
-            text={
-              !isGeoAccess
-                ? "No access to geolocation. Turn on geolocation and reload the page or add the desired location In the location settings."
-                : "Oops, something went wrong. Try again later."
-            }
-          />
-        )}
+        {!locations.length &&
+          !currentCity &&
+          !isShowCurrentLocationPreloader && (
+            <TextBanner
+              image={errorImage}
+              text={
+                !isGeoAccess
+                  ? "No access to geolocation. Turn on geolocation and reload the page or add the desired location In the location settings."
+                  : "Oops, something went wrong. Try again later."
+              }
+            />
+          )}
       </div>
     );
   }
@@ -104,6 +107,7 @@ const mapStateToProps = (state) => {
       },
       isGeoAccess,
       locations,
+      isShowCurrentLocationPreloader,
     },
   } = state;
 
@@ -114,6 +118,7 @@ const mapStateToProps = (state) => {
     currentUpdateWeatherTime,
     locations,
     isGeoAccess,
+    isShowCurrentLocationPreloader,
   };
 };
 

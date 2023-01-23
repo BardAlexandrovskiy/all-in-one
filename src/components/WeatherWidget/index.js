@@ -87,7 +87,6 @@ class WeatherWidget extends React.Component {
 
     const backgroundImage = getWeatherBackgroundById(id, time);
     const icon = getWeatherIconById(id, time);
-    console.log(!city && !isGeoAccess && !isPreloader);
 
     return (
       <Link to="/weather" className="weather-widget">

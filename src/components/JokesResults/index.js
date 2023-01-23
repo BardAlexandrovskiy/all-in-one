@@ -23,7 +23,6 @@ class JokesResults extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { isShowJokesPreloader: isShowJokesPreloaderPrev } = prevProps;
     const { isShowJokesPreloader } = this.props;
     const { isTransitionJokesList, isTransitionError } = this.state;
     const {
@@ -32,7 +31,7 @@ class JokesResults extends React.Component {
     } = prevState;
 
     if (
-      (!isShowJokesPreloaderPrev && isShowJokesPreloader) ||
+      isShowJokesPreloader ||
       (!isTransitionJokesList && isTransitionJokesListPrev) ||
       (!isTransitionError && isTransitionErrorPrev)
     ) {
