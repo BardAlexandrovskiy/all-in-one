@@ -51,12 +51,12 @@ class WeatherInfoItem extends React.Component {
     const { isActive: isActivePrev } = prevProps;
     const { isActive } = this.props;
 
+    if (!isActive && this.infoBlockRef.current) {
+      this.infoBlockRef.current.scrollTop = 0;
+    }
+
     if (isActive && isActivePrev !== isActive) {
       this.checkUpadate();
-
-      if (this.infoBlockRef.current) {
-        this.infoBlockRef.current.scrollTo(0, 0);
-      }
     }
     if (this.backgroundImageRef.current) {
       gsap.registerPlugin(ScrollTrigger);
