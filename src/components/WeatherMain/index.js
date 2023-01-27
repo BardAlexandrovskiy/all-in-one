@@ -5,11 +5,11 @@ import "./styles.scss";
 
 // Core modules imports are same as usual
 import { Controller } from "swiper";
-// Direct React component imports
-import { Swiper, SwiperSlide } from "swiper/react/swiper-react.js";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
 
-// Styles must use direct files imports
-import "swiper/swiper.scss"; // core Swiper
 import { changeWeatherHeader } from "../../actions/weather";
 import TextBanner from "../TextBanner";
 

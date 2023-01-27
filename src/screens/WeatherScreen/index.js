@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getCurrentLocationByGeo } from "../../actions/weather";
 import WeatherHeader from "../../components/WeatherHeader";

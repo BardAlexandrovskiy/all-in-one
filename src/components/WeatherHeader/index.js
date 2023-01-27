@@ -7,14 +7,13 @@ import "./styles.scss";
 
 // Core modules imports are same as usual
 import { Controller, EffectFade, Pagination } from "swiper";
-// Direct React component imports
-import { Swiper, SwiperSlide } from "swiper/react/swiper-react.js";
-
-// Styles must use direct files imports
-import "swiper/swiper.scss";
-import "swiper/modules/pagination/pagination.scss";
-import "swiper/modules/effect-fade/effect-fade.scss";
-import "swiper/modules/controller/controller.scss";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
+import "swiper/css/controller";
 
 class WeatherHeader extends React.Component {
   render() {
