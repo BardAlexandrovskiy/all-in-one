@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getCurrentLocationByGeo } from "../../actions/weather";
-import WeatherHeader from "../../components/WeatherHeader";
-import WeatherMain from "../../components/WeatherMain";
+import WeatherHeader from "./WeatherHeader";
+import WeatherMain from "./WeatherMain";
 import "./styles.scss";
 
 const WeatherScreen = ({ getCurrentLocationByGeo, currentCity, locations }) => {

@@ -1,9 +1,14 @@
 import "./styles.scss";
+import LazyLoad from "react-lazy-load";
 
 const WidgetErrorBlock = ({ text, errorText, image }) => {
   return (
     <div className="widget-error">
-      {!!image && <img src={image} alt="" />}
+      {!!image && (
+        <LazyLoad>
+          <img src={image} alt="" />
+        </LazyLoad>
+      )}
       {!!text && <p>{text}</p>}
       {!!errorText && <p>{errorText}</p>}
     </div>

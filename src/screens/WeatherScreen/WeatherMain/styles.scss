@@ -1,0 +1,25 @@
+.weather-main {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  z-index: -2;
+  background-color: $black;
+
+  > .text-banner {
+    padding-top: 62px;
+
+    .text {
+      background-color: $grey;
+    }
+
+    @media (max-width: 1024px) {
+      padding-top: 56px;
+    }
+  }
+
+  .weather-info-list {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+  }
+}

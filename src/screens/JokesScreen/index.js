@@ -1,15 +1,17 @@
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import JokesFilters from "../../components/JokesFilters";
-import JokesResults from "../../components/JokesResults";
+import JokesFilters from "./JokesFilters";
+import JokesResults from "./JokesResults";
 import { CSSTransition } from "react-transition-group";
 import "./styles.scss";
+
+import LazyLoad from "react-lazy-load";
 
 // Images
 import background from "../../assets/images/jokes/jokes-background-2.jpg";
 
-class JokesScreen extends React.Component {
+class JokesScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.scrollContainerRef = React.createRef();
@@ -20,10 +22,11 @@ class JokesScreen extends React.Component {
   }
 
   handleScroll = () => {
-    if (this.scrollContainerRef.current.scrollTop > 50) {
-      this.setState({ isShowArrowUp: true });
-    } else {
-      this.setState({ isShowArrowUp: false });
+    const { isShowArrowUp: prevIsShowArrowUp } = this.state;
+    const isShowArrowUp = this.scrollContainerRef.current.scrollTop > 50;
+
+    if (prevIsShowArrowUp !== isShowArrowUp) {
+      this.setState({ isShowArrowUp: isShowArrowUp });
     }
   };
 
@@ -36,7 +39,7 @@ class JokesScreen extends React.Component {
   };
 
   componentDidMount = () => {
-    new ResizeObserver(() => {
+    this.resizeObserver = new ResizeObserver(() => {
       const scrollContainer = this.scrollContainerRef.current;
       const arrowAlignmentBlock = this.arrowAlignmentBlockRef.current;
       if (scrollContainer && arrowAlignmentBlock) {
@@ -48,7 +51,13 @@ class JokesScreen extends React.Component {
           arrowAlignmentBlock.style = null;
         }
       }
-    }).observe(this.scrollContainerRef.current);
+    });
+
+    this.resizeObserver.observe(this.scrollContainerRef.current);
+  };
+
+  componentWillUnmount = () => {
+    this.resizeObserver.unobserve(this.scrollContainerRef.current);
   };
 
   render() {
@@ -57,7 +66,9 @@ class JokesScreen extends React.Component {
     return (
       <div className="jokes-screen screen">
         <div className="wrapper">
-          <img alt="" className="background" src={background} />
+          <LazyLoad className="background">
+            <img alt="" src={background} />
+          </LazyLoad>
           <div
             className="arrow-alignment-block"
             ref={this.arrowAlignmentBlockRef}
@@ -69,8 +80,6 @@ class JokesScreen extends React.Component {
                   enter: 300,
                   exit: 300,
                 }}
-                // unmountOnExit={true}
-                // mountOnEnter={true}
               >
                 <div onClick={this.handleClickArrowUp} className="arrow-up">
                   <FontAwesomeIcon icon={faArrowUp} />

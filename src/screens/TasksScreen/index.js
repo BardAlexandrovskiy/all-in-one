@@ -1,10 +1,10 @@
-import TasksHeader from "../../components/TasksHeader";
-import TasksMain from "../../components/TasksMain";
-import TasksFooter from "../../components/TasksFooter";
+import TasksHeader from "./TasksHeader";
+import TasksMain from "./TasksMain";
+import TasksFooter from "./TasksFooter";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { connect } from "react-redux";
 import "./styles.scss";
-import TasksWelcomeBanner from "../../components/TasksWelcomeBanner";
+import TasksWelcomeBanner from "./TasksWelcomeBanner";
 import React from "react";
 import {
   changeAddTaskInputValue,
@@ -13,7 +13,7 @@ import {
 } from "../../actions/tasks";
 import { filterAll } from "../../constants/tasks";
 
-class TasksScreen extends React.Component {
+class TasksScreen extends React.PureComponent {
   componentDidUpdate(prevProps) {
     const {
       tasksList: currentTasksList,

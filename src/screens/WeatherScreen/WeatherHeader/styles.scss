@@ -1,0 +1,117 @@
+.weather-header {
+  z-index: 10;
+  width: 100%;
+  background-color: transparent;
+  transition: 0.3s;
+  position: fixed;
+  height: 62px;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 1024px) {
+    height: 56px;
+  }
+
+  &.active {
+    background-color: $grey;
+    height: 52px;
+
+    @media (max-width: 1024px) {
+      height: 46px;
+    }
+
+    .swiper {
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      .swiper-pagination {
+        opacity: 0;
+      }
+    }
+  }
+
+  .header-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .swiper {
+    margin-left: 0;
+    margin-right: 0;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    transition: 0.3s;
+    flex: 1;
+
+    .swiper-pagination {
+      text-align: left;
+      bottom: auto;
+      top: calc(100% - 19px);
+
+      .swiper-pagination-bullet {
+        background-color: white;
+        opacity: 0.5;
+
+        &:first-child {
+          margin-left: 0;
+        }
+
+        &.swiper-pagination-bullet-active {
+          background-color: $sky-blue;
+          opacity: 1;
+        }
+      }
+    }
+
+    .swiper-slide {
+      opacity: 0 !important;
+
+      &.swiper-slide-active {
+        opacity: 1 !important;
+      }
+    }
+  }
+
+  .city {
+    color: white;
+    font-size: 24px;
+    background-color: transparent;
+    gap: 10px;
+    display: flex;
+    max-width: 100%;
+    align-items: center;
+
+    @media (max-width: 1024px) {
+      gap: 6px;
+    }
+
+    @media (max-width: 1024px) {
+      font-size: 20px;
+    }
+
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  .settings {
+    cursor: pointer;
+    margin-left: auto;
+
+    svg {
+      font-size: 30px;
+      color: white;
+
+      @media (max-width: 640px) {
+        font-size: 24px;
+      }
+    }
+  }
+}
