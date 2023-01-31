@@ -22,6 +22,8 @@ import neutralImage from "../../../assets/images/jokes/neutral.svg";
 import sadImage from "../../../assets/images/jokes/sad.svg";
 import JokesSubmitButton from "../JokesSubmitButton";
 
+import LazyLoad from "react-lazy-load";
+
 class JokesFilters extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -109,16 +111,26 @@ class JokesFilters extends React.PureComponent {
       <section className="jokes-filters">
         <div className="container filters-container">
           <h1 className="title notranslate">
-            <img alt="" className="left-image" src={neutralImage} />
+            <LazyLoad className="left-image">
+              <img alt="" src={neutralImage} />
+            </LazyLoad>
             <span>Get jokes</span>
             <div className="right-images">
-              <img alt="" className="happy-image" src={happyImage} />
-              <img alt="" className="sad-image" src={sadImage} />
+              <LazyLoad className="happy-image">
+                <img alt="" src={happyImage} />
+              </LazyLoad>
+              <LazyLoad className="sad-image">
+                <img alt="" src={sadImage} />
+              </LazyLoad>
             </div>
           </h1>
           <div className="left-column">
-            <img alt="" className="happy-image" src={happyImage} />
-            <img alt="" className="neutral-image" src={neutralImage} />
+            <LazyLoad className="happy-image img-wrapper">
+              <img alt="" src={happyImage} />
+            </LazyLoad>
+            <LazyLoad className="neutral-image img-wrapper">
+              <img alt="" src={neutralImage} />
+            </LazyLoad>
           </div>
           <div className="center-column">
             <form className="filters">
@@ -269,7 +281,9 @@ class JokesFilters extends React.PureComponent {
             </form>
           </div>
           <div className="right-column">
-            <img alt="" className="sad-image" src={sadImage} />
+            <LazyLoad className="sad-image img-wrapper">
+              <img alt="" src={sadImage} />
+            </LazyLoad>
           </div>
         </div>
       </section>

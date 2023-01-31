@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import WeatherInfoItem from "../WeatherInfoItem";
+import WeatherInfoItem from "../WeatherInfoItemLogic";
 import "./styles.scss";
 
 // Core modules imports are same as usual

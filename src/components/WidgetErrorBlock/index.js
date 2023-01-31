@@ -5,7 +5,7 @@ const WidgetErrorBlock = ({ text, errorText, image }) => {
   return (
     <div className="widget-error">
       {!!image && (
-        <LazyLoad>
+        <LazyLoad className="img-wrapper">
           <img src={image} alt="" />
         </LazyLoad>
       )}

@@ -7,7 +7,7 @@ const TextBanner = ({ text, image, deleteFuncion }) => {
       <div className="container">
         <div className="text">
           {image ? (
-            <LazyLoad>
+            <LazyLoad height={150}>
               <img src={image} alt="" />
             </LazyLoad>
           ) : (

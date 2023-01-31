@@ -7,10 +7,12 @@ import "./styles.scss";
 import JokesItem from "../JokesItem";
 import { setJokes } from "../../../actions/jokes";
 import JokesSubmitButton from "../JokesSubmitButton";
-import errorImage from "../../../assets/images/error-image-3.svg";
 
 // Images
 import resultImage from "../../../assets/images/jokes/result-1.svg";
+import errorImage from "../../../assets/images/error-image-3.svg";
+
+import LazyLoad from "react-lazy-load";
 
 class JokesResults extends React.PureComponent {
   constructor(props) {
@@ -102,7 +104,10 @@ class JokesResults extends React.PureComponent {
           <div className="result">
             <div className="container result-container">
               <h1 className="title">
-                <span>Result</span> <img alt="" src={resultImage} />
+                <span>Result</span>{" "}
+                <LazyLoad className="img-wrapper">
+                  <img alt="" src={resultImage} />
+                </LazyLoad>
               </h1>
               <div className="jokes-list">
                 {jokesList.map((jokeItem) => (
