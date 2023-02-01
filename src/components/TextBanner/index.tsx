@@ -1,20 +1,24 @@
 import "./styles.scss";
 import LazyLoad from "react-lazy-load";
 
-const TextBanner = ({ text, image, deleteFuncion }) => {
+type Props = {
+  text: string;
+  image?: string;
+  deleteFunction?: () => void;
+};
+
+const TextBanner = ({ text, image, deleteFunction }: Props) => {
   return (
     <div className="text-banner">
       <div className="text-banner-container">
         <div className="text">
-          {image ? (
+          {!!image && (
             <LazyLoad height={150}>
               <img src={image} alt="" />
             </LazyLoad>
-          ) : (
-            ""
           )}
           <span>{text}</span>
-          {!!deleteFuncion && <button onClick={deleteFuncion}>Ok</button>}
+          {!!deleteFunction && <button onClick={deleteFunction}>Ok</button>}
         </div>
       </div>
     </div>

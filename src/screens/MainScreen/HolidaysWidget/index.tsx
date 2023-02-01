@@ -8,8 +8,18 @@ import { CSSTransition } from "react-transition-group";
 import "./styles.scss";
 import errorImage from "../../../assets/images/error-image-1.svg";
 import WidgetErrorBlock from "../../../components/WidgetErrorBlock";
+import { HolidayItem } from "../../../reducers/holidays";
 
-class HolidaysWidget extends React.Component {
+type Props = {
+  getHolidays: () => () => void;
+  lastUpdateDate: string;
+  isError: boolean;
+  errorText: string;
+  holidaysList: HolidayItem[];
+  isShowHolidaysPreloader: boolean;
+};
+
+class HolidaysWidget extends React.Component<Props> {
   componentDidMount = () => {
     const { getHolidays, lastUpdateDate, isError } = this.props;
     const currentDate = moment().format("yyyyMMDD");
@@ -23,9 +33,9 @@ class HolidaysWidget extends React.Component {
     const { isError, errorText, holidaysList, isShowHolidaysPreloader } =
       this.props;
 
-    let todayHolidays = [];
-    let nextHolidays = [];
-    const currentDate = 'moment().format("yyyyMMDD");';
+    let todayHolidays: HolidayItem[] = [];
+    let nextHolidays: HolidayItem[] = [];
+    const currentDate: string = moment().format("yyyyMMDD");
 
     if (holidaysList.length) {
       holidaysList.forEach((holiday) => {
@@ -85,6 +95,7 @@ class HolidaysWidget extends React.Component {
                 key={holiday.name}
                 holiday={holiday}
                 firstPartOfTitle="Today is "
+                isDateNow={true}
               />
             ))}
             {nextHolidays.map((holiday, index) => {

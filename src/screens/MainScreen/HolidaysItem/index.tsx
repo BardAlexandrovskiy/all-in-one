@@ -1,6 +1,12 @@
 import "./styles.scss";
 
-const HolidaysItem = ({ holiday, firstPartOfTitle, isDateNow }) => {
+type Props = {
+  holiday: { name: string; localName: string; date: string };
+  firstPartOfTitle: string;
+  isDateNow?: boolean;
+};
+
+const HolidaysItem = ({ holiday, firstPartOfTitle, isDateNow }: Props) => {
   const { name, localName, date } = holiday;
 
   let holidayName = "";

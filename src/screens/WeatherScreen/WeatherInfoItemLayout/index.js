@@ -131,7 +131,7 @@ const WeatherInfoItemLayout = (props) => {
         <TextBanner
           image={errorImage}
           text={`Oops, something went wrong. ${errorText}`}
-          deleteFuncion={() => {
+          deleteFunction={() => {
             layoutSetState({ isError: false });
           }}
         />

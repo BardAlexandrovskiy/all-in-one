@@ -103,7 +103,7 @@ class WeatherSettingsFooter extends React.PureComponent {
           <TextBanner
             image={errorImage}
             text={errorText}
-            deleteFuncion={() =>
+            deleteFunction={() =>
               this.setState({ isError: false, textError: "" })
             }
           />
