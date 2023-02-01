@@ -103,7 +103,7 @@ class JokesResults extends React.PureComponent {
         >
           <div className="result">
             <div className="container result-container">
-              <h1 className="title">
+              <h1 className="result-title">
                 <span>Result</span>{" "}
                 <LazyLoad className="img-wrapper">
                   <img alt="" src={resultImage} />

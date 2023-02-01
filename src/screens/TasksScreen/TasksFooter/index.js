@@ -113,7 +113,10 @@ class TasksFooter extends React.PureComponent {
                 unmountOnExit
                 mountOnEnter
               >
-                <button onClick={this.handleClickButton} className="button">
+                <button
+                  onClick={this.handleClickButton}
+                  className="button add-button"
+                >
                   <FontAwesomeIcon icon={faPlus} />
                 </button>
               </CSSTransition>

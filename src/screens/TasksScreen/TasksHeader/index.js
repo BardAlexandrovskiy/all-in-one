@@ -43,18 +43,19 @@ const TasksHeader = (props) => {
     <header className="tasks-header">
       <div className="search">
         <div className="container search-container">
-          <div className="input-wrapper">
+          <div className="search-input-wrapper">
             <CSSTransition
               in={!!searchTasksInputValue}
               timeout={300}
               unmountOnExit
               mountOnEnter
             >
-              <div onClick={handleClickClearButton} className="clear-input">
+              <div onClick={handleClickClearButton} className="clear-search">
                 <FontAwesomeIcon icon={faBackspace} />
               </div>
             </CSSTransition>
             <input
+              className="search-input"
               onChange={handleChangeInput}
               type="text"
               placeholder="Search"

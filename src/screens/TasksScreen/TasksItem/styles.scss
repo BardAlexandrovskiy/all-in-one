@@ -36,16 +36,14 @@
       border: 1px solid rgb(93, 194, 175);
     }
 
-    .value {
-      .inner {
-        text-decoration: line-through;
-        opacity: 0.8;
-      }
+    .inner {
+      text-decoration: line-through;
+      opacity: 0.8;
+    }
 
-      .editor {
-        text-decoration: none;
-        opacity: 1;
-      }
+    .editor {
+      text-decoration: none;
+      opacity: 1;
     }
   }
 
@@ -97,32 +95,32 @@
     padding: 5px 7.5px;
     display: flex;
     justify-content: flex-start;
+  }
 
-    .editor {
-      font-size: inherit;
-      color: $white;
-      font-family: $main-font;
-      width: 100%;
-      background-color: $grey;
-      border-radius: 10px;
-      -webkit-appearance: none;
-      box-shadow: 0px 0px 6px -1px $sky-blue;
-      -webkit-box-shadow: 0px 0px 6px -1px $sky-blue;
-      -moz-box-shadow: 0px 0px 6px -1px $sky-blue;
-      display: block;
-    }
+  .editor {
+    font-size: inherit;
+    color: $white;
+    font-family: $main-font;
+    width: 100%;
+    background-color: $grey;
+    border-radius: 10px;
+    -webkit-appearance: none;
+    box-shadow: 0px 0px 6px -1px $sky-blue;
+    -webkit-box-shadow: 0px 0px 6px -1px $sky-blue;
+    -moz-box-shadow: 0px 0px 6px -1px $sky-blue;
+    display: block;
+  }
 
-    .inner {
-      padding: 5px 7.5px;
-      line-height: 1.2;
-      max-width: 100%;
-    }
+  .inner {
+    padding: 5px 7.5px;
+    line-height: 1.2;
+    max-width: 100%;
+  }
 
-    .hightlight {
-      background-color: rgba($blue, 0.9);
-      border-radius: 3px;
-      color: $black;
-    }
+  .hightlight {
+    background-color: rgba($blue, 0.9);
+    border-radius: 3px;
+    color: $black;
   }
 
   .delete-button {

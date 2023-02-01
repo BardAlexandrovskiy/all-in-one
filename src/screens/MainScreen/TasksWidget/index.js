@@ -25,7 +25,7 @@ const TasksWidget = ({ tasksList }) => {
           {!latestActiveTasks.length ? (
             <div className="no-active-tasks-banner">
               <h2>You have no active tasks</h2>
-              <Link to="/tasks" className="tasks-link">
+              <Link to="/tasks" className="no-active-tasks-link">
                 <FontAwesomeIcon icon={faPlus} />
                 <span>Add tasks</span>
               </Link>

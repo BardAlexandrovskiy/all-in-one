@@ -4,7 +4,7 @@ import LazyLoad from "react-lazy-load";
 const TextBanner = ({ text, image, deleteFuncion }) => {
   return (
     <div className="text-banner">
-      <div className="container">
+      <div className="text-banner-container">
         <div className="text">
           {image ? (
             <LazyLoad height={150}>
