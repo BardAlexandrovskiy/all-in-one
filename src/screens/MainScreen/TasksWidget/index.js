@@ -39,7 +39,12 @@ const TasksWidget = ({ tasksList }) => {
                     const { check, value, id } = task;
                     return (
                       <CSSTransition key={id} timeout={300}>
-                        <TasksItem check={check} value={value} id={id} />
+                        <TasksItem
+                          isNoHightlight={true}
+                          check={check}
+                          value={value}
+                          id={id}
+                        />
                       </CSSTransition>
                     );
                   })}

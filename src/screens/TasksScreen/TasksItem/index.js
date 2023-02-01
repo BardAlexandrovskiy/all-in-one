@@ -86,7 +86,15 @@ const TasksItem = (props) => {
     event.target.value = value;
   };
 
-  const { value, check, id, toggleTask, deleteTask, searchInputValue } = props;
+  const {
+    value,
+    check,
+    id,
+    toggleTask,
+    deleteTask,
+    searchInputValue,
+    isNoHightlight,
+  } = props;
 
   return (
     <li className={`tasks-item${check ? " checked" : ""}`} id={id}>
@@ -109,7 +117,11 @@ const TasksItem = (props) => {
           />
         ) : (
           <div className="inner notranslate" onClick={() => handleClickValue()}>
-            {<ChangedValue searchValue={searchInputValue} string={value} />}
+            {isNoHightlight ? (
+              value
+            ) : (
+              <ChangedValue searchValue={searchInputValue} string={value} />
+            )}
           </div>
         )}
       </div>
