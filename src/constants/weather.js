@@ -40,7 +40,7 @@ import windIcon from "../assets/images/weather/weather-condition-icons/wind.svg"
 import moment from "moment";
 
 // Weather request function
-export const getWeatherFunction = (cityName, lat, long) => {
+export const getWeatherFunction = async (cityName, lat, long) => {
   let request;
 
   if (cityName) {
@@ -48,14 +48,11 @@ export const getWeatherFunction = (cityName, lat, long) => {
   } else if (lat && long) {
     request = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=12c7488f70bcd015f75b9a10d559d91f&units=metric`;
   }
-  return fetch(request)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      }
-      throw new Error(response.status);
-    })
-    .then((weatherObject) => {
+
+  try {
+    const response = await fetch(request);
+    if (response.status === 200) {
+      const weatherObject = await response.json();
       const {
         weather: [{ description: weatherDescription, id }],
         main: { temp, feels_like: tempFeelsLike, humidity, pressure },
@@ -111,7 +108,10 @@ export const getWeatherFunction = (cityName, lat, long) => {
         },
         cityName: typeof cityName === "string" ? cityName : null,
       };
-    });
+    } else throw new Error(response.status);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Get time of day

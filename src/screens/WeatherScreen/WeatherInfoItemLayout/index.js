@@ -33,9 +33,11 @@ const WeatherInfoItemLayout = (props) => {
   const infoBlockRef = useRef();
   const backgroundImageRef = useRef();
   const triggerRef = useRef();
+  const IsBackgroundLoadedRef = useRef();
 
   useLayoutEffect(() => {
-    if (backgroundImageRef.current) {
+    if (backgroundImageRef.current && !IsBackgroundLoadedRef.current) {
+      IsBackgroundLoadedRef.current = true;
       gsap.registerPlugin(ScrollTrigger);
       gsap.to(backgroundImageRef.current, {
         scrollTrigger: {
@@ -48,7 +50,19 @@ const WeatherInfoItemLayout = (props) => {
         top: "0%",
       });
     }
-  }, []);
+
+    const { isActive } = props;
+    if (!isActive && infoBlockRef.current) {
+      infoBlockRef.current.scrollTop = 0;
+    }
+
+    return () => {
+      const { isActiveHeader, changeWeatherHeader } = props;
+      if (isActiveHeader) {
+        changeWeatherHeader(false);
+      }
+    };
+  });
 
   const handleScrollInfoBlock = () => {
     const { changeWeatherHeader, isActiveHeader } = props;
@@ -70,7 +84,6 @@ const WeatherInfoItemLayout = (props) => {
     isError,
     isErrorBannerClosed,
     isInfoWeatherClosed,
-    isActive,
     layoutSetState,
     checkUpadate,
   } = props;
@@ -92,10 +105,6 @@ const WeatherInfoItemLayout = (props) => {
     date,
     time,
   } = weatherInfo;
-
-  if (!isActive && infoBlockRef.current) {
-    infoBlockRef.current.scrollTop = 0;
-  }
 
   // Set background by weather id
   const backgroundImageSrc = getWeatherBackgroundById(id, time);

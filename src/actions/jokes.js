@@ -98,18 +98,15 @@ export const setErrorText = (text) => {
 };
 
 export const getJokes = (request) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showJokesPreloader(true));
     dispatch(setError(false));
     dispatch(setJokes([]));
-    return fetch(request)
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        throw new Error(`Error: ${response.status}`);
-      })
-      .then((response) => {
+
+    try {
+      let response = await fetch(request);
+      if (response.status === 200) {
+        response = await response.json();
         const { error, jokes, joke, setup, delivery } = response;
         if ((jokes || joke || setup || delivery) && !error) {
           if (jokes) {
@@ -119,13 +116,13 @@ export const getJokes = (request) => {
             dispatch(setJokes([response]));
           }
         } else throw new Error("Jokes not found");
-      })
-      .catch((error) => {
-        dispatch(setError(true));
-        dispatch(setErrorText(error.message));
-      })
-      .finally(() => {
-        dispatch(showJokesPreloader(false));
-      });
+      } else {
+        throw new Error(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      dispatch(setError(true));
+      dispatch(setErrorText(error.message));
+    }
+    dispatch(showJokesPreloader(false));
   };
 };

@@ -224,7 +224,7 @@ class JokesFilters extends React.PureComponent {
                 <h2>Search for keywords:</h2>
                 <div className="input-wrapper">
                   <input
-                    onKeyPress={this.handlePressEnterInput}
+                    onKeyDown={this.handlePressEnterInput}
                     onChange={this.handleChangeSearchValue}
                     placeholder="Search string"
                     type="text"
@@ -250,7 +250,7 @@ class JokesFilters extends React.PureComponent {
                 <div className="input-wrapper">
                   <input
                     onChange={this.handleChangeAmountValue}
-                    onKeyPress={this.handlePressEnterInput}
+                    onKeyDown={this.handlePressEnterInput}
                     onBlur={this.handleBlurAmountInput}
                     type="number"
                     value={amountValue}

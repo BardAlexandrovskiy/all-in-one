@@ -44,27 +44,26 @@ export const setLastUpdateDate = (time) => {
 };
 
 export const getHolidays = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showHolidaysPreloader(true));
     dispatch(setError(false));
     dispatch(setHolidays([]));
-    return fetch(`https://date.nager.at/api/v3/nextPublicHolidays/UA`)
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-        throw new Error(`Error: ${response.status}.`);
-      })
-      .then((response) => {
+
+    try {
+      let response = await fetch(
+        `https://date.nager.at/api/v3/nextPublicHolidays/UA`
+      );
+      if (response.status === 200) {
+        response = await response.json();
         dispatch(setLastUpdateDate(moment().format("yyyyMMDD")));
         dispatch(setHolidays(response));
-      })
-      .catch((error) => {
-        dispatch(setError(true));
-        dispatch(setErrorText(error.message));
-      })
-      .finally(() => {
-        dispatch(showHolidaysPreloader(false));
-      });
+      } else {
+        throw new Error(`Error: ${response.status}.`);
+      }
+    } catch (error) {
+      dispatch(setError(true));
+      dispatch(setErrorText(error.message));
+    }
+    dispatch(showHolidaysPreloader(false));
   };
 };

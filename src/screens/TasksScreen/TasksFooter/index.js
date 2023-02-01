@@ -99,7 +99,7 @@ class TasksFooter extends React.PureComponent {
             <div className={`input-wrapper${redInputBorder ? " red" : ""}`}>
               <input
                 ref={this.inputRef}
-                onKeyPress={this.handlePressInput}
+                onKeyDown={this.handlePressInput}
                 onBlur={this.handleBlurInput}
                 onFocus={this.handleFocusInput}
                 onChange={this.handleChangeInput}

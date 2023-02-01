@@ -101,7 +101,7 @@ const TasksItem = (props) => {
             onFocus={handleFocusEditor}
             autoFocus
             onChange={handleChangeEditor}
-            onKeyPress={handlePressEditor}
+            onKeyDown={handlePressEditor}
             className="inner editor"
             onBlur={handleBlurEditor}
             value={editorValue}

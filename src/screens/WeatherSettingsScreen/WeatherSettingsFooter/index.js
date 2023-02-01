@@ -116,7 +116,7 @@ class WeatherSettingsFooter extends React.PureComponent {
                 type="text"
                 placeholder="Add location"
                 onChange={this.handleChangeInput}
-                onKeyPress={this.handlePressInput}
+                onKeyDown={this.handlePressInput}
                 value={inputValue}
                 onBlur={this.handleBlurInput}
                 onFocus={this.handleFocusInput}

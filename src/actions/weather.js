@@ -50,33 +50,31 @@ export const getCurrentLocationByGeo = () => {
       maximumAge: 0,
     };
 
-    const success = (position) => {
+    const success = async (position) => {
       const lat = position.coords.latitude;
       const long = position.coords.longitude;
 
       dispatch(setGeoAccess(true));
       dispatch(showCurrentLocationPreloader(true));
-      getWeatherFunction(null, lat, long)
-        .then((location) => {
-          const { weatherInfo, cityName } = location;
 
-          if (cityName) {
-            dispatch(
-              setCurrentLocation({
-                city: cityName,
-                weatherInfo,
-                id: Date.now(),
-                updateWeatherTime: Date.now(),
-              })
-            );
-          } else throw new Error("City by geolocation not found");
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          dispatch(showCurrentLocationPreloader(false));
-        });
+      try {
+        const location = await getWeatherFunction(null, lat, long);
+        const { weatherInfo, cityName } = location;
+        if (cityName) {
+          dispatch(
+            setCurrentLocation({
+              city: cityName,
+              weatherInfo,
+              id: Date.now(),
+              updateWeatherTime: Date.now(),
+            })
+          );
+        } else throw new Error("City by geolocation not found");
+      } catch (error) {
+        console.log(error);
+      }
+
+      dispatch(showCurrentLocationPreloader(false));
     };
 
     const error = () => {
