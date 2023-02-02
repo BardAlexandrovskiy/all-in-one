@@ -1,7 +1,8 @@
+import { HolidayItem } from "../../../reducers/holidays";
 import "./styles.scss";
 
 type Props = {
-  holiday: { name: string; localName: string; date: string };
+  holiday: HolidayItem;
   firstPartOfTitle: string;
   isDateNow?: boolean;
 };
