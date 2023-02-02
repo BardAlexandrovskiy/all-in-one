@@ -14,7 +14,7 @@ type State = {
   errorText: string;
   holidaysList: HolidayItem[];
   isShowHolidaysPreloader: boolean;
-  lastUpdateDate: number | null;
+  lastUpdateDate: string | null;
 };
 
 enum ACTIONS {

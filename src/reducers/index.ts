@@ -10,3 +10,5 @@ export const rootReducer = combineReducers({
   jokes: jokesReducer,
   holidays: holidaysReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;

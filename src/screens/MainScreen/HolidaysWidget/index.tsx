@@ -9,10 +9,11 @@ import "./styles.scss";
 import errorImage from "../../../assets/images/error-image-1.svg";
 import WidgetErrorBlock from "../../../components/WidgetErrorBlock";
 import { HolidayItem } from "../../../reducers/holidays";
+import { RootState } from "../../../reducers";
 
 type Props = {
-  getHolidays: () => () => void;
-  lastUpdateDate: string;
+  getHolidays: () => void;
+  lastUpdateDate: string | null;
   isError: boolean;
   errorText: string;
   holidaysList: HolidayItem[];
@@ -129,7 +130,7 @@ class HolidaysWidget extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   const {
     isError,
     errorText,

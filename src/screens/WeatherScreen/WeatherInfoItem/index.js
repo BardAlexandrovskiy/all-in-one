@@ -4,7 +4,7 @@ import { isEmptyObject } from "../../../constants";
 import { getWeatherFunction } from "../../../constants/weather";
 import { setCurrentLocation, updateLocation } from "../../../actions/weather";
 
-import WeatherInfoItemLayout from "../WeatherInfoItemLayout";
+import WeatherInfoItemLayout from "./laylout";
 
 class WeatherInfoItem extends React.PureComponent {
   constructor(props) {
