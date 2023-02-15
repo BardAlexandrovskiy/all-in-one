@@ -17,12 +17,10 @@ type State = {
 
 class JokesScreen extends React.PureComponent<any, State> {
   private scrollContainerRef: React.RefObject<HTMLDivElement>;
-  private arrowAlignmentBlockRef: React.RefObject<HTMLDivElement>;
   private resizeObserver: ResizeObserver | null;
   constructor(props: object) {
     super(props);
     this.scrollContainerRef = React.createRef();
-    this.arrowAlignmentBlockRef = React.createRef();
     this.state = {
       isShowArrowUp: false,
     };
@@ -50,28 +48,36 @@ class JokesScreen extends React.PureComponent<any, State> {
     }
   };
 
-  componentDidUpdate = () => {};
-
   componentDidMount = () => {
+    const scrollContainer = document.querySelector(
+      ".jokes-screen .scroll-container"
+    ) as HTMLDivElement;
+    const arrowAlignmentBlock = document.querySelector(
+      ".jokes-screen .arrow-alignment-block"
+    ) as HTMLDivElement;
     this.resizeObserver = new ResizeObserver(() => {
-      const scrollContainer = this.scrollContainerRef.current;
-      const arrowAlignmentBlock = this.arrowAlignmentBlockRef.current;
       if (scrollContainer && arrowAlignmentBlock) {
         if (scrollContainer.offsetWidth > scrollContainer.scrollWidth) {
           const offset =
             scrollContainer.offsetWidth - scrollContainer.scrollWidth;
           arrowAlignmentBlock.style.width = `calc(100% - ${offset}px)`;
         } else {
-          arrowAlignmentBlock.setAttribute("style", "");
+          arrowAlignmentBlock.removeAttribute("style");
         }
       }
     });
 
-    this.resizeObserver.observe(this.scrollContainerRef.current);
+    this.resizeObserver.observe(scrollContainer);
   };
 
   componentWillUnmount = () => {
-    this.resizeObserver.unobserve(this.scrollContainerRef.current);
+    const scrollContainer = document.querySelector(
+      ".jokes-screen .scroll-container"
+    ) as HTMLDivElement;
+
+    if (this.resizeObserver) {
+      this.resizeObserver.unobserve(scrollContainer);
+    }
   };
 
   render() {
@@ -83,10 +89,7 @@ class JokesScreen extends React.PureComponent<any, State> {
           <LazyLoad className="background">
             <img alt="" src={background} />
           </LazyLoad>
-          <div
-            className="arrow-alignment-block"
-            ref={this.arrowAlignmentBlockRef}
-          >
+          <div className="arrow-alignment-block">
             <div className="arrow-up-container container">
               <CSSTransition
                 in={isShowArrowUp}
