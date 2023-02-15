@@ -103,7 +103,7 @@ let localInitialState = localStorageState
   ? JSON.parse(localStorageState)
   : null;
 
-export const defaultState = {
+export const defaultState: State = {
   isShowJokesPreloader: false,
   categoryTypeValue: "Any",
   jokesList: [],

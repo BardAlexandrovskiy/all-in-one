@@ -11,32 +11,46 @@ import LazyLoad from "react-lazy-load";
 // Images
 import background from "../../assets/images/jokes/jokes-background-2.jpg";
 
-class JokesScreen extends React.PureComponent {
-  constructor(props) {
+type State = {
+  isShowArrowUp: boolean;
+};
+
+class JokesScreen extends React.PureComponent<any, State> {
+  private scrollContainerRef: React.RefObject<HTMLDivElement>;
+  private arrowAlignmentBlockRef: React.RefObject<HTMLDivElement>;
+  private resizeObserver: ResizeObserver | null;
+  constructor(props: object) {
     super(props);
     this.scrollContainerRef = React.createRef();
     this.arrowAlignmentBlockRef = React.createRef();
     this.state = {
       isShowArrowUp: false,
     };
+    this.resizeObserver = null;
   }
 
   handleScroll = () => {
     const { isShowArrowUp: prevIsShowArrowUp } = this.state;
-    const isShowArrowUp = this.scrollContainerRef.current.scrollTop > 50;
 
-    if (prevIsShowArrowUp !== isShowArrowUp) {
-      this.setState({ isShowArrowUp: isShowArrowUp });
+    if (this.scrollContainerRef.current) {
+      const isShowArrowUp = this.scrollContainerRef.current.scrollTop > 50;
+      if (prevIsShowArrowUp !== isShowArrowUp) {
+        this.setState({ isShowArrowUp: isShowArrowUp });
+      }
     }
   };
 
   handleClickArrowUp = () => {
-    this.scrollContainerRef.current.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
+    if (this.scrollContainerRef.current) {
+      this.scrollContainerRef.current.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    }
   };
+
+  componentDidUpdate = () => {};
 
   componentDidMount = () => {
     this.resizeObserver = new ResizeObserver(() => {
@@ -48,7 +62,7 @@ class JokesScreen extends React.PureComponent {
             scrollContainer.offsetWidth - scrollContainer.scrollWidth;
           arrowAlignmentBlock.style.width = `calc(100% - ${offset}px)`;
         } else {
-          arrowAlignmentBlock.style = null;
+          arrowAlignmentBlock.setAttribute("style", "");
         }
       }
     });

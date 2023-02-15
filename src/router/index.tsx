@@ -8,9 +8,18 @@ import TasksScreen from "../screens/TasksScreen";
 import { connect } from "react-redux";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import WeatherSettingsScreen from "../screens/WeatherSettingsScreen";
+import { RootState } from "../reducers";
 
-class Router extends React.Component {
-  constructor(props) {
+type Props = {
+  store: RootState;
+};
+
+type State = {
+  prevActiveElement: null | Element;
+};
+
+class Router extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       prevActiveElement: null,
@@ -29,18 +38,14 @@ class Router extends React.Component {
   windowResize = () => {
     const { prevActiveElement } = this.state;
     if (
-      navigator.userAgent.match(
-        /Android/i |
-          /webOS/i |
-          /iPhone/i |
-          /iPad/i |
-          /iPod/i |
-          /BlackBerry/i |
-          /Windows Phone/i
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
+        navigator.userAgent
       )
     ) {
       if (prevActiveElement === document.activeElement) {
-        document.activeElement.blur();
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
         this.setState({ prevActiveElement: null });
       } else {
         this.setState({ prevActiveElement: document.activeElement });
@@ -83,7 +88,7 @@ const RouterAnimation = () => {
   );
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   return { store: store };
 };
 
