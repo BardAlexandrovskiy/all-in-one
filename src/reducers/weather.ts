@@ -10,14 +10,91 @@ import {
   UPDATE_LOCATION,
 } from "../actions/weather";
 
-let localInitialState = JSON.parse(localStorage.getItem("all-in-one"));
+// Types
+export type WeatherInfo = {
+  cloudiness: string | null;
+  date: string | null;
+  humidity: string | null;
+  id: number | null;
+  pressure: string | null;
+  sunrise: string | null;
+  sunset: string | null;
+  temp: string | null;
+  tempFeelsLike: string | null;
+  time: string | null;
+  visibility: string | null;
+  weatherDescription: string | null;
+  windDeg: string | null;
+  windGust: string | null;
+  windSpeed: string | null;
+};
 
-if (localInitialState) {
-  localInitialState = localInitialState.weather;
-  localInitialState.addLocationInputFocus = false;
-} else localInitialState = null;
+export type CurrentLocation = {
+  city: string;
+  weatherInfo: WeatherInfo | object;
+  updateWeatherTime: null | number;
+  id: null | number;
+};
 
-const defaultState = {
+type Location = {
+  city: string;
+  id: number;
+  updateWeatherTime: number;
+  weatherInfo: WeatherInfo;
+};
+
+type State = {
+  currentLocation: CurrentLocation;
+  isShowCurrentLocationPreloader: boolean;
+  locations: Location[];
+  isActiveHeader: boolean;
+  isShowSettingsPreloader: boolean;
+  isGeoAccess: boolean;
+  addLocationInputFocus: boolean;
+};
+
+enum ACTIONS {
+  ADD_NEW_LOCATION = "ADD_NEW_LOCATION",
+  CHANGE_WEATHER_HEADER = "CHANGE_WEATHER_HEADER",
+  DELETE_LOCATION = "DELETE_LOCATION",
+  SET_ADD_LOCATION_INPUT_FOCUS = "SET_ADD_LOCATION_INPUT_FOCUS",
+  SET_CURRENT_LOCATION = "SET_CURRENT_LOCATION",
+  SET_GEO_ACCESS = "SET_GEO_ACCESS",
+  SHOW_CURRENT_LOCATION_PRELOADER = "SHOW_CURRENT_LOCATION_PRELOADER",
+  SHOW_WEATHER_SETTINGS_PRELOADER = "SHOW_WEATHER_SETTINGS_PRELOADER",
+  UPDATE_LOCATION = "UPDATE_LOCATION",
+}
+
+type Action =
+  | { type: ACTIONS.SET_CURRENT_LOCATION; payload: CurrentLocation }
+  | { type: ACTIONS.CHANGE_WEATHER_HEADER; payload: { bool: boolean } }
+  | { type: ACTIONS.ADD_NEW_LOCATION; payload: { location: Location } }
+  | { type: ACTIONS.DELETE_LOCATION; payload: { id: number } }
+  | {
+      type: ACTIONS.SHOW_WEATHER_SETTINGS_PRELOADER;
+      payload: { bool: boolean };
+    }
+  | {
+      type: ACTIONS.UPDATE_LOCATION;
+      payload: { id: number; info: WeatherInfo };
+    }
+  | {
+      type: ACTIONS.SHOW_CURRENT_LOCATION_PRELOADER;
+      payload: { bool: boolean };
+    }
+  | { type: ACTIONS.SET_GEO_ACCESS; payload: { bool: boolean } }
+  | {
+      type: ACTIONS.SET_ADD_LOCATION_INPUT_FOCUS;
+      payload: { bool: boolean };
+    };
+
+// initialState
+const localStorageState = localStorage.getItem("all-in-one");
+let localInitialState = localStorageState
+  ? JSON.parse(localStorageState)
+  : null;
+
+const defaultState: State = {
   currentLocation: {
     city: "",
     weatherInfo: {},
@@ -32,9 +109,9 @@ const defaultState = {
   addLocationInputFocus: false,
 };
 
-const initialState = localInitialState || defaultState;
+const initialState = localInitialState?.weather || defaultState;
 
-export function weatherReducer(state = initialState, action) {
+export function weatherReducer(state: State = initialState, action: Action) {
   const { type, payload } = action;
   const { currentLocation, locations } = state;
 
@@ -111,14 +188,8 @@ export function weatherReducer(state = initialState, action) {
       };
     case SET_ADD_LOCATION_INPUT_FOCUS:
       if (
-        navigator.userAgent.match(
-          /Android/i |
-            /webOS/i |
-            /iPhone/i |
-            /iPad/i |
-            /iPod/i |
-            /BlackBerry/i |
-            /Windows Phone/i
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
+          navigator.userAgent
         )
       ) {
         return { ...state, addLocationInputFocus: payload.bool };

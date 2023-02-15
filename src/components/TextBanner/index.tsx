@@ -10,7 +10,7 @@ type Props = {
 const TextBanner = ({ text, image, deleteFunction }: Props) => {
   return (
     <div className="text-banner">
-      <div className="text-banner-container">
+      <div className="text-banner-container container">
         <div className="text">
           {!!image && (
             <LazyLoad height={150}>

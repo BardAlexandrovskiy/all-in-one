@@ -49,11 +49,11 @@ type WeatherResponse = {
   };
   wind: { speed?: number; deg?: number; gust?: number };
   clouds: { all?: number };
-  name: string;
+  name?: string;
   sys: { sunrise?: number; sunset?: number };
   visibility?: number;
-  dt: number;
-  timezone: number;
+  dt?: number;
+  timezone?: number;
 };
 
 // Weather request function

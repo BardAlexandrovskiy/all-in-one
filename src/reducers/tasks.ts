@@ -12,14 +12,56 @@ import {
 } from "../actions/tasks";
 import { filterAll } from "../constants/tasks";
 
-let localInitialState = JSON.parse(localStorage.getItem("all-in-one"));
+// Types
+type tasksItem = {
+  value: string;
+  check: boolean;
+  id: number;
+};
 
-if (localInitialState) {
-  localInitialState = localInitialState.tasks;
-  localInitialState.addTaskInputFocus = false;
-} else localInitialState = null;
+type State = {
+  list: tasksItem[];
+  filter: string;
+  searchTasksInputValue: string;
+  addTaskInputValue: string;
+  addTaskInputFocus: boolean;
+};
 
-const defaultState = {
+enum ACTIONS {
+  ADD_NEW_TASK = "ADD_NEW_TASK",
+  CHANGE_TASK_FILTER = "CHANGE_TASK_FILTER",
+  DELETE_TASK = "DELETE_TASK",
+  CHANGE_SEARCH_TASKS_INPUT_VALUE = "CHANGE_SEARCH_TASKS_INPUT_VALUE",
+  TOGGLE_TASK = "TOGGLE_TASK",
+  CHANGE_ADD_TASK_INPUT_VALUE = "CHANGE_ADD_TASK_INPUT_VALUE",
+  CHECK_ALL_TASKS = "CHECK_ALL_TASKS",
+  DELETE_COMPLETED_TASKS = "DELETE_COMPLETED_TASKS",
+  EDIT_TASK = "EDIT_TASK",
+  SET_ADD_TASK_INPUT_FOCUS = "SET_ADD_TASK_INPUT_FOCUS",
+}
+
+type Action =
+  | { type: ACTIONS.ADD_NEW_TASK; payload: { value: string } }
+  | { type: ACTIONS.TOGGLE_TASK; payload: { id: number } }
+  | { type: ACTIONS.DELETE_TASK; payload: { id: number } }
+  | { type: ACTIONS.CHANGE_TASK_FILTER; payload: { filter: string } }
+  | {
+      type: ACTIONS.CHANGE_SEARCH_TASKS_INPUT_VALUE;
+      payload: { value: string };
+    }
+  | { type: ACTIONS.CHANGE_ADD_TASK_INPUT_VALUE; payload: { value: string } }
+  | { type: ACTIONS.CHECK_ALL_TASKS; payload: null }
+  | { type: ACTIONS.DELETE_COMPLETED_TASKS; payload: null }
+  | { type: ACTIONS.EDIT_TASK; payload: { id: number; value: string } }
+  | { type: ACTIONS.SET_ADD_TASK_INPUT_FOCUS; payload: { bool: boolean } };
+
+// initialState
+const localStorageState = localStorage.getItem("all-in-one");
+let localInitialState = localStorageState
+  ? JSON.parse(localStorageState)
+  : null;
+
+const defaultState: State = {
   list: [],
   filter: filterAll.name,
   searchTasksInputValue: "",
@@ -27,9 +69,9 @@ const defaultState = {
   addTaskInputFocus: false,
 };
 
-const initialState = localInitialState || defaultState;
+const initialState = localInitialState?.tasks || defaultState;
 
-export function tasksReducer(state = initialState, action) {
+export function tasksReducer(state: State = initialState, action: Action) {
   const { type, payload } = action;
   const { list } = state;
 
@@ -91,14 +133,8 @@ export function tasksReducer(state = initialState, action) {
       };
     case SET_ADD_TASK_INPUT_FOCUS:
       if (
-        navigator.userAgent.match(
-          /Android/i |
-            /webOS/i |
-            /iPhone/i |
-            /iPad/i |
-            /iPod/i |
-            /BlackBerry/i |
-            /Windows Phone/i
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
+          navigator.userAgent
         )
       ) {
         return { ...state, addTaskInputFocus: payload.bool };
