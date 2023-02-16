@@ -31,15 +31,13 @@ import "./styles.scss";
 
 const WeatherInfoItemLayout = (props) => {
   const infoBlockRef = useRef();
-  const backgroundImageRef = useRef();
   const triggerRef = useRef();
-  const IsBackgroundLoadedRef = useRef();
+  let backgroundImageRef = null;
 
-  useLayoutEffect(() => {
-    if (backgroundImageRef.current && !IsBackgroundLoadedRef.current) {
-      IsBackgroundLoadedRef.current = true;
+  const setBackgroundRef = (ref) => {
+    if (ref && !backgroundImageRef && triggerRef) {
       gsap.registerPlugin(ScrollTrigger);
-      gsap.to(backgroundImageRef.current, {
+      gsap.to(ref, {
         scrollTrigger: {
           trigger: triggerRef.current,
           scrub: true,
@@ -51,6 +49,10 @@ const WeatherInfoItemLayout = (props) => {
       });
     }
 
+    backgroundImageRef = ref;
+  };
+
+  useLayoutEffect(() => {
     const { isActive } = props;
     if (!isActive && infoBlockRef.current) {
       infoBlockRef.current.scrollTop = 0;
@@ -155,7 +157,7 @@ const WeatherInfoItemLayout = (props) => {
           onScroll={handleScrollInfoBlock}
         >
           <LazyLoad className="background-image">
-            <img ref={backgroundImageRef} src={backgroundImageSrc} alt="" />
+            <img ref={setBackgroundRef} src={backgroundImageSrc} alt="" />
           </LazyLoad>
           <div className="trigger-wrapper" ref={triggerRef}>
             <div className="container info-container">
