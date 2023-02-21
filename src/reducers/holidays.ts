@@ -9,7 +9,7 @@ import {
 // Types
 export type HolidayItem = { name: string; localName: string; date: string };
 
-type State = {
+type HolidaysState = {
   isError: boolean;
   errorText: string;
   holidaysList: HolidayItem[];
@@ -41,7 +41,7 @@ let localInitialState = localStorageState
   ? JSON.parse(localStorageState)
   : null;
 
-const defaultState: State = {
+const defaultState: HolidaysState = {
   isError: false,
   errorText: "",
   holidaysList: [],
@@ -52,7 +52,10 @@ const defaultState: State = {
 const initialState = localInitialState?.holidays || defaultState;
 
 // Reducer
-export function holidaysReducer(state: State = initialState, action: Action) {
+export function holidaysReducer(
+  state: HolidaysState = initialState,
+  action: Action
+) {
   const { type, payload } = action;
 
   switch (type) {

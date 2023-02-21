@@ -43,7 +43,7 @@ type Location = {
   weatherInfo: WeatherInfo;
 };
 
-type State = {
+type WeatherState = {
   currentLocation: CurrentLocation;
   isShowCurrentLocationPreloader: boolean;
   locations: Location[];
@@ -94,7 +94,7 @@ let localInitialState = localStorageState
   ? JSON.parse(localStorageState)
   : null;
 
-const defaultState: State = {
+const defaultState: WeatherState = {
   currentLocation: {
     city: "",
     weatherInfo: {},
@@ -111,7 +111,10 @@ const defaultState: State = {
 
 const initialState = localInitialState?.weather || defaultState;
 
-export function weatherReducer(state: State = initialState, action: Action) {
+export function weatherReducer(
+  state: WeatherState = initialState,
+  action: Action
+) {
   const { type, payload } = action;
   const { currentLocation, locations } = state;
 

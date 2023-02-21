@@ -1,7 +1,7 @@
 import { faBackspace, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import {
   changeAmountValue,
   changeBlackList,
@@ -23,16 +23,19 @@ import sadImage from "../../../assets/images/jokes/sad.svg";
 import JokesSubmitButton from "../JokesSubmitButton";
 
 import LazyLoad from "react-lazy-load";
+import { RootState } from "../../../reducers";
 
-class JokesFilters extends React.PureComponent {
-  constructor(props) {
+class JokesFilters extends React.PureComponent<Props> {
+  private categoriesRef: React.RefObject<HTMLDivElement> | null;
+
+  constructor(props: Props) {
     super(props);
     this.categoriesRef = React.createRef();
   }
 
   componentDidUpdate = () => {
     const { isCategoriesRedBorder, showCategoriesRedBorder } = this.props;
-    if (isCategoriesRedBorder) {
+    if (isCategoriesRedBorder && this.categoriesRef?.current) {
       this.categoriesRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -46,32 +49,34 @@ class JokesFilters extends React.PureComponent {
   handleBlurAmountInput = () => {
     const { amountValue, changeAmountValue } = this.props;
     if (+amountValue < 1) {
-      changeAmountValue(1);
+      changeAmountValue("1");
     }
   };
 
-  handlePressEnterInput = (e) => {
+  handlePressEnterInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      e.target.blur();
+      if (e.target instanceof HTMLElement) {
+        e.target.blur();
+      }
     }
   };
 
-  handleReset = (event) => {
-    event.preventDefault();
+  handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     const { resetFilters } = this.props;
     resetFilters();
   };
 
-  handleChangeSearchValue = (e) => {
+  handleChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { changeSearchValue } = this.props;
-    const value = e.target.value.replace(/\s+/g, " ").trimLeft();
+    const value = e.target.value.replace(/\s+/g, " ").trimStart();
     if (value.length <= 140) {
       changeSearchValue(value);
     }
   };
 
-  handleChangeAmountValue = (e) => {
+  handleChangeAmountValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { changeAmountValue } = this.props;
     const value = e.target.value;
     const valueToNumber = +value;
@@ -79,9 +84,9 @@ class JokesFilters extends React.PureComponent {
     if (value === "") {
       changeAmountValue("");
     } else if (valueToNumber > 10) {
-      changeAmountValue(10);
+      changeAmountValue("10");
     } else if (valueToNumber < 1) {
-      changeAmountValue(1);
+      changeAmountValue("1");
     } else {
       changeAmountValue(value);
     }
@@ -291,7 +296,7 @@ class JokesFilters extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   const {
     jokes: {
       categoryTypeValue,
@@ -317,14 +322,17 @@ const mapStateToProps = (store) => {
 };
 
 const mapDispatchToProps = {
-  changeCategoryType: (value) => changeCategoryType(value),
-  changeCategories: (value) => changeCategories(value),
-  changeBlackList: (value) => changeBlackList(value),
-  changeJokeType: (value) => changeJokeType(value),
-  changeSearchValue: (value) => changeSearchValue(value),
-  changeAmountValue: (value) => changeAmountValue(value),
+  changeCategoryType: (value: string) => changeCategoryType(value),
+  changeCategories: (value: string) => changeCategories(value),
+  changeBlackList: (value: string) => changeBlackList(value),
+  changeJokeType: (value: string) => changeJokeType(value),
+  changeSearchValue: (value: string) => changeSearchValue(value),
+  changeAmountValue: (value: string) => changeAmountValue(value),
   resetFilters: () => resetFilters(),
-  showCategoriesRedBorder: (bool) => showCategoriesRedBorder(bool),
+  showCategoriesRedBorder: (bool: boolean) => showCategoriesRedBorder(bool),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(JokesFilters);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(JokesFilters);

@@ -14,50 +14,40 @@ import {
 } from "../actions/jokes";
 
 // Types
+type Flags = {
+  nsfw: boolean;
+  religious: boolean;
+  political: boolean;
+  racist: boolean;
+  sexist: boolean;
+  explicit: boolean;
+};
+
 export type JokesItem = {
   joke?: string;
   category: string;
   delivery?: string;
-  flags: {
-    nsfw: boolean;
-    religious: boolean;
-    political: boolean;
-    racist: boolean;
-    sexist: boolean;
-    explicit: boolean;
-  };
+  flags: Flags;
   setup?: string;
   type: string;
 };
 
-type State = {
+type CategoriesListItem = { value: string; isCheck: boolean };
+
+type BlacklistItem = { value: string; isCheck: boolean; display: string };
+
+type JokeTypeItem = { value: string; isCheck: boolean; display: string };
+
+type JokesState = {
   isShowJokesPreloader: boolean;
   categoryTypeValue: string;
   jokesList: JokesItem[];
   isError: boolean;
   errorText: string;
-  categoriesList: [
-    { value: string; isCheck: boolean },
-    { value: string; isCheck: boolean },
-    { value: string; isCheck: boolean },
-    { value: string; isCheck: boolean },
-    { value: string; isCheck: boolean },
-    { value: string; isCheck: boolean }
-  ];
+  categoriesList: CategoriesListItem[];
   isCategoriesRedBorder: boolean;
-  blacklist: [
-    { value: string; isCheck: boolean; display: string },
-    { value: string; isCheck: boolean; display: string },
-    { value: string; isCheck: boolean; display: string },
-    { value: string; isCheck: boolean; display: string },
-    { value: string; isCheck: boolean; display: string },
-    { value: string; isCheck: boolean; display: string }
-  ];
-  jokeType: [
-    { value: string; isCheck: boolean; display: string },
-    { value: string; isCheck: boolean; display: string },
-    { value: string; isCheck: boolean; display: string }
-  ];
+  blacklist: BlacklistItem[];
+  jokeType: JokeTypeItem[];
   searchValue: string;
   amountValue: string;
 };
@@ -103,7 +93,7 @@ let localInitialState = localStorageState
   ? JSON.parse(localStorageState)
   : null;
 
-export const defaultState: State = {
+export const defaultState: JokesState = {
   isShowJokesPreloader: false,
   categoryTypeValue: "Any",
   jokesList: [],
@@ -137,7 +127,10 @@ export const defaultState: State = {
 
 const initialState = localInitialState?.jokes || defaultState;
 
-export function jokesReducer(state: State = initialState, action: Action) {
+export function jokesReducer(
+  state: JokesState = initialState,
+  action: Action
+): JokesState {
   const { type, payload } = action;
   const { categoriesList, blacklist, jokeType } = state;
 

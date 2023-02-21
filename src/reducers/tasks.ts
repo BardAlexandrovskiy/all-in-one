@@ -19,7 +19,7 @@ type tasksItem = {
   id: number;
 };
 
-type State = {
+type TasksState = {
   list: tasksItem[];
   filter: string;
   searchTasksInputValue: string;
@@ -61,7 +61,7 @@ let localInitialState = localStorageState
   ? JSON.parse(localStorageState)
   : null;
 
-const defaultState: State = {
+const defaultState: TasksState = {
   list: [],
   filter: filterAll.name,
   searchTasksInputValue: "",
@@ -71,7 +71,7 @@ const defaultState: State = {
 
 const initialState = localInitialState?.tasks || defaultState;
 
-export function tasksReducer(state: State = initialState, action: Action) {
+export function tasksReducer(state: TasksState = initialState, action: Action) {
   const { type, payload } = action;
   const { list } = state;
 
