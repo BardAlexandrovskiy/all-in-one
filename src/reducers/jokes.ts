@@ -30,6 +30,7 @@ export type JokesItem = {
   flags: Flags;
   setup?: string;
   type: string;
+  id: number;
 };
 
 type CategoriesListItem = { value: string; isCheck: boolean };

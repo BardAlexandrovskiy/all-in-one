@@ -1,13 +1,18 @@
+import { JokesItem as JokesItemType } from "../../../reducers/jokes";
 import "./styles.scss";
 
-const JokesItem = ({ jokeInfo }) => {
+type Props = {
+  jokeInfo: JokesItemType;
+};
+
+const JokesItem = ({ jokeInfo }: Props) => {
   const { category, flags, joke, setup, delivery } = jokeInfo;
-  const selectedFlags = [];
+  const selectedFlags: string[] = [];
   if (flags) {
     const flagsList = Object.keys(flags);
 
     flagsList.forEach((item, index) => {
-      if (flags[item]) {
+      if (flags[item as keyof typeof flags]) {
         selectedFlags.push(flagsList[index]);
       }
     });

@@ -2,7 +2,7 @@ import "./styles.scss";
 import LazyLoad from "react-lazy-load";
 
 type Props = {
-  text: string;
+  text?: string;
   errorText: string;
   image: string;
 };

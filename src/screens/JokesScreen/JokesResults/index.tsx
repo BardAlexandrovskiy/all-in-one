@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import Preloader from "../../../components/Preloader";
 import TextBanner from "../../../components/TextBanner";
@@ -13,9 +13,18 @@ import resultImage from "../../../assets/images/jokes/result-1.svg";
 import errorImage from "../../../assets/images/error-image-3.svg";
 
 import LazyLoad from "react-lazy-load";
+import { RootState } from "../../../reducers";
+import { JokesItem as JokesItemType } from "../../../reducers/jokes";
 
-class JokesResults extends React.PureComponent {
-  constructor(props) {
+type State = {
+  isTransitionJokesList: boolean;
+  isTransitionError: boolean;
+};
+
+class JokesResults extends React.PureComponent<Props, State> {
+  private resultsSectionRef: React.RefObject<HTMLDivElement>;
+
+  constructor(props: Props) {
     super(props);
     this.resultsSectionRef = React.createRef();
     this.state = {
@@ -24,7 +33,7 @@ class JokesResults extends React.PureComponent {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_prevProps: Props, prevState: State) {
     const { isShowJokesPreloader } = this.props;
     const { isTransitionJokesList, isTransitionError } = this.state;
     const {
@@ -33,9 +42,10 @@ class JokesResults extends React.PureComponent {
     } = prevState;
 
     if (
-      isShowJokesPreloader ||
-      (!isTransitionJokesList && isTransitionJokesListPrev) ||
-      (!isTransitionError && isTransitionErrorPrev)
+      (isShowJokesPreloader ||
+        (!isTransitionJokesList && isTransitionJokesListPrev) ||
+        (!isTransitionError && isTransitionErrorPrev)) &&
+      this.resultsSectionRef.current
     ) {
       this.resultsSectionRef.current.scrollIntoView({
         behavior: "smooth",
@@ -110,8 +120,8 @@ class JokesResults extends React.PureComponent {
                 </LazyLoad>
               </h1>
               <div className="jokes-list">
-                {jokesList.map((jokeItem) => (
-                  <JokesItem key={jokeItem.id} jokeInfo={jokeItem} />
+                {jokesList.map((jokesItem) => (
+                  <JokesItem key={jokesItem.id} jokeInfo={jokesItem} />
                 ))}
               </div>
               <div className="buttons">
@@ -131,7 +141,7 @@ class JokesResults extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   const {
     jokes: { jokesList, isError, errorText, isShowJokesPreloader },
   } = store;
@@ -145,7 +155,10 @@ const mapStateToProps = (store) => {
 };
 
 const mapDispatchToProps = {
-  setJokes: (list) => setJokes(list),
+  setJokes: (list: JokesItemType[]) => setJokes(list),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(JokesResults);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(JokesResults);

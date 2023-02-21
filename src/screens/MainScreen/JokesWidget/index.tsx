@@ -6,15 +6,23 @@ import errorImage from "../../../assets/images/error-image-1.svg";
 import JokesItem from "../../JokesScreen/JokesItem";
 import { Link } from "react-router-dom";
 import "./styles.scss";
+import { JokesItem as JokesItemType } from "../../../reducers/jokes";
 
-class JokesWidget extends React.PureComponent {
-  constructor(props) {
+type State = {
+  isPreloader: boolean;
+  joke: JokesItemType | null;
+  isError: boolean;
+  errorText: string;
+};
+
+class JokesWidget extends React.PureComponent<any, State> {
+  constructor(props: object) {
     super(props);
     this.state = {
       isPreloader: false,
       joke: null,
       isError: false,
-      errorText: false,
+      errorText: "",
     };
   }
 
@@ -33,7 +41,7 @@ class JokesWidget extends React.PureComponent {
         const { error, joke } = response;
         if (joke && !error) {
           delete response.error;
-          delete response.category;
+          // delete response.category;
 
           if (joke.length > 100) {
             this.getJoke();

@@ -1,8 +1,13 @@
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { getJokes, showCategoriesRedBorder } from "../../../actions/jokes";
+import { RootState } from "../../../reducers";
 
-const JokesSubmitButton = (props) => {
-  const handleClick = (event) => {
+interface Props extends PropsFromRedux {
+  text: string;
+}
+
+const JokesSubmitButton = (props: Props) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const {
       categoryTypeValue,
@@ -70,7 +75,7 @@ const JokesSubmitButton = (props) => {
         requestOptions.push(`contains=${searchValue}`);
       }
 
-      if (amountValue > 1) {
+      if (+amountValue > 1) {
         requestOptions.push(`amount=${amountValue}`);
       }
 
@@ -100,7 +105,7 @@ const JokesSubmitButton = (props) => {
   );
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   const {
     jokes: {
       categoryTypeValue,
@@ -123,8 +128,12 @@ const mapStateToProps = (store) => {
 };
 
 const mapDispatchToProps = {
-  getJokes: (request) => getJokes(request),
-  showCategoriesRedBorder: (bool) => showCategoriesRedBorder(bool),
+  getJokes: (request: string) => getJokes(request),
+  showCategoriesRedBorder: (bool: boolean) => showCategoriesRedBorder(bool),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(JokesSubmitButton);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(JokesSubmitButton);
