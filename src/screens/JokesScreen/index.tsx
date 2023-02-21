@@ -16,22 +16,47 @@ type State = {
 };
 
 class JokesScreen extends React.PureComponent<any, State> {
-  private scrollContainerRef: React.RefObject<HTMLDivElement>;
+  private scrollContainerRef: HTMLDivElement | null;
+  private arrowAlignmentBlockRef: React.RefObject<HTMLDivElement>;
   private resizeObserver: ResizeObserver | null;
+  private setScrollContainerRef: (ref: HTMLDivElement | null) => void;
   constructor(props: object) {
     super(props);
-    this.scrollContainerRef = React.createRef();
+    this.scrollContainerRef = null;
+    this.arrowAlignmentBlockRef = React.createRef();
+
     this.state = {
       isShowArrowUp: false,
     };
     this.resizeObserver = null;
+    this.setScrollContainerRef = (ref) => {
+      if (ref && !this.scrollContainerRef) {
+        const arrowAlignmentBlock = this.arrowAlignmentBlockRef.current;
+        const scrollContainer = ref;
+        this.resizeObserver = new ResizeObserver(() => {
+          if (scrollContainer && arrowAlignmentBlock) {
+            if (scrollContainer.offsetWidth > scrollContainer.scrollWidth) {
+              const offset =
+                scrollContainer.offsetWidth - scrollContainer.scrollWidth;
+              arrowAlignmentBlock.style.width = `calc(100% - ${offset}px)`;
+            } else {
+              arrowAlignmentBlock.removeAttribute("style");
+            }
+          }
+        });
+
+        this.resizeObserver.observe(scrollContainer);
+      }
+
+      this.scrollContainerRef = ref;
+    };
   }
 
   handleScroll = () => {
     const { isShowArrowUp: prevIsShowArrowUp } = this.state;
 
-    if (this.scrollContainerRef.current) {
-      const isShowArrowUp = this.scrollContainerRef.current.scrollTop > 50;
+    if (this.scrollContainerRef) {
+      const isShowArrowUp = this.scrollContainerRef.scrollTop > 50;
       if (prevIsShowArrowUp !== isShowArrowUp) {
         this.setState({ isShowArrowUp: isShowArrowUp });
       }
@@ -39,8 +64,8 @@ class JokesScreen extends React.PureComponent<any, State> {
   };
 
   handleClickArrowUp = () => {
-    if (this.scrollContainerRef.current) {
-      this.scrollContainerRef.current.scrollTo({
+    if (this.scrollContainerRef) {
+      this.scrollContainerRef.scrollTo({
         top: 0,
         left: 0,
         behavior: "smooth",
@@ -48,35 +73,9 @@ class JokesScreen extends React.PureComponent<any, State> {
     }
   };
 
-  componentDidMount = () => {
-    const scrollContainer = document.querySelector(
-      ".jokes-screen .scroll-container"
-    ) as HTMLDivElement;
-    const arrowAlignmentBlock = document.querySelector(
-      ".jokes-screen .arrow-alignment-block"
-    ) as HTMLDivElement;
-    this.resizeObserver = new ResizeObserver(() => {
-      if (scrollContainer && arrowAlignmentBlock) {
-        if (scrollContainer.offsetWidth > scrollContainer.scrollWidth) {
-          const offset =
-            scrollContainer.offsetWidth - scrollContainer.scrollWidth;
-          arrowAlignmentBlock.style.width = `calc(100% - ${offset}px)`;
-        } else {
-          arrowAlignmentBlock.removeAttribute("style");
-        }
-      }
-    });
-
-    this.resizeObserver.observe(scrollContainer);
-  };
-
   componentWillUnmount = () => {
-    const scrollContainer = document.querySelector(
-      ".jokes-screen .scroll-container"
-    ) as HTMLDivElement;
-
-    if (this.resizeObserver) {
-      this.resizeObserver.unobserve(scrollContainer);
+    if (this.resizeObserver && this.scrollContainerRef) {
+      this.resizeObserver.unobserve(this.scrollContainerRef);
     }
   };
 
@@ -89,7 +88,10 @@ class JokesScreen extends React.PureComponent<any, State> {
           <LazyLoad className="background">
             <img alt="" src={background} />
           </LazyLoad>
-          <div className="arrow-alignment-block">
+          <div
+            className="arrow-alignment-block"
+            ref={this.arrowAlignmentBlockRef}
+          >
             <div className="arrow-up-container container">
               <CSSTransition
                 in={isShowArrowUp}
@@ -107,7 +109,7 @@ class JokesScreen extends React.PureComponent<any, State> {
           <div
             className="scroll-container"
             onScroll={this.handleScroll}
-            ref={this.scrollContainerRef}
+            ref={this.setScrollContainerRef}
           >
             <div className="inner">
               <JokesFilters />
