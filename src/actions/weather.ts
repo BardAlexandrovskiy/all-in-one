@@ -62,7 +62,7 @@ export const getCurrentLocationByGeo = () => {
       dispatch(showCurrentLocationPreloader(true));
 
       try {
-        const respone = await getWeatherFunction(null, lat, long);
+        const respone = await getWeatherFunction(undefined, lat, long);
         if (respone) {
           const location = respone;
           const { cityName, weatherInfo } = location;
@@ -126,7 +126,10 @@ export const showWeatherSettingsPreloader = (bool: boolean) => {
   };
 };
 
-export const updateLocation = (id: number, info: WeatherInfo) => {
+export const updateLocation = (
+  id: number,
+  info: { weatherInfo: WeatherInfo | undefined; updateWeatherTime: number }
+) => {
   return {
     type: UPDATE_LOCATION,
     payload: { id, info },

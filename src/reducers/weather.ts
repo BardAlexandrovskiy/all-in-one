@@ -12,35 +12,35 @@ import {
 
 // Types
 export type WeatherInfo = {
-  cloudiness: string | null;
-  date: string | null;
-  humidity: string | null;
-  id: number | null;
-  pressure: string | null;
-  sunrise: string | null;
-  sunset: string | null;
-  temp: string | null;
-  tempFeelsLike: string | null;
-  time: string | null;
-  visibility: string | null;
-  weatherDescription: string | null;
-  windDeg: string | null;
-  windGust: string | null;
-  windSpeed: string | null;
+  cloudiness?: string;
+  date?: string;
+  humidity?: string;
+  id?: number;
+  pressure?: string;
+  sunrise?: string;
+  sunset?: string;
+  temp?: string;
+  tempFeelsLike?: string;
+  time?: number;
+  visibility?: string;
+  weatherDescription?: string;
+  windDeg?: string;
+  windGust?: string;
+  windSpeed?: string;
 };
 
 export type CurrentLocation = {
-  city: string;
-  weatherInfo: WeatherInfo | object;
-  updateWeatherTime: null | number;
-  id: null | number;
+  city?: string;
+  weatherInfo: WeatherInfo | undefined;
+  updateWeatherTime?: number;
+  id?: number;
 };
 
 type Location = {
   city: string;
   id: number;
   updateWeatherTime: number;
-  weatherInfo: WeatherInfo;
+  weatherInfo: WeatherInfo | undefined;
 };
 
 type WeatherState = {
@@ -96,10 +96,10 @@ let localInitialState = localStorageState
 
 const defaultState: WeatherState = {
   currentLocation: {
-    city: "",
-    weatherInfo: {},
-    updateWeatherTime: null,
-    id: null,
+    city: undefined,
+    weatherInfo: undefined,
+    updateWeatherTime: undefined,
+    id: undefined,
   },
   isShowCurrentLocationPreloader: false,
   locations: [],
@@ -130,10 +130,10 @@ export function weatherReducer(
         return {
           ...state,
           currentLocation: {
-            city: "",
+            city: undefined,
             weatherInfo: {},
-            updateWeatherTime: null,
-            id: null,
+            updateWeatherTime: undefined,
+            id: undefined,
           },
         };
     case CHANGE_WEATHER_HEADER:

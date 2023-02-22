@@ -1,13 +1,22 @@
 import React from "react";
-import { connect } from "react-redux";
-import { isEmptyObject } from "../../../constants";
+import { connect, ConnectedProps } from "react-redux";
 import { getWeatherFunction } from "../../../constants/weather";
 import { setCurrentLocation, updateLocation } from "../../../actions/weather";
 
 import WeatherInfoItemLayout from "./laylout";
+import { RootState } from "../../../reducers";
+import { CurrentLocation, WeatherInfo } from "../../../reducers/weather";
 
-class WeatherInfoItem extends React.PureComponent {
-  constructor(props) {
+type State = {
+  isPreloader: boolean;
+  isError: boolean;
+  errorText: string;
+  isErrorBannerClosed: boolean;
+  isInfoWeatherClosed: boolean;
+};
+
+class WeatherInfoItem extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       isPreloader: false,
@@ -18,7 +27,7 @@ class WeatherInfoItem extends React.PureComponent {
     };
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     const { isActive: isActivePrev } = prevProps;
     const { isActive } = this.props;
 
@@ -41,7 +50,7 @@ class WeatherInfoItem extends React.PureComponent {
     let isWeatherUpdate = false;
 
     if (updateWeatherTime) {
-      const minutes = ((Date.now() - updateWeatherTime) / (1000 * 60)).toFixed(
+      const minutes = +((Date.now() - updateWeatherTime) / (1000 * 60)).toFixed(
         1
       );
 
@@ -52,12 +61,13 @@ class WeatherInfoItem extends React.PureComponent {
       isWeatherUpdate = true;
     }
 
-    if (isEmptyObject(weatherInfo) || isWeatherUpdate) {
+    if (!weatherInfo || isWeatherUpdate) {
       this.setState({ isPreloader: true });
 
       try {
         const result = await getWeatherFunction(city);
-        const { weatherInfo } = result;
+        const weatherInfo = result?.weatherInfo;
+
         this.setState({
           isInfoWeatherClosed: false,
           isErrorBannerClosed: true,
@@ -70,15 +80,18 @@ class WeatherInfoItem extends React.PureComponent {
             weatherInfo,
             updateWeatherTime: Date.now(),
           });
-        } else {
+        } else if (id) {
           updateLocation(id, { weatherInfo, updateWeatherTime: Date.now() });
         }
       } catch (error) {
         this.setState({
           isError: true,
-          errorText: `Error: ${error.message}.`,
           isErrorBannerClosed: false,
           isInfoWeatherClosed: true,
+          errorText:
+            error instanceof Error
+              ? `Error: ${error.message}.`
+              : `Error: unexpected error.`,
         });
       }
 
@@ -88,7 +101,7 @@ class WeatherInfoItem extends React.PureComponent {
     }
   };
 
-  layoutSetState = (stateObj) => {
+  layoutSetState = (stateObj: State) => {
     this.setState(stateObj);
   };
 
@@ -103,13 +116,28 @@ class WeatherInfoItem extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   return { currentId: state.weather.currentLocation.id };
 };
 
 const mapDispatchToProps = {
-  setCurrentLocation: (location) => setCurrentLocation(location),
-  updateLocation: (id, info) => updateLocation(id, info),
+  setCurrentLocation: (location: CurrentLocation) =>
+    setCurrentLocation(location),
+  updateLocation: (
+    id: number,
+    info: { weatherInfo: WeatherInfo | undefined; updateWeatherTime: number }
+  ) => updateLocation(id, info),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WeatherInfoItem);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type ReduxProps = ConnectedProps<typeof connector>;
+interface Props extends ReduxProps {
+  isActive: boolean;
+  city: string;
+  id: number | undefined;
+  weatherInfo: WeatherInfo | undefined;
+  updateWeatherTime: number | undefined;
+}
+
+export default connector(WeatherInfoItem);

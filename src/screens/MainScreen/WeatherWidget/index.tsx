@@ -1,11 +1,10 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   getCurrentLocationByGeo,
   setCurrentLocation,
 } from "../../../actions/weather";
-import { isEmptyObject } from "../../../constants";
 import {
   getWeatherBackgroundById,
   getWeatherFunction,
@@ -19,9 +18,17 @@ import noGeoImage from "../../../assets/images/error-image-3.svg";
 import WidgetErrorBlock from "../../../components/WidgetErrorBlock";
 
 import LazyLoad from "react-lazy-load";
+import { RootState } from "../../../reducers";
+import { CurrentLocation } from "../../../reducers/weather";
 
-class WeatherWidget extends React.PureComponent {
-  constructor(props) {
+type State = {
+  isPreloader: boolean;
+  isError: boolean;
+  errorText: string;
+};
+
+class WeatherWidget extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       isPreloader: false,
@@ -40,14 +47,14 @@ class WeatherWidget extends React.PureComponent {
     }
   };
 
-  checkUpadate = () => {
+  checkUpadate = async () => {
     const { city, weatherInfo, updateWeatherTime, setCurrentLocation } =
       this.props;
 
     let isWeatherUpdate = false;
 
     if (updateWeatherTime) {
-      const minutes = ((Date.now() - updateWeatherTime) / (1000 * 60)).toFixed(
+      const minutes = +((Date.now() - updateWeatherTime) / (1000 * 60)).toFixed(
         1
       );
 
@@ -58,37 +65,43 @@ class WeatherWidget extends React.PureComponent {
       isWeatherUpdate = true;
     }
 
-    if (isEmptyObject(weatherInfo) || isWeatherUpdate) {
+    if (!weatherInfo || isWeatherUpdate) {
       this.setState({ isPreloader: true });
-      getWeatherFunction(city)
-        .then((result) => {
-          const { weatherInfo } = result;
-
-          setCurrentLocation({
-            weatherInfo,
-            updateWeatherTime: Date.now(),
-          });
-        })
-        .catch((error) => {
-          this.setState({
-            isError: true,
-            errorText: `Error: ${error.message}.`,
-          });
-        })
-        .finally(() => {
-          this.setState({ isPreloader: false });
+      try {
+        const result = await getWeatherFunction(city);
+        const weatherInfo = result?.weatherInfo;
+        setCurrentLocation({
+          weatherInfo,
+          updateWeatherTime: Date.now(),
         });
+      } catch (error) {
+        this.setState({
+          isError: true,
+          errorText:
+            error instanceof Error
+              ? `Error: ${error.message}.`
+              : `Error: unexpected error.`,
+        });
+      }
     }
+    this.setState({ isPreloader: false });
   };
 
   render() {
-    const { weatherInfo, city } = this.props;
-    const { isPreloader, errorText, isError, isGeoAccess } = this.state;
+    const { weatherInfo, city, isGeoAccess } = this.props;
+    const { isPreloader, errorText, isError } = this.state;
 
-    const { temp, id, date, time } = weatherInfo;
+    const weatherInfoObject = weatherInfo ? weatherInfo : {};
 
-    const backgroundImage = getWeatherBackgroundById(id, time);
-    const icon = getWeatherIconById(id, time);
+    const { temp, id, date, time } = weatherInfoObject;
+
+    let backgroundImage: string | undefined = undefined;
+    let icon: string | undefined = undefined;
+
+    if (id && time) {
+      backgroundImage = getWeatherBackgroundById(id, time);
+      icon = getWeatherIconById(id, time);
+    }
 
     return (
       <Link to="/weather" className="weather-widget">
@@ -123,7 +136,7 @@ class WeatherWidget extends React.PureComponent {
           />
         )}
         <CSSTransition
-          in={!isEmptyObject(weatherInfo) && !isError}
+          in={!!weatherInfo && !isError && !!backgroundImage}
           timeout={{
             enter: 500,
             exit: 0,
@@ -136,7 +149,7 @@ class WeatherWidget extends React.PureComponent {
           </LazyLoad>
         </CSSTransition>
         <CSSTransition
-          in={!isEmptyObject(weatherInfo) && !isError}
+          in={!!weatherInfo && !isError}
           timeout={{
             enter: 500,
             exit: 0,
@@ -160,7 +173,7 @@ class WeatherWidget extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const {
     weather: {
       currentLocation: { city, weatherInfo, updateWeatherTime },
@@ -178,7 +191,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   getCurrentLocationByGeo: () => getCurrentLocationByGeo(),
-  setCurrentLocation: (location) => setCurrentLocation(location),
+  setCurrentLocation: (location: CurrentLocation) =>
+    setCurrentLocation(location),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WeatherWidget);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(WeatherWidget);

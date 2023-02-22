@@ -1,8 +1,9 @@
 import { faMapMarkerAlt, faSlidersH } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { Link } from "react-router-dom";
 import "./styles.scss";
+import { type Swiper as SwiperRef } from "swiper";
 
 // Core modules imports are same as usual
 import { Controller, EffectFade, Pagination } from "swiper";
@@ -13,8 +14,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "swiper/css/controller";
+import { RootState } from "../../../reducers";
 
-const WeatherHeader = (props) => {
+const WeatherHeader = (props: Props) => {
   const {
     currentCity,
     isActiveHeader,
@@ -70,7 +72,7 @@ const WeatherHeader = (props) => {
   );
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   const {
     weather: {
       currentLocation: { city: currentCity },
@@ -88,4 +90,12 @@ const mapStateToProps = (store) => {
   };
 };
 
-export default connect(mapStateToProps, null)(WeatherHeader);
+const connector = connect(mapStateToProps);
+
+type ReactProps = ConnectedProps<typeof connector>;
+interface Props extends ReactProps {
+  secondSwiper: SwiperRef | undefined;
+  setFirstSwiper: React.Dispatch<React.SetStateAction<SwiperRef | undefined>>;
+}
+
+export default connector(WeatherHeader);

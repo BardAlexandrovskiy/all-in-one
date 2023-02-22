@@ -1,6 +1,6 @@
 import "./styles.scss";
 import TasksItem from "../../TasksScreen/TasksItem";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   TransitionGroup,
@@ -9,8 +9,9 @@ import {
 } from "react-transition-group";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { RootState } from "../../../reducers";
 
-const TasksWidget = ({ tasksList }) => {
+const TasksWidget = ({ tasksList }: Props) => {
   const latestActiveTasks = tasksList
     .filter((task) => {
       return !task.check;
@@ -21,6 +22,7 @@ const TasksWidget = ({ tasksList }) => {
   return (
     <div className="tasks-widget">
       <SwitchTransition mode="out-in">
+        {/* @ts-expect-error: Let's ignore a single compiler error like this unreachable code */}
         <CSSTransition timeout={300} key={!latestActiveTasks.length}>
           {!latestActiveTasks.length ? (
             <div className="no-active-tasks-banner">
@@ -61,7 +63,7 @@ const TasksWidget = ({ tasksList }) => {
   );
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   const {
     tasks: { list },
   } = store;
@@ -71,4 +73,8 @@ const mapStateToProps = (store) => {
   };
 };
 
-export default connect(mapStateToProps)(TasksWidget);
+const connector = connect(mapStateToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(TasksWidget);

@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { getCurrentLocationByGeo } from "../../actions/weather";
 import WeatherHeader from "./WeatherHeader";
 import WeatherMain from "./WeatherMain";
 import "./styles.scss";
+import { RootState } from "../../reducers";
+import { type Swiper as SwiperRef } from "swiper";
 
-const WeatherScreen = ({ getCurrentLocationByGeo, currentCity, locations }) => {
+const WeatherScreen = ({
+  getCurrentLocationByGeo,
+  currentCity,
+  locations,
+}: Props) => {
   useEffect(() => {
     if (!currentCity && !locations.length) {
       getCurrentLocationByGeo();
     }
   }, [getCurrentLocationByGeo, currentCity, locations]);
 
-  const [firstSwiper, setFirstSwiper] = useState(null);
-  const [secondSwiper, setSecondSwiper] = useState(null);
+  const [firstSwiper, setFirstSwiper] = useState<SwiperRef>();
+  const [secondSwiper, setSecondSwiper] = useState<SwiperRef>();
 
   return (
     <>
@@ -31,18 +37,16 @@ const WeatherScreen = ({ getCurrentLocationByGeo, currentCity, locations }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const {
     weather: {
       currentLocation: { city: currentCity },
-      isShowSettings,
       locations,
     },
   } = state;
 
   return {
     currentCity: currentCity,
-    isShowSettings,
     locations,
   };
 };
@@ -51,4 +55,8 @@ const mapDispatchToProps = {
   getCurrentLocationByGeo: () => getCurrentLocationByGeo(),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WeatherScreen);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(WeatherScreen);

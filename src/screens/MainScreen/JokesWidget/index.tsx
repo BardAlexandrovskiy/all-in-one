@@ -97,7 +97,7 @@ class JokesWidget extends React.PureComponent<any, State> {
           >
             <div className="joke-wrapper">
               <h2>Random joke</h2>
-              <JokesItem jokeInfo={joke} />
+              {!!joke && <JokesItem jokeInfo={joke} />}
             </div>
           </CSSTransition>
           <Link to="/fun">Find your own jokes</Link>

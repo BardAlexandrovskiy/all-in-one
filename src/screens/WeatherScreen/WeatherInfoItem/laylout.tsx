@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import { isEmptyObject } from "../../../constants";
 import { changeWeatherHeader } from "../../../actions/weather";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 
 // Weather icons
 import { ReactComponent as SunriseIcon } from "../../../assets/images/weather/icons/sunrise-icon.svg";
@@ -28,13 +28,15 @@ import Preloader from "../../../components/Preloader";
 import TextBanner from "../../../components/TextBanner";
 import LazyLoad from "react-lazy-load";
 import "./styles.scss";
+import { RootState } from "../../../reducers";
+import { WeatherInfo } from "../../../reducers/weather";
 
-const WeatherInfoItemLayout = (props) => {
-  const infoBlockRef = useRef();
-  const triggerRef = useRef();
-  let backgroundImageRef = null;
+const WeatherInfoItemLayout = (props: Props) => {
+  const infoBlockRef = useRef<HTMLDivElement>();
+  const triggerRef = useRef<HTMLDivElement>();
+  let backgroundImageRef: null | HTMLImageElement = null;
 
-  const setBackgroundRef = (ref) => {
+  const setBackgroundRef = (ref: HTMLImageElement | null) => {
     if (ref && !backgroundImageRef && triggerRef) {
       gsap.registerPlugin(ScrollTrigger);
       gsap.to(ref, {
@@ -69,12 +71,14 @@ const WeatherInfoItemLayout = (props) => {
   const handleScrollInfoBlock = () => {
     const { changeWeatherHeader, isActiveHeader } = props;
 
-    const currentScrollPosition = infoBlockRef.current.scrollTop;
+    if (infoBlockRef.current) {
+      const currentScrollPosition = infoBlockRef.current.scrollTop;
 
-    if (currentScrollPosition && !isActiveHeader) {
-      changeWeatherHeader(true);
-    } else if (!currentScrollPosition && isActiveHeader) {
-      changeWeatherHeader(false);
+      if (currentScrollPosition && !isActiveHeader) {
+        changeWeatherHeader(true);
+      } else if (!currentScrollPosition && isActiveHeader) {
+        changeWeatherHeader(false);
+      }
     }
   };
 
@@ -246,15 +250,26 @@ const WeatherInfoItemLayout = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   return { isActiveHeader: state.weather.isActiveHeader };
 };
 
 const mapDispatchToProps = {
-  changeWeatherHeader: (bool) => changeWeatherHeader(bool),
+  changeWeatherHeader: (bool: boolean) => changeWeatherHeader(bool),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WeatherInfoItemLayout);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type ReduxProps = ConnectedProps<typeof connector>;
+
+interface Props extends ReduxProps {
+  isActiveHeader: boolean;
+  weatherInfo: WeatherInfo;
+  isPreloader: boolean;
+  errorText: string;
+  isError: boolean;
+  isErrorBannerClosed: boolean;
+  isInfoWeatherClosed: boolean;
+}
+
+export default connector(WeatherInfoItemLayout);

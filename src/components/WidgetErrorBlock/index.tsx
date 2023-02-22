@@ -3,7 +3,7 @@ import LazyLoad from "react-lazy-load";
 
 type Props = {
   text?: string;
-  errorText: string;
+  errorText?: string;
   image: string;
 };
 

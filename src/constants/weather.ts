@@ -58,7 +58,7 @@ type WeatherResponse = {
 
 // Weather request function
 export const getWeatherFunction = async (
-  cityName: string | null,
+  cityName?: string,
   lat?: number,
   long?: number
 ) => {
@@ -96,38 +96,43 @@ export const getWeatherFunction = async (
             typeof weatherDescription === "string"
               ? weatherDescription.charAt(0).toUpperCase() +
                 weatherDescription.slice(1)
-              : null,
-          temp: typeof temp === "number" ? `${Math.round(temp)}°C` : null,
+              : undefined,
+          temp: typeof temp === "number" ? `${Math.round(temp)}°C` : undefined,
           tempFeelsLike:
             typeof tempFeelsLike === "number"
               ? `${Math.round(tempFeelsLike)}°C`
-              : null,
-          humidity: typeof humidity === "number" ? `${humidity}%` : null,
-          windSpeed: typeof windSpeed === "number" ? `${windSpeed} m/s` : null,
-          windDeg: typeof windDeg === "number" ? `${windDeg} deg` : null,
-          windGust: typeof windGust === "number" ? `${windGust} m/s` : null,
-          cloudiness: typeof cloudiness === "number" ? `${cloudiness}%` : null,
-          pressure: typeof pressure === "number" ? `${pressure} hPa` : null,
+              : undefined,
+          humidity: typeof humidity === "number" ? `${humidity}%` : undefined,
+          windSpeed:
+            typeof windSpeed === "number" ? `${windSpeed} m/s` : undefined,
+          windDeg: typeof windDeg === "number" ? `${windDeg} deg` : undefined,
+          windGust:
+            typeof windGust === "number" ? `${windGust} m/s` : undefined,
+          cloudiness:
+            typeof cloudiness === "number" ? `${cloudiness}%` : undefined,
+          pressure:
+            typeof pressure === "number" ? `${pressure} hPa` : undefined,
           sunrise:
             typeof sunrise === "number"
               ? moment(sunrise * 1000).format("HH:mm")
-              : null,
+              : undefined,
           sunset:
             typeof sunset === "number"
               ? moment(sunset * 1000).format("HH:mm")
-              : null,
+              : undefined,
           time:
             typeof timezone === "number"
-              ? moment(currentUtcTime + 1000 * timezone).format("H")
-              : null,
-          visibility: typeof visibility === "number" ? `${visibility} m` : null,
-          id: typeof id === "number" ? id : null,
+              ? +moment(currentUtcTime + 1000 * timezone).format("H")
+              : undefined,
+          visibility:
+            typeof visibility === "number" ? `${visibility} m` : undefined,
+          id: typeof id === "number" ? id : undefined,
           date:
             typeof dt === "number"
               ? moment(dt * 1000).format("Do MMMM dddd")
-              : null,
+              : undefined,
         },
-        cityName: typeof cityName === "string" ? cityName : null,
+        cityName: typeof cityName === "string" ? cityName : undefined,
       };
     } else throw new Error(`${response.status}`);
   } catch (error) {
