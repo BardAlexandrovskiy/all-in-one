@@ -1,18 +1,51 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { filterActive, filterCompleted } from "../../../constants/tasks";
+import { RootState } from "../../../reducers";
 import TasksItem from "../TasksItem";
 import "./styles.scss";
 
-class TasksMain extends React.PureComponent {
-  constructor(props) {
+class TasksMain extends React.PureComponent<Props> {
+  private setTasksMainRef: (ref: HTMLDivElement | null) => void;
+  private tasksMainRef: HTMLDivElement | null;
+  private tasksContainerRef: React.RefObject<HTMLDivElement>;
+  private resizeObserver: ResizeObserver | null;
+
+  constructor(props: Props) {
     super(props);
-    this.tasksMainRef = React.createRef();
+    this.tasksMainRef = null;
     this.tasksContainerRef = React.createRef();
+    this.resizeObserver = null;
+    this.setTasksMainRef = (ref) => {
+      if (ref && !this.tasksMainRef) {
+        const tasksList = ref;
+        const tasksListContainer = this.tasksContainerRef.current;
+        this.resizeObserver = new ResizeObserver(() => {
+          if (tasksList && tasksListContainer) {
+            tasksListContainer.removeAttribute("style");
+            if (tasksList.offsetWidth > tasksList.scrollWidth) {
+              const currentContainerStyles =
+                getComputedStyle(tasksListContainer);
+              const offset = tasksList.offsetWidth - tasksList.scrollWidth;
+              const newMaxWidth =
+                +currentContainerStyles.maxWidth.replace("px", "") - offset;
+              const newPaddingRight =
+                +currentContainerStyles.paddingRight.replace("px", "") - offset;
+              tasksListContainer.style.maxWidth = newMaxWidth + "px";
+              tasksListContainer.style.paddingRight = newPaddingRight + "px";
+            }
+          }
+        });
+
+        this.resizeObserver.observe(tasksList);
+      }
+
+      this.tasksMainRef = ref;
+    };
   }
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = (prevProps: Props) => {
     const {
       tasksList: prevTasksList,
       filter: prevFilter,
@@ -25,36 +58,19 @@ class TasksMain extends React.PureComponent {
     } = this.props;
 
     if (
-      prevTasksList.length < currentTasksList.length ||
-      prevFilter !== currentFilter ||
-      prevSearchValue !== currentSearchValue
+      (prevTasksList.length < currentTasksList.length ||
+        prevFilter !== currentFilter ||
+        prevSearchValue !== currentSearchValue) &&
+      this.tasksMainRef
     ) {
-      this.tasksMainRef.current.scrollTo(0, 0);
+      this.tasksMainRef.scrollTo(0, 0);
     }
   };
 
-  componentDidMount = () => {
-    this.resizeObserver = new ResizeObserver(() => {
-      const tasksList = this.tasksMainRef.current;
-      const tasksListContainer = this.tasksContainerRef.current;
-      if (tasksList && tasksListContainer) {
-        tasksListContainer.style = null;
-        if (tasksList.offsetWidth > tasksList.scrollWidth) {
-          const currentContainerStyles = getComputedStyle(tasksListContainer);
-          const offset = tasksList.offsetWidth - tasksList.scrollWidth;
-          const newMaxWidth =
-            +currentContainerStyles.maxWidth.replace("px", "") - offset;
-          const newPaddingRight =
-            +currentContainerStyles.paddingRight.replace("px", "") - offset;
-          tasksListContainer.style.maxWidth = newMaxWidth + "px";
-          tasksListContainer.style.paddingRight = newPaddingRight + "px";
-        }
-      }
-    });
-  };
-
   componentWillUnmount = () => {
-    this.resizeObserver.unobserve(this.tasksMainRef.current);
+    if (this.resizeObserver && this.tasksMainRef) {
+      this.resizeObserver.unobserve(this.tasksMainRef);
+    }
   };
 
   render() {
@@ -66,7 +82,7 @@ class TasksMain extends React.PureComponent {
         className={`tasks-main${
           addTaskInputFocus ? " add-tasks-input-active" : ""
         }`}
-        ref={this.tasksMainRef}
+        ref={this.setTasksMainRef}
       >
         <div className="tasks-list">
           <div className="container" ref={this.tasksContainerRef}>
@@ -111,7 +127,7 @@ class TasksMain extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   const {
     tasks: { list, filter, searchTasksInputValue, addTaskInputFocus },
   } = store;
@@ -124,4 +140,8 @@ const mapStateToProps = (store) => {
   };
 };
 
-export default connect(mapStateToProps)(TasksMain);
+const connector = connect(mapStateToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(TasksMain);

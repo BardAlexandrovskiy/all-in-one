@@ -1,12 +1,19 @@
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { deleteTask, editTask, toggleTask } from "../../../actions/tasks";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import "./styles.scss";
 import { useState } from "react";
 import { CSSTransition } from "react-transition-group";
+import { RootState } from "../../../reducers";
 
-const Hightlight = ({ otherValue, hightlightValue }) => {
+const Hightlight = ({
+  otherValue,
+  hightlightValue,
+}: {
+  otherValue: string;
+  hightlightValue: String;
+}) => {
   return (
     <>
       {otherValue}
@@ -15,32 +22,7 @@ const Hightlight = ({ otherValue, hightlightValue }) => {
   );
 };
 
-const ChangedValue = ({ searchValue, string }) => {
-  if (searchValue) {
-    const regExp = new RegExp(searchValue.trim(), "gi");
-    const matchValue = string.match(regExp);
-
-    if (matchValue) {
-      return string.split(regExp).map((otherValue, index, array) => {
-        if (index < array.length - 1) {
-          const hightlightValue = matchValue.shift();
-          return (
-            <Hightlight
-              hightlightValue={hightlightValue}
-              otherValue={otherValue}
-              key={index + string}
-            />
-          );
-        }
-        return otherValue;
-      });
-    }
-    return string;
-  }
-  return string;
-};
-
-const TasksItem = (props) => {
+const TasksItem = (props: Props) => {
   const [isEditorOpen, setEditorIsOpen] = useState(false);
   const [editorValue, setEditorValue] = useState("");
 
@@ -50,8 +32,8 @@ const TasksItem = (props) => {
     setEditorValue(value);
   };
 
-  const handleChangeEditor = (e) => {
-    const value = e.target.value.replace(/\s+/g, " ").trimLeft();
+  const handleChangeEditor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\s+/g, " ").trimStart();
     if (value.length <= 140) {
       setEditorValue(value);
     }
@@ -70,7 +52,7 @@ const TasksItem = (props) => {
     }
   };
 
-  const handlePressEditor = (e) => {
+  const handlePressEditor = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       addNewValue();
     }
@@ -80,10 +62,37 @@ const TasksItem = (props) => {
     addNewValue();
   };
 
-  const handleFocusEditor = (event) => {
+  const handleFocusEditor = (event: React.FocusEvent<HTMLInputElement>) => {
     const value = event.target.value;
     event.target.value = "";
     event.target.value = value;
+  };
+
+  const changedValue = (searchValue: string, string: string) => {
+    if (searchValue) {
+      const regExp = new RegExp(searchValue.trim(), "gi");
+      const matchValue = string.match(regExp);
+
+      if (matchValue) {
+        return string.split(regExp).map((otherValue, index, array) => {
+          if (index < array.length - 1) {
+            const hightlightValue = matchValue.shift();
+            if (hightlightValue) {
+              return (
+                <Hightlight
+                  hightlightValue={hightlightValue}
+                  otherValue={otherValue}
+                  key={index + string}
+                />
+              );
+            }
+          }
+          return otherValue;
+        });
+      }
+      return string;
+    }
+    return string;
   };
 
   const {
@@ -97,7 +106,7 @@ const TasksItem = (props) => {
   } = props;
 
   return (
-    <li className={`tasks-item${check ? " checked" : ""}`} id={id}>
+    <li className={`tasks-item${check ? " checked" : ""}`}>
       <div className="check-button" onClick={() => toggleTask(id)}>
         <CSSTransition in={check} timeout={300} unmountOnExit mountOnEnter>
           <FontAwesomeIcon icon={faCheck} />
@@ -117,11 +126,7 @@ const TasksItem = (props) => {
           />
         ) : (
           <div className="inner notranslate" onClick={() => handleClickValue()}>
-            {isNoHightlight ? (
-              value
-            ) : (
-              <ChangedValue searchValue={searchInputValue} string={value} />
-            )}
+            {isNoHightlight ? value : changedValue(searchInputValue, value)}
           </div>
         )}
       </div>
@@ -132,16 +137,25 @@ const TasksItem = (props) => {
   );
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   return {
     searchInputValue: store.tasks.searchTasksInputValue,
   };
 };
 
 const mapDispatchToProps = {
-  deleteTask: (id) => deleteTask(id),
-  toggleTask: (id) => toggleTask(id),
-  editTask: (data) => editTask(data),
+  deleteTask: (id: number) => deleteTask(id),
+  toggleTask: (id: number) => toggleTask(id),
+  editTask: (data: { id: number; value: string }) => editTask(data),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TasksItem);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type Props = ConnectedProps<typeof connector> & {
+  check: boolean;
+  value: string;
+  id: number;
+  isNoHightlight?: boolean;
+};
+
+export default connector(TasksItem);

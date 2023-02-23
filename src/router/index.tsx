@@ -5,18 +5,10 @@ import MainScreen from "../screens/MainScreen";
 import JokesScreen from "../screens/JokesScreen";
 import WeatherScreen from "../screens/WeatherScreen";
 import TasksScreen from "../screens/TasksScreen";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import WeatherSettingsScreen from "../screens/WeatherSettingsScreen";
 import { RootState } from "../reducers";
-
-type Props = {
-  store: RootState;
-};
-
-type State = {
-  prevActiveElement: null | Element;
-};
 
 class Router extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -89,7 +81,15 @@ const RouterAnimation = () => {
 };
 
 const mapStateToProps = (store: RootState) => {
-  return { store: store };
+  return { store };
 };
 
-export default connect(mapStateToProps)(Router);
+const connector = connect(mapStateToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+type State = {
+  prevActiveElement: null | Element;
+};
+
+export default connector(Router);

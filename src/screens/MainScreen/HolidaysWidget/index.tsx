@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { getHolidays } from "../../../actions/holidays";
 import HolidaysItem from "../HolidaysItem";
 import Preloader from "../../../components/Preloader";
@@ -10,15 +10,6 @@ import errorImage from "../../../assets/images/error-image-1.svg";
 import WidgetErrorBlock from "../../../components/WidgetErrorBlock";
 import { HolidayItem } from "../../../reducers/holidays";
 import { RootState } from "../../../reducers";
-
-type Props = {
-  getHolidays: () => void;
-  lastUpdateDate: string | null;
-  isError: boolean;
-  errorText: string;
-  holidaysList: HolidayItem[];
-  isShowHolidaysPreloader: boolean;
-};
 
 class HolidaysWidget extends React.Component<Props> {
   componentDidMount = () => {
@@ -152,4 +143,8 @@ const mapDispatchToProps = {
   getHolidays: () => getHolidays(),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HolidaysWidget);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(HolidaysWidget);

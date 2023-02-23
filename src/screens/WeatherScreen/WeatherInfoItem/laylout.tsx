@@ -1,5 +1,4 @@
 import { useLayoutEffect, useRef } from "react";
-import { isEmptyObject } from "../../../constants";
 import { changeWeatherHeader } from "../../../actions/weather";
 import { connect, ConnectedProps } from "react-redux";
 
@@ -29,11 +28,11 @@ import TextBanner from "../../../components/TextBanner";
 import LazyLoad from "react-lazy-load";
 import "./styles.scss";
 import { RootState } from "../../../reducers";
-import { WeatherInfo } from "../../../reducers/weather";
+import { Props as WeatherInfoProps, State as WeatherInfoState } from "./index";
 
 const WeatherInfoItemLayout = (props: Props) => {
-  const infoBlockRef = useRef<HTMLDivElement>();
-  const triggerRef = useRef<HTMLDivElement>();
+  const infoBlockRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
   let backgroundImageRef: null | HTMLImageElement = null;
 
   const setBackgroundRef = (ref: HTMLImageElement | null) => {
@@ -110,11 +109,16 @@ const WeatherInfoItemLayout = (props: Props) => {
     id,
     date,
     time,
-  } = weatherInfo;
+  } = weatherInfo || {};
 
   // Set background by weather id
-  const backgroundImageSrc = getWeatherBackgroundById(id, time);
-  const icon = getWeatherIconById(id, time);
+  let backgroundImageSrc: string | undefined = undefined;
+  let icon: string | undefined = undefined;
+
+  if (id && time) {
+    backgroundImageSrc = getWeatherBackgroundById(id, time);
+    icon = getWeatherIconById(id, time);
+  }
 
   return (
     <div
@@ -143,11 +147,7 @@ const WeatherInfoItemLayout = (props: Props) => {
         />
       </CSSTransition>
       <CSSTransition
-        in={
-          !isEmptyObject(weatherInfo) &&
-          isErrorBannerClosed &&
-          !isInfoWeatherClosed
-        }
+        in={!!weatherInfo && isErrorBannerClosed && !isInfoWeatherClosed}
         timeout={300}
         mountOnEnter
         unmountOnExit
@@ -262,14 +262,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type ReduxProps = ConnectedProps<typeof connector>;
 
-interface Props extends ReduxProps {
-  isActiveHeader: boolean;
-  weatherInfo: WeatherInfo;
-  isPreloader: boolean;
-  errorText: string;
-  isError: boolean;
-  isErrorBannerClosed: boolean;
-  isInfoWeatherClosed: boolean;
-}
+type Props = ReduxProps &
+  WeatherInfoProps &
+  WeatherInfoState & {
+    layoutSetState: (stateObj: object) => void;
+    checkUpadate: () => Promise<void>;
+  };
 
 export default connector(WeatherInfoItemLayout);

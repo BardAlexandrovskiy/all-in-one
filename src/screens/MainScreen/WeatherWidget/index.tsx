@@ -21,12 +21,6 @@ import LazyLoad from "react-lazy-load";
 import { RootState } from "../../../reducers";
 import { CurrentLocation } from "../../../reducers/weather";
 
-type State = {
-  isPreloader: boolean;
-  isError: boolean;
-  errorText: string;
-};
-
 class WeatherWidget extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -69,11 +63,13 @@ class WeatherWidget extends React.PureComponent<Props, State> {
       this.setState({ isPreloader: true });
       try {
         const result = await getWeatherFunction(city);
-        const weatherInfo = result?.weatherInfo;
-        setCurrentLocation({
-          weatherInfo,
-          updateWeatherTime: Date.now(),
-        });
+        if (result) {
+          const { weatherInfo } = result;
+          setCurrentLocation({
+            weatherInfo,
+            updateWeatherTime: Date.now(),
+          });
+        }
       } catch (error) {
         this.setState({
           isError: true,
@@ -91,9 +87,7 @@ class WeatherWidget extends React.PureComponent<Props, State> {
     const { weatherInfo, city, isGeoAccess } = this.props;
     const { isPreloader, errorText, isError } = this.state;
 
-    const weatherInfoObject = weatherInfo ? weatherInfo : {};
-
-    const { temp, id, date, time } = weatherInfoObject;
+    const { temp, id, date, time } = weatherInfo || {};
 
     let backgroundImage: string | undefined = undefined;
     let icon: string | undefined = undefined;
@@ -198,5 +192,11 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
+
+type State = {
+  isPreloader: boolean;
+  isError: boolean;
+  errorText: string;
+};
 
 export default connector(WeatherWidget);

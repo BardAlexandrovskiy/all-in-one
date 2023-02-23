@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { getWeatherFunction } from "../constants/weather";
-import { CurrentLocation, WeatherInfo } from "../reducers/weather";
+import { CurrentLocation, Location, WeatherInfo } from "../reducers/weather";
 
 // Types
 export const SET_CURRENT_LOCATION = "SET_CURRENT_LOCATION";
@@ -24,7 +24,7 @@ export const setAddLocationInputFocus = (bool: boolean) => {
   };
 };
 
-export const setCurrentLocation = (location: CurrentLocation) => {
+export const setCurrentLocation = (location?: CurrentLocation) => {
   return {
     type: SET_CURRENT_LOCATION,
     payload: location,

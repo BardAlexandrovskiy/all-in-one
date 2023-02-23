@@ -1,6 +1,6 @@
 import { faBackspace, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import "./styles.scss";
 import {
@@ -8,9 +8,10 @@ import {
   checkAllTasks,
   deleteCompletedTasks,
 } from "../../../actions/tasks";
+import { RootState } from "../../../reducers";
 
-const TasksHeader = (props) => {
-  const handleChangeInput = (e) => {
+const TasksHeader = (props: Props) => {
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { changeSearchTasksInputValue } = props;
     const value = e.target.value.replace(/\s+/g, " ").trimLeft();
     if (value.length <= 140) {
@@ -100,7 +101,7 @@ const TasksHeader = (props) => {
   );
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   const {
     tasks: { list, searchTasksInputValue },
   } = store;
@@ -112,9 +113,14 @@ const mapStateToProps = (store) => {
 };
 
 const mapDispatchToProps = {
-  changeSearchTasksInputValue: (value) => changeSearchTasksInputValue(value),
+  changeSearchTasksInputValue: (value: string) =>
+    changeSearchTasksInputValue(value),
   checkAllTasks: () => checkAllTasks(),
   deleteCompletedTasks: () => deleteCompletedTasks(),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TasksHeader);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(TasksHeader);

@@ -1,14 +1,15 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { Link } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Preloader from "../../components/Preloader";
 import WeatherLocationItem from "./WeatherLocationItem";
 import WeatherSettingsFooter from "./WeatherSettingsFooter";
 import "./styles.scss";
+import { RootState } from "../../reducers";
 
-const WeatherSettingsScreen = (props) => {
+const WeatherSettingsScreen = (props: Props) => {
   const {
     currentCity,
     currentId,
@@ -68,7 +69,7 @@ const WeatherSettingsScreen = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const {
     weather: {
       currentLocation: { city: currentCity, id: currentId },
@@ -87,4 +88,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(WeatherSettingsScreen);
+const connector = connect(mapStateToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(WeatherSettingsScreen);

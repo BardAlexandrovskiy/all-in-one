@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import {
   deleteLocation,
   getCurrentLocationByGeo,
@@ -13,13 +13,20 @@ import {
 } from "../../../actions/weather";
 import "./style.scss";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
+import { CurrentLocation } from "../../../reducers/weather";
+import { RootState } from "../../../reducers";
 
-class WeatherLocationItem extends React.PureComponent {
-  constructor(props) {
+class WeatherLocationItem extends React.PureComponent<Props, State> {
+  private uploadButtonAnimationInterval:
+    | ReturnType<typeof setInterval>
+    | undefined;
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       isAnimationUploadButton: false,
     };
+    this.uploadButtonAnimationInterval = undefined;
   }
 
   deleteCity = () => {
@@ -27,12 +34,12 @@ class WeatherLocationItem extends React.PureComponent {
 
     if (currentId === id) {
       setCurrentLocation();
-    } else {
+    } else if (id) {
       deleteLocation(id);
     }
   };
 
-  componentDidUpdate = (prev) => {
+  componentDidUpdate = (prev: Props) => {
     if (
       !prev.isShowCurrentLocationPreloader &&
       this.props.isShowCurrentLocationPreloader
@@ -53,7 +60,6 @@ class WeatherLocationItem extends React.PureComponent {
       if (!isShowCurrentLocationPreloader) {
         this.setState({
           isAnimationUploadButton: false,
-          isLastInterval: false,
         });
         clearInterval(this.uploadButtonAnimationInterval);
       }
@@ -74,6 +80,7 @@ class WeatherLocationItem extends React.PureComponent {
           {isCurrentLocation && <FontAwesomeIcon icon={faMapMarkerAlt} />}
         </div>
         <SwitchTransition mode="out-in">
+          {/* @ts-expect-error: Let's ignore a single compiler error like this unreachable code */}
           <CSSTransition timeout={300} key={isCurrentLocation && !city}>
             {isCurrentLocation && !city ? (
               <div
@@ -98,7 +105,7 @@ class WeatherLocationItem extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: RootState) => {
   const {
     weather: {
       currentLocation: { id: currentId },
@@ -115,12 +122,23 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  setCurrentLocation: (location) => setCurrentLocation(location),
-  deleteLocation: (id) => deleteLocation(id),
+  setCurrentLocation: (location?: CurrentLocation) =>
+    setCurrentLocation(location),
+  deleteLocation: (id: number) => deleteLocation(id),
   getCurrentLocationByGeo: () => getCurrentLocationByGeo(),
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WeatherLocationItem);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type ReduxProps = ConnectedProps<typeof connector>;
+
+type Props = ReduxProps & {
+  id?: number;
+  city?: string;
+};
+
+type State = {
+  isAnimationUploadButton: boolean;
+};
+
+export default connector(WeatherLocationItem);

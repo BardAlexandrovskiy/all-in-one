@@ -2,10 +2,6 @@ import { connect, ConnectedProps } from "react-redux";
 import { getJokes, showCategoriesRedBorder } from "../../../actions/jokes";
 import { RootState } from "../../../reducers";
 
-interface Props extends PropsFromRedux {
-  text: string;
-}
-
 const JokesSubmitButton = (props: Props) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -135,5 +131,9 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
+
+interface Props extends PropsFromRedux {
+  text: string;
+}
 
 export default connector(JokesSubmitButton);

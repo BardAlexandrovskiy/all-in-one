@@ -31,16 +31,16 @@ export type WeatherInfo = {
 
 export type CurrentLocation = {
   city?: string;
-  weatherInfo: WeatherInfo | undefined;
+  weatherInfo?: WeatherInfo;
   updateWeatherTime?: number;
   id?: number;
 };
 
-type Location = {
+export type Location = {
   city: string;
   id: number;
   updateWeatherTime: number;
-  weatherInfo: WeatherInfo | undefined;
+  weatherInfo?: WeatherInfo;
 };
 
 type WeatherState = {

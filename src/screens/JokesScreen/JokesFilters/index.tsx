@@ -333,6 +333,7 @@ const mapDispatchToProps = {
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
+
 type Props = ConnectedProps<typeof connector>;
 
 export default connector(JokesFilters);

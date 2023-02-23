@@ -1,7 +1,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import {
   addNewLocation,
@@ -12,9 +12,12 @@ import { getWeatherFunction } from "../../../constants/weather";
 import TextBanner from "../../../components/TextBanner";
 import "./styles.scss";
 import errorImage from "../../../assets/images/error-image-3.svg";
+import { Location } from "../../../reducers/weather";
 
-class WeatherSettingsFooter extends React.PureComponent {
-  constructor(props) {
+class WeatherSettingsFooter extends React.PureComponent<Props, State> {
+  private inputRef: React.RefObject<HTMLInputElement>;
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       inputValue: "",
@@ -25,15 +28,15 @@ class WeatherSettingsFooter extends React.PureComponent {
     this.inputRef = React.createRef();
   }
 
-  handleChangeInput = (e) => {
-    const value = e.target.value.replace(/\s+/g, " ").trimLeft();
+  handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\s+/g, " ").trimStart();
 
     if (value.length <= 140) {
       this.setState({ inputValue: value });
     }
   };
 
-  handlePressInput = (e) => {
+  handlePressInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       this.handleClickButton();
     }
@@ -44,7 +47,7 @@ class WeatherSettingsFooter extends React.PureComponent {
     setAddLocationInputFocus(false);
   };
 
-  handleClickButton = () => {
+  handleClickButton = async () => {
     const { inputValue } = this.state;
     const { addNewLocation, showPreloader } = this.props;
 
@@ -53,34 +56,39 @@ class WeatherSettingsFooter extends React.PureComponent {
     if (inputValue.length && inputValue.trim()) {
       this.setState({ redInputBorder: false });
       showPreloader(true);
-      getWeatherFunction(cityName)
-        .then((location) => {
-          const { weatherInfo, cityName } = location;
-          addNewLocation({
-            city: cityName,
-            weatherInfo,
-            id: Date.now(),
-            updateWeatherTime: Date.now(),
-          });
-        })
-        .catch((error) => {
-          this.setState({ isError: true });
-          this.inputRef.current.blur();
+
+      try {
+        const response = await getWeatherFunction(cityName);
+        if (response) {
+          const { weatherInfo, cityName } = response;
+          if (cityName) {
+            addNewLocation({
+              city: cityName,
+              weatherInfo,
+              id: Date.now(),
+              updateWeatherTime: Date.now(),
+            });
+          }
+        }
+      } catch (error) {
+        this.setState({ isError: true });
+        if (error instanceof Error) {
           if (error.message === "404") {
             this.setState({ errorText: "City not found." });
           } else {
             this.setState({ errorText: `Error: ${error.message}.` });
           }
-        })
-        .finally(() => {
-          showPreloader(false);
-          this.setState({ inputValue: "", isPreloader: false });
-        });
+        }
+      }
+      showPreloader(false);
+      this.setState({ inputValue: "" });
     } else {
       this.setState({ redInputBorder: true });
     }
 
-    this.inputRef.current.focus();
+    if (this.inputRef.current) {
+      this.inputRef.current.blur();
+    }
   };
 
   handleBlurInput = () => {
@@ -104,7 +112,7 @@ class WeatherSettingsFooter extends React.PureComponent {
             image={errorImage}
             text={errorText}
             deleteFunction={() =>
-              this.setState({ isError: false, textError: "" })
+              this.setState({ isError: false, errorText: "" })
             }
           />
         </CSSTransition>
@@ -140,9 +148,20 @@ class WeatherSettingsFooter extends React.PureComponent {
 }
 
 const mapDispatchToProps = {
-  addNewLocation: (location) => addNewLocation(location),
-  showPreloader: (bool) => showWeatherSettingsPreloader(bool),
-  setAddLocationInputFocus: (bool) => setAddLocationInputFocus(bool),
+  addNewLocation: (location: Location) => addNewLocation(location),
+  showPreloader: (bool: boolean) => showWeatherSettingsPreloader(bool),
+  setAddLocationInputFocus: (bool: boolean) => setAddLocationInputFocus(bool),
 };
 
-export default connect(null, mapDispatchToProps)(WeatherSettingsFooter);
+const connector = connect(null, mapDispatchToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+type State = {
+  inputValue: string;
+  redInputBorder: boolean;
+  isError: boolean;
+  errorText: string;
+};
+
+export default connector(WeatherSettingsFooter);

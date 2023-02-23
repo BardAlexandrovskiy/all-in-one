@@ -7,14 +7,6 @@ import WeatherInfoItemLayout from "./laylout";
 import { RootState } from "../../../reducers";
 import { CurrentLocation, WeatherInfo } from "../../../reducers/weather";
 
-type State = {
-  isPreloader: boolean;
-  isError: boolean;
-  errorText: string;
-  isErrorBannerClosed: boolean;
-  isInfoWeatherClosed: boolean;
-};
-
 class WeatherInfoItem extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -66,22 +58,24 @@ class WeatherInfoItem extends React.PureComponent<Props, State> {
 
       try {
         const result = await getWeatherFunction(city);
-        const weatherInfo = result?.weatherInfo;
+        if (result) {
+          const { weatherInfo } = result;
 
-        this.setState({
-          isInfoWeatherClosed: false,
-          isErrorBannerClosed: true,
-          isError: false,
-          errorText: "",
-        });
-
-        if (id === currentId) {
-          setCurrentLocation({
-            weatherInfo,
-            updateWeatherTime: Date.now(),
+          this.setState({
+            isInfoWeatherClosed: false,
+            isErrorBannerClosed: true,
+            isError: false,
+            errorText: "",
           });
-        } else if (id) {
-          updateLocation(id, { weatherInfo, updateWeatherTime: Date.now() });
+
+          if (id === currentId) {
+            setCurrentLocation({
+              weatherInfo,
+              updateWeatherTime: Date.now(),
+            });
+          } else if (id) {
+            updateLocation(id, { weatherInfo, updateWeatherTime: Date.now() });
+          }
         }
       } catch (error) {
         this.setState({
@@ -101,7 +95,7 @@ class WeatherInfoItem extends React.PureComponent<Props, State> {
     }
   };
 
-  layoutSetState = (stateObj: State) => {
+  layoutSetState = (stateObj: object) => {
     this.setState(stateObj);
   };
 
@@ -132,12 +126,20 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type ReduxProps = ConnectedProps<typeof connector>;
-interface Props extends ReduxProps {
+export type Props = ReduxProps & {
   isActive: boolean;
   city: string;
   id: number | undefined;
   weatherInfo: WeatherInfo | undefined;
   updateWeatherTime: number | undefined;
-}
+};
+
+export type State = {
+  isPreloader: boolean;
+  isError: boolean;
+  errorText: string;
+  isErrorBannerClosed: boolean;
+  isInfoWeatherClosed: boolean;
+};
 
 export default connector(WeatherInfoItem);

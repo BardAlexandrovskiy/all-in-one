@@ -1,7 +1,7 @@
 import "./styles.scss";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import {
   addNewTask,
   changeAddTaskInputValue,
@@ -15,9 +15,12 @@ import {
   filterAll,
 } from "../../../constants/tasks";
 import TasksFilterButton from "../TasksFilterButton";
+import { RootState } from "../../../reducers";
 
-class TasksFooter extends React.PureComponent {
-  constructor(props) {
+class TasksFooter extends React.PureComponent<Props, State> {
+  private inputRef: React.RefObject<HTMLInputElement>;
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       redInputBorder: false,
@@ -25,7 +28,7 @@ class TasksFooter extends React.PureComponent {
     this.inputRef = React.createRef();
   }
 
-  handleChangeInput = (e) => {
+  handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { changeAddTaskInputValue } = this.props;
     const value = e.target.value.replace(/\s+/g, " ").trimLeft();
 
@@ -34,7 +37,7 @@ class TasksFooter extends React.PureComponent {
     }
   };
 
-  handlePressInput = (e) => {
+  handlePressInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       this.handleClickButton();
     }
@@ -52,7 +55,9 @@ class TasksFooter extends React.PureComponent {
       this.setState({ redInputBorder: true });
     }
 
-    this.inputRef.current.focus();
+    if (this.inputRef.current) {
+      this.inputRef.current.focus();
+    }
   };
 
   handleBlurInput = () => {
@@ -128,7 +133,7 @@ class TasksFooter extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   const {
     tasks: { list, searchTasksInputValue, addTaskInputValue },
   } = store;
@@ -141,9 +146,17 @@ const mapStateToProps = (store) => {
 };
 
 const mapDispatchToProps = {
-  addNewTask: (value) => addNewTask(value),
-  changeAddTaskInputValue: (value) => changeAddTaskInputValue(value),
-  setAddTaskInputFocus: (bool) => setAddTaskInputFocus(bool),
+  addNewTask: (value: string) => addNewTask(value),
+  changeAddTaskInputValue: (value: string) => changeAddTaskInputValue(value),
+  setAddTaskInputFocus: (bool: boolean) => setAddTaskInputFocus(bool),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TasksFooter);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+type State = {
+  redInputBorder: boolean;
+};
+
+export default connector(TasksFooter);

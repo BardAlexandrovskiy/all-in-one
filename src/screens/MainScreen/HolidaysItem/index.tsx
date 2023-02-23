@@ -1,12 +1,6 @@
 import { HolidayItem } from "../../../reducers/holidays";
 import "./styles.scss";
 
-type Props = {
-  holiday: HolidayItem;
-  firstPartOfTitle: string;
-  isDateNow?: boolean;
-};
-
 const HolidaysItem = ({ holiday, firstPartOfTitle, isDateNow }: Props) => {
   const { name, localName, date } = holiday;
 
@@ -33,6 +27,12 @@ const HolidaysItem = ({ holiday, firstPartOfTitle, isDateNow }: Props) => {
       )}
     </div>
   );
+};
+
+type Props = {
+  holiday: HolidayItem;
+  firstPartOfTitle: string;
+  isDateNow?: boolean;
 };
 
 export default HolidaysItem;

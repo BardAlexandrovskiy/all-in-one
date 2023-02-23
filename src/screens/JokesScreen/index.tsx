@@ -11,10 +11,6 @@ import LazyLoad from "react-lazy-load";
 // Images
 import background from "../../assets/images/jokes/jokes-background-2.jpg";
 
-type State = {
-  isShowArrowUp: boolean;
-};
-
 class JokesScreen extends React.PureComponent<any, State> {
   private scrollContainerRef: HTMLDivElement | null;
   private arrowAlignmentBlockRef: React.RefObject<HTMLDivElement>;
@@ -121,5 +117,9 @@ class JokesScreen extends React.PureComponent<any, State> {
     );
   }
 }
+
+type State = {
+  isShowArrowUp: boolean;
+};
 
 export default JokesScreen;

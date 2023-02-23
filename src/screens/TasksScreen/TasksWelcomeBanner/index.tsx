@@ -1,9 +1,10 @@
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "../../../reducers";
 import "./styles.scss";
 
-const TasksWelcomeBanner = ({ addTaskInputFocus }) => {
+const TasksWelcomeBanner = ({ addTaskInputFocus }: Props) => {
   return (
     <div
       className={`tasks-welcome-banner${
@@ -21,7 +22,7 @@ const TasksWelcomeBanner = ({ addTaskInputFocus }) => {
   );
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: RootState) => {
   const {
     tasks: { addTaskInputFocus },
   } = store;
@@ -31,4 +32,8 @@ const mapStateToProps = (store) => {
   };
 };
 
-export default connect(mapStateToProps)(TasksWelcomeBanner);
+const connector = connect(mapStateToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+export default connector(TasksWelcomeBanner);
