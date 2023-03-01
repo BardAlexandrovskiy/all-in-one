@@ -9,7 +9,7 @@ import "./styles.scss";
 import LazyLoad from "react-lazy-load";
 
 // Images
-import background from "../../assets/images/jokes/jokes-background-2.jpg";
+import background from "../../assets/images/jokes/jokes-background.webp";
 
 class JokesScreen extends React.PureComponent<any, State> {
   private scrollContainerRef: HTMLDivElement | null;

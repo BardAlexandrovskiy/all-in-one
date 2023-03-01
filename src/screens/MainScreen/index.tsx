@@ -8,10 +8,10 @@ import JokesWidget from "./JokesWidget";
 import LazyLoad from "react-lazy-load";
 
 // Images
-import eveningImage from "../../assets/images/home/evening.jpg";
-import dayImage from "../../assets/images/home/day.jpg";
-import nightImage from "../../assets/images/home/night.jpg";
-import morningImage from "../../assets/images/home/morning.jpg";
+import eveningImage from "../../assets/images/home/evening.webp";
+import dayImage from "../../assets/images/home/day.webp";
+import nightImage from "../../assets/images/home/night.webp";
+import morningImage from "../../assets/images/home/morning.webp";
 
 const MainScreen = () => {
   const currentTimeHours = +moment().format("H");
