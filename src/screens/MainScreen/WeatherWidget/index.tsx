@@ -31,7 +31,7 @@ class WeatherWidget extends React.PureComponent<Props, State> {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { getCurrentLocationByGeo, city } = this.props;
 
     if (!city) {
@@ -84,7 +84,8 @@ class WeatherWidget extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { weatherInfo, city, isGeoAccess } = this.props;
+    const { weatherInfo, city, isGeoAccess, isShowCurrentLocationPreloader } =
+      this.props;
     const { isPreloader, errorText, isError } = this.state;
 
     const { temp, id, date, time } = weatherInfo || {};
@@ -100,7 +101,7 @@ class WeatherWidget extends React.PureComponent<Props, State> {
     return (
       <Link to="/weather" className="weather-widget">
         <CSSTransition
-          in={isPreloader}
+          in={isPreloader || isShowCurrentLocationPreloader}
           timeout={300}
           mountOnEnter
           unmountOnExit
@@ -109,7 +110,7 @@ class WeatherWidget extends React.PureComponent<Props, State> {
         </CSSTransition>
 
         <CSSTransition
-          in={isError}
+          in={isError || (!city && !isShowCurrentLocationPreloader)}
           timeout={{
             enter: 500,
             exit: 0,
@@ -123,7 +124,7 @@ class WeatherWidget extends React.PureComponent<Props, State> {
             image={errorImage}
           />
         </CSSTransition>
-        {!city && !isGeoAccess && !isPreloader && (
+        {!city && !isGeoAccess && (
           <WidgetErrorBlock
             text="Oops, no access to geolocation."
             image={noGeoImage}
@@ -172,6 +173,7 @@ const mapStateToProps = (state: RootState) => {
     weather: {
       currentLocation: { city, weatherInfo, updateWeatherTime },
       isGeoAccess,
+      isShowCurrentLocationPreloader,
     },
   } = state;
 
@@ -180,6 +182,7 @@ const mapStateToProps = (state: RootState) => {
     weatherInfo,
     updateWeatherTime,
     isGeoAccess,
+    isShowCurrentLocationPreloader,
   };
 };
 
