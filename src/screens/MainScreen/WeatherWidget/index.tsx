@@ -119,17 +119,15 @@ class WeatherWidget extends React.PureComponent<Props, State> {
           unmountOnExit
         >
           <WidgetErrorBlock
-            text="Oops, something went wrong, no weather yet."
+            text={
+              !isGeoAccess
+                ? " Oops, no access to geolocation."
+                : "Oops, something went wrong, no weather yet."
+            }
             errorText={errorText}
-            image={errorImage}
+            image={!isGeoAccess ? errorImage : noGeoImage}
           />
         </CSSTransition>
-        {!city && !isGeoAccess && (
-          <WidgetErrorBlock
-            text="Oops, no access to geolocation."
-            image={noGeoImage}
-          />
-        )}
         <CSSTransition
           in={!!weatherInfo && !isError && !!backgroundImage}
           timeout={{

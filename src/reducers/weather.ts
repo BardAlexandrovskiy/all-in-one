@@ -131,7 +131,7 @@ export function weatherReducer(
           ...state,
           currentLocation: {
             city: undefined,
-            weatherInfo: {},
+            weatherInfo: undefined,
             updateWeatherTime: undefined,
             id: undefined,
           },
