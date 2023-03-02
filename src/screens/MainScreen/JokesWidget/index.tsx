@@ -34,7 +34,7 @@ class JokesWidget extends React.PureComponent<any, State> {
         const { error, joke } = response;
         if (joke && !error) {
           delete response.error;
-          // delete response.category;
+          delete response.category;
 
           if (joke.length > 100) {
             this.getJoke();
@@ -57,6 +57,7 @@ class JokesWidget extends React.PureComponent<any, State> {
 
   render() {
     const { joke, isPreloader, isError, errorText } = this.state;
+
     return (
       <div className="jokes-widget">
         <div className="inner-wrapper">

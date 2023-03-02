@@ -25,7 +25,7 @@ type Flags = {
 
 export type JokesItem = {
   joke?: string;
-  category: string;
+  category?: string;
   delivery?: string;
   flags: Flags;
   setup?: string;
