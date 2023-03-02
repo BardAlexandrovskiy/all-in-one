@@ -108,7 +108,7 @@ class JokesScreen extends React.PureComponent<any, State> {
             ref={this.setScrollContainerRef}
           >
             <div className="inner">
-              <JokesFilters />
+              <JokesFilters scrollContainerRef={this.scrollContainerRef} />
               <JokesResults />
             </div>
           </div>

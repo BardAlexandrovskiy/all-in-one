@@ -95,8 +95,8 @@ class WeatherInfoItem extends React.PureComponent<Props, State> {
     }
   };
 
-  layoutSetState = (stateObj: object) => {
-    this.setState(stateObj);
+  layoutSetState = (stateObj: LayoutSetStateArgs) => {
+    this.setState(stateObj as State);
   };
 
   render() {
@@ -129,9 +129,9 @@ type ReduxProps = ConnectedProps<typeof connector>;
 export type Props = ReduxProps & {
   isActive: boolean;
   city: string;
-  id: number | undefined;
-  weatherInfo: WeatherInfo | undefined;
-  updateWeatherTime: number | undefined;
+  id?: number;
+  weatherInfo?: WeatherInfo;
+  updateWeatherTime?: number;
 };
 
 export type State = {
@@ -141,5 +141,19 @@ export type State = {
   isErrorBannerClosed: boolean;
   isInfoWeatherClosed: boolean;
 };
+
+export type LayoutSetStateArgs =
+  | {
+      isErrorBannerClosed: boolean;
+    }
+  | { isError: boolean }
+  | { isPreloader: boolean }
+  | {
+      errorText: string;
+      isInfoWeatherClosed: boolean;
+    }
+  | {
+      isInfoWeatherClosed: boolean;
+    };
 
 export default connector(WeatherInfoItem);

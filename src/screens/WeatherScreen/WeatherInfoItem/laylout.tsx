@@ -28,7 +28,11 @@ import TextBanner from "../../../components/TextBanner";
 import LazyLoad from "react-lazy-load";
 import "./styles.scss";
 import { RootState } from "../../../reducers";
-import { Props as WeatherInfoProps, State as WeatherInfoState } from "./index";
+import {
+  LayoutSetStateArgs,
+  Props as WeatherInfoProps,
+  State as WeatherInfoState,
+} from "./index";
 
 const WeatherInfoItemLayout = (props: Props) => {
   const infoBlockRef = useRef<HTMLDivElement>(null);
@@ -265,7 +269,7 @@ type ReduxProps = ConnectedProps<typeof connector>;
 type Props = ReduxProps &
   WeatherInfoProps &
   WeatherInfoState & {
-    layoutSetState: (stateObj: object) => void;
+    layoutSetState: (stateObj: LayoutSetStateArgs) => void;
     checkUpadate: () => Promise<void>;
   };
 
