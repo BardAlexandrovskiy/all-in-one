@@ -17,6 +17,10 @@ import {
 import TasksFilterButton from "../TasksFilterButton";
 import { RootState } from "../../../reducers";
 
+type State = {
+  redInputBorder: boolean;
+};
+
 class TasksFooter extends React.PureComponent<Props, State> {
   private inputRef: React.RefObject<HTMLInputElement>;
 
@@ -154,9 +158,5 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
-
-type State = {
-  redInputBorder: boolean;
-};
 
 export default connector(TasksFooter);

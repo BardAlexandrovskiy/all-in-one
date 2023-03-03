@@ -11,7 +11,11 @@ import LazyLoad from "react-lazy-load";
 // Images
 import background from "../../assets/images/jokes/jokes-background.webp";
 
-class JokesScreen extends React.PureComponent<any, State> {
+type State = {
+  isShowArrowUp: boolean;
+};
+
+class JokesScreen extends React.PureComponent<object, State> {
   private scrollContainerRef: HTMLDivElement | null;
   private arrowAlignmentBlockRef: React.RefObject<HTMLDivElement>;
   private resizeObserver: ResizeObserver | null;
@@ -108,7 +112,7 @@ class JokesScreen extends React.PureComponent<any, State> {
             ref={this.setScrollContainerRef}
           >
             <div className="inner">
-              <JokesFilters scrollContainerRef={this.scrollContainerRef} />
+              <JokesFilters />
               <JokesResults />
             </div>
           </div>
@@ -117,9 +121,5 @@ class JokesScreen extends React.PureComponent<any, State> {
     );
   }
 }
-
-type State = {
-  isShowArrowUp: boolean;
-};
 
 export default JokesScreen;

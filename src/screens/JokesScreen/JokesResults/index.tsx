@@ -16,6 +16,11 @@ import LazyLoad from "react-lazy-load";
 import { RootState } from "../../../reducers";
 import { JokesItem as JokesItemType } from "../../../reducers/jokes";
 
+type State = {
+  isTransitionJokesList: boolean;
+  isTransitionError: boolean;
+};
+
 class JokesResults extends React.PureComponent<Props, State> {
   private resultsSectionRef: React.RefObject<HTMLDivElement>;
 
@@ -156,10 +161,5 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
-
-type State = {
-  isTransitionJokesList: boolean;
-  isTransitionError: boolean;
-};
 
 export default connector(JokesResults);

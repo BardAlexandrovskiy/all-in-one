@@ -17,6 +17,11 @@ import TextBanner from "../../../components/TextBanner";
 import errorImage from "../../../assets/images/error-image-3.svg";
 import { RootState } from "../../../reducers";
 
+interface Props extends ReduxProps {
+  firstSwiper: SwiperRef | undefined;
+  setSecondSwiper: React.Dispatch<React.SetStateAction<SwiperRef | undefined>>;
+}
+
 const WeatherMain = (props: Props) => {
   const handleChangeSlide = () => {
     const { changeWeatherHeader } = props;
@@ -126,9 +131,5 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type ReduxProps = ConnectedProps<typeof connector>;
-interface Props extends ReduxProps {
-  firstSwiper: SwiperRef | undefined;
-  setSecondSwiper: React.Dispatch<React.SetStateAction<SwiperRef | undefined>>;
-}
 
 export default connector(WeatherMain);

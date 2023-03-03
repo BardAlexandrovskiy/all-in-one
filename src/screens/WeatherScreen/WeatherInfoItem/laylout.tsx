@@ -34,6 +34,13 @@ import {
   State as WeatherInfoState,
 } from "./index";
 
+type Props = ReduxProps &
+  WeatherInfoProps &
+  WeatherInfoState & {
+    layoutSetState: (stateObj: LayoutSetStateArgs) => void;
+    checkUpadate: () => Promise<void>;
+  };
+
 const WeatherInfoItemLayout = (props: Props) => {
   const infoBlockRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -265,12 +272,5 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type ReduxProps = ConnectedProps<typeof connector>;
-
-type Props = ReduxProps &
-  WeatherInfoProps &
-  WeatherInfoState & {
-    layoutSetState: (stateObj: LayoutSetStateArgs) => void;
-    checkUpadate: () => Promise<void>;
-  };
 
 export default connector(WeatherInfoItemLayout);

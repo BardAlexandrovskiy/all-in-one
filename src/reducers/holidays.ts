@@ -51,7 +51,6 @@ const defaultState: HolidaysState = {
 
 const initialState = localInitialState?.holidays || defaultState;
 
-// Reducer
 export function holidaysReducer(
   state: HolidaysState = initialState,
   action: Action

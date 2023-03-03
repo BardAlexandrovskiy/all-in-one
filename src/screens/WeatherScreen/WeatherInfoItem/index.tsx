@@ -7,6 +7,36 @@ import WeatherInfoItemLayout from "./laylout";
 import { RootState } from "../../../reducers";
 import { CurrentLocation, WeatherInfo } from "../../../reducers/weather";
 
+export type Props = ReduxProps & {
+  isActive: boolean;
+  city: string;
+  id?: number;
+  weatherInfo?: WeatherInfo;
+  updateWeatherTime?: number;
+};
+
+export type State = {
+  isPreloader: boolean;
+  isError: boolean;
+  errorText: string;
+  isErrorBannerClosed: boolean;
+  isInfoWeatherClosed: boolean;
+};
+
+export type LayoutSetStateArgs =
+  | {
+      isErrorBannerClosed: boolean;
+    }
+  | { isError: boolean }
+  | { isPreloader: boolean }
+  | {
+      errorText: string;
+      isInfoWeatherClosed: boolean;
+    }
+  | {
+      isInfoWeatherClosed: boolean;
+    };
+
 class WeatherInfoItem extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -126,34 +156,5 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type ReduxProps = ConnectedProps<typeof connector>;
-export type Props = ReduxProps & {
-  isActive: boolean;
-  city: string;
-  id?: number;
-  weatherInfo?: WeatherInfo;
-  updateWeatherTime?: number;
-};
-
-export type State = {
-  isPreloader: boolean;
-  isError: boolean;
-  errorText: string;
-  isErrorBannerClosed: boolean;
-  isInfoWeatherClosed: boolean;
-};
-
-export type LayoutSetStateArgs =
-  | {
-      isErrorBannerClosed: boolean;
-    }
-  | { isError: boolean }
-  | { isPreloader: boolean }
-  | {
-      errorText: string;
-      isInfoWeatherClosed: boolean;
-    }
-  | {
-      isInfoWeatherClosed: boolean;
-    };
 
 export default connector(WeatherInfoItem);

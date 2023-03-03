@@ -8,7 +8,14 @@ import { Link } from "react-router-dom";
 import "./styles.scss";
 import { JokesItem as JokesItemType } from "../../../reducers/jokes";
 
-class JokesWidget extends React.PureComponent<any, State> {
+type State = {
+  isPreloader: boolean;
+  joke: JokesItemType | null;
+  isError: boolean;
+  errorText: string;
+};
+
+class JokesWidget extends React.PureComponent<object, State> {
   constructor(props: object) {
     super(props);
     this.state = {
@@ -100,12 +107,5 @@ class JokesWidget extends React.PureComponent<any, State> {
     );
   }
 }
-
-type State = {
-  isPreloader: boolean;
-  joke: JokesItemType | null;
-  isError: boolean;
-  errorText: string;
-};
 
 export default JokesWidget;

@@ -1,6 +1,10 @@
 import { JokesItem as JokesItemType } from "../../../reducers/jokes";
 import "./styles.scss";
 
+type Props = {
+  jokeInfo: JokesItemType;
+};
+
 const JokesItem = ({ jokeInfo }: Props) => {
   const { category, flags, joke, setup, delivery } = jokeInfo;
   const selectedFlags: string[] = [];
@@ -42,10 +46,6 @@ const JokesItem = ({ jokeInfo }: Props) => {
       )}
     </div>
   );
-};
-
-type Props = {
-  jokeInfo: JokesItemType;
 };
 
 export default JokesItem;

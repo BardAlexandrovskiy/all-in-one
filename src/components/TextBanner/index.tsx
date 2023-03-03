@@ -1,6 +1,12 @@
 import "./styles.scss";
 import LazyLoad from "react-lazy-load";
 
+type Props = {
+  text: string;
+  image?: string;
+  deleteFunction?: () => void;
+};
+
 const TextBanner = ({ text, image, deleteFunction }: Props) => {
   return (
     <div className="text-banner">
@@ -17,12 +23,6 @@ const TextBanner = ({ text, image, deleteFunction }: Props) => {
       </div>
     </div>
   );
-};
-
-type Props = {
-  text: string;
-  image?: string;
-  deleteFunction?: () => void;
 };
 
 export default TextBanner;

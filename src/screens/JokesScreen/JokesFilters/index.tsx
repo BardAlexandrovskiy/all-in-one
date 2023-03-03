@@ -15,8 +15,6 @@ import {
 import "./styles.scss";
 import { CSSTransition } from "react-transition-group";
 import { defaultState } from "../../../reducers/jokes";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 
 // Jokes images
 import happyImage from "../../../assets/images/jokes/happy.svg";
@@ -28,37 +26,10 @@ import LazyLoad from "react-lazy-load";
 import { RootState } from "../../../reducers";
 
 class JokesFilters extends React.PureComponent<Props> {
-  private titleRef: HTMLDivElement | null;
-  private areRefsLoaded: boolean;
-  private setTitleRef: (
-    ref: HTMLDivElement | null,
-    scrollerRef: HTMLDivElement | null
-  ) => void;
   private categoriesRef: React.RefObject<HTMLDivElement> | null;
 
   constructor(props: Props) {
     super(props);
-    this.titleRef = null;
-    this.areRefsLoaded = false;
-    this.setTitleRef = (ref, scrollerRef) => {
-      if (ref && scrollerRef && !this.areRefsLoaded) {
-        this.areRefsLoaded = true;
-
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.to(ref, {
-          scrollTrigger: {
-            markers: true,
-            start: "top",
-            end: "bottom",
-            trigger: ref,
-            toggleClass: { targets: this.titleRef, className: "active" },
-            scroller: scrollerRef,
-          },
-        });
-      }
-
-      this.titleRef = ref;
-    };
     this.categoriesRef = React.createRef();
   }
 
@@ -136,7 +107,6 @@ class JokesFilters extends React.PureComponent<Props> {
       isCategoriesRedBorder,
       jokesState,
       changeSearchValue,
-      scrollContainerRef,
     } = this.props;
 
     const isResetNotActive =
@@ -145,10 +115,7 @@ class JokesFilters extends React.PureComponent<Props> {
     return (
       <section className="jokes-filters">
         <div className="container filters-container">
-          <h1
-            ref={(element) => this.setTitleRef(element, scrollContainerRef)}
-            className="title notranslate"
-          >
+          <h1 className="title notranslate">
             <LazyLoad className="left-image">
               <img alt="" src={neutralImage} />
             </LazyLoad>
@@ -361,14 +328,12 @@ const mapDispatchToProps = {
   changeJokeType: (value: string) => changeJokeType(value),
   changeSearchValue: (value: string) => changeSearchValue(value),
   changeAmountValue: (value: string) => changeAmountValue(value),
-  resetFilters: () => resetFilters(),
+  resetFilters,
   showCategoriesRedBorder: (bool: boolean) => showCategoriesRedBorder(bool),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type Props = ConnectedProps<typeof connector> & {
-  scrollContainerRef: HTMLDivElement | null;
-};
+type Props = ConnectedProps<typeof connector>;
 
 export default connector(JokesFilters);

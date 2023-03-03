@@ -3,6 +3,11 @@ import { changeTaskFilter } from "../../../actions/tasks";
 import { RootState } from "../../../reducers";
 import "./styles.scss";
 
+type Props = PropsFromRedux & {
+  name: string;
+  title: string;
+};
+
 const TasksFilterButton = ({
   name,
   title,
@@ -32,9 +37,6 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type Props = ConnectedProps<typeof connector> & {
-  name: string;
-  title: string;
-};
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
 export default connector(TasksFilterButton);

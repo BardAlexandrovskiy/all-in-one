@@ -6,20 +6,13 @@ import "./styles.scss";
 import { useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { RootState } from "../../../reducers";
+import Hightlight from "./hightlight";
 
-const Hightlight = ({
-  otherValue,
-  hightlightValue,
-}: {
-  otherValue: string;
-  hightlightValue: String;
-}) => {
-  return (
-    <>
-      {otherValue}
-      <span className={"hightlight notranslate"}>{hightlightValue}</span>
-    </>
-  );
+type Props = PropsFromRedux & {
+  check: boolean;
+  value: string;
+  id: number;
+  isNoHightlight?: boolean;
 };
 
 const TasksItem = (props: Props) => {
@@ -125,7 +118,7 @@ const TasksItem = (props: Props) => {
             type="text"
           />
         ) : (
-          <div className="inner notranslate" onClick={() => handleClickValue()}>
+          <div className="inner notranslate" onClick={handleClickValue}>
             {isNoHightlight ? value : changedValue(searchInputValue, value)}
           </div>
         )}
@@ -151,11 +144,6 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type Props = ConnectedProps<typeof connector> & {
-  check: boolean;
-  value: string;
-  id: number;
-  isNoHightlight?: boolean;
-};
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
 export default connector(TasksItem);

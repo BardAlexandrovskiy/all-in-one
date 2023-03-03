@@ -13,7 +13,7 @@ import { RootState } from "../../../reducers";
 const TasksHeader = (props: Props) => {
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { changeSearchTasksInputValue } = props;
-    const value = e.target.value.replace(/\s+/g, " ").trimLeft();
+    const value = e.target.value.replace(/\s+/g, " ").trimStart();
     if (value.length <= 140) {
       changeSearchTasksInputValue(value);
     }

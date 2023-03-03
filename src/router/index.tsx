@@ -10,6 +10,10 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import WeatherSettingsScreen from "../screens/WeatherSettingsScreen";
 import { RootState } from "../reducers";
 
+type State = {
+  prevActiveElement: null | Element;
+};
+
 class Router extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -87,9 +91,5 @@ const mapStateToProps = (store: RootState) => {
 const connector = connect(mapStateToProps);
 
 type Props = ConnectedProps<typeof connector>;
-
-type State = {
-  prevActiveElement: null | Element;
-};
 
 export default connector(Router);

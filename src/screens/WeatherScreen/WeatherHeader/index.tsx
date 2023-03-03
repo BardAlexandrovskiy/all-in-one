@@ -16,6 +16,11 @@ import "swiper/css/effect-fade";
 import "swiper/css/controller";
 import { RootState } from "../../../reducers";
 
+interface Props extends ReactProps {
+  secondSwiper: SwiperRef | undefined;
+  setFirstSwiper: React.Dispatch<React.SetStateAction<SwiperRef | undefined>>;
+}
+
 const WeatherHeader = (props: Props) => {
   const {
     currentCity,
@@ -93,9 +98,5 @@ const mapStateToProps = (store: RootState) => {
 const connector = connect(mapStateToProps);
 
 type ReactProps = ConnectedProps<typeof connector>;
-interface Props extends ReactProps {
-  secondSwiper: SwiperRef | undefined;
-  setFirstSwiper: React.Dispatch<React.SetStateAction<SwiperRef | undefined>>;
-}
 
 export default connector(WeatherHeader);

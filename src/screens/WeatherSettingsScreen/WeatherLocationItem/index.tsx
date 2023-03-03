@@ -16,6 +16,15 @@ import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { CurrentLocation } from "../../../reducers/weather";
 import { RootState } from "../../../reducers";
 
+type Props = ReduxProps & {
+  id?: number;
+  city?: string;
+};
+
+type State = {
+  isAnimationUploadButton: boolean;
+};
+
 class WeatherLocationItem extends React.PureComponent<Props, State> {
   private uploadButtonAnimationInterval:
     | ReturnType<typeof setInterval>
@@ -80,8 +89,10 @@ class WeatherLocationItem extends React.PureComponent<Props, State> {
           {isCurrentLocation && <FontAwesomeIcon icon={faMapMarkerAlt} />}
         </div>
         <SwitchTransition mode="out-in">
-          {/* @ts-expect-error: Let's ignore a single compiler error like this unreachable code */}
-          <CSSTransition timeout={300} key={isCurrentLocation && !city}>
+          <CSSTransition
+            timeout={300}
+            key={(isCurrentLocation && !city).toString()}
+          >
             {isCurrentLocation && !city ? (
               <div
                 className={`update-button${
@@ -131,14 +142,5 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type ReduxProps = ConnectedProps<typeof connector>;
-
-type Props = ReduxProps & {
-  id?: number;
-  city?: string;
-};
-
-type State = {
-  isAnimationUploadButton: boolean;
-};
 
 export default connector(WeatherLocationItem);

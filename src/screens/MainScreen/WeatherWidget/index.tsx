@@ -21,6 +21,12 @@ import LazyLoad from "react-lazy-load";
 import { RootState } from "../../../reducers";
 import { CurrentLocation } from "../../../reducers/weather";
 
+type State = {
+  isPreloader: boolean;
+  isError: boolean;
+  errorText: string;
+};
+
 class WeatherWidget extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -193,11 +199,5 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
-
-type State = {
-  isPreloader: boolean;
-  isError: boolean;
-  errorText: string;
-};
 
 export default connector(WeatherWidget);

@@ -1,6 +1,12 @@
 import "./styles.scss";
 import LazyLoad from "react-lazy-load";
 
+type Props = {
+  text?: string;
+  errorText?: string;
+  image: string;
+};
+
 const WidgetErrorBlock = ({ text, errorText, image }: Props) => {
   return (
     <div className="widget-error">
@@ -13,12 +19,6 @@ const WidgetErrorBlock = ({ text, errorText, image }: Props) => {
       {!!errorText && <p>{errorText}</p>}
     </div>
   );
-};
-
-type Props = {
-  text?: string;
-  errorText?: string;
-  image: string;
 };
 
 export default WidgetErrorBlock;

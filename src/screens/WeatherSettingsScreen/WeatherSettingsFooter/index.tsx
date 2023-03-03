@@ -14,6 +14,13 @@ import "./styles.scss";
 import errorImage from "../../../assets/images/error-image-3.svg";
 import { Location } from "../../../reducers/weather";
 
+type State = {
+  inputValue: string;
+  redInputBorder: boolean;
+  isError: boolean;
+  errorText: string;
+};
+
 class WeatherSettingsFooter extends React.PureComponent<Props, State> {
   private inputRef: React.RefObject<HTMLInputElement>;
 
@@ -156,12 +163,5 @@ const mapDispatchToProps = {
 const connector = connect(null, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
-
-type State = {
-  inputValue: string;
-  redInputBorder: boolean;
-  isError: boolean;
-  errorText: string;
-};
 
 export default connector(WeatherSettingsFooter);

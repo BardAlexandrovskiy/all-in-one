@@ -22,8 +22,10 @@ const TasksWidget = ({ tasksList }: Props) => {
   return (
     <div className="tasks-widget">
       <SwitchTransition mode="out-in">
-        {/* @ts-expect-error: Let's ignore a single compiler error like this unreachable code */}
-        <CSSTransition timeout={300} key={!latestActiveTasks.length}>
+        <CSSTransition
+          timeout={300}
+          key={(!latestActiveTasks.length).toString()}
+        >
           {!latestActiveTasks.length ? (
             <div className="no-active-tasks-banner">
               <h2>You have no active tasks</h2>
