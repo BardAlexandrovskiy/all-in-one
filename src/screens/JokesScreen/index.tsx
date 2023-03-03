@@ -5,11 +5,12 @@ import JokesFilters from "./JokesFilters";
 import JokesResults from "./JokesResults";
 import { CSSTransition } from "react-transition-group";
 import "./styles.scss";
-
-import LazyLoad from "react-lazy-load";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 // Images
 import background from "../../assets/images/jokes/jokes-background.webp";
+import LazyLoadImage from "../../components/LazyLoadImage";
 
 type State = {
   isShowArrowUp: boolean;
@@ -17,9 +18,13 @@ type State = {
 
 class JokesScreen extends React.PureComponent<object, State> {
   private scrollContainerRef: HTMLDivElement | null;
+  private filtersTitleRef: HTMLDivElement | null;
+  private isFiltersTitleAnimationStarted: boolean;
   private arrowAlignmentBlockRef: React.RefObject<HTMLDivElement>;
   private resizeObserver: ResizeObserver | null;
+  private setFiltersTitleRef: (ref: HTMLDivElement | null) => void;
   private setScrollContainerRef: (ref: HTMLDivElement | null) => void;
+  private animationFunction: () => void;
   constructor(props: object) {
     super(props);
     this.scrollContainerRef = null;
@@ -29,6 +34,8 @@ class JokesScreen extends React.PureComponent<object, State> {
       isShowArrowUp: false,
     };
     this.resizeObserver = null;
+    this.filtersTitleRef = null;
+    this.isFiltersTitleAnimationStarted = false;
     this.setScrollContainerRef = (ref) => {
       if (ref && !this.scrollContainerRef) {
         const arrowAlignmentBlock = this.arrowAlignmentBlockRef.current;
@@ -49,6 +56,41 @@ class JokesScreen extends React.PureComponent<object, State> {
       }
 
       this.scrollContainerRef = ref;
+
+      if (ref) {
+        this.animationFunction();
+      }
+    };
+    this.setFiltersTitleRef = (ref) => {
+      this.filtersTitleRef = ref;
+    };
+    this.animationFunction = () => {
+      if (
+        !this.isFiltersTitleAnimationStarted &&
+        this.filtersTitleRef &&
+        this.scrollContainerRef
+      ) {
+        this.isFiltersTitleAnimationStarted = true;
+        console.log("working");
+        const mm = gsap.matchMedia();
+        mm.add("(max-width: 640px)", () => {
+          gsap.registerPlugin(ScrollTrigger);
+          gsap.to(this.filtersTitleRef, {
+            scrollTrigger: {
+              trigger: this.scrollContainerRef,
+              endTrigger: this.filtersTitleRef,
+              start: "top top",
+              end: "bottom top",
+              markers: true,
+              toggleClass: {
+                className: "active",
+                targets: this.filtersTitleRef,
+              },
+              scroller: this.scrollContainerRef,
+            },
+          });
+        });
+      }
     };
   }
 
@@ -81,13 +123,16 @@ class JokesScreen extends React.PureComponent<object, State> {
 
   render() {
     const { isShowArrowUp } = this.state;
-
     return (
       <div className="jokes-screen screen">
         <div className="wrapper">
-          <LazyLoad className="background">
-            <img alt="" src={background} />
-          </LazyLoad>
+          <div className="background">
+            <LazyLoadImage
+              src={background}
+              className={background}
+              alt={"Jokes background"}
+            />
+          </div>
           <div
             className="arrow-alignment-block"
             ref={this.arrowAlignmentBlockRef}
@@ -112,7 +157,7 @@ class JokesScreen extends React.PureComponent<object, State> {
             ref={this.setScrollContainerRef}
           >
             <div className="inner">
-              <JokesFilters />
+              <JokesFilters setTitleFilterRef={this.setFiltersTitleRef} />
               <JokesResults />
             </div>
           </div>

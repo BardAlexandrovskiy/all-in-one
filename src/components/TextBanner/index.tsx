@@ -1,5 +1,5 @@
+import LazyLoadImage from "../LazyLoadImage";
 import "./styles.scss";
-import LazyLoad from "react-lazy-load";
 
 type Props = {
   text: string;
@@ -12,11 +12,7 @@ const TextBanner = ({ text, image, deleteFunction }: Props) => {
     <div className="text-banner">
       <div className="text-banner-container container">
         <div className="text">
-          {!!image && (
-            <LazyLoad height={150}>
-              <img src={image} alt="" />
-            </LazyLoad>
-          )}
+          {!!image && <LazyLoadImage src={image} alt={"Error image"} />}
           <span>{text}</span>
           {!!deleteFunction && <button onClick={deleteFunction}>Ok</button>}
         </div>

@@ -5,13 +5,12 @@ import WeatherWidget from "./WeatherWidget";
 import TasksWidget from "./TasksWidget";
 import JokesWidget from "./JokesWidget";
 
-import LazyLoad from "react-lazy-load";
-
 // Images
 import eveningImage from "../../assets/images/home/evening.webp";
 import dayImage from "../../assets/images/home/day.webp";
 import nightImage from "../../assets/images/home/night.webp";
 import morningImage from "../../assets/images/home/morning.webp";
+import LazyLoadImage from "../../components/LazyLoadImage";
 
 const MainScreen = () => {
   const currentTimeHours = +moment().format("H");
@@ -39,9 +38,9 @@ const MainScreen = () => {
   return (
     <div className="main-screen screen">
       <div className="wrapper">
-        <LazyLoad className="background">
-          <img src={backgroundImage} alt="" />
-        </LazyLoad>
+        <div className="background">
+          <LazyLoadImage src={backgroundImage} alt="Weather background" />
+        </div>
         <div className="scroll-container">
           <div className="inner">
             <div className="container widgets-container">

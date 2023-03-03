@@ -25,7 +25,6 @@ import {
 import { CSSTransition } from "react-transition-group";
 import Preloader from "../../../components/Preloader";
 import TextBanner from "../../../components/TextBanner";
-import LazyLoad from "react-lazy-load";
 import "./styles.scss";
 import { RootState } from "../../../reducers";
 import {
@@ -33,6 +32,7 @@ import {
   Props as WeatherInfoProps,
   State as WeatherInfoState,
 } from "./index";
+import LazyLoadImage from "../../../components/LazyLoadImage";
 
 type Props = ReduxProps &
   WeatherInfoProps &
@@ -171,9 +171,15 @@ const WeatherInfoItemLayout = (props: Props) => {
           ref={infoBlockRef}
           onScroll={handleScrollInfoBlock}
         >
-          <LazyLoad className="background-image">
-            <img ref={setBackgroundRef} src={backgroundImageSrc} alt="" />
-          </LazyLoad>
+          {!!backgroundImageSrc && (
+            <div className="background-image">
+              <LazyLoadImage
+                callbackRef={setBackgroundRef}
+                src={backgroundImageSrc}
+                alt="Weather background"
+              />
+            </div>
+          )}
           <div className="trigger-wrapper" ref={triggerRef}>
             <div className="container info-container">
               <div className="main">
@@ -182,9 +188,9 @@ const WeatherInfoItemLayout = (props: Props) => {
                   <div className="description">
                     {weatherDescription}
                     {!!icon && (
-                      <LazyLoad>
-                        <img src={icon} alt="" />
-                      </LazyLoad>
+                      <div className="icon">
+                        <LazyLoadImage src={icon} alt="" />
+                      </div>
                     )}
                   </div>
                 )}

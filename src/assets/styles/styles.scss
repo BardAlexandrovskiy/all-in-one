@@ -25,16 +25,6 @@ body {
   position: relative;
 }
 
-.LazyLoad {
-  opacity: 0;
-  display: inline-flex;
-  transition: all 0.5s ease-in-out;
-
-  &.is-visible {
-    opacity: 1;
-  }
-}
-
 .screens-wrapper {
   position: relative;
   height: 100%;

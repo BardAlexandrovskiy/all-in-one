@@ -17,9 +17,9 @@ import errorImage from "../../../assets/images/error-image-1.svg";
 import noGeoImage from "../../../assets/images/error-image-3.svg";
 import WidgetErrorBlock from "../../../components/WidgetErrorBlock";
 
-import LazyLoad from "react-lazy-load";
 import { RootState } from "../../../reducers";
 import { CurrentLocation } from "../../../reducers/weather";
+import LazyLoadImage from "../../../components/LazyLoadImage";
 
 type State = {
   isPreloader: boolean;
@@ -143,9 +143,11 @@ class WeatherWidget extends React.PureComponent<Props, State> {
           mountOnEnter
           unmountOnExit
         >
-          <LazyLoad className="weather-background">
-            <img src={backgroundImage} alt="" />
-          </LazyLoad>
+          {!!backgroundImage && (
+            <div className="weather-background">
+              <LazyLoadImage src={backgroundImage} alt="Weather background" />
+            </div>
+          )}
         </CSSTransition>
         <CSSTransition
           in={!!weatherInfo && !isError}
@@ -160,9 +162,9 @@ class WeatherWidget extends React.PureComponent<Props, State> {
             {!!city && <h2 className="city">{city}</h2>}
             {!!temp && <span className="current-temp">{temp}</span>}
             {!!icon && (
-              <LazyLoad>
-                <img src={icon} alt="" />
-              </LazyLoad>
+              <div className="weather-icon">
+                <LazyLoadImage src={icon} alt="Weather icon" />
+              </div>
             )}
             {!!date && <div className="current-date">{date}</div>}
           </div>

@@ -1,5 +1,5 @@
 import "./styles.scss";
-import LazyLoad from "react-lazy-load";
+import LazyLoadImage from "../LazyLoadImage";
 
 type Props = {
   text?: string;
@@ -10,11 +10,7 @@ type Props = {
 const WidgetErrorBlock = ({ text, errorText, image }: Props) => {
   return (
     <div className="widget-error">
-      {!!image && (
-        <LazyLoad className="img-wrapper">
-          <img src={image} alt="" />
-        </LazyLoad>
-      )}
+      {!!image && <LazyLoadImage src={image} alt="Error image" />}
       {!!text && <p>{text}</p>}
       {!!errorText && <p>{errorText}</p>}
     </div>

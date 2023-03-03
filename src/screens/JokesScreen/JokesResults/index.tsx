@@ -12,9 +12,9 @@ import JokesSubmitButton from "../JokesSubmitButton";
 import resultImage from "../../../assets/images/jokes/result-1.svg";
 import errorImage from "../../../assets/images/error-image-3.svg";
 
-import LazyLoad from "react-lazy-load";
 import { RootState } from "../../../reducers";
 import { JokesItem as JokesItemType } from "../../../reducers/jokes";
+import LazyLoadImage from "../../../components/LazyLoadImage";
 
 type State = {
   isTransitionJokesList: boolean;
@@ -115,9 +115,9 @@ class JokesResults extends React.PureComponent<Props, State> {
             <div className="container result-container">
               <h1 className="result-title">
                 <span>Result</span>{" "}
-                <LazyLoad className="img-wrapper">
-                  <img alt="" src={resultImage} />
-                </LazyLoad>
+                <div className="img-wrapper">
+                  <LazyLoadImage alt="Result image" src={resultImage} />
+                </div>
               </h1>
               <div className="jokes-list">
                 {jokesList.map((jokesItem) => (

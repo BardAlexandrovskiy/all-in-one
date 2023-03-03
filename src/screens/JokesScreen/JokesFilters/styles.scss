@@ -2,6 +2,7 @@
   padding-top: 50px;
   position: relative;
   padding-bottom: 50px;
+  overflow: hidden;
 
   @media (max-width: 1024px) {
     padding-top: 15px;
@@ -75,6 +76,12 @@
       }
     }
 
+    .left-image {
+      transform: translate(-500px, -100px);
+      opacity: 0;
+      transition: ease-in-out 0.6s;
+    }
+
     .right-images {
       position: relative;
 
@@ -84,9 +91,33 @@
         bottom: -46px;
         z-index: 0;
         height: 100%;
+        transform: translate(500px, 100px);
+        opacity: 0;
+        transition: ease-in-out 0.6s;
+      }
 
-        img {
-          height: 100%;
+      .happy-image {
+        transform: translate(500px, -100px);
+        opacity: 0;
+        transition: ease-in-out 0.6s;
+      }
+    }
+
+    &.active.loaded {
+      .left-image {
+        transform: translate(0, 0);
+        opacity: 1;
+      }
+
+      .right-images {
+        .sad-image {
+          transform: translate(0, 0);
+          opacity: 1;
+        }
+
+        .happy-image {
+          transform: translate(0, 0);
+          opacity: 1;
         }
       }
     }

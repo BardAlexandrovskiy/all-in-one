@@ -22,15 +22,26 @@ import neutralImage from "../../../assets/images/jokes/neutral.svg";
 import sadImage from "../../../assets/images/jokes/sad.svg";
 import JokesSubmitButton from "../JokesSubmitButton";
 
-import LazyLoad from "react-lazy-load";
 import { RootState } from "../../../reducers";
+import LazyLoadImage from "../../../components/LazyLoadImage";
 
-class JokesFilters extends React.PureComponent<Props> {
+interface Props extends ReduxProps {
+  setTitleFilterRef: (ref: HTMLDivElement | null) => void;
+}
+
+type State = {
+  titleImagesLoaded: boolean;
+};
+
+class JokesFilters extends React.PureComponent<Props, State> {
   private categoriesRef: React.RefObject<HTMLDivElement> | null;
 
   constructor(props: Props) {
     super(props);
     this.categoriesRef = React.createRef();
+    this.state = {
+      titleImagesLoaded: false,
+    };
   }
 
   componentDidUpdate = () => {
@@ -92,6 +103,10 @@ class JokesFilters extends React.PureComponent<Props> {
     }
   };
 
+  handleCheckTitleImagesLoad = () => {
+    this.setState({ titleImagesLoaded: true });
+  };
+
   render() {
     const {
       categoryTypeValue,
@@ -107,35 +122,44 @@ class JokesFilters extends React.PureComponent<Props> {
       isCategoriesRedBorder,
       jokesState,
       changeSearchValue,
+      setTitleFilterRef,
     } = this.props;
+
+    const { titleImagesLoaded } = this.state;
 
     const isResetNotActive =
       JSON.stringify(jokesState) === JSON.stringify(defaultState);
-
     return (
       <section className="jokes-filters">
         <div className="container filters-container">
-          <h1 className="title notranslate">
-            <LazyLoad className="left-image">
+          <h1
+            ref={setTitleFilterRef}
+            className={`title notranslate${titleImagesLoaded ? " loaded" : ""}`}
+          >
+            <div className="left-image">
               <img alt="" src={neutralImage} />
-            </LazyLoad>
+            </div>
             <span>Get jokes</span>
             <div className="right-images">
-              <LazyLoad className="happy-image">
+              <div className="happy-image">
                 <img alt="" src={happyImage} />
-              </LazyLoad>
-              <LazyLoad className="sad-image">
-                <img alt="" src={sadImage} />
-              </LazyLoad>
+              </div>
+              <div className="sad-image">
+                <img
+                  onLoad={this.handleCheckTitleImagesLoad}
+                  alt=""
+                  src={sadImage}
+                />
+              </div>
             </div>
           </h1>
           <div className="left-column">
-            <LazyLoad className="happy-image img-wrapper">
-              <img alt="" src={happyImage} />
-            </LazyLoad>
-            <LazyLoad className="neutral-image img-wrapper">
-              <img alt="" src={neutralImage} />
-            </LazyLoad>
+            <div className="happy-image img-wrapper">
+              <LazyLoadImage alt={"Happy image"} src={happyImage} />
+            </div>
+            <div className="neutral-image img-wrapper">
+              <LazyLoadImage alt={"Neutral image"} src={neutralImage} />
+            </div>
           </div>
           <div className="center-column">
             <form className="filters">
@@ -286,9 +310,9 @@ class JokesFilters extends React.PureComponent<Props> {
             </form>
           </div>
           <div className="right-column">
-            <LazyLoad className="sad-image img-wrapper">
-              <img alt="" src={sadImage} />
-            </LazyLoad>
+            <div className="sad-image img-wrapper">
+              <LazyLoadImage alt="Sad image" src={sadImage} />
+            </div>
           </div>
         </div>
       </section>
@@ -334,6 +358,6 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type Props = ConnectedProps<typeof connector>;
+type ReduxProps = ConnectedProps<typeof connector>;
 
 export default connector(JokesFilters);
