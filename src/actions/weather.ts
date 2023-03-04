@@ -80,7 +80,7 @@ export const getCurrentLocationByGeo = () => {
           }
         } else throw new Error("City by geolocation not found");
       } catch (error) {
-        throw error;
+        console.log(error);
       }
 
       dispatch(showCurrentLocationPreloader(false));
