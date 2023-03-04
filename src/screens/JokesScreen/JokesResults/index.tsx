@@ -34,7 +34,11 @@ class JokesResults extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(_prevProps: Props, prevState: State) {
-    const { isShowJokesPreloader } = this.props;
+    const {
+      isShowJokesPreloader: isPreloader,
+      jokesList,
+      isError,
+    } = this.props;
     const { isTransitionJokesList, isTransitionError } = this.state;
     const {
       isTransitionJokesList: isTransitionJokesListPrev,
@@ -42,10 +46,10 @@ class JokesResults extends React.PureComponent<Props, State> {
     } = prevState;
 
     if (
-      (isShowJokesPreloader ||
-        (!isTransitionJokesList && isTransitionJokesListPrev) ||
-        (!isTransitionError && isTransitionErrorPrev)) &&
-      this.resultsSectionRef.current
+      (isTransitionJokesList !== isTransitionJokesListPrev ||
+        !isTransitionError !== isTransitionErrorPrev) &&
+      this.resultsSectionRef.current &&
+      (!!jokesList.length || isError || isPreloader)
     ) {
       this.resultsSectionRef.current.scrollIntoView({
         behavior: "smooth",
@@ -76,7 +80,7 @@ class JokesResults extends React.PureComponent<Props, State> {
         </CSSTransition>
         <CSSTransition
           in={isError && isTransitionError}
-          timeout={150}
+          timeout={300}
           mountOnEnter
           unmountOnExit
           onEnter={() =>

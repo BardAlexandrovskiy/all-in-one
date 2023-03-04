@@ -10,7 +10,7 @@ import { JokesItem as JokesItemType } from "../../../reducers/jokes";
 
 type State = {
   isPreloader: boolean;
-  joke: JokesItemType | null;
+  joke?: JokesItemType;
   isError: boolean;
   errorText: string;
 };
@@ -20,7 +20,7 @@ class JokesWidget extends React.PureComponent<object, State> {
     super(props);
     this.state = {
       isPreloader: false,
-      joke: null,
+      joke: undefined,
       isError: false,
       errorText: "",
     };

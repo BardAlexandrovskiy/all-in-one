@@ -1,8 +1,8 @@
 .lazyload-image {
   opacity: 0;
+  transition: ease-in opacity 0.3s;
 
   &.loaded {
     opacity: 1;
-    transition: ease-in opacity 0.3s;
   }
 }

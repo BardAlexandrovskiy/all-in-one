@@ -27,17 +27,13 @@ import Preloader from "../../../components/Preloader";
 import TextBanner from "../../../components/TextBanner";
 import "./styles.scss";
 import { RootState } from "../../../reducers";
-import {
-  LayoutSetStateArgs,
-  Props as WeatherInfoProps,
-  State as WeatherInfoState,
-} from "./index";
+import { Props as WeatherInfoProps, State as WeatherInfoState } from "./index";
 import LazyLoadImage from "../../../components/LazyLoadImage";
 
 type Props = ReduxProps &
   WeatherInfoProps &
   WeatherInfoState & {
-    layoutSetState: (stateObj: LayoutSetStateArgs) => void;
+    layoutSetState: (stateObj: Partial<WeatherInfoState>) => void;
     checkUpadate: () => Promise<void>;
   };
 
@@ -174,6 +170,7 @@ const WeatherInfoItemLayout = (props: Props) => {
           {!!backgroundImageSrc && (
             <div className="background-image">
               <LazyLoadImage
+                className="image"
                 callbackRef={setBackgroundRef}
                 src={backgroundImageSrc}
                 alt="Weather background"
@@ -189,7 +186,7 @@ const WeatherInfoItemLayout = (props: Props) => {
                     {weatherDescription}
                     {!!icon && (
                       <div className="icon">
-                        <LazyLoadImage src={icon} alt="" />
+                        <LazyLoadImage src={icon} alt="Weather icon" />
                       </div>
                     )}
                   </div>

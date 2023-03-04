@@ -23,20 +23,6 @@ export type State = {
   isInfoWeatherClosed: boolean;
 };
 
-export type LayoutSetStateArgs =
-  | {
-      isErrorBannerClosed: boolean;
-    }
-  | { isError: boolean }
-  | { isPreloader: boolean }
-  | {
-      errorText: string;
-      isInfoWeatherClosed: boolean;
-    }
-  | {
-      isInfoWeatherClosed: boolean;
-    };
-
 class WeatherInfoItem extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -125,7 +111,7 @@ class WeatherInfoItem extends React.PureComponent<Props, State> {
     }
   };
 
-  layoutSetState = (stateObj: LayoutSetStateArgs) => {
+  layoutSetState = (stateObj: Partial<State>) => {
     this.setState(stateObj as State);
   };
 

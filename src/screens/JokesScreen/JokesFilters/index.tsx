@@ -23,25 +23,24 @@ import sadImage from "../../../assets/images/jokes/sad.svg";
 import JokesSubmitButton from "../JokesSubmitButton";
 
 import { RootState } from "../../../reducers";
-import LazyLoadImage from "../../../components/LazyLoadImage";
 
 interface Props extends ReduxProps {
   setTitleFilterRef: (ref: HTMLDivElement | null) => void;
+  isShowTitleImages: boolean;
+  setFiltersHappyImageRef: (ref: HTMLDivElement | null) => void;
+  setFiltersNeutralImageRef: (ref: HTMLDivElement | null) => void;
+  setFiltersSadImageRef: (ref: HTMLDivElement | null) => void;
+  isShowHappyImage: { isActive: boolean };
+  isShowSadImage: { isActive: boolean; delay: boolean };
+  isShowNeutralImage: { isActive: boolean; delay: boolean };
 }
 
-type State = {
-  titleImagesLoaded: boolean;
-};
-
-class JokesFilters extends React.PureComponent<Props, State> {
+class JokesFilters extends React.PureComponent<Props> {
   private categoriesRef: React.RefObject<HTMLDivElement> | null;
 
   constructor(props: Props) {
     super(props);
     this.categoriesRef = React.createRef();
-    this.state = {
-      titleImagesLoaded: false,
-    };
   }
 
   componentDidUpdate = () => {
@@ -103,10 +102,6 @@ class JokesFilters extends React.PureComponent<Props, State> {
     }
   };
 
-  handleCheckTitleImagesLoad = () => {
-    this.setState({ titleImagesLoaded: true });
-  };
-
   render() {
     const {
       categoryTypeValue,
@@ -123,9 +118,17 @@ class JokesFilters extends React.PureComponent<Props, State> {
       jokesState,
       changeSearchValue,
       setTitleFilterRef,
+      isShowTitleImages,
+      setFiltersHappyImageRef,
+      setFiltersNeutralImageRef,
+      setFiltersSadImageRef,
+      isShowHappyImage,
+      isShowSadImage,
+      isShowNeutralImage,
     } = this.props;
 
-    const { titleImagesLoaded } = this.state;
+    jokesState.isCategoriesRedBorder = false;
+    jokesState.isShowJokesPreloader = false;
 
     const isResetNotActive =
       JSON.stringify(jokesState) === JSON.stringify(defaultState);
@@ -134,31 +137,37 @@ class JokesFilters extends React.PureComponent<Props, State> {
         <div className="container filters-container">
           <h1
             ref={setTitleFilterRef}
-            className={`title notranslate${titleImagesLoaded ? " loaded" : ""}`}
+            className={`title notranslate${isShowTitleImages ? " active" : ""}`}
           >
             <div className="left-image">
-              <img alt="" src={neutralImage} />
+              <img alt="Neutral face" src={neutralImage} />
             </div>
             <span>Get jokes</span>
             <div className="right-images">
               <div className="happy-image">
-                <img alt="" src={happyImage} />
+                <img alt="Happy face" src={happyImage} />
               </div>
               <div className="sad-image">
-                <img
-                  onLoad={this.handleCheckTitleImagesLoad}
-                  alt=""
-                  src={sadImage}
-                />
+                <img alt="Sad face" src={sadImage} />
               </div>
             </div>
           </h1>
           <div className="left-column">
-            <div className="happy-image img-wrapper">
-              <LazyLoadImage alt={"Happy image"} src={happyImage} />
+            <div
+              className={`happy-image img-wrapper${
+                isShowHappyImage.isActive ? " active" : ""
+              }`}
+              ref={setFiltersHappyImageRef}
+            >
+              <img alt={"Happy face"} src={happyImage} />
             </div>
-            <div className="neutral-image img-wrapper">
-              <LazyLoadImage alt={"Neutral image"} src={neutralImage} />
+            <div
+              className={`neutral-image img-wrapper${
+                isShowNeutralImage.isActive ? " active" : ""
+              }${isShowNeutralImage.delay ? " delay" : ""}`}
+              ref={setFiltersNeutralImageRef}
+            >
+              <img alt={"Neutral face"} src={neutralImage} />
             </div>
           </div>
           <div className="center-column">
@@ -310,8 +319,13 @@ class JokesFilters extends React.PureComponent<Props, State> {
             </form>
           </div>
           <div className="right-column">
-            <div className="sad-image img-wrapper">
-              <LazyLoadImage alt="Sad image" src={sadImage} />
+            <div
+              className={`sad-image img-wrapper${
+                isShowSadImage.isActive ? " active" : ""
+              }${isShowSadImage.delay ? " delay" : ""}`}
+              ref={setFiltersSadImageRef}
+            >
+              <img alt="Sad face" src={sadImage} />
             </div>
           </div>
         </div>

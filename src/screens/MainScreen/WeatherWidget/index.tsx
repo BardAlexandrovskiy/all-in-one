@@ -143,11 +143,12 @@ class WeatherWidget extends React.PureComponent<Props, State> {
           mountOnEnter
           unmountOnExit
         >
-          {!!backgroundImage && (
-            <div className="weather-background">
-              <LazyLoadImage src={backgroundImage} alt="Weather background" />
-            </div>
-          )}
+          <div className="weather-background">
+            <LazyLoadImage
+              src={backgroundImage ? backgroundImage : ""}
+              alt="Weather background"
+            />
+          </div>
         </CSSTransition>
         <CSSTransition
           in={!!weatherInfo && !isError}

@@ -14,28 +14,44 @@ import LazyLoadImage from "../../components/LazyLoadImage";
 
 type State = {
   isShowArrowUp: boolean;
+  isShowTitleImages: boolean;
+  isShowHappyImage: { isActive: boolean };
+  isShowSadImage: { isActive: boolean; delay: boolean };
+  isShowNeutralImage: { isActive: boolean; delay: boolean };
 };
 
 class JokesScreen extends React.PureComponent<object, State> {
   private scrollContainerRef: HTMLDivElement | null;
   private filtersTitleRef: HTMLDivElement | null;
-  private isFiltersTitleAnimationStarted: boolean;
   private arrowAlignmentBlockRef: React.RefObject<HTMLDivElement>;
   private resizeObserver: ResizeObserver | null;
   private setFiltersTitleRef: (ref: HTMLDivElement | null) => void;
   private setScrollContainerRef: (ref: HTMLDivElement | null) => void;
-  private animationFunction: () => void;
+  private filtersTitleAnimationFunction: (ref: HTMLDivElement) => void;
+  private filtersHappyImageRef: HTMLDivElement | null;
+  private filtersNeutralImageRef: HTMLDivElement | null;
+  private filtersSadImageRef: HTMLDivElement | null;
+  private setFiltersHappyImageRef: (ref: HTMLDivElement | null) => void;
+  private setFiltersNeutralImageRef: (ref: HTMLDivElement | null) => void;
+  private setFiltersSadImageRef: (ref: HTMLDivElement | null) => void;
+  private filtersImageAnimation: (
+    image: HTMLDivElement | null,
+    scrollContainer: HTMLDivElement,
+    name: "happy" | "sad" | "neutral"
+  ) => void;
   constructor(props: object) {
     super(props);
-    this.scrollContainerRef = null;
-    this.arrowAlignmentBlockRef = React.createRef();
-
     this.state = {
       isShowArrowUp: false,
+      isShowTitleImages: false,
+      isShowHappyImage: { isActive: false },
+      isShowSadImage: { isActive: false, delay: false },
+      isShowNeutralImage: { isActive: false, delay: false },
     };
+    this.scrollContainerRef = null;
+    this.arrowAlignmentBlockRef = React.createRef();
     this.resizeObserver = null;
     this.filtersTitleRef = null;
-    this.isFiltersTitleAnimationStarted = false;
     this.setScrollContainerRef = (ref) => {
       if (ref && !this.scrollContainerRef) {
         const arrowAlignmentBlock = this.arrowAlignmentBlockRef.current;
@@ -53,44 +69,96 @@ class JokesScreen extends React.PureComponent<object, State> {
         });
 
         this.resizeObserver.observe(scrollContainer);
+
+        this.filtersTitleAnimationFunction(ref);
+        this.filtersImageAnimation(this.filtersHappyImageRef, ref, "happy");
+        this.filtersImageAnimation(this.filtersNeutralImageRef, ref, "neutral");
+        this.filtersImageAnimation(this.filtersSadImageRef, ref, "sad");
       }
 
       this.scrollContainerRef = ref;
-
-      if (ref) {
-        this.animationFunction();
-      }
     };
     this.setFiltersTitleRef = (ref) => {
       this.filtersTitleRef = ref;
     };
-    this.animationFunction = () => {
-      if (
-        !this.isFiltersTitleAnimationStarted &&
-        this.filtersTitleRef &&
-        this.scrollContainerRef
-      ) {
-        this.isFiltersTitleAnimationStarted = true;
-        console.log("working");
-        const mm = gsap.matchMedia();
-        mm.add("(max-width: 640px)", () => {
-          gsap.registerPlugin(ScrollTrigger);
-          gsap.to(this.filtersTitleRef, {
-            scrollTrigger: {
-              trigger: this.scrollContainerRef,
-              endTrigger: this.filtersTitleRef,
-              start: "top top",
-              end: "bottom top",
-              markers: true,
-              toggleClass: {
-                className: "active",
-                targets: this.filtersTitleRef,
-              },
-              scroller: this.scrollContainerRef,
+    this.filtersTitleAnimationFunction = (ref) => {
+      const mm = gsap.matchMedia();
+      mm.add("(max-width: 640px)", () => {
+        const scroller = ref;
+        const trigger = this.filtersTitleRef;
+
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to(trigger, {
+          scrollTrigger: {
+            trigger: scroller,
+            endTrigger: trigger,
+            start: "top-=1px top",
+            end: "bottom top",
+            scroller: scroller,
+            onToggle: (self) => {
+              const { isActive } = self;
+              this.setState({ isShowTitleImages: isActive });
             },
-          });
+          },
         });
-      }
+      });
+    };
+    this.filtersHappyImageRef = null;
+    this.filtersNeutralImageRef = null;
+    this.filtersSadImageRef = null;
+    this.setFiltersHappyImageRef = (ref) => {
+      this.filtersHappyImageRef = ref;
+    };
+    this.setFiltersNeutralImageRef = (ref) => {
+      this.filtersNeutralImageRef = ref;
+    };
+    this.setFiltersSadImageRef = (ref) => {
+      this.filtersSadImageRef = ref;
+    };
+    this.filtersImageAnimation = (image, scrollContainer, name) => {
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 641px)", () => {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to(image, {
+          scrollTrigger: {
+            trigger: image,
+            start: "top bottom",
+            end: "bottom top",
+            scroller: scrollContainer,
+            onToggle: (self) => {
+              const { isActive, direction } = self;
+
+              switch (name) {
+                case "happy":
+                  this.setState({ isShowHappyImage: { isActive: isActive } });
+                  break;
+                case "sad":
+                  if (direction > -1) {
+                    this.setState({
+                      isShowSadImage: { isActive: isActive, delay: true },
+                    });
+                  } else {
+                    this.setState({
+                      isShowSadImage: { isActive: isActive, delay: false },
+                    });
+                  }
+                  break;
+                case "neutral":
+                  if (direction > -1) {
+                    this.setState({
+                      isShowNeutralImage: { isActive: isActive, delay: true },
+                    });
+                  } else {
+                    this.setState({
+                      isShowNeutralImage: { isActive: isActive, delay: false },
+                    });
+                  }
+                  break;
+              }
+            },
+          },
+        });
+      });
     };
   }
 
@@ -122,7 +190,13 @@ class JokesScreen extends React.PureComponent<object, State> {
   };
 
   render() {
-    const { isShowArrowUp } = this.state;
+    const {
+      isShowArrowUp,
+      isShowTitleImages,
+      isShowHappyImage,
+      isShowSadImage,
+      isShowNeutralImage,
+    } = this.state;
     return (
       <div className="jokes-screen screen">
         <div className="wrapper">
@@ -157,7 +231,16 @@ class JokesScreen extends React.PureComponent<object, State> {
             ref={this.setScrollContainerRef}
           >
             <div className="inner">
-              <JokesFilters setTitleFilterRef={this.setFiltersTitleRef} />
+              <JokesFilters
+                isShowTitleImages={isShowTitleImages}
+                setTitleFilterRef={this.setFiltersTitleRef}
+                setFiltersHappyImageRef={this.setFiltersHappyImageRef}
+                setFiltersNeutralImageRef={this.setFiltersNeutralImageRef}
+                setFiltersSadImageRef={this.setFiltersSadImageRef}
+                isShowHappyImage={isShowHappyImage}
+                isShowSadImage={isShowSadImage}
+                isShowNeutralImage={isShowNeutralImage}
+              />
               <JokesResults />
             </div>
           </div>

@@ -136,7 +136,7 @@ export const getWeatherFunction = async (
       };
     } else throw new Error(`${response.status}`);
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
