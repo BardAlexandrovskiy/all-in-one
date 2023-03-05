@@ -127,8 +127,6 @@ const WeatherInfoItemLayout = (props: Props) => {
     icon = getWeatherIconById(id, time);
   }
 
-  console.log(time);
-
   return (
     <div
       className={`weather-info-item${isActiveHeader ? " header-active" : ""}`}

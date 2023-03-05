@@ -41,13 +41,7 @@ class TasksFooter extends React.PureComponent<Props, State> {
     }
   };
 
-  handlePressInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      this.handleClickButton();
-    }
-  };
-
-  handleClickButton = () => {
+  addTask = () => {
     const { changeAddTaskInputValue, addTaskInputValue } = this.props;
     const value = addTaskInputValue.trim();
     if (addTaskInputValue.length && value) {
@@ -58,18 +52,31 @@ class TasksFooter extends React.PureComponent<Props, State> {
     } else {
       this.setState({ redInputBorder: true });
     }
-
     if (this.inputRef.current) {
       this.inputRef.current.focus();
     }
   };
 
-  handleBlurInput = () => {
-    const { setAddTaskInputFocus } = this.props;
-    setTimeout(() => {
-      setAddTaskInputFocus(false);
-      this.setState({ redInputBorder: false });
-    });
+  handlePressInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      this.addTask();
+    }
+  };
+
+  handleClickButton = () => {
+    this.addTask();
+  };
+
+  handleBlurInput = (e: React.FocusEvent<HTMLInputElement>) => {
+    const target = e.relatedTarget;
+    alert(target);
+    if (!e.relatedTarget?.classList.contains("add-button")) {
+      setTimeout(() => {
+        const { setAddTaskInputFocus } = this.props;
+        this.setState({ redInputBorder: false });
+        setAddTaskInputFocus(false);
+      });
+    }
   };
 
   handleFocusInput = () => {
@@ -125,6 +132,7 @@ class TasksFooter extends React.PureComponent<Props, State> {
                 mountOnEnter
               >
                 <button
+                  tabIndex={-1}
                   onClick={this.handleClickButton}
                   className="button add-button"
                 >

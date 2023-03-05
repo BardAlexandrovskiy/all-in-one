@@ -5,7 +5,7 @@ import logger from "redux-logger";
 import thunk from "redux-thunk";
 
 const store =
-  process.env.NODE_ENV !== "production"
+  process.env.NODE_ENV !== "production" && false
     ? createStore(
         rootReducer,
         composeWithDevTools(applyMiddleware(logger, thunk))

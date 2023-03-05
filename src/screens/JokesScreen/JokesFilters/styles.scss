@@ -102,10 +102,14 @@
         }
       }
 
-      .happy-image img {
-        transform: translate(500px, -100px);
-        opacity: 0;
-        transition: ease-in-out 0.3s;
+      .happy-image {
+        height: 100%;
+        width: auto;
+        img {
+          transform: translate(500px, -100px);
+          opacity: 0;
+          transition: ease-in-out 0.3s;
+        }
       }
     }
 
