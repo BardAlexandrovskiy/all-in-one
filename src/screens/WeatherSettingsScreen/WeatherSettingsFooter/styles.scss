@@ -25,6 +25,11 @@
     transition: 0.3s;
   }
 
+  .text-banner-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
   .text {
     background-color: $grey;
     flex-direction: column;

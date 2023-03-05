@@ -122,10 +122,12 @@ const WeatherInfoItemLayout = (props: Props) => {
   let backgroundImageSrc: string | undefined = undefined;
   let icon: string | undefined = undefined;
 
-  if (id && time) {
+  if (typeof id === "number" && typeof time === "number") {
     backgroundImageSrc = getWeatherBackgroundById(id, time);
     icon = getWeatherIconById(id, time);
   }
+
+  console.log(time);
 
   return (
     <div

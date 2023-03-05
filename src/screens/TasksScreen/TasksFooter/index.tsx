@@ -66,8 +66,10 @@ class TasksFooter extends React.PureComponent<Props, State> {
 
   handleBlurInput = () => {
     const { setAddTaskInputFocus } = this.props;
-    setAddTaskInputFocus(false);
-    this.setState({ redInputBorder: false });
+    setTimeout(() => {
+      setAddTaskInputFocus(false);
+      this.setState({ redInputBorder: false });
+    });
   };
 
   handleFocusInput = () => {

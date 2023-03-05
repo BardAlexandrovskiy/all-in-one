@@ -99,7 +99,7 @@ class WeatherWidget extends React.PureComponent<Props, State> {
     let backgroundImage: string | undefined = undefined;
     let icon: string | undefined = undefined;
 
-    if (id && time) {
+    if (typeof id === "number" && typeof time === "number") {
       backgroundImage = getWeatherBackgroundById(id, time);
       icon = getWeatherIconById(id, time);
     }

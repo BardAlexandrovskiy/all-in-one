@@ -35,13 +35,11 @@
     font-size: 40px;
     margin-bottom: 30px;
     grid-area: 1 / 1 / 2 / 4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+    display: grid;
 
     @media (max-width: 640px) {
       margin-bottom: 40px;
+      grid-template-columns: 1fr auto 1fr;
     }
 
     @media (max-width: 390px) {
@@ -77,13 +75,18 @@
     }
 
     .left-image {
-      transform: translate(-500px, -100px);
-      opacity: 0;
-      transition: ease-in-out 0.9s;
+      justify-self: end;
+
+      img {
+        transform: translate(-500px, -100px);
+        opacity: 0;
+        transition: ease-in-out 0.9s;
+      }
     }
 
     .right-images {
       position: relative;
+      justify-self: start;
 
       .sad-image {
         position: absolute;
@@ -91,12 +94,15 @@
         bottom: -46px;
         z-index: 0;
         height: 100%;
-        transform: translate(500px, 100px);
-        opacity: 0;
-        transition: ease-in-out 0.6s;
+
+        img {
+          transform: translate(500px, 100px);
+          opacity: 0;
+          transition: ease-in-out 0.6s;
+        }
       }
 
-      .happy-image {
+      .happy-image img {
         transform: translate(500px, -100px);
         opacity: 0;
         transition: ease-in-out 0.3s;
@@ -104,18 +110,18 @@
     }
 
     &.active {
-      .left-image {
+      .left-image img {
         transform: translate(0, 0);
         opacity: 1;
       }
 
       .right-images {
-        .sad-image {
+        .sad-image img {
           transform: translate(0, 0);
           opacity: 1;
         }
 
-        .happy-image {
+        .happy-image img {
           transform: translate(0, 0);
           opacity: 1;
         }

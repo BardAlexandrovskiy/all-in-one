@@ -31,9 +31,7 @@ import nightRainIcon from "../assets/images/weather/weather-condition-icons/nigh
 import rainIcon from "../assets/images/weather/weather-condition-icons/rain.svg";
 import scatteredCloudsIcon from "../assets/images/weather/weather-condition-icons/scattered-clouds.svg";
 import snowIcon from "../assets/images/weather/weather-condition-icons/snow.svg";
-// import snow2Icon from "../assets/images/weather/weather-condition-icons/snow-2.svg";
 import sunRainIcon from "../assets/images/weather/weather-condition-icons/sun-rain.svg";
-// import thunderstorm2Icon from "../assets/images/weather/weather-condition-icons/thunderstorm-2.svg";
 import thunderstormIcon from "../assets/images/weather/weather-condition-icons/thunderstorm.svg";
 import windIcon from "../assets/images/weather/weather-condition-icons/wind.svg";
 

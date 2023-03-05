@@ -16,6 +16,8 @@ import TextBanner from "../../../components/TextBanner";
 // Error image
 import errorImage from "../../../assets/images/error-image-3.svg";
 import { RootState } from "../../../reducers";
+import { CSSTransition } from "react-transition-group";
+import Preloader from "../../../components/Preloader";
 
 interface Props extends ReduxProps {
   firstSwiper: SwiperRef | undefined;
@@ -84,6 +86,14 @@ const WeatherMain = (props: Props) => {
             })}
         </Swiper>
       )}
+      <CSSTransition
+        in={isShowCurrentLocationPreloader}
+        timeout={300}
+        mountOnEnter
+        unmountOnExit
+      >
+        <Preloader />
+      </CSSTransition>
       {!locations.length && !currentCity && !isShowCurrentLocationPreloader && (
         <TextBanner
           image={errorImage}
