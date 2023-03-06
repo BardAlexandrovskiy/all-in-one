@@ -11,14 +11,14 @@ import WeatherSettingsScreen from "../screens/WeatherSettingsScreen";
 import { RootState } from "../reducers";
 
 type State = {
-  prevActiveElement: null | Element;
+  screenWidth: number;
 };
 
 class Router extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      prevActiveElement: null,
+      screenWidth: document.body.offsetWidth,
     };
   }
 
@@ -27,26 +27,29 @@ class Router extends React.Component<Props, State> {
     localStorage.setItem("all-in-one", JSON.stringify(store));
   };
 
-  componentDidMount() {
-    window.addEventListener("resize", this.windowResize);
-  }
-
-  windowResize = () => {
-    const { prevActiveElement } = this.state;
+  componentDidMount = () => {
     if (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
         navigator.userAgent
       )
     ) {
-      if (prevActiveElement === document.activeElement) {
-        if (document.activeElement instanceof HTMLElement) {
-          document.activeElement.blur();
-        }
-        this.setState({ prevActiveElement: null });
-      } else {
-        this.setState({ prevActiveElement: document.activeElement });
+      window.addEventListener("resize", this.windowResize);
+    }
+  };
+
+  windowResize = () => {
+    const { screenWidth } = this.state;
+    if (document.body.offsetWidth !== screenWidth) {
+      const activeElement = document.activeElement;
+      if (activeElement) {
+        (activeElement as HTMLElement).blur();
+        this.setState({ screenWidth: document.body.offsetWidth });
       }
     }
+  };
+
+  componentWillUnpount = () => {
+    window.removeEventListener("resize", this.windowResize);
   };
 
   render() {

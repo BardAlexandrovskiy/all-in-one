@@ -45,16 +45,11 @@ class WeatherSettingsFooter extends React.PureComponent<Props, State> {
 
   handlePressInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      this.handleClickButton();
+      this.addLocation();
     }
   };
 
-  componentWillUnmount = () => {
-    const { setAddLocationInputFocus } = this.props;
-    setAddLocationInputFocus(false);
-  };
-
-  handleClickButton = async () => {
+  addLocation = async () => {
     const { inputValue } = this.state;
     const { addNewLocation, showPreloader } = this.props;
 
@@ -98,10 +93,16 @@ class WeatherSettingsFooter extends React.PureComponent<Props, State> {
     }
   };
 
+  handleClickButton = async () => {
+    this.addLocation();
+  };
+
   handleBlurInput = () => {
-    const { setAddLocationInputFocus } = this.props;
-    setAddLocationInputFocus(false);
-    this.setState({ redInputBorder: false });
+    setTimeout(() => {
+      const { setAddLocationInputFocus } = this.props;
+      setAddLocationInputFocus(false);
+      this.setState({ redInputBorder: false });
+    });
   };
 
   handleFocusInput = () => {

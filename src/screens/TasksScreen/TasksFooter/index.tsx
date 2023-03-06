@@ -23,6 +23,7 @@ type State = {
 
 class TasksFooter extends React.PureComponent<Props, State> {
   private inputRef: React.RefObject<HTMLInputElement>;
+  private isButtonMouseDown: boolean;
 
   constructor(props: Props) {
     super(props);
@@ -30,6 +31,7 @@ class TasksFooter extends React.PureComponent<Props, State> {
       redInputBorder: false,
     };
     this.inputRef = React.createRef();
+    this.isButtonMouseDown = false;
   }
 
   handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,15 +69,15 @@ class TasksFooter extends React.PureComponent<Props, State> {
     this.addTask();
   };
 
-  handleBlurInput = (e: React.FocusEvent<HTMLInputElement>) => {
-    const target = e.relatedTarget;
-    alert(target);
-    if (!e.relatedTarget?.classList.contains("add-button")) {
+  handleBlurInput = () => {
+    if (!this.isButtonMouseDown) {
       setTimeout(() => {
         const { setAddTaskInputFocus } = this.props;
         this.setState({ redInputBorder: false });
         setAddTaskInputFocus(false);
       });
+    } else {
+      this.isButtonMouseDown = false;
     }
   };
 
@@ -132,7 +134,7 @@ class TasksFooter extends React.PureComponent<Props, State> {
                 mountOnEnter
               >
                 <button
-                  tabIndex={-1}
+                  onMouseDown={() => (this.isButtonMouseDown = true)}
                   onClick={this.handleClickButton}
                   className="button add-button"
                 >

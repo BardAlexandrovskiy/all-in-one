@@ -24,6 +24,12 @@ const TasksHeader = (props: Props) => {
     changeSearchTasksInputValue("");
   };
 
+  const handlePressSearchInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      (e.target as HTMLElement).blur();
+    }
+  };
+
   const {
     tasksList,
     searchTasksInputValue,
@@ -56,6 +62,7 @@ const TasksHeader = (props: Props) => {
               </div>
             </CSSTransition>
             <input
+              onKeyDown={handlePressSearchInput}
               className="search-input"
               onChange={handleChangeInput}
               type="text"
