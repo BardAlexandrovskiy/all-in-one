@@ -63,7 +63,10 @@ const TasksItem = (props: Props) => {
 
   const changedValue = (searchValue: string, string: string) => {
     if (searchValue) {
-      const regExp = new RegExp(searchValue.trim(), "gi");
+      const regExp = new RegExp(
+        searchValue.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+        "gi"
+      );
       const matchValue = string.match(regExp);
 
       if (matchValue) {
