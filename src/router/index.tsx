@@ -12,10 +12,12 @@ import { RootState } from "../reducers";
 
 class Router extends React.Component<Props> {
   private lastBodyHeight: number;
+  private timeoutId: ReturnType<typeof setTimeout> | undefined;
 
   constructor(props: Props) {
     super(props);
     this.lastBodyHeight = document.body.offsetHeight;
+    this.timeoutId = undefined;
   }
 
   componentDidUpdate = () => {
@@ -30,16 +32,18 @@ class Router extends React.Component<Props> {
       )
     ) {
       window.addEventListener("resize", () => {
-        const currentHeight = document.body.offsetHeight;
-        if (currentHeight === this.lastBodyHeight) {
-          if (window.visualViewport?.height === currentHeight) {
+        clearTimeout(this.timeoutId);
+        this.timeoutId = setTimeout(() => {
+          const currentHeight = document.body.offsetHeight;
+          if (currentHeight === this.lastBodyHeight) {
+            if (window.visualViewport?.height === currentHeight) {
+              (document.activeElement as HTMLElement).blur();
+            }
+          } else if (currentHeight > this.lastBodyHeight) {
             (document.activeElement as HTMLElement).blur();
           }
-        } else if (currentHeight > this.lastBodyHeight) {
-          (document.activeElement as HTMLElement).blur();
-        }
-
-        this.lastBodyHeight = currentHeight;
+          this.lastBodyHeight = currentHeight;
+        }, 50);
       });
     }
   };
