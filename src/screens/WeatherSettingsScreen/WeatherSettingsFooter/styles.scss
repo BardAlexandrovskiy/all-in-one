@@ -32,7 +32,7 @@
 
   .text {
     background-color: $grey;
-    flex-direction: column;
+    grid-template-columns: auto;
   }
 
   button {
