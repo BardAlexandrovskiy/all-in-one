@@ -10,16 +10,12 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import WeatherSettingsScreen from "../screens/WeatherSettingsScreen";
 import { RootState } from "../reducers";
 
-type State = {
-  screenWidth: number;
-};
+class Router extends React.Component<Props> {
+  private lastBodyHeight: number;
 
-class Router extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      screenWidth: document.body.offsetWidth,
-    };
+    this.lastBodyHeight = document.body.offsetHeight;
   }
 
   componentDidUpdate = () => {
@@ -33,24 +29,22 @@ class Router extends React.Component<Props, State> {
         navigator.userAgent
       )
     ) {
-      window.addEventListener("resize", this.windowResize);
+      window.addEventListener("resize", () => {
+        const currentHeight = document.body.offsetHeight;
+        if (currentHeight === this.lastBodyHeight) {
+          if (window.visualViewport?.height === currentHeight) {
+            (document.activeElement as HTMLElement).blur();
+          }
+        } else if (currentHeight > this.lastBodyHeight) {
+          (document.activeElement as HTMLElement).blur();
+        }
+
+        this.lastBodyHeight = currentHeight;
+      });
     }
   };
 
-  windowResize = () => {
-    const { screenWidth } = this.state;
-    if (document.body.offsetWidth !== screenWidth) {
-      const activeElement = document.activeElement;
-      if (activeElement) {
-        (activeElement as HTMLElement).blur();
-        this.setState({ screenWidth: document.body.offsetWidth });
-      }
-    }
-  };
-
-  componentWillUnpount = () => {
-    window.removeEventListener("resize", this.windowResize);
-  };
+  componentWillUnpount = () => {};
 
   render() {
     return (
