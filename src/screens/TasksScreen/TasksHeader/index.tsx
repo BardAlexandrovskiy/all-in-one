@@ -68,6 +68,7 @@ const TasksHeader = (props: Props) => {
               type="text"
               placeholder="Search"
               value={searchTasksInputValue}
+              tabIndex={-1}
             />
           </div>
         </div>

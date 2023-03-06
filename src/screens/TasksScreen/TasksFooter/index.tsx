@@ -126,6 +126,7 @@ class TasksFooter extends React.PureComponent<Props, State> {
                 value={addTaskInputValue}
                 type="text"
                 placeholder="Add Task"
+                tabIndex={-1}
               />
               <CSSTransition
                 in={!!addTaskInputValue}

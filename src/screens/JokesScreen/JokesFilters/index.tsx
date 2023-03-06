@@ -267,6 +267,7 @@ class JokesFilters extends React.PureComponent<Props> {
                     placeholder="Search string"
                     type="text"
                     value={searchValue}
+                    tabIndex={-1}
                   />
                   <CSSTransition
                     in={!!searchValue}
@@ -291,6 +292,7 @@ class JokesFilters extends React.PureComponent<Props> {
                     onKeyDown={this.handlePressEnterInput}
                     onBlur={this.handleBlurAmountInput}
                     type="number"
+                    tabIndex={-1}
                     value={amountValue}
                     max="10"
                     min="1"
