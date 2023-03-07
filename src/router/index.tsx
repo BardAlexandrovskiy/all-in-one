@@ -12,11 +12,13 @@ import { RootState } from "../reducers";
 
 class Router extends React.Component<Props> {
   private lastBodyHeight: number;
+  private lastBodyWidth: number;
   private timeoutId: ReturnType<typeof setTimeout> | undefined;
 
   constructor(props: Props) {
     super(props);
     this.lastBodyHeight = document.body.offsetHeight;
+    this.lastBodyWidth = document.body.offsetWidth;
     this.timeoutId = undefined;
   }
 
@@ -35,20 +37,29 @@ class Router extends React.Component<Props> {
         clearTimeout(this.timeoutId);
         this.timeoutId = setTimeout(() => {
           const currentHeight = document.body.offsetHeight;
-          if (currentHeight === this.lastBodyHeight) {
-            if (window.visualViewport?.height === currentHeight) {
+          const currentWidth = document.body.offsetWidth;
+
+          if (
+            document.activeElement?.tagName === "INPUT" &&
+            document.activeElement.getAttribute("type") === "text"
+          ) {
+            if (this.lastBodyWidth !== currentWidth) {
+              (document.activeElement as HTMLElement).blur();
+            } else if (currentHeight === this.lastBodyHeight) {
+              if (window.visualViewport?.height === currentHeight) {
+                (document.activeElement as HTMLElement).blur();
+              }
+            } else if (currentHeight > this.lastBodyHeight) {
               (document.activeElement as HTMLElement).blur();
             }
-          } else if (currentHeight > this.lastBodyHeight) {
-            (document.activeElement as HTMLElement).blur();
           }
+
           this.lastBodyHeight = currentHeight;
+          this.lastBodyWidth = currentWidth;
         }, 50);
       });
     }
   };
-
-  componentWillUnpount = () => {};
 
   render() {
     return (
