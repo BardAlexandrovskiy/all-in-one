@@ -13,20 +13,20 @@ import { RootState } from "../reducers";
 class Router extends React.Component<Props> {
   private lastBodyHeight: number;
   private lastBodyWidth: number;
-  private timeoutId: ReturnType<typeof setTimeout> | undefined;
   private isMobile: boolean;
-  private isKeyboardActive: boolean;
+  private resizeObserver: ResizeObserver | null;
+  private lastVisualViewportHeight: number | undefined;
 
   constructor(props: Props) {
     super(props);
     this.lastBodyHeight = document.body.offsetHeight;
     this.lastBodyWidth = document.body.offsetWidth;
-    this.timeoutId = undefined;
     this.isMobile =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
         navigator.userAgent
       );
-    this.isKeyboardActive = true;
+    this.resizeObserver = null;
+    this.lastVisualViewportHeight = window.visualViewport?.height;
   }
 
   componentDidUpdate = () => {
@@ -34,59 +34,56 @@ class Router extends React.Component<Props> {
     localStorage.setItem("all-in-one", JSON.stringify(store));
   };
 
-  handleWindowResizeEnd = () => {
-    console.log(document.body.offsetHeight);
-    clearTimeout(this.timeoutId);
-    this.timeoutId = setTimeout(() => {
-      const currentHeight = document.body.offsetHeight;
-      const currentWidth = document.body.offsetWidth;
-      if (
-        document.activeElement?.tagName === "INPUT" &&
-        document.activeElement.getAttribute("type") === "text"
-      ) {
-        if (this.lastBodyWidth !== currentWidth) {
+  handleWindowResize = () => {
+    const currentHeight = document.body.offsetHeight;
+    const currentWidth = document.body.offsetWidth;
+    if (document.activeElement?.tagName === "INPUT") {
+      if (this.lastBodyWidth !== currentWidth) {
+        (document.activeElement as HTMLElement).blur();
+      } else if (currentHeight === this.lastBodyHeight) {
+        if (window.visualViewport?.height === currentHeight) {
           (document.activeElement as HTMLElement).blur();
-          console.log("orientaion");
-        } else if (currentHeight === this.lastBodyHeight) {
-          if (window.visualViewport?.height === currentHeight) {
-            (document.activeElement as HTMLElement).blur();
-            console.log("v1");
-            console.log(currentHeight, this.lastBodyHeight);
-          }
-        } else if (currentHeight <= this.lastBodyHeight) {
-          (document.activeElement as HTMLElement).blur();
-          console.log(currentHeight, this.lastBodyHeight);
-          console.log("v2");
         }
       }
-      this.lastBodyHeight = currentHeight;
-      this.lastBodyWidth = currentWidth;
-
-      // const currentHeight = document.body.offsetHeight;
-      // const currentWidth = document.body.offsetWidth;
-      // if (this.lastBodyWidth !== currentWidth) {
-      //   (document.activeElement as HTMLElement).blur();
-      // } else {
-      //   this.isKeyboardActive = !this.isKeyboardActive;
-      // }
-      // if (!this.isKeyboardActive) {
-      //   (document.activeElement as HTMLElement).blur();
-      // }
-      // this.lastBodyHeight = currentHeight;
-      // this.lastBodyWidth = currentWidth;
-    }, 300);
+    }
   };
 
   componentDidMount = () => {
-    console.log(this.lastBodyHeight);
     if (this.isMobile) {
-      window.addEventListener("resize", this.handleWindowResizeEnd);
+      window.addEventListener("resize", this.handleWindowResize);
+
+      this.resizeObserver = new ResizeObserver(() => {
+        if (
+          this.lastVisualViewportHeight &&
+          window.visualViewport?.height &&
+          document.activeElement?.tagName === "INPUT"
+        ) {
+          if (
+            this.lastVisualViewportHeight < window.visualViewport?.height &&
+            Math.abs(
+              (this.lastVisualViewportHeight - window.visualViewport?.height) *
+                -1
+            ) > 60
+          ) {
+            (document.activeElement as HTMLElement).blur();
+          }
+        }
+
+        this.lastBodyHeight = document.body.offsetHeight;
+        this.lastBodyWidth = document.body.offsetWidth;
+        this.lastVisualViewportHeight = window.visualViewport?.height;
+      });
+      this.resizeObserver.observe(document.body);
     }
   };
 
   componentWillUnmount = () => {
     if (this.isMobile) {
-      window.removeEventListener("resize", this.handleWindowResizeEnd);
+      window.removeEventListener("resize", this.handleWindowResize);
+
+      if (this.resizeObserver) {
+        this.resizeObserver.unobserve(document.body);
+      }
     }
   };
 
