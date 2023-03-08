@@ -47,6 +47,9 @@ export const setGeoAccess = (bool: boolean) => {
 
 export const getCurrentLocationByGeo = () => {
   return (dispatch: Dispatch) => {
+    dispatch(showCurrentLocationPreloader(true));
+    dispatch(showCurrentLocationPreloader(true));
+
     const options = {
       enableHighAccuracy: true,
       maximumAge: 0,
@@ -59,7 +62,6 @@ export const getCurrentLocationByGeo = () => {
       const long = position.coords.longitude;
 
       dispatch(setGeoAccess(true));
-      dispatch(showCurrentLocationPreloader(true));
 
       try {
         const respone = await getWeatherFunction(undefined, lat, long);
@@ -88,12 +90,14 @@ export const getCurrentLocationByGeo = () => {
 
     const error = () => {
       dispatch(setGeoAccess(false));
+      dispatch(showCurrentLocationPreloader(false));
     };
 
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(success, error, options);
     } else {
       dispatch(setGeoAccess(false));
+      dispatch(showCurrentLocationPreloader(false));
     }
   };
 };

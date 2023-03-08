@@ -37,6 +37,8 @@
   }
 
   .inner {
+    overflow: hidden;
+
     .widgets-container {
       padding-top: 50px;
       padding-bottom: 50px;
@@ -60,36 +62,37 @@
       .hello-message-widget {
         opacity: 0;
         transition: 0.3s;
+        transform: translateY(-500px);
       }
 
       .weather-widget {
         opacity: 0;
-        transition: 0.3s;
+        transition: 0.3s 0.1s;
         transform: translateX(-500px);
       }
 
       .holidays-widget {
         opacity: 0;
-        transition: 0.3s;
-        transform: translateX(-500px);
+        transition: 0.3s 0.2s;
+        transform: translateX(500px);
       }
 
       .tasks-widget {
         opacity: 0;
-        transition: 0.3s;
+        transition: 0.3s 0.3s;
         transform: translateX(-500px);
       }
 
       .jokes-widget {
         opacity: 0;
-        transition: 0.3s;
-        transform: translateX(-500px);
+        transition: 0.3s 0.4s;
+        transform: translateX(500px);
       }
 
       &.active-widgets {
         .hello-message-widget {
           opacity: 1;
-          transform: translateX(0);
+          transform: translateY(0);
         }
 
         .weather-widget {

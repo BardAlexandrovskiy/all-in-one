@@ -58,7 +58,7 @@ class WeatherWidget extends React.PureComponent<Props, State> {
         1
       );
 
-      if (minutes > 5) {
+      if (minutes > 0) {
         isWeatherUpdate = true;
       }
     } else {
@@ -107,7 +107,7 @@ class WeatherWidget extends React.PureComponent<Props, State> {
     return (
       <Link to="/weather" className="weather-widget">
         <CSSTransition
-          in={isPreloader || isShowCurrentLocationPreloader}
+          in={isPreloader}
           timeout={300}
           mountOnEnter
           unmountOnExit

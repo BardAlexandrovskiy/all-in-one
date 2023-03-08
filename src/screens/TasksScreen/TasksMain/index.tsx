@@ -113,7 +113,11 @@ class TasksMain extends React.PureComponent<Props> {
                   .map((task) => {
                     const { check, value, id } = task;
                     return (
-                      <CSSTransition key={id} timeout={300}>
+                      <CSSTransition
+                        appear
+                        key={id}
+                        timeout={{ enter: 300, exit: 300, appear: 0 }}
+                      >
                         <TasksItem check={check} value={value} id={id} />
                       </CSSTransition>
                     );

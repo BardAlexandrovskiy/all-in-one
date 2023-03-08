@@ -31,6 +31,34 @@
     transition: 0.3s;
   }
 
+  &.appear {
+    opacity: 0;
+
+    &:nth-child(odd) {
+      transform: scale(0, 1) translateX(100%);
+    }
+
+    &:nth-child(even) {
+      transform-origin: right;
+      transform: scale(0, 1) translateX(-100%);
+    }
+  }
+
+  &.appear-done {
+    opacity: 1;
+    transform: scale(1);
+    transition: 0.3s;
+    transform: scale(1) translateX(0);
+
+    &:nth-child(odd) {
+      transform-origin: left;
+    }
+
+    &:nth-child(even) {
+      transform-origin: right;
+    }
+  }
+
   &.checked {
     .check-button {
       border: 1px solid rgb(93, 194, 175);
