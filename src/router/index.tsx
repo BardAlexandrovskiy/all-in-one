@@ -14,7 +14,6 @@ class Router extends React.Component<Props> {
   private lastBodyHeight: number;
   private lastBodyWidth: number;
   private isMobile: boolean;
-  private resizeObserver: ResizeObserver | null;
   private lastVisualViewportHeight: number | undefined;
 
   constructor(props: Props) {
@@ -25,7 +24,6 @@ class Router extends React.Component<Props> {
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
         navigator.userAgent
       );
-    this.resizeObserver = null;
     this.lastVisualViewportHeight = window.visualViewport?.height;
   }
 
@@ -37,53 +35,50 @@ class Router extends React.Component<Props> {
   handleWindowResize = () => {
     const currentHeight = document.body.offsetHeight;
     const currentWidth = document.body.offsetWidth;
-    if (document.activeElement?.tagName === "INPUT") {
-      if (this.lastBodyWidth !== currentWidth) {
+    const currentVisualViewportHeight = window.visualViewport?.height;
+
+    switch (true) {
+      case document.activeElement?.tagName !== "INPUT":
+        break;
+      case this.lastBodyWidth !== currentWidth:
         (document.activeElement as HTMLElement).blur();
-      } else if (currentHeight === this.lastBodyHeight) {
+        break;
+      case currentHeight === this.lastBodyHeight:
         if (window.visualViewport?.height === currentHeight) {
           (document.activeElement as HTMLElement).blur();
         }
-      }
-    }
-  };
-
-  componentDidMount = () => {
-    if (this.isMobile) {
-      window.addEventListener("resize", this.handleWindowResize);
-
-      this.resizeObserver = new ResizeObserver(() => {
+        break;
+      default:
         if (
-          this.lastVisualViewportHeight &&
-          window.visualViewport?.height &&
-          document.activeElement?.tagName === "INPUT"
+          typeof this.lastVisualViewportHeight === "number" &&
+          typeof currentVisualViewportHeight === "number"
         ) {
           if (
-            this.lastVisualViewportHeight < window.visualViewport?.height &&
+            this.lastVisualViewportHeight < currentVisualViewportHeight &&
             Math.abs(
-              (this.lastVisualViewportHeight - window.visualViewport?.height) *
-                -1
+              (this.lastVisualViewportHeight - currentVisualViewportHeight) * -1
             ) > 60
           ) {
             (document.activeElement as HTMLElement).blur();
           }
         }
+        break;
+    }
 
-        this.lastBodyHeight = document.body.offsetHeight;
-        this.lastBodyWidth = document.body.offsetWidth;
-        this.lastVisualViewportHeight = window.visualViewport?.height;
-      });
-      this.resizeObserver.observe(document.body);
+    this.lastBodyHeight = currentHeight;
+    this.lastBodyWidth = currentWidth;
+    this.lastVisualViewportHeight = currentVisualViewportHeight;
+  };
+
+  componentDidMount = () => {
+    if (this.isMobile) {
+      window.addEventListener("resize", this.handleWindowResize);
     }
   };
 
   componentWillUnmount = () => {
     if (this.isMobile) {
       window.removeEventListener("resize", this.handleWindowResize);
-
-      if (this.resizeObserver) {
-        this.resizeObserver.unobserve(document.body);
-      }
     }
   };
 

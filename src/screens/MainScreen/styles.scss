@@ -56,6 +56,62 @@
         padding-left: 10px;
         padding-right: 10px;
       }
+
+      .hello-message-widget {
+        opacity: 0;
+        transition: 0.3s;
+      }
+
+      .weather-widget {
+        opacity: 0;
+        transition: 0.3s;
+        transform: translateX(-500px);
+      }
+
+      .holidays-widget {
+        opacity: 0;
+        transition: 0.3s;
+        transform: translateX(-500px);
+      }
+
+      .tasks-widget {
+        opacity: 0;
+        transition: 0.3s;
+        transform: translateX(-500px);
+      }
+
+      .jokes-widget {
+        opacity: 0;
+        transition: 0.3s;
+        transform: translateX(-500px);
+      }
+
+      &.active-widgets {
+        .hello-message-widget {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        .weather-widget {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        .holidays-widget {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        .tasks-widget {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        .jokes-widget {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
     }
 
     .hello-message-widget {

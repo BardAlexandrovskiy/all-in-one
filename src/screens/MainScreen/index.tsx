@@ -4,6 +4,7 @@ import HolidaysWidget from "./HolidaysWidget";
 import WeatherWidget from "./WeatherWidget";
 import TasksWidget from "./TasksWidget";
 import JokesWidget from "./JokesWidget";
+import { useState, useEffect } from "react";
 
 // Images
 import eveningImage from "../../assets/images/home/evening.webp";
@@ -35,6 +36,12 @@ const MainScreen = () => {
       backgroundImage = eveningImage;
   }
 
+  const [isWidgetsActive, setWidgetsActive] = useState(false);
+
+  useEffect(() => {
+    setWidgetsActive(true);
+  }, []);
+
   return (
     <div className="main-screen screen">
       <div className="wrapper">
@@ -43,7 +50,11 @@ const MainScreen = () => {
         </div>
         <div className="scroll-container">
           <div className="inner">
-            <div className="container widgets-container">
+            <div
+              className={`container widgets-container${
+                isWidgetsActive ? " active-widgets" : ""
+              }`}
+            >
               <div className="hello-message-widget">
                 <h1>{helloMessage}</h1>
               </div>
