@@ -98,11 +98,7 @@ const RouterAnimation = () => {
     <>
       <div className="screens-wrapper">
         <TransitionGroup component={null}>
-          <CSSTransition
-            appear
-            key={location.key}
-            timeout={{ enter: 300, exit: 300, appear: 0 }}
-          >
+          <CSSTransition key={location.key} timeout={300}>
             <Routes location={location}>
               <Route path="/" element={<MainScreen />} />
               <Route path="/fun" element={<JokesScreen />} />
