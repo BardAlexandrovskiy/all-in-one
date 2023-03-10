@@ -30,7 +30,9 @@ const WeatherSettingsScreen = (props: Props) => {
       </header>
       <div
         className={`weather-settings-main${
-          addLocationInputFocus ? " add-location-input-active" : ""
+          addLocationInputFocus && /iPhone|iPad|iPod/i.test(navigator.userAgent)
+            ? " add-location-input-active"
+            : ""
         }`}
       >
         <CSSTransition

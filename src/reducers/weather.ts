@@ -190,11 +190,7 @@ export function weatherReducer(
         isGeoAccess: payload.bool,
       };
     case SET_ADD_LOCATION_INPUT_FOCUS:
-      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        return { ...state, addLocationInputFocus: payload.bool };
-      } else {
-        return state;
-      }
+      return { ...state, addLocationInputFocus: payload.bool };
     default:
       return state;
   }

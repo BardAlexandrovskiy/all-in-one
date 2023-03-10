@@ -8,15 +8,21 @@ const TasksWelcomeBanner = ({ addTaskInputFocus }: Props) => {
   return (
     <div
       className={`tasks-welcome-banner${
-        addTaskInputFocus ? " add-task-input-active" : ""
+        addTaskInputFocus && /iPhone|iPad|iPod/i.test(navigator.userAgent)
+          ? " add-task-input-active"
+          : ""
       }`}
     >
       <div className="container">
         <div className="text">
-          This is where your tasks will be. You can add your first task in the
-          field below.
+          <span>
+            This is where your tasks will be. You can add your first task in the
+            field below.
+          </span>
         </div>
-        <FontAwesomeIcon icon={faAngleDown} />
+        <div className="animated-arrow-down">
+          <FontAwesomeIcon icon={faAngleDown} />
+        </div>
       </div>
     </div>
   );

@@ -80,7 +80,9 @@ class TasksMain extends React.PureComponent<Props> {
     return (
       <main
         className={`tasks-main${
-          addTaskInputFocus ? " add-tasks-input-active" : ""
+          addTaskInputFocus && /iPhone|iPad|iPod/i.test(navigator.userAgent)
+            ? " add-tasks-input-active"
+            : ""
         }`}
         ref={this.setTasksMainRef}
       >

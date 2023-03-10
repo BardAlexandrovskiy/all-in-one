@@ -132,11 +132,7 @@ export function tasksReducer(state: TasksState = initialState, action: Action) {
         }),
       };
     case SET_ADD_TASK_INPUT_FOCUS:
-      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        return { ...state, addTaskInputFocus: payload.bool };
-      } else {
-        return state;
-      }
+      return { ...state, addTaskInputFocus: payload.bool };
     default:
       return state;
   }

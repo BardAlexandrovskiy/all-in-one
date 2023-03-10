@@ -1,12 +1,13 @@
 .tasks-welcome-banner {
   height: 100%;
-  align-items: center;
+  flex-grow: 1;
+  display: flex;
   background-color: $black;
-  overflow: auto;
-  display: grid;
+  align-items: center;
+  overflow: hidden;
 
   &.add-task-input-active {
-    align-items: end;
+    align-items: flex-end;
   }
 
   &.enter {
@@ -34,12 +35,13 @@
   }
 
   .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    max-height: 100%;
     padding-top: 20px;
     padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   .text {
@@ -48,42 +50,67 @@
     background-color: $grey;
     padding: 30px 20px;
     border-radius: 10px;
-    margin-bottom: 20px;
     text-align: center;
-    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: auto;
+    max-height: 100%;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 1fr;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
 
     @media (max-width: 1024px) {
       font-size: 20px;
     }
+
+    span {
+      width: 100%;
+      word-wrap: break-word;
+      overflow: auto;
+      max-height: 100%;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
 
-  svg {
-    transition-property: -webkit-transform;
-    transition-duration: 1s;
-    -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 1s;
-    animation-name: pulse;
-    animation-duration: 1.5s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    color: white;
-    font-size: 70px;
-  }
+  .animated-arrow-down {
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  @keyframes pulse {
-    0% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
+    svg {
+      transition-property: -webkit-transform;
+      transition-duration: 1s;
+      -moz-transition-property: -moz-transform;
+      -moz-transition-duration: 1s;
+      animation-name: pulse;
+      animation-duration: 1.5s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      color: white;
+      font-size: 70px;
     }
 
-    50% {
-      -webkit-transform: scale(1.2);
-      transform: scale(1.2);
-    }
+    @keyframes pulse {
+      0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
 
-    100% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
+      50% {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+      }
+
+      100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
     }
   }
 }

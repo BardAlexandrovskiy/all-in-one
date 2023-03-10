@@ -13,7 +13,20 @@ import { RootState } from "../reducers";
 class Router extends React.Component<Props> {
   componentDidUpdate = () => {
     const { store } = this.props;
-    localStorage.setItem("all-in-one", JSON.stringify(store));
+    const storeCopy = JSON.parse(JSON.stringify(store));
+
+    storeCopy.holidays.isShowHolidaysPreloader = false;
+    storeCopy.jokes.isCategoriesRedBorder = false;
+    storeCopy.jokes.isShowJokesPreloader = false;
+    storeCopy.tasks.addTaskInputFocus = false;
+    storeCopy.weather.addLocationInputFocus = false;
+    storeCopy.weather.isActiveHeader = false;
+    storeCopy.weather.isShowCurrentLocationPreloader = false;
+    storeCopy.weather.isShowSettingsPreloader = false;
+
+    console.log(store);
+
+    localStorage.setItem("all-in-one", JSON.stringify(storeCopy));
   };
 
   render() {
