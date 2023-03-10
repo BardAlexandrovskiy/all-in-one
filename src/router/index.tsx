@@ -11,75 +11,9 @@ import WeatherSettingsScreen from "../screens/WeatherSettingsScreen";
 import { RootState } from "../reducers";
 
 class Router extends React.Component<Props> {
-  private lastBodyHeight: number;
-  private lastBodyWidth: number;
-  private isMobile: boolean;
-  private lastVisualViewportHeight: number | undefined;
-
-  constructor(props: Props) {
-    super(props);
-    this.lastBodyHeight = document.body.offsetHeight;
-    this.lastBodyWidth = document.body.offsetWidth;
-    this.isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
-        navigator.userAgent
-      );
-    this.lastVisualViewportHeight = window.visualViewport?.height;
-  }
-
   componentDidUpdate = () => {
     const { store } = this.props;
     localStorage.setItem("all-in-one", JSON.stringify(store));
-  };
-
-  handleWindowResize = () => {
-    const currentHeight = document.body.offsetHeight;
-    const currentWidth = document.body.offsetWidth;
-    const currentVisualViewportHeight = window.visualViewport?.height;
-
-    switch (true) {
-      case document.activeElement?.tagName !== "INPUT":
-        break;
-      case this.lastBodyWidth !== currentWidth:
-        (document.activeElement as HTMLElement).blur();
-        break;
-      case currentHeight === this.lastBodyHeight:
-        if (window.visualViewport?.height === currentHeight) {
-          (document.activeElement as HTMLElement).blur();
-        }
-        break;
-      default:
-        if (
-          typeof this.lastVisualViewportHeight === "number" &&
-          typeof currentVisualViewportHeight === "number"
-        ) {
-          if (
-            this.lastVisualViewportHeight < currentVisualViewportHeight &&
-            Math.abs(
-              (this.lastVisualViewportHeight - currentVisualViewportHeight) * -1
-            ) > 60
-          ) {
-            (document.activeElement as HTMLElement).blur();
-          }
-        }
-        break;
-    }
-
-    this.lastBodyHeight = currentHeight;
-    this.lastBodyWidth = currentWidth;
-    this.lastVisualViewportHeight = currentVisualViewportHeight;
-  };
-
-  componentDidMount = () => {
-    if (this.isMobile) {
-      window.addEventListener("resize", this.handleWindowResize);
-    }
-  };
-
-  componentWillUnmount = () => {
-    if (this.isMobile) {
-      window.removeEventListener("resize", this.handleWindowResize);
-    }
   };
 
   render() {

@@ -36,7 +36,7 @@ class TasksFooter extends React.PureComponent<Props, State> {
 
   handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { changeAddTaskInputValue } = this.props;
-    const value = e.target.value.replace(/\s+/g, " ").trimLeft();
+    const value = e.target.value.replace(/\s+/g, " ").trimStart();
 
     if (value.length <= 140) {
       changeAddTaskInputValue(value);
