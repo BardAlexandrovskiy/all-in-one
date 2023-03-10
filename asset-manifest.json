@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/all-in-one/static/css/main.7f2c5ce5.css",
-    "main.js": "/all-in-one/static/js/main.0b6092ef.js",
+    "main.css": "/all-in-one/static/css/main.01fb31f7.css",
+    "main.js": "/all-in-one/static/js/main.004f2351.js",
     "static/media/day.webp": "/all-in-one/static/media/day.993797887fb1b99e9f8b.webp",
     "static/media/rain.webp": "/all-in-one/static/media/rain.acc6a59d6980a8b5ea52.webp",
     "static/media/night.webp": "/all-in-one/static/media/night.04f22a8e6730d229ac4e.webp",
@@ -46,8 +46,8 @@
     "static/media/rain.svg": "/all-in-one/static/media/rain.d818e2773106ea89e4510e1bf271eeed.svg",
     "static/media/scattered-clouds.svg": "/all-in-one/static/media/scattered-clouds.069ce47eabee229b276c8358436f8889.svg",
     "static/media/wind.svg": "/all-in-one/static/media/wind.b3edd71c9c8d077ada4a93d914890943.svg",
-    "static/media/pressure-icon.svg": "/all-in-one/static/media/pressure-icon.c42fc056fabefa5605fb5b103dff08fe.svg",
     "index.html": "/all-in-one/index.html",
+    "static/media/pressure-icon.svg": "/all-in-one/static/media/pressure-icon.c42fc056fabefa5605fb5b103dff08fe.svg",
     "static/media/wind-direction-icon.svg": "/all-in-one/static/media/wind-direction-icon.91f6c105bd87960f1932da832313e2b7.svg",
     "static/media/freezing-rain.svg": "/all-in-one/static/media/freezing-rain.b54eaddb9d75fa192c80db7f33fbd83e.svg",
     "static/media/drizzle.svg": "/all-in-one/static/media/drizzle.fbd58cdf1528925c77ad1f2dd352c6f6.svg",
@@ -57,11 +57,11 @@
     "static/media/few-clouds.svg": "/all-in-one/static/media/few-clouds.ad4b08ecc5d5bb8b517b7036e040cb39.svg",
     "static/media/clear-sky-night.svg": "/all-in-one/static/media/clear-sky-night.a52da30dd5d921ccc8016d9695590f62.svg",
     "static/media/clear-sky.svg": "/all-in-one/static/media/clear-sky.c8b63169ee96cade77ac9a02258d7607.svg",
-    "main.7f2c5ce5.css.map": "/all-in-one/static/css/main.7f2c5ce5.css.map",
-    "main.0b6092ef.js.map": "/all-in-one/static/js/main.0b6092ef.js.map"
+    "main.01fb31f7.css.map": "/all-in-one/static/css/main.01fb31f7.css.map",
+    "main.004f2351.js.map": "/all-in-one/static/js/main.004f2351.js.map"
   },
   "entrypoints": [
-    "static/css/main.7f2c5ce5.css",
-    "static/js/main.0b6092ef.js"
+    "static/css/main.01fb31f7.css",
+    "static/js/main.004f2351.js"
   ]
 }
