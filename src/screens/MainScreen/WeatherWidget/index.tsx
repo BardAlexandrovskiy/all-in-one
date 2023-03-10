@@ -107,7 +107,7 @@ class WeatherWidget extends React.PureComponent<Props, State> {
     return (
       <Link to="/weather" className="weather-widget">
         <CSSTransition
-          in={isPreloader}
+          in={isPreloader || isShowCurrentLocationPreloader}
           timeout={300}
           mountOnEnter
           unmountOnExit
