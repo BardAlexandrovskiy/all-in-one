@@ -10,6 +10,18 @@
     align-items: flex-end;
   }
 
+  &.appear .container {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  &.appear-active .container {
+    opacity: 1;
+    transform: translateX(0);
+    transform-origin: left;
+    transition: 0.3s;
+  }
+
   &.enter {
     opacity: 0;
     transform: translateX(100%);
@@ -19,7 +31,7 @@
     opacity: 1;
     transform: translateX(0);
     transform-origin: right;
-    transition: 0.15s;
+    transition: 0.3s;
   }
 
   &.exit {

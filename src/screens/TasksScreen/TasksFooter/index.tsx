@@ -19,6 +19,7 @@ import { RootState } from "../../../reducers";
 
 type State = {
   redInputBorder: boolean;
+  isMounted: boolean;
 };
 
 class TasksFooter extends React.PureComponent<Props, State> {
@@ -29,10 +30,17 @@ class TasksFooter extends React.PureComponent<Props, State> {
     super(props);
     this.state = {
       redInputBorder: false,
+      isMounted: false,
     };
     this.inputRef = React.createRef();
     this.isButtonMouseDown = false;
   }
+
+  componentDidMount = () => {
+    setTimeout(() => {
+      this.setState({ isMounted: true });
+    });
+  };
 
   handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { changeAddTaskInputValue } = this.props;
@@ -88,7 +96,7 @@ class TasksFooter extends React.PureComponent<Props, State> {
 
   render() {
     const { addTaskInputValue, tasksList } = this.props;
-    const { redInputBorder } = this.state;
+    const { redInputBorder, isMounted } = this.state;
     return (
       <footer className="tasks-footer">
         <CSSTransition
@@ -96,6 +104,7 @@ class TasksFooter extends React.PureComponent<Props, State> {
           timeout={300}
           mountOnEnter
           unmountOnExit
+          appear
         >
           <div className="filters">
             <div className="filters-container container">
@@ -114,7 +123,7 @@ class TasksFooter extends React.PureComponent<Props, State> {
             </div>
           </div>
         </CSSTransition>
-        <div className="add-task-input">
+        <div className={`add-task-input${isMounted ? " mounted" : ""}`}>
           <div className="container input-container">
             <div className={`input-wrapper${redInputBorder ? " red" : ""}`}>
               <input

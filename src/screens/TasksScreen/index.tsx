@@ -37,7 +37,11 @@ class TasksScreen extends React.PureComponent<Props> {
     return (
       <div className="screen tasks-screen">
         <SwitchTransition mode="out-in">
-          <CSSTransition timeout={300} key={(!tasksList.length).toString()}>
+          <CSSTransition
+            appear
+            timeout={300}
+            key={(!tasksList.length).toString()}
+          >
             {!tasksList.length ? (
               <TasksWelcomeBanner />
             ) : (

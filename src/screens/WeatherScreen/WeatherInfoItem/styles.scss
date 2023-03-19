@@ -11,14 +11,6 @@
     padding-top: 56px;
   }
 
-  &.header-active {
-    padding-top: 52px;
-
-    @media (max-width: 1024px) {
-      padding-top: 46px;
-    }
-  }
-
   .preloader {
     background-color: $black;
   }
@@ -128,10 +120,10 @@
     overflow: hidden;
 
     img {
-      transition: top ease-out 0.5s, opacity ease-in 0.3s;
+      transition: opacity ease-in 0.3s;
       position: absolute;
-      top: -30%;
-      height: 130%;
+      top: -15%;
+      height: 115%;
       left: 0;
       width: 100%;
       object-fit: cover;

@@ -24,8 +24,6 @@ class Router extends React.Component<Props> {
     storeCopy.weather.isShowCurrentLocationPreloader = false;
     storeCopy.weather.isShowSettingsPreloader = false;
 
-    console.log(store);
-
     localStorage.setItem("all-in-one", JSON.stringify(storeCopy));
   };
 

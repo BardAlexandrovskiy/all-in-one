@@ -7,12 +7,14 @@
   .filters {
     background-color: lighten($grey, 10);
 
-    &.enter {
+    &.enter,
+    &.appear {
       opacity: 0;
       transform: translateX(-100%);
     }
 
-    &.enter-active {
+    &.enter-active,
+    &.appear-active {
       opacity: 1;
       transition: 0.3s;
       transform: translateX(0);
@@ -56,6 +58,14 @@
 
   .add-task-input {
     background-color: $grey;
+    transform: translateX(100%);
+    transition: 0.3s;
+    opacity: 0;
+
+    &.mounted {
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
 
   .input-container {

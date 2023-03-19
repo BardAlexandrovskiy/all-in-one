@@ -1,7 +1,3 @@
-import { useLayoutEffect, useRef } from "react";
-import { changeWeatherHeader } from "../../../actions/weather";
-import { connect, ConnectedProps } from "react-redux";
-
 // Weather icons
 import { ReactComponent as SunriseIcon } from "../../../assets/images/weather/icons/sunrise-icon.svg";
 import { ReactComponent as SunsetIcon } from "../../../assets/images/weather/icons/sunset-icon.svg";
@@ -16,8 +12,6 @@ import { ReactComponent as PressureIcon } from "../../../assets/images/weather/i
 // Error image
 import errorImage from "../../../assets/images/error-image-3.svg";
 
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import {
   getWeatherBackgroundById,
   getWeatherIconById,
@@ -26,71 +20,22 @@ import { CSSTransition } from "react-transition-group";
 import Preloader from "../../../components/Preloader";
 import TextBanner from "../../../components/TextBanner";
 import "./styles.scss";
-import { RootState } from "../../../reducers";
 import { Props as WeatherInfoProps, State as WeatherInfoState } from "./index";
 import LazyLoadImage from "../../../components/LazyLoadImage";
 
-type Props = ReduxProps &
-  WeatherInfoProps &
+type Props = WeatherInfoProps &
   WeatherInfoState & {
     layoutSetState: (stateObj: Partial<WeatherInfoState>) => void;
     checkUpadate: () => Promise<void>;
+    handleScrollInfoBlock: () => void;
+    setInfoBlockRef: (ref: null | HTMLDivElement) => void;
+    setTriggerRef: (ref: null | HTMLDivElement) => void;
+    setBackgroundImageRef: (ref: null | HTMLImageElement) => void;
   };
 
 const WeatherInfoItemLayout = (props: Props) => {
-  const infoBlockRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
-  let backgroundImageRef: null | HTMLImageElement = null;
-
-  const setBackgroundRef = (ref: HTMLImageElement | null) => {
-    if (ref && !backgroundImageRef && triggerRef) {
-      gsap.registerPlugin(ScrollTrigger);
-      gsap.to(ref, {
-        scrollTrigger: {
-          trigger: triggerRef.current,
-          scrub: true,
-          start: "top top",
-          end: "bottom bottom",
-          scroller: infoBlockRef.current,
-        },
-        top: "0%",
-      });
-    }
-
-    backgroundImageRef = ref;
-  };
-
-  useLayoutEffect(() => {
-    const { isActive } = props;
-    if (!isActive && infoBlockRef.current) {
-      infoBlockRef.current.scrollTop = 0;
-    }
-
-    return () => {
-      const { isActiveHeader, changeWeatherHeader } = props;
-      if (isActiveHeader) {
-        changeWeatherHeader(false);
-      }
-    };
-  });
-
-  const handleScrollInfoBlock = () => {
-    const { changeWeatherHeader, isActiveHeader } = props;
-
-    if (infoBlockRef.current) {
-      const currentScrollPosition = infoBlockRef.current.scrollTop;
-
-      if (currentScrollPosition && !isActiveHeader) {
-        changeWeatherHeader(true);
-      } else if (!currentScrollPosition && isActiveHeader) {
-        changeWeatherHeader(false);
-      }
-    }
-  };
-
   const {
     weatherInfo,
-    isActiveHeader,
     isPreloader,
     errorText,
     isError,
@@ -98,6 +43,10 @@ const WeatherInfoItemLayout = (props: Props) => {
     isInfoWeatherClosed,
     layoutSetState,
     checkUpadate,
+    setInfoBlockRef,
+    setTriggerRef,
+    setBackgroundImageRef,
+    handleScrollInfoBlock,
   } = props;
 
   const {
@@ -128,9 +77,7 @@ const WeatherInfoItemLayout = (props: Props) => {
   }
 
   return (
-    <div
-      className={`weather-info-item${isActiveHeader ? " header-active" : ""}`}
-    >
+    <div className={`weather-info-item`}>
       <CSSTransition in={isPreloader} timeout={300} mountOnEnter unmountOnExit>
         <Preloader />
       </CSSTransition>
@@ -164,20 +111,20 @@ const WeatherInfoItemLayout = (props: Props) => {
       >
         <div
           className="info"
-          ref={infoBlockRef}
+          ref={setInfoBlockRef}
           onScroll={handleScrollInfoBlock}
         >
           {!!backgroundImageSrc && (
             <div className="background-image">
               <LazyLoadImage
                 className="image"
-                callbackRef={setBackgroundRef}
+                callbackRef={setBackgroundImageRef}
                 src={backgroundImageSrc}
                 alt="Weather background"
               />
             </div>
           )}
-          <div className="trigger-wrapper" ref={triggerRef}>
+          <div className="trigger-wrapper" ref={setTriggerRef}>
             <div className="container info-container">
               <div className="main">
                 {!!temp && <span className="current-temp">{temp}</span>}
@@ -264,16 +211,4 @@ const WeatherInfoItemLayout = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: RootState) => {
-  return { isActiveHeader: state.weather.isActiveHeader };
-};
-
-const mapDispatchToProps = {
-  changeWeatherHeader: (bool: boolean) => changeWeatherHeader(bool),
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type ReduxProps = ConnectedProps<typeof connector>;
-
-export default connector(WeatherInfoItemLayout);
+export default WeatherInfoItemLayout;

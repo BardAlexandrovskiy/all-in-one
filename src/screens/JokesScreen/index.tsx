@@ -53,29 +53,6 @@ class JokesScreen extends React.PureComponent<object, State> {
     this.resizeObserver = null;
     this.filtersTitleRef = null;
     this.setScrollContainerRef = (ref) => {
-      if (ref && !this.scrollContainerRef) {
-        const arrowAlignmentBlock = this.arrowAlignmentBlockRef.current;
-        const scrollContainer = ref;
-        this.resizeObserver = new ResizeObserver(() => {
-          if (scrollContainer && arrowAlignmentBlock) {
-            if (scrollContainer.offsetWidth > scrollContainer.scrollWidth) {
-              const offset =
-                scrollContainer.offsetWidth - scrollContainer.scrollWidth;
-              arrowAlignmentBlock.style.width = `calc(100% - ${offset}px)`;
-            } else {
-              arrowAlignmentBlock.removeAttribute("style");
-            }
-          }
-        });
-
-        this.resizeObserver.observe(scrollContainer);
-
-        this.filtersTitleAnimationFunction(ref);
-        this.filtersImageAnimation(this.filtersHappyImageRef, ref, "happy");
-        this.filtersImageAnimation(this.filtersNeutralImageRef, ref, "neutral");
-        this.filtersImageAnimation(this.filtersSadImageRef, ref, "sad");
-      }
-
       this.scrollContainerRef = ref;
     };
     this.setFiltersTitleRef = (ref) => {
@@ -162,6 +139,42 @@ class JokesScreen extends React.PureComponent<object, State> {
     };
   }
 
+  componentDidMount = () => {
+    const arrowAlignmentBlock = this.arrowAlignmentBlockRef.current;
+    const scrollContainer = this.scrollContainerRef;
+    this.resizeObserver = new ResizeObserver(() => {
+      if (scrollContainer && arrowAlignmentBlock) {
+        if (scrollContainer.offsetWidth > scrollContainer.scrollWidth) {
+          const offset =
+            scrollContainer.offsetWidth - scrollContainer.scrollWidth;
+          arrowAlignmentBlock.style.width = `calc(100% - ${offset}px)`;
+        } else {
+          arrowAlignmentBlock.removeAttribute("style");
+        }
+      }
+    });
+
+    if (scrollContainer) {
+      this.resizeObserver.observe(scrollContainer);
+      this.filtersTitleAnimationFunction(scrollContainer);
+      this.filtersImageAnimation(
+        this.filtersHappyImageRef,
+        scrollContainer,
+        "happy"
+      );
+      this.filtersImageAnimation(
+        this.filtersNeutralImageRef,
+        scrollContainer,
+        "neutral"
+      );
+      this.filtersImageAnimation(
+        this.filtersSadImageRef,
+        scrollContainer,
+        "sad"
+      );
+    }
+  };
+
   handleScroll = () => {
     const { isShowArrowUp: prevIsShowArrowUp } = this.state;
 
@@ -187,6 +200,19 @@ class JokesScreen extends React.PureComponent<object, State> {
     if (this.resizeObserver && this.scrollContainerRef) {
       this.resizeObserver.unobserve(this.scrollContainerRef);
     }
+
+    ScrollTrigger.getAll().forEach((trigger) => {
+      const currentTrigger = trigger.vars.trigger;
+
+      if (
+        this.filtersHappyImageRef === currentTrigger ||
+        this.filtersNeutralImageRef === currentTrigger ||
+        this.filtersSadImageRef === currentTrigger ||
+        this.scrollContainerRef === currentTrigger
+      ) {
+        trigger.kill();
+      }
+    });
   };
 
   render() {

@@ -11,7 +11,8 @@
   flex-direction: column;
   overflow: hidden;
 
-  &.enter {
+  &.enter,
+  &.appear {
     .tasks-header {
       .search {
         opacity: 0;
@@ -30,7 +31,8 @@
     }
   }
 
-  &.enter-active {
+  &.enter-active,
+  &.appear-active {
     .tasks-header {
       transition: 0.3s;
 

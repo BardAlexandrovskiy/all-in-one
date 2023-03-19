@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { Link } from "react-router-dom";
 import "./styles.scss";
 import { type Swiper as SwiperRef } from "swiper";
+import { useState, useEffect } from "react";
 
 // Core modules imports are same as usual
 import { Controller, EffectFade, Pagination } from "swiper";
@@ -22,6 +23,12 @@ interface Props extends ReactProps {
 }
 
 const WeatherHeader = (props: Props) => {
+  const [isMounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const {
     currentCity,
     isActiveHeader,
@@ -32,43 +39,48 @@ const WeatherHeader = (props: Props) => {
   } = props;
 
   return (
-    <header className={`weather-header${isActiveHeader ? " active" : ""}`}>
+    <header
+      className={`weather-header${isActiveHeader ? " active" : ""}${
+        isMounted ? " mounted" : ""
+      }`}
+    >
       <div className="header-container container">
-        <Swiper
-          effect="fade"
-          modules={[Controller, EffectFade, Pagination]}
-          onSwiper={setFirstSwiper}
-          controller={{ control: secondSwiper }}
-          navigation={true}
-          pagination={{
-            clickable: false,
-          }}
-        >
-          {!currentCity && !locations.length && (
-            <div className="current-city city">
-              {isGeoAccess ? "Not defined" : "No geo access"}
-              <FontAwesomeIcon icon={faMapMarkerAlt} />
-            </div>
-          )}
-          {!!currentCity && (
-            <SwiperSlide key={currentCity}>
-              <div className="current-city city">
-                <span>{currentCity}</span>
-                <FontAwesomeIcon icon={faMapMarkerAlt} />
-              </div>
-            </SwiperSlide>
-          )}
-          {!!locations.length &&
-            locations.map((location) => {
-              const { city } = location;
+        {!currentCity && !locations.length ? (
+          <div className="current-city city no-swiper">
+            {isGeoAccess ? "Not defined" : "No geo access"}
+            <FontAwesomeIcon icon={faMapMarkerAlt} />
+          </div>
+        ) : (
+          <Swiper
+            effect="fade"
+            modules={[Controller, EffectFade, Pagination]}
+            onSwiper={setFirstSwiper}
+            controller={{ control: secondSwiper }}
+            navigation={true}
+            pagination={{
+              clickable: false,
+            }}
+          >
+            {!!currentCity && (
+              <SwiperSlide key={currentCity}>
+                <div className="current-city city">
+                  <span>{currentCity}</span>
+                  <FontAwesomeIcon icon={faMapMarkerAlt} />
+                </div>
+              </SwiperSlide>
+            )}
+            {!!locations.length &&
+              locations.map((location) => {
+                const { city } = location;
 
-              return (
-                <SwiperSlide key={city}>
-                  <div className="city">{city}</div>
-                </SwiperSlide>
-              );
-            })}
-        </Swiper>
+                return (
+                  <SwiperSlide key={city}>
+                    <div className="city">{city}</div>
+                  </SwiperSlide>
+                );
+              })}
+          </Swiper>
+        )}
         <Link className="settings" to="/weather/settings">
           <FontAwesomeIcon icon={faSlidersH} />
         </Link>
