@@ -37,6 +37,35 @@ import windIcon from "../assets/images/weather/weather-condition-icons/wind.svg"
 
 import moment from "moment";
 
+type ForecastResponseItem = {
+  dt?: number;
+  main: {
+    feels_like?: number;
+    temp?: number;
+  };
+  weather: { id?: number }[];
+};
+
+type ForecastResponse = {
+  list?: ForecastResponseItem[];
+  isError?: boolean;
+  errorText?: string;
+};
+
+type ForecastItem = {
+  time?: string;
+  date?: string;
+  feelsLike?: string;
+  temp?: string;
+  id?: number;
+};
+
+type Forecast = {
+  list: ForecastItem[];
+  isError: boolean;
+  errorText: string;
+};
+
 type WeatherResponse = {
   weather: [{ description?: string; id?: number }];
   main: {
@@ -55,6 +84,63 @@ type WeatherResponse = {
 };
 
 // Weather request function
+const getWeatherForecast = async (city: string) => {
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=12c7488f70bcd015f75b9a10d559d91f&units=metric`
+    );
+
+    if (response.status === 200) {
+      const result: ForecastResponse = await response.json();
+      const { list } = result;
+      if (list) {
+        return {
+          list: list.map((item) => {
+            const {
+              dt: time,
+              main: { feels_like: feelsLike, temp },
+              weather: [{ id }],
+            } = item;
+
+            return {
+              time:
+                typeof time === "number"
+                  ? moment(time * 1000).format("HH:mm")
+                  : undefined,
+              date:
+                typeof time === "number"
+                  ? moment(time * 1000).format("MMMM Do")
+                  : undefined,
+              feelsLike:
+                typeof feelsLike === "number"
+                  ? `${Math.round(feelsLike)}°C`
+                  : undefined,
+              temp:
+                typeof temp === "number" ? `${Math.round(temp)}°C` : undefined,
+              id,
+            };
+          }),
+          errorText: "",
+          isError: false,
+        };
+      } else {
+        throw new Error("Unable to get a forecast, try again later");
+      }
+    } else {
+      throw new Error(`Error:  ${response.status}.`);
+    }
+  } catch (error) {
+    return {
+      list: [],
+      errorText:
+        error instanceof Error
+          ? error.message
+          : "Something went wrong, try again later",
+      isError: true,
+    };
+  }
+};
+
 export const getWeatherFunction = async (
   cityName?: string,
   lat?: number,
@@ -87,6 +173,19 @@ export const getWeatherFunction = async (
       const localTime = new Date().getTime();
       const localOffset = new Date().getTimezoneOffset() * 60000;
       const currentUtcTime = localOffset + localTime;
+
+      let forecast: Forecast = {
+        list: [],
+        errorText: "",
+        isError: true,
+      };
+
+      if (cityName) {
+        const response = await getWeatherForecast(cityName);
+        forecast = response;
+      }
+
+      console.log(forecast);
 
       return {
         weatherInfo: {

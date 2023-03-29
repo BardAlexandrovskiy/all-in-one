@@ -22,6 +22,7 @@ import TextBanner from "../../../components/TextBanner";
 import "./styles.scss";
 import { Props as WeatherInfoProps, State as WeatherInfoState } from "./index";
 import LazyLoadImage from "../../../components/LazyLoadImage";
+import Forecast from "../Forecast/indes";
 
 type Props = WeatherInfoProps &
   WeatherInfoState & {
@@ -143,6 +144,7 @@ const WeatherInfoItemLayout = (props: Props) => {
                   <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
                 )}
               </div>
+              <Forecast />
               <div className="other-info">
                 {!!cloudiness && (
                   <div className="info-item">
