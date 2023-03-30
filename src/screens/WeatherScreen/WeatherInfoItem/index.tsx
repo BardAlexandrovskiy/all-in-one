@@ -9,7 +9,11 @@ import {
 
 import WeatherInfoItemLayout from "./laylout";
 import { RootState } from "../../../reducers";
-import { CurrentLocation, WeatherInfo } from "../../../reducers/weather";
+import {
+  CurrentLocation,
+  Forecast,
+  WeatherInfo,
+} from "../../../reducers/weather";
 
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -20,6 +24,7 @@ export type Props = ReduxProps & {
   id?: number;
   weatherInfo?: WeatherInfo;
   updateWeatherTime?: number;
+  forecast: Forecast;
 };
 
 export type State = {
@@ -127,6 +132,7 @@ class WeatherInfoItem extends React.PureComponent<Props, State> {
       updateWeatherTime,
       setCurrentLocation,
       updateLocation,
+      forecast,
     } = this.props;
 
     let isWeatherUpdate = false;
@@ -143,13 +149,21 @@ class WeatherInfoItem extends React.PureComponent<Props, State> {
       isWeatherUpdate = true;
     }
 
-    if (!weatherInfo || isWeatherUpdate) {
-      this.setState({ isPreloader: true });
+    const { isError: isForecastError } = forecast;
 
+    if (!weatherInfo || isWeatherUpdate || isForecastError) {
+      this.setState({ isPreloader: true });
       try {
-        const result = await getWeatherFunction(city);
+        const onlyForecast = weatherInfo && !isWeatherUpdate && isForecastError;
+
+        const result = await getWeatherFunction(
+          city,
+          undefined,
+          undefined,
+          onlyForecast
+        );
         if (result) {
-          const { weatherInfo } = result;
+          const { weatherInfo, forecast } = result;
 
           this.setState({
             isInfoWeatherClosed: false,
@@ -158,13 +172,23 @@ class WeatherInfoItem extends React.PureComponent<Props, State> {
             errorText: "",
           });
 
+          const weatherDate: {
+            weatherInfo?: WeatherInfo;
+            updateWeatherTime: number;
+            forecast: Forecast;
+          } = {
+            updateWeatherTime: Date.now(),
+            forecast,
+          };
+
+          if (!onlyForecast) {
+            weatherDate.weatherInfo = weatherInfo;
+          }
+
           if (id === currentId) {
-            setCurrentLocation({
-              weatherInfo,
-              updateWeatherTime: Date.now(),
-            });
+            setCurrentLocation(weatherDate);
           } else if (id) {
-            updateLocation(id, { weatherInfo, updateWeatherTime: Date.now() });
+            updateLocation(id, weatherDate);
           }
         }
       } catch (error) {
@@ -219,7 +243,11 @@ const mapDispatchToProps = {
     setCurrentLocation(location),
   updateLocation: (
     id: number,
-    info: { weatherInfo: WeatherInfo | undefined; updateWeatherTime: number }
+    info: {
+      weatherInfo?: WeatherInfo;
+      updateWeatherTime: number;
+      forecast: Forecast;
+    }
   ) => updateLocation(id, info),
 };
 

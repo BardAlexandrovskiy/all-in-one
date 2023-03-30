@@ -36,6 +36,7 @@ import thunderstormIcon from "../assets/images/weather/weather-condition-icons/t
 import windIcon from "../assets/images/weather/weather-condition-icons/wind.svg";
 
 import moment from "moment";
+import { Forecast } from "../reducers/weather";
 
 type ForecastResponseItem = {
   dt?: number;
@@ -50,20 +51,6 @@ type ForecastResponse = {
   list?: ForecastResponseItem[];
   isError?: boolean;
   errorText?: string;
-};
-
-type ForecastItem = {
-  time?: string;
-  date?: string;
-  feelsLike?: string;
-  temp?: string;
-  id?: number;
-};
-
-type Forecast = {
-  list: ForecastItem[];
-  isError: boolean;
-  errorText: string;
 };
 
 type WeatherResponse = {
@@ -94,35 +81,35 @@ const getWeatherForecast = async (city: string) => {
       const result: ForecastResponse = await response.json();
       const { list } = result;
       if (list) {
-        return {
-          list: list.map((item) => {
+        const result = {
+          list: list.filter((item) => {
             const {
               dt: time,
               main: { feels_like: feelsLike, temp },
               weather: [{ id }],
             } = item;
 
-            return {
-              time:
-                typeof time === "number"
-                  ? moment(time * 1000).format("HH:mm")
-                  : undefined,
-              date:
-                typeof time === "number"
-                  ? moment(time * 1000).format("MMMM Do")
-                  : undefined,
-              feelsLike:
-                typeof feelsLike === "number"
-                  ? `${Math.round(feelsLike)}°C`
-                  : undefined,
-              temp:
-                typeof temp === "number" ? `${Math.round(temp)}°C` : undefined,
-              id,
-            };
+            if (
+              typeof time === "number" &&
+              typeof feelsLike === "number" &&
+              typeof temp === "number" &&
+              typeof id === "number"
+            ) {
+              return {
+                hours: moment(time * 1000).format("H"),
+                time: moment(time * 1000).format("HH:mm"),
+                date: moment(time * 1000).format("MMMM Do"),
+                feelsLike: `${Math.round(feelsLike)}°C`,
+                temp: `${Math.round(temp)}°C`,
+                id,
+              };
+            }
           }),
           errorText: "",
           isError: false,
         };
+
+        return result;
       } else {
         throw new Error("Unable to get a forecast, try again later");
       }
@@ -144,7 +131,8 @@ const getWeatherForecast = async (city: string) => {
 export const getWeatherFunction = async (
   cityName?: string,
   lat?: number,
-  long?: number
+  long?: number,
+  onlyForecast?: boolean
 ) => {
   let requestUrl = "";
 
@@ -152,6 +140,21 @@ export const getWeatherFunction = async (
     requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=12c7488f70bcd015f75b9a10d559d91f&units=metric`;
   } else if (lat && long) {
     requestUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=12c7488f70bcd015f75b9a10d559d91f&units=metric`;
+  }
+
+  if (onlyForecast && cityName) {
+    let forecast: Forecast = {
+      list: [],
+      errorText: "",
+      isError: true,
+    };
+
+    if (cityName) {
+      const response = await getWeatherForecast(cityName);
+      forecast = response;
+    }
+
+    return { forecast };
   }
 
   try {
@@ -184,8 +187,6 @@ export const getWeatherFunction = async (
         const response = await getWeatherForecast(cityName);
         forecast = response;
       }
-
-      console.log(forecast);
 
       return {
         weatherInfo: {
@@ -230,6 +231,7 @@ export const getWeatherFunction = async (
               : undefined,
         },
         cityName: typeof cityName === "string" ? cityName : undefined,
+        forecast: forecast,
       };
     } else throw new Error(`${response.status}`);
   } catch (error) {

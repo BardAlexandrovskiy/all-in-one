@@ -48,6 +48,7 @@ const WeatherInfoItemLayout = (props: Props) => {
     setTriggerRef,
     setBackgroundImageRef,
     handleScrollInfoBlock,
+    forecast,
   } = props;
 
   const {
@@ -144,7 +145,7 @@ const WeatherInfoItemLayout = (props: Props) => {
                   <div className="temp-feels-like">{`Feels like: ${tempFeelsLike}`}</div>
                 )}
               </div>
-              <Forecast />
+              <Forecast forecast={forecast} />
               <div className="other-info">
                 {!!cloudiness && (
                   <div className="info-item">

@@ -1,6 +1,11 @@
 import { Dispatch } from "redux";
 import { getWeatherFunction } from "../constants/weather";
-import { CurrentLocation, Location, WeatherInfo } from "../reducers/weather";
+import {
+  CurrentLocation,
+  Forecast,
+  Location,
+  WeatherInfo,
+} from "../reducers/weather";
 
 // Types
 export const SET_CURRENT_LOCATION = "SET_CURRENT_LOCATION";
@@ -67,7 +72,7 @@ export const getCurrentLocationByGeo = () => {
         const respone = await getWeatherFunction(undefined, lat, long);
         if (respone) {
           const location = respone;
-          const { cityName, weatherInfo } = location;
+          const { cityName, weatherInfo, forecast } = location;
           if (cityName) {
             dispatch(
               setCurrentLocation({
@@ -75,6 +80,7 @@ export const getCurrentLocationByGeo = () => {
                 weatherInfo,
                 id: Date.now(),
                 updateWeatherTime: Date.now(),
+                forecast,
               })
             );
           } else {
@@ -132,7 +138,11 @@ export const showWeatherSettingsPreloader = (bool: boolean) => {
 
 export const updateLocation = (
   id: number,
-  info: { weatherInfo: WeatherInfo | undefined; updateWeatherTime: number }
+  info: {
+    weatherInfo?: WeatherInfo;
+    updateWeatherTime: number;
+    forecast: Forecast;
+  }
 ) => {
   return {
     type: UPDATE_LOCATION,

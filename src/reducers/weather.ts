@@ -11,6 +11,21 @@ import {
 } from "../actions/weather";
 
 // Types
+export type ForecastItem = {
+  time: string;
+  date: string;
+  feelsLike: string;
+  temp: string;
+  id: number;
+  hours: string;
+};
+
+export type Forecast = {
+  list: ForecastItem[];
+  isError: boolean;
+  errorText: string;
+};
+
 export type WeatherInfo = {
   cloudiness?: string;
   date?: string;
@@ -32,6 +47,7 @@ export type WeatherInfo = {
 export type CurrentLocation = {
   city?: string;
   weatherInfo?: WeatherInfo;
+  forecast: Forecast;
   updateWeatherTime?: number;
   id?: number;
 };
@@ -41,6 +57,7 @@ export type Location = {
   id: number;
   updateWeatherTime: number;
   weatherInfo?: WeatherInfo;
+  forecast: Forecast;
 };
 
 type WeatherState = {
@@ -76,7 +93,14 @@ type Action =
     }
   | {
       type: ACTIONS.UPDATE_LOCATION;
-      payload: { id: number; info: WeatherInfo };
+      payload: {
+        id: number;
+        info: {
+          weatherInfo?: WeatherInfo;
+          updateWeatherTime: number;
+          forecast: Forecast;
+        };
+      };
     }
   | {
       type: ACTIONS.SHOW_CURRENT_LOCATION_PRELOADER;
@@ -100,6 +124,11 @@ const defaultState: WeatherState = {
     weatherInfo: undefined,
     updateWeatherTime: undefined,
     id: undefined,
+    forecast: {
+      list: [],
+      errorText: "",
+      isError: false,
+    },
   },
   isShowCurrentLocationPreloader: false,
   locations: [],
@@ -134,6 +163,11 @@ export function weatherReducer(
             weatherInfo: undefined,
             updateWeatherTime: undefined,
             id: undefined,
+            forecast: {
+              list: [],
+              errorText: "",
+              isError: false,
+            },
           },
         };
     case CHANGE_WEATHER_HEADER:

@@ -62,13 +62,14 @@ class WeatherSettingsFooter extends React.PureComponent<Props, State> {
       try {
         const response = await getWeatherFunction(cityName);
         if (response) {
-          const { weatherInfo, cityName } = response;
+          const { weatherInfo, cityName, forecast } = response;
           if (cityName) {
             addNewLocation({
               city: cityName,
               weatherInfo,
               id: Date.now(),
               updateWeatherTime: Date.now(),
+              forecast,
             });
           }
         }

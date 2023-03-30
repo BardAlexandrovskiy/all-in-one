@@ -70,10 +70,11 @@ class WeatherWidget extends React.PureComponent<Props, State> {
       try {
         const result = await getWeatherFunction(city);
         if (result) {
-          const { weatherInfo } = result;
+          const { weatherInfo, forecast } = result;
           setCurrentLocation({
             weatherInfo,
             updateWeatherTime: Date.now(),
+            forecast,
           });
         }
       } catch (error) {

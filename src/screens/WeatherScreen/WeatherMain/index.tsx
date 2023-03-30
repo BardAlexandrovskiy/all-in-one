@@ -40,6 +40,7 @@ const WeatherMain = (props: Props) => {
     firstSwiper,
     isGeoAccess,
     isShowCurrentLocationPreloader,
+    currentForecast,
   } = props;
 
   return (
@@ -60,6 +61,7 @@ const WeatherMain = (props: Props) => {
                   isActive={isActive}
                   city={currentCity}
                   id={currentId}
+                  forecast={currentForecast}
                   weatherInfo={currentWeatherInfo}
                   updateWeatherTime={currentUpdateWeatherTime}
                 />
@@ -68,7 +70,8 @@ const WeatherMain = (props: Props) => {
           )}
           {!!locations.length &&
             locations.map((location) => {
-              const { city, id, updateWeatherTime, weatherInfo } = location;
+              const { city, id, updateWeatherTime, weatherInfo, forecast } =
+                location;
 
               return (
                 <SwiperSlide key={id}>
@@ -77,6 +80,7 @@ const WeatherMain = (props: Props) => {
                       isActive={isActive}
                       city={city}
                       id={id}
+                      forecast={forecast}
                       weatherInfo={weatherInfo}
                       updateWeatherTime={updateWeatherTime}
                     />
@@ -116,6 +120,7 @@ const mapStateToProps = (state: RootState) => {
         id: currentId,
         weatherInfo: currentWeatherInfo,
         updateWeatherTime: currentUpdateWeatherTime,
+        forecast: currentForecast,
       },
       isGeoAccess,
       locations,
@@ -131,6 +136,7 @@ const mapStateToProps = (state: RootState) => {
     locations,
     isGeoAccess,
     isShowCurrentLocationPreloader,
+    currentForecast,
   };
 };
 
