@@ -38,63 +38,44 @@ import windIcon from "../assets/images/weather/weather-condition-icons/wind.svg"
 import moment from "moment";
 import { Forecast } from "../reducers/weather";
 
-type ForecastResponseItem = {
-  dt?: number;
-  main: {
-    feels_like?: number;
-    temp?: number;
-  };
-  weather: { id?: number }[];
-};
-
-type ForecastResponse = {
-  list?: ForecastResponseItem[];
-  isError?: boolean;
-  errorText?: string;
-};
-
-type WeatherResponse = {
-  weather: [{ description?: string; id?: number }];
-  main: {
-    temp?: number;
-    feels_like?: number;
-    humidity?: number;
-    pressure?: number;
-  };
-  wind: { speed?: number; deg?: number; gust?: number };
-  clouds: { all?: number };
-  name?: string;
-  sys: { sunrise?: number; sunset?: number };
-  visibility?: number;
-  dt?: number;
-  timezone?: number;
-};
-
 // Weather request function
-const getWeatherForecast = async (city: string) => {
+const getWeatherForecast = async (city: string): Promise<Forecast> => {
   try {
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=12c7488f70bcd015f75b9a10d559d91f&units=metric`
     );
 
     if (response.status === 200) {
-      const result: ForecastResponse = await response.json();
+      const result = await response.json();
       const { list } = result;
-      if (list) {
+      if (Array.isArray(list)) {
         const result = {
-          list: list.filter((item) => {
-            const {
-              dt: time,
-              main: { feels_like: feelsLike, temp },
-              weather: [{ id }],
-            } = item;
+          list: list
+            .filter((item) => {
+              const {
+                dt: time,
+                main: { feels_like: feelsLike, temp },
+                weather: [{ id }],
+              } = item;
 
-            if (
-              typeof time === "number" &&
-              typeof feelsLike === "number" &&
-              typeof temp === "number" &&
-              typeof id === "number"
-            ) {
+              if (
+                typeof time === "number" &&
+                typeof feelsLike === "number" &&
+                typeof temp === "number" &&
+                typeof id === "number"
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            })
+            .map((item) => {
+              const {
+                dt: time,
+                main: { feels_like: feelsLike, temp },
+                weather: [{ id }],
+              } = item;
+
               return {
                 hours: moment(time * 1000).format("H"),
                 time: moment(time * 1000).format("HH:mm"),
@@ -103,8 +84,8 @@ const getWeatherForecast = async (city: string) => {
                 temp: `${Math.round(temp)}°C`,
                 id,
               };
-            }
-          }),
+            }),
+
           errorText: "",
           isError: false,
         };
@@ -160,7 +141,7 @@ export const getWeatherFunction = async (
   try {
     const response = await fetch(requestUrl);
     if (response.status === 200) {
-      const weatherObject: WeatherResponse = await response.json();
+      const weatherObject = await response.json();
       const {
         weather: [{ description: weatherDescription, id }],
         main: { temp, feels_like: tempFeelsLike, humidity, pressure },
@@ -183,7 +164,7 @@ export const getWeatherFunction = async (
         isError: true,
       };
 
-      if (cityName) {
+      if (cityName && typeof cityName === "string") {
         const response = await getWeatherForecast(cityName);
         forecast = response;
       }

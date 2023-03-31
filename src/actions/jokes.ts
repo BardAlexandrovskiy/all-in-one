@@ -113,7 +113,7 @@ export const getJokes = (request: string) => {
         const jokesList = await response.json();
         const { error, jokes, joke, setup, delivery } = jokesList;
         if ((jokes || joke || setup || delivery) && !error) {
-          if (jokes) {
+          if (Array.isArray(jokes)) {
             dispatch(setJokes(jokes));
           } else {
             delete jokesList.error;
