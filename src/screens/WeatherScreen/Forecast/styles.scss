@@ -1,4 +1,25 @@
 .forecast {
+  .swiper {
+    padding-bottom: 25px;
+
+    @media (max-width: 640px) {
+      padding-bottom: 15px;
+    }
+  }
+
+  .swiper-pagination {
+    top: auto;
+    bottom: 0;
+    height: 5px;
+    background-color: rgba($grey, 0.8);
+    border-radius: 2.5px;
+    overflow: hidden;
+
+    span {
+      background-color: $sky-blue;
+    }
+  }
+
   .swiper-slide {
     display: flex;
     justify-content: center;

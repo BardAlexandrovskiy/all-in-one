@@ -3,9 +3,11 @@ import { getWeatherIconById } from "../../../constants/weather";
 import { Forecast as ForecastType } from "../../../reducers/weather";
 import errorImage from "../../../assets/images/error-image-2.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
 
 // Import Swiper styles
 import "swiper/css";
+import "swiper/css/pagination";
 
 type Props = {
   forecast: ForecastType;
@@ -26,6 +28,11 @@ const Forecast = ({ forecast }: Props) => {
         <Swiper
           spaceBetween={5}
           slidesPerView={3}
+          grabCursor={true}
+          modules={[Pagination]}
+          pagination={{
+            type: "progressbar",
+          }}
           breakpoints={{
             768: {
               slidesPerView: 4,
@@ -39,7 +46,7 @@ const Forecast = ({ forecast }: Props) => {
               spaceBetween: 20,
             },
           }}
-          className="weather-info-list"
+          className="forecast-list"
         >
           {list.map((item) => {
             const { time, date, feelsLike, temp, id, hours } = item;
