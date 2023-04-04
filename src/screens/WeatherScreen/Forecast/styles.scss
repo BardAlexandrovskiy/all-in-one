@@ -88,4 +88,36 @@
       }
     }
   }
+
+  .forecast-error {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    border-radius: 10px;
+    padding: 10px;
+    align-items: center;
+    height: 100%;
+    background-color: rgba($color: $grey, $alpha: 0.55);
+
+    .error-inner {
+      background-color: rgba($color: $white, $alpha: 0.15);
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 10px;
+    }
+
+    img {
+      height: 150px;
+    }
+
+    .text {
+      font-size: 20px;
+      color: $white;
+    }
+  }
 }

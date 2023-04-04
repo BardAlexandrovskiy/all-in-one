@@ -47,13 +47,18 @@ const getWeatherForecast = async (city: string): Promise<Forecast> => {
 
     if (response.status === 200) {
       const result = await response.json();
-      const { list } = result;
-      if (Array.isArray(list)) {
+      const {
+        list,
+        city: { timezone },
+      } = result;
+
+      if (Array.isArray(list) && typeof timezone === "number") {
         const result = {
           list: list
             .filter((item) => {
               const {
                 dt: time,
+                dt_txt: dateText,
                 main: { feels_like: feelsLike, temp },
                 weather: [{ id }],
               } = item;
@@ -62,7 +67,8 @@ const getWeatherForecast = async (city: string): Promise<Forecast> => {
                 typeof time === "number" &&
                 typeof feelsLike === "number" &&
                 typeof temp === "number" &&
-                typeof id === "number"
+                typeof id === "number" &&
+                typeof dateText === "string"
               ) {
                 return true;
               } else {
@@ -71,15 +77,19 @@ const getWeatherForecast = async (city: string): Promise<Forecast> => {
             })
             .map((item) => {
               const {
-                dt: time,
+                dt_txt: dateText,
                 main: { feels_like: feelsLike, temp },
                 weather: [{ id }],
               } = item;
 
+              const date = new Date(dateText);
+              const dateUnix = date.getTime();
+              let forecastTime = dateUnix + timezone * 1000;
+
               return {
-                hours: moment(time * 1000).format("H"),
-                time: moment(time * 1000).format("HH:mm"),
-                date: moment(time * 1000).format("MMMM Do"),
+                hours: moment(forecastTime).format("H"),
+                time: moment(forecastTime).format("HH:mm"),
+                date: moment(forecastTime).format("MMMM Do"),
                 feelsLike: `${Math.round(feelsLike)}°C`,
                 temp: `${Math.round(temp)}°C`,
                 id,
@@ -95,7 +105,7 @@ const getWeatherForecast = async (city: string): Promise<Forecast> => {
         throw new Error("Unable to get a forecast, try again later");
       }
     } else {
-      throw new Error(`Error:  ${response.status}.`);
+      throw new Error(`Forecast error:  ${response.status}.`);
     }
   } catch (error) {
     return {
@@ -142,6 +152,7 @@ export const getWeatherFunction = async (
     const response = await fetch(requestUrl);
     if (response.status === 200) {
       const weatherObject = await response.json();
+      console.log(weatherObject);
       const {
         weather: [{ description: weatherDescription, id }],
         main: { temp, feels_like: tempFeelsLike, humidity, pressure },
@@ -150,7 +161,6 @@ export const getWeatherFunction = async (
         name: cityName,
         sys: { sunrise, sunset },
         visibility,
-        dt,
         timezone,
       } = weatherObject;
 
@@ -192,12 +202,12 @@ export const getWeatherFunction = async (
           pressure:
             typeof pressure === "number" ? `${pressure} hPa` : undefined,
           sunrise:
-            typeof sunrise === "number"
-              ? moment(sunrise * 1000).format("HH:mm")
+            typeof sunrise === "number" && typeof timezone === "number"
+              ? getGMTTime(new Date((sunrise + timezone) * 1000))
               : undefined,
           sunset:
-            typeof sunset === "number"
-              ? moment(sunset * 1000).format("HH:mm")
+            typeof sunset === "number" && typeof timezone === "number"
+              ? getGMTTime(new Date((sunset + timezone) * 1000))
               : undefined,
           time:
             typeof timezone === "number"
@@ -207,8 +217,8 @@ export const getWeatherFunction = async (
             typeof visibility === "number" ? `${visibility} m` : undefined,
           id: typeof id === "number" ? id : undefined,
           date:
-            typeof dt === "number"
-              ? moment(dt * 1000).format("Do MMMM dddd")
+            typeof currentUtcTime === "number"
+              ? moment(currentUtcTime + 1000 * timezone).format("Do MMMM dddd")
               : undefined,
         },
         cityName: typeof cityName === "string" ? cityName : undefined,
@@ -368,3 +378,14 @@ export const getWeatherIconById = (id: number, time: number): string => {
 
   return icon;
 };
+
+function padTo2Digits(num: number) {
+  return num.toString().padStart(2, "0");
+}
+
+function getGMTTime(date: Date) {
+  return [
+    padTo2Digits(date.getUTCHours()),
+    padTo2Digits(date.getUTCMinutes()),
+  ].join(":");
+}
