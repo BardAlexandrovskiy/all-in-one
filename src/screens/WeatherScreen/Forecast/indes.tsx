@@ -3,11 +3,12 @@ import { getWeatherIconById } from "../../../constants/weather";
 import { Forecast as ForecastType } from "../../../reducers/weather";
 import errorImage from "../../../assets/images/error-image-2.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper";
+import { FreeMode, Pagination } from "swiper";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/free-mode";
 
 type Props = {
   forecast: ForecastType;
@@ -29,7 +30,8 @@ const Forecast = ({ forecast }: Props) => {
           spaceBetween={5}
           slidesPerView={3}
           grabCursor={true}
-          modules={[Pagination]}
+          modules={[Pagination, FreeMode]}
+          freeMode={true}
           pagination={{
             type: "progressbar",
           }}
