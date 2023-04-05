@@ -152,7 +152,7 @@ export const getWeatherFunction = async (
     const response = await fetch(requestUrl);
     if (response.status === 200) {
       const weatherObject = await response.json();
-      console.log(weatherObject);
+
       const {
         weather: [{ description: weatherDescription, id }],
         main: { temp, feels_like: tempFeelsLike, humidity, pressure },

@@ -32,6 +32,7 @@ const Forecast = ({ forecast }: Props) => {
           grabCursor={true}
           modules={[Pagination, FreeMode]}
           freeMode={true}
+          nested={true}
           pagination={{
             type: "progressbar",
           }}

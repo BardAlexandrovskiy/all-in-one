@@ -5,6 +5,7 @@ import {
   SET_ADD_LOCATION_INPUT_FOCUS,
   SET_CURRENT_LOCATION,
   SET_GEO_ACCESS,
+  SET_LAST_WEATHER_SLIDE,
   SHOW_CURRENT_LOCATION_PRELOADER,
   SHOW_WEATHER_SETTINGS_PRELOADER,
   UPDATE_LOCATION,
@@ -68,6 +69,7 @@ type WeatherState = {
   isShowSettingsPreloader: boolean;
   isGeoAccess: boolean;
   addLocationInputFocus: boolean;
+  lastSlide: number;
 };
 
 enum ACTIONS {
@@ -80,6 +82,7 @@ enum ACTIONS {
   SHOW_CURRENT_LOCATION_PRELOADER = "SHOW_CURRENT_LOCATION_PRELOADER",
   SHOW_WEATHER_SETTINGS_PRELOADER = "SHOW_WEATHER_SETTINGS_PRELOADER",
   UPDATE_LOCATION = "UPDATE_LOCATION",
+  SET_LAST_WEATHER_SLIDE = "SET_LAST_WEATHER_SLIDE",
 }
 
 type Action =
@@ -110,7 +113,8 @@ type Action =
   | {
       type: ACTIONS.SET_ADD_LOCATION_INPUT_FOCUS;
       payload: { bool: boolean };
-    };
+    }
+  | { type: ACTIONS.SET_LAST_WEATHER_SLIDE; payload: { number: number } };
 
 // initialState
 const localStorageState = localStorage.getItem("all-in-one");
@@ -136,6 +140,7 @@ const defaultState: WeatherState = {
   isShowSettingsPreloader: false,
   isGeoAccess: false,
   addLocationInputFocus: false,
+  lastSlide: 1,
 };
 
 const initialState = localInitialState?.weather || defaultState;
@@ -225,6 +230,8 @@ export function weatherReducer(
       };
     case SET_ADD_LOCATION_INPUT_FOCUS:
       return { ...state, addLocationInputFocus: payload.bool };
+    case SET_LAST_WEATHER_SLIDE:
+      return { ...state, lastSlide: payload.number };
     default:
       return state;
   }

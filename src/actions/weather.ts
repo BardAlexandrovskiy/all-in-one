@@ -20,6 +20,7 @@ export const SHOW_CURRENT_LOCATION_PRELOADER =
   "SHOW_CURRENT_LOCATION_PRELOADER";
 export const SET_GEO_ACCESS = "SET_GEO_ACCESS";
 export const SET_ADD_LOCATION_INPUT_FOCUS = "SET_ADD_LOCATION_INPUT_FOCUS";
+export const SET_LAST_WEATHER_SLIDE = "SET_LAST_WEATHER_SLIDE";
 
 // Actions
 export const setAddLocationInputFocus = (bool: boolean) => {
@@ -147,5 +148,12 @@ export const updateLocation = (
   return {
     type: UPDATE_LOCATION,
     payload: { id, info },
+  };
+};
+
+export const setLastWeatherSlide = (number: number) => {
+  return {
+    type: SET_LAST_WEATHER_SLIDE,
+    payload: { number },
   };
 };
