@@ -15,7 +15,12 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "swiper/css/controller";
+
 import { RootState } from "../../../reducers";
+import {
+  changeWeatherHeader,
+  setLastWeatherSlide,
+} from "../../../actions/weather";
 
 interface Props extends ReactProps {
   secondSwiper: SwiperRef | undefined;
@@ -24,11 +29,6 @@ interface Props extends ReactProps {
 
 const WeatherHeader = (props: Props) => {
   const [isMounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const {
     currentCity,
     isActiveHeader,
@@ -36,7 +36,30 @@ const WeatherHeader = (props: Props) => {
     setFirstSwiper,
     secondSwiper,
     isGeoAccess,
+    lastSlide,
+    lastLocationUrl,
+    setLastWeatherSlide,
   } = props;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (
+      lastLocationUrl !== "/weather" &&
+      lastLocationUrl !== "/weather/settings" &&
+      lastSlide !== 0
+    ) {
+      setLastWeatherSlide(0);
+    }
+  }, [lastLocationUrl, setLastWeatherSlide, lastSlide]);
+
+  const handleChangeSlide = (swiper: SwiperRef) => {
+    const { changeWeatherHeader } = props;
+    setLastWeatherSlide(swiper.activeIndex);
+    changeWeatherHeader(false);
+  };
 
   return (
     <header
@@ -57,9 +80,11 @@ const WeatherHeader = (props: Props) => {
             onSwiper={setFirstSwiper}
             controller={{ control: secondSwiper }}
             navigation={true}
+            onSlideChange={handleChangeSlide}
             pagination={{
               clickable: false,
             }}
+            initialSlide={lastSlide}
           >
             {!!currentCity && (
               <SwiperSlide key={currentCity}>
@@ -96,7 +121,9 @@ const mapStateToProps = (store: RootState) => {
       isActiveHeader,
       locations,
       isGeoAccess,
+      lastSlide,
     },
+    other: { lastLocation: lastLocationUrl },
   } = store;
 
   return {
@@ -104,10 +131,17 @@ const mapStateToProps = (store: RootState) => {
     isActiveHeader,
     locations,
     isGeoAccess,
+    lastSlide,
+    lastLocationUrl,
   };
 };
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = {
+  setLastWeatherSlide: (number: number) => setLastWeatherSlide(number),
+  changeWeatherHeader: (bool: boolean) => changeWeatherHeader(bool),
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type ReactProps = ConnectedProps<typeof connector>;
 

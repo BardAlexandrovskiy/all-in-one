@@ -1,21 +1,31 @@
 .forecast {
   .swiper {
-    padding-bottom: 25px;
+    padding-bottom: 30px;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
 
     @media (max-width: 640px) {
-      padding-bottom: 15px;
+      padding-bottom: 20px;
     }
   }
 
-  .swiper-pagination {
+  .swiper-scrollbar {
     top: auto;
-    bottom: 0;
-    height: 5px;
+    bottom: 0 !important;
+    height: 10px !important;
     background-color: rgba($grey, 0.8);
-    border-radius: 2.5px;
+    border-radius: 10px;
     overflow: hidden;
+    cursor: grab;
 
-    span {
+    &:active {
+      cursor: grabbing;
+    }
+
+    .swiper-scrollbar-drag {
       background-color: $sky-blue;
     }
   }

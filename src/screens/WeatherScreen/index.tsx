@@ -21,9 +21,21 @@ const WeatherScreen = ({
   const [firstSwiper, setFirstSwiper] = useState<SwiperRef>();
   const [secondSwiper, setSecondSwiper] = useState<SwiperRef>();
 
+  let cities = 0;
+
+  if (currentCity) {
+    cities = 1;
+  }
+
+  if (locations.length) {
+    cities += locations.length;
+  }
+
   return (
     <>
-      <div className="weather-screen screen">
+      <div
+        className={`weather-screen screen${cities > 1 ? " grab-cursor" : ""}`}
+      >
         <WeatherHeader
           setFirstSwiper={setFirstSwiper}
           secondSwiper={secondSwiper}

@@ -1,3 +1,14 @@
 .weather-screen {
   background-color: $grey;
+
+  &.grab-cursor {
+    .weather-header .swiper,
+    .weather-main > .swiper {
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+  }
 }

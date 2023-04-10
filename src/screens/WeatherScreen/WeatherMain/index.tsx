@@ -10,10 +10,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 
-import {
-  changeWeatherHeader,
-  setLastWeatherSlide,
-} from "../../../actions/weather";
 import TextBanner from "../../../components/TextBanner";
 
 // Error image
@@ -28,12 +24,6 @@ interface Props extends ReduxProps {
 }
 
 const WeatherMain = (props: Props) => {
-  const handleChangeSlide = (swiper: SwiperRef) => {
-    const { changeWeatherHeader, setLastWeatherSlide } = props;
-    setLastWeatherSlide(swiper.activeIndex);
-    changeWeatherHeader(false);
-  };
-
   const {
     currentCity,
     currentId,
@@ -54,10 +44,8 @@ const WeatherMain = (props: Props) => {
           modules={[Controller]}
           onSwiper={setSecondSwiper}
           controller={{ control: firstSwiper }}
-          onSlideChange={handleChangeSlide}
           slidesPerView={1}
-          grabCursor={true}
-          className="weather-info-list"
+          className={"weather-info-list"}
         >
           {!!currentCity && (
             <SwiperSlide key={currentId}>
@@ -130,7 +118,6 @@ const mapStateToProps = (state: RootState) => {
       isGeoAccess,
       locations,
       isShowCurrentLocationPreloader,
-      initialSlide,
     },
   } = state;
 
@@ -146,12 +133,7 @@ const mapStateToProps = (state: RootState) => {
   };
 };
 
-const mapDispatchToProps = {
-  changeWeatherHeader: (bool: boolean) => changeWeatherHeader(bool),
-  setLastWeatherSlide: (number: number) => setLastWeatherSlide(number),
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(mapStateToProps);
 
 type ReduxProps = ConnectedProps<typeof connector>;
 

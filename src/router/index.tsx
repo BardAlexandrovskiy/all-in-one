@@ -9,10 +9,13 @@ import { connect, ConnectedProps } from "react-redux";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import WeatherSettingsScreen from "../screens/WeatherSettingsScreen";
 import { RootState } from "../reducers";
+import { setLastLocationUrl } from "../actions/other";
+import { useEffect } from "react";
 
-class Router extends React.Component<Props> {
-  componentDidUpdate = () => {
-    const { store } = this.props;
+// Types
+
+const Router = ({ store, setLastLocationUrl, lastLocation }: ReduxProps) => {
+  useEffect(() => {
     const storeCopy = JSON.parse(JSON.stringify(store));
 
     storeCopy.holidays.isShowHolidaysPreloader = false;
@@ -25,19 +28,29 @@ class Router extends React.Component<Props> {
     storeCopy.weather.isShowSettingsPreloader = false;
 
     localStorage.setItem("all-in-one", JSON.stringify(storeCopy));
-  };
+  });
 
-  render() {
-    return (
-      <HashRouter>
-        <RouterAnimation />
-      </HashRouter>
-    );
-  }
-}
+  return (
+    <HashRouter>
+      <RouterAnimation
+        setLastLocationUrl={setLastLocationUrl}
+        lastLocation={lastLocation}
+        store={store}
+      />
+    </HashRouter>
+  );
+};
 
-const RouterAnimation = () => {
-  let location = useLocation();
+const RouterAnimation = ({ lastLocation, setLastLocationUrl }: ReduxProps) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const currentLocation = location.pathname;
+
+    if (currentLocation !== lastLocation) {
+      setLastLocationUrl(currentLocation);
+    }
+  });
 
   return (
     <>
@@ -63,11 +76,17 @@ const RouterAnimation = () => {
 };
 
 const mapStateToProps = (store: RootState) => {
-  return { store };
+  const { lastLocation } = store.other;
+
+  return { store, lastLocation };
 };
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = {
+  setLastLocationUrl: (location: string) => setLastLocationUrl(location),
+};
 
-type Props = ConnectedProps<typeof connector>;
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type ReduxProps = ConnectedProps<typeof connector>;
 
 export default connector(Router);

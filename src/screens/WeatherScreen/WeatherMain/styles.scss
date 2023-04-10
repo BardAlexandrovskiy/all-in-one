@@ -5,6 +5,14 @@
   z-index: -2;
   background-color: $black;
 
+  > .swiper.grab-cursor {
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
   > .text-banner {
     padding-top: 62px;
 
