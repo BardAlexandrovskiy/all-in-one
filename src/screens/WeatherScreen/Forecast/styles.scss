@@ -1,14 +1,17 @@
 .forecast {
   .swiper {
     padding-bottom: 30px;
+
+    @media (max-width: 640px) {
+      padding-bottom: 20px;
+    }
+  }
+
+  .swiper-slide {
     cursor: grab;
 
     &:active {
       cursor: grabbing;
-    }
-
-    @media (max-width: 640px) {
-      padding-bottom: 20px;
     }
   }
 

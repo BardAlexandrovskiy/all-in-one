@@ -4,13 +4,10 @@
   display: flex;
   z-index: -2;
   background-color: $black;
+  cursor: default;
 
-  > .swiper.grab-cursor {
-    cursor: grab;
-
-    &:active {
-      cursor: grabbing;
-    }
+  > .swiper {
+    cursor: default;
   }
 
   > .text-banner {
