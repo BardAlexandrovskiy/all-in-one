@@ -123,6 +123,7 @@ class WeatherInfoItem extends React.PureComponent<Props, State> {
     }
   }
 
+  // Check for updates every 5 minutes
   checkUpadate = async () => {
     const {
       city,
