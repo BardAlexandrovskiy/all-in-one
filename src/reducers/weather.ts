@@ -140,7 +140,7 @@ const defaultState: WeatherState = {
   isShowSettingsPreloader: false,
   isGeoAccess: false,
   addLocationInputFocus: false,
-  lastSlide: 1,
+  lastSlide: 0,
 };
 
 const initialState = localInitialState?.weather || defaultState;

@@ -47,6 +47,7 @@ class WeatherWidget extends React.PureComponent<Props, State> {
     }
   };
 
+  // Check for updates every 5 minutes
   checkUpadate = async () => {
     const { city, weatherInfo, updateWeatherTime, setCurrentLocation } =
       this.props;
@@ -58,7 +59,7 @@ class WeatherWidget extends React.PureComponent<Props, State> {
         1
       );
 
-      if (minutes > 0) {
+      if (minutes > 5) {
         isWeatherUpdate = true;
       }
     } else {

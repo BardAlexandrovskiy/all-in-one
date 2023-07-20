@@ -13,6 +13,8 @@ import { setLastWeatherSlide } from "../actions/weather";
 
 const RouterAnimation = ({ lastWeatherSlide, setLastWeatherSlide }: Partial<ReduxProps>) => {
     const location = useLocation();
+
+    // Reset the position of the weather slider
     useEffect(() => {
         const currentLocation = location.pathname;
 

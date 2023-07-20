@@ -9,6 +9,7 @@ const Router = ({ store }: ReduxProps) => {
   useEffect(() => {
     const storeCopy = JSON.parse(JSON.stringify(store));
 
+    // Dump unnecessary data that is not needed in the store
     storeCopy.holidays.isShowHolidaysPreloader = false;
     storeCopy.jokes.isCategoriesRedBorder = false;
     storeCopy.jokes.isShowJokesPreloader = false;
