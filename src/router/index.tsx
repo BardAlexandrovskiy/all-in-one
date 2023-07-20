@@ -1,20 +1,11 @@
-import React from "react";
-import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
-import Footer from "../components/Footer";
-import MainScreen from "../screens/MainScreen";
-import JokesScreen from "../screens/JokesScreen";
-import WeatherScreen from "../screens/WeatherScreen";
-import TasksScreen from "../screens/TasksScreen";
+import { HashRouter } from "react-router-dom";
 import { connect, ConnectedProps } from "react-redux";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
-import WeatherSettingsScreen from "../screens/WeatherSettingsScreen";
 import { RootState } from "../reducers";
-import { setLastLocationUrl } from "../actions/other";
 import { useEffect } from "react";
+import RouterAnimation from './animation';
 
-// Types
 
-const Router = ({ store, setLastLocationUrl, lastLocation }: ReduxProps) => {
+const Router = ({ store }: ReduxProps) => {
   useEffect(() => {
     const storeCopy = JSON.parse(JSON.stringify(store));
 
@@ -32,60 +23,18 @@ const Router = ({ store, setLastLocationUrl, lastLocation }: ReduxProps) => {
 
   return (
     <HashRouter>
-      <RouterAnimation
-        setLastLocationUrl={setLastLocationUrl}
-        lastLocation={lastLocation}
-        store={store}
-      />
+      <RouterAnimation />
     </HashRouter>
   );
 };
 
-const RouterAnimation = ({ lastLocation, setLastLocationUrl }: ReduxProps) => {
-  const location = useLocation();
-
-  useEffect(() => {
-    const currentLocation = location.pathname;
-
-    if (currentLocation !== lastLocation) {
-      setLastLocationUrl(currentLocation);
-    }
-  });
-
-  return (
-    <>
-      <div className="screens-wrapper">
-        <TransitionGroup component={null}>
-          <CSSTransition key={location.key} timeout={300}>
-            <Routes location={location}>
-              <Route path="/" element={<MainScreen />} />
-              <Route path="/fun" element={<JokesScreen />} />
-              <Route path="/weather" element={<WeatherScreen />} />
-              <Route
-                path="/weather/settings"
-                element={<WeatherSettingsScreen />}
-              />
-              <Route path="/tasks" element={<TasksScreen />} />
-            </Routes>
-          </CSSTransition>
-        </TransitionGroup>
-      </div>
-      <Footer />
-    </>
-  );
-};
-
 const mapStateToProps = (store: RootState) => {
-  const { lastLocation } = store.other;
-
-  return { store, lastLocation };
+  return {
+    store
+  };
 };
 
-const mapDispatchToProps = {
-  setLastLocationUrl: (location: string) => setLastLocationUrl(location),
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(mapStateToProps);
 
 type ReduxProps = ConnectedProps<typeof connector>;
 

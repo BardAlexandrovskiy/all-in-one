@@ -37,23 +37,12 @@ const WeatherHeader = (props: Props) => {
     secondSwiper,
     isGeoAccess,
     lastSlide,
-    lastLocationUrl,
     setLastWeatherSlide,
   } = props;
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  useEffect(() => {
-    if (
-      lastLocationUrl !== "/weather" &&
-      lastLocationUrl !== "/weather/settings" &&
-      lastSlide !== 0
-    ) {
-      setLastWeatherSlide(0);
-    }
-  }, [lastLocationUrl, setLastWeatherSlide, lastSlide]);
 
   const handleChangeSlide = (swiper: SwiperRef) => {
     const { changeWeatherHeader } = props;
@@ -63,9 +52,8 @@ const WeatherHeader = (props: Props) => {
 
   return (
     <header
-      className={`weather-header${isActiveHeader ? " active" : ""}${
-        isMounted ? " mounted" : ""
-      }`}
+      className={`weather-header${isActiveHeader ? " active" : ""}${isMounted ? " mounted" : ""
+        }`}
     >
       <div className="header-container container">
         {!currentCity && !locations.length ? (
@@ -123,7 +111,6 @@ const mapStateToProps = (store: RootState) => {
       isGeoAccess,
       lastSlide,
     },
-    other: { lastLocation: lastLocationUrl },
   } = store;
 
   return {
@@ -132,7 +119,6 @@ const mapStateToProps = (store: RootState) => {
     locations,
     isGeoAccess,
     lastSlide,
-    lastLocationUrl,
   };
 };
 

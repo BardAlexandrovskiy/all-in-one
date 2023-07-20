@@ -3,14 +3,12 @@ import { holidaysReducer } from "./holidays";
 import { jokesReducer } from "./jokes";
 import { tasksReducer } from "./tasks";
 import { weatherReducer } from "./weather";
-import { otherReducer } from "./other";
 
 export const rootReducer = combineReducers({
   tasks: tasksReducer,
   weather: weatherReducer,
   jokes: jokesReducer,
   holidays: holidaysReducer,
-  other: otherReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

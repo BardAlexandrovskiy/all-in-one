@@ -91,29 +91,29 @@ type Action =
   | { type: ACTIONS.ADD_NEW_LOCATION; payload: { location: Location } }
   | { type: ACTIONS.DELETE_LOCATION; payload: { id: number } }
   | {
-      type: ACTIONS.SHOW_WEATHER_SETTINGS_PRELOADER;
-      payload: { bool: boolean };
-    }
+    type: ACTIONS.SHOW_WEATHER_SETTINGS_PRELOADER;
+    payload: { bool: boolean };
+  }
   | {
-      type: ACTIONS.UPDATE_LOCATION;
-      payload: {
-        id: number;
-        info: {
-          weatherInfo?: WeatherInfo;
-          updateWeatherTime: number;
-          forecast: Forecast;
-        };
+    type: ACTIONS.UPDATE_LOCATION;
+    payload: {
+      id: number;
+      info: {
+        weatherInfo?: WeatherInfo;
+        updateWeatherTime: number;
+        forecast: Forecast;
       };
-    }
+    };
+  }
   | {
-      type: ACTIONS.SHOW_CURRENT_LOCATION_PRELOADER;
-      payload: { bool: boolean };
-    }
+    type: ACTIONS.SHOW_CURRENT_LOCATION_PRELOADER;
+    payload: { bool: boolean };
+  }
   | { type: ACTIONS.SET_GEO_ACCESS; payload: { bool: boolean } }
   | {
-      type: ACTIONS.SET_ADD_LOCATION_INPUT_FOCUS;
-      payload: { bool: boolean };
-    }
+    type: ACTIONS.SET_ADD_LOCATION_INPUT_FOCUS;
+    payload: { bool: boolean };
+  }
   | { type: ACTIONS.SET_LAST_WEATHER_SLIDE; payload: { number: number } };
 
 // initialState
