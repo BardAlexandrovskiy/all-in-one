@@ -73,23 +73,6 @@
       }
     }
 
-    &::-webkit-scrollbar {
-      width: 10px;
-
-      @media (max-width: 1024px) {
-        width: 8px;
-      }
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: rgba($color: white, $alpha: 0.2);
-      border-radius: 4px;
-    }
-
     .locations-list {
       overflow: hidden;
       padding-bottom: 10px;

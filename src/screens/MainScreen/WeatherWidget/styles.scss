@@ -1,7 +1,7 @@
 .weather-widget {
   display: flex;
   flex-direction: column;
-  width: calc(45% - 15px);
+  width: calc(45% - 10px);
   padding: 15px;
   position: relative;
   overflow: hidden;
@@ -88,6 +88,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    flex-wrap: wrap;
 
     &.enter {
       opacity: 0;
@@ -125,14 +126,14 @@
 
     .current-temp {
       color: $white;
-      font-size: 70px;
+      font-size: 50px;
 
       @media (max-width: 1024px) {
-        font-size: 50px;
+        font-size: 40px;
       }
 
       @media (max-width: 640px) {
-        font-size: 40px;
+        font-size: 35px;
       }
 
       @media (max-width: 390px) {
@@ -141,11 +142,11 @@
     }
 
     img {
-      width: 130px;
+      width: 100px;
       margin-bottom: 10px;
 
       @media (max-width: 640px) {
-        width: 90px;
+        width: 80px;
       }
     }
 

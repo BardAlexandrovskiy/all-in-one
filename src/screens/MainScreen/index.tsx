@@ -48,12 +48,11 @@ const MainScreen = () => {
         <div className="background">
           <LazyLoadImage src={backgroundImage} alt="Weather background" />
         </div>
-        <div className="scroll-container">
+        <div className="scroll-container custom-chrome-scroller">
           <div className="inner">
             <div
-              className={`container widgets-container${
-                isWidgetsActive ? " active-widgets" : ""
-              }`}
+              className={`container widgets-container${isWidgetsActive ? " active-widgets" : ""
+                }`}
             >
               <div className="hello-message-widget">
                 <h1>{helloMessage}</h1>

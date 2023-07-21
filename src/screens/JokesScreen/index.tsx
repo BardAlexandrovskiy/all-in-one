@@ -252,7 +252,7 @@ class JokesScreen extends React.PureComponent<object, State> {
             </div>
           </div>
           <div
-            className="scroll-container"
+            className="scroll-container custom-chrome-scroller"
             onScroll={this.handleScroll}
             ref={this.setScrollContainerRef}
           >

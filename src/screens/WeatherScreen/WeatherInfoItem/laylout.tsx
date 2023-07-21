@@ -79,7 +79,7 @@ const WeatherInfoItemLayout = (props: Props) => {
   }
 
   return (
-    <div className={`weather-info-item`}>
+    <div className={'weather-info-item'}>
       <CSSTransition in={isPreloader} timeout={300} mountOnEnter unmountOnExit>
         <Preloader />
       </CSSTransition>
@@ -112,7 +112,7 @@ const WeatherInfoItemLayout = (props: Props) => {
         }}
       >
         <div
-          className="info"
+          className="info custom-chrome-scroller"
           ref={setInfoBlockRef}
           onScroll={handleScrollInfoBlock}
         >
